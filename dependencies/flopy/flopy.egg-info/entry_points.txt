@@ -1,0 +1,2 @@
+[console_scripts]
+get-modflow = flopy.utils.get_modflow:cli_main

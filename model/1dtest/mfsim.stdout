@@ -1,0 +1,33 @@
+                                   MODFLOW 6
+                U.S. GEOLOGICAL SURVEY MODULAR HYDROLOGIC MODEL
+                VERSION 6.5.0.dev0+prt (preliminary) 10/07/2023
+                               ***DEVELOP MODE***
+
+   MODFLOW 6 compiled Oct 07 2023 02:19:02 with Intel(R) Fortran Intel(R) 64
+   Compiler Classic for applications running on Intel(R) 64, Version 2021.7.0
+                             Build 20220726_000000
+
+This software is preliminary or provisional and is subject to 
+revision. It is being provided to meet the need for timely best 
+science. The software has not received final approval by the U.S. 
+Geological Survey (USGS). No warranty, expressed or implied, is made 
+by the USGS or the U.S. Government as to the functionality of the 
+software and related material nor shall the fact of release 
+constitute any such warranty. The software is provided on the 
+condition that neither the USGS nor the U.S. Government shall be held 
+liable for any damages resulting from the authorized or unauthorized 
+use of the software.
+
+ 
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2024/05/03 10:57:49
+ 
+ Writing simulation list file: mfsim.lst
+ Using Simulation name file: mfsim.nam
+ 
+
+ERROR REPORT:
+
+  1. Could not open "gwf.ic" on unit 1072. File already open on unit 1071.
+     Specified file status OLD. Specified file format FORMATTED. Specified
+     file access SEQUENTIAL. Specified file action READ. IOSTAT error number
+     -1. STOP EXECUTION in subroutine openfile().

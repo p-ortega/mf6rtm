@@ -1,0 +1,9 @@
+numpy
+pandas
+
+[optional]
+flopy
+pyemu
+
+[test]
+pytest
