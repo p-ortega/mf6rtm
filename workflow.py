@@ -9,6 +9,7 @@ import sys
 import warnings
 warnings.filterwarnings("ignore")
 warnings.filterwarnings("ignore", category=DeprecationWarning)
+import pyemu
 import pandas as pd
 import numpy as np
 import math
@@ -67,7 +68,7 @@ ibound[0, 0, -1] = -1
 mixelm = 0  # TVD
 rhob = 0.25
 sp2 = 0.0  # red, but not used in this problem
-sconc = np.ones((nlay, nrow, ncol), dtype=float)*2
+sconc = np.ones((nlay, nrow, ncol), dtype=float)*0.
 dmcoef = 0.0  # Molecular diffusion coefficient
 
 # Set solver parameter values (and related)
@@ -96,7 +97,7 @@ chdspd = [
           ]
 c0 = 1.0
 cnc_spd = [[(0, 0, 0), c0]]
-conc = 2e-3 
+conc = 2
 q = 0.259
 wel_rec = [[(0,0,0), q, conc]]
 
@@ -115,7 +116,7 @@ def api_test(dll, sim_ws):
     # get the ending sim time
     etime = mf6.get_end_time()
     # max number of solution iterations
-    max_iter = mf6.get_value(mf6.get_var_address("MXITER", "SLN_1"))
+    max_iter = mf6.get_value(mf6.get_var_address("MXITER", "SLN_2"))
     num_fails = 0
     # let's do it!
     while ctime < etime:
@@ -134,22 +135,40 @@ def api_test(dll, sim_ws):
         # solve until converged
         while kiter < max_iter:
             # apply whatever change we want here
-            val = mf6.get_value(mf6.get_var_address("x", 'SODIUM'))
+            val = mf6.get_value(mf6.get_var_address("X", 'SODIUM'))
             print(val)
             val += 1
+            mf6.set_value('SODIUM/X', val)
             convg = mf6.solve(1)
             if convg:
                 td = (datetime.now() - sol_start).total_seconds() / 60.0
-                print("transport stress period,time step {0},{1} converged with {2} iters, took {3:10.5G} mins".format(stress_period, time_step, kiter,td))
+                print("transport stress period {0}, time step {1}, converged with {2} iters, took {3:10.5G} mins".format(stress_period, time_step, kiter,td))
                 break
             kiter += 1
 
         if not convg:
             td = (datetime.now() - sol_start).total_seconds() / 60.0
-            print("transport stress period,time step {0},{1} did not converged, {2} iters, took {3:10.5G} mins".format(
+            print("transport stress period {0}, time step {1}, did not converged, {2} iters, took {3:10.5G} mins".format(
                 stress_period, time_step, kiter, td))
             num_fails += 1
+        try:
+            mf6.finalize_solve(1)
+        except:
+            pass
+        mf6.finalize_time_step()
+        # update the current time tracking
+        ctime = mf6.get_current_time()
+    # sim = flopy.mf6.MFSimulation.load('engesgaard1992', 'mf6', 'mf6' , os.path.join('model', 'engesgaard1992'))
+    # plot_concentrations(sim)
+    sim_end = datetime.now()
+    td = (sim_end - sim_start).total_seconds() / 60.0
+    print("\n...transport solution finished at {0}, took: {1:10.5G} mins".format(sim_end.strftime(DT_FMT),td))
+    if num_fails > 0:
+        print("...failed to converge {0} times".format(num_fails))
+    print("\n")
     mf6.finalize()
+
+    return
 
 
 def prep_bins(dest_path, src_path=os.path.join('bin'),  get_only=[]):
@@ -172,11 +191,10 @@ def prep_bins(dest_path, src_path=os.path.join('bin'),  get_only=[]):
         shutil.copy2(os.path.join(bin_path,f),os.path.join(dest_path,f))
     return
 
-def run_model(sim, silent=False):
-    success, buff = sim.run_simulation(silent=silent)
-    if not success:
-        print(buff)
-    return success
+def run_model(sim):
+    ws = sim.simulation_data.mfpath.get_sim_path()
+    pyemu.os_utils.run('mf6', cwd  = ws)
+    return 
 
 def build_gwf_model(ws = 'model', sim_name = '1dtest'):
     '''Creates GWF model only, saving flows for an independent subsequent GWT model
@@ -689,9 +707,10 @@ def build_model(ws = 'model', sim_name = '1dtest', spls = ['chloride']):
             exgmnameb=gwtname,
             filename=f"{gwtname}.gwfgwt",
         )
-
+    
     sim.write_simulation()
-    prep_bins(ws, get_only=['mf6'])
+    prep_bins(sim_ws, get_only=['mf6'])
+    
     return sim
 
 def plot_heads(sim):
@@ -735,6 +754,7 @@ def plot_heads(sim):
     # print(heads[:, 0, 0,-1], times)
 
 def plot_concentrations(sim):
+    print('saving figures')
     #create figures dir
     figures_dir = 'figures'
 
@@ -745,7 +765,9 @@ def plot_concentrations(sim):
     for model_name in list(sim.model_names[1:]):
         gwf = sim.get_model(model_name)
         print(list(sim.model_names))
-        results = gwf.output.concentration().get_alldata()
+        ucn = flopy.utils.HeadFile(os.path.join("model",'engesgaard1992',"sodium.ucn"),text="concentration")
+        results = ucn.get_alldata()
+        # results = gwf.output.concentration().get_alldata()
         times = gwf.output.concentration().get_times()
 
         fig, axs = plt.subplots(1, 1, figsize=(6.3, 3.2))
@@ -779,15 +801,14 @@ if __name__ == "__main__":
 
     ##################### --- Setup base GWF model          --- #####################
     sim = build_model(ws = 'model', sim_name = 'engesgaard1992', spls = ['sodium'])
+
+    # sim = flopy.mf6.MFSimulation.load('engesgaard1992', 'mf6', 'mf6' , os.path.join('model', 'engesgaard1992'))
     # run_model(sim)
     sim_ws = Path("model/engesgaard1992/")
     dll = Path("bin/win/libmf6")
     api_test(dll, sim_ws)
-    # simgwt = build_gwt_model(sim, gwf_name = 'gwf_1dtest', sp = 'chloride')
-    # run_model(simgwt)
-    plot_heads(sim)
+    # print('saving figures')
+    # run_model(sim)
+    
+    # plot_heads(sim)
     plot_concentrations(sim)
-
-    # sim_ws = Path("model/1dtest/chloride/")
-    # dll = Path("bin/win/libmf6")
-    # modflowapi.run_simulation(dll, sim_ws, callback_function, verbose=True)
