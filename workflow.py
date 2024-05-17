@@ -68,7 +68,7 @@ ibound[0, 0, -1] = -1
 mixelm = 0  # TVD
 rhob = 0.25
 sp2 = 0.0  # red, but not used in this problem
-sconc = np.ones((nlay, nrow, ncol), dtype=float)*0.
+sconc = np.ones((nlay, nrow, ncol), dtype=float)*0.1
 dmcoef = 0.0  # Molecular diffusion coefficient
 
 # Set solver parameter values (and related)
@@ -136,8 +136,11 @@ def api_test(dll, sim_ws):
         while kiter < max_iter:
             # apply whatever change we want here
             val = mf6.get_value(mf6.get_var_address("X", 'SODIUM'))
-            print(val)
-            val += 1
+            if time_step == 20:
+                print('hola')
+                val = val*0.+4000
+            else:
+                val *= 2
             mf6.set_value('SODIUM/X', val)
             convg = mf6.solve(1)
             if convg:
@@ -754,7 +757,7 @@ def plot_heads(sim):
     # print(heads[:, 0, 0,-1], times)
 
 def plot_concentrations(sim):
-    print('saving figures')
+    print(f'saving figures for {sim.name}')
     #create figures dir
     figures_dir = 'figures'
 
@@ -765,7 +768,7 @@ def plot_concentrations(sim):
     for model_name in list(sim.model_names[1:]):
         gwf = sim.get_model(model_name)
         print(list(sim.model_names))
-        ucn = flopy.utils.HeadFile(os.path.join("model",'engesgaard1992',"sodium.ucn"),text="concentration")
+        ucn = flopy.utils.HeadFile(os.path.join("model",sim.name,f"{model_name}.ucn"),text="concentration")
         results = ucn.get_alldata()
         # results = gwf.output.concentration().get_alldata()
         times = gwf.output.concentration().get_times()
