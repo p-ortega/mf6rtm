@@ -9,14 +9,13 @@ import sys
 import warnings
 warnings.filterwarnings("ignore")
 warnings.filterwarnings("ignore", category=DeprecationWarning)
-import pyemu
 import pandas as pd
 import numpy as np
 import math
 import time
 #sys.path.insert(0,os.path.join("dependencies"))
 import flopy
-# import pyemu
+import pyemu
 import itertools
 # from pypestutils.pestutilslib import PestUtilsLib
 
@@ -134,13 +133,15 @@ def api_test(dll, sim_ws):
 
         # solve until converged
         while kiter < max_iter:
-            # apply whatever change we want here
-            val = mf6.get_value(mf6.get_var_address("X", 'SODIUM'))
-            if time_step == 20:
-                print('hola')
-                val = val*0.+4000
+            if ctime == 0.15:
+                val = mf6.get_value(mf6.get_var_address("X", 'SODIUM'))
+                val = val*0.1
             else:
-                val *= 2
+                # print(ctime)
+                # apply whatever change we want here
+                val = mf6.get_value(mf6.get_var_address("X", 'SODIUM'))
+                # print(val)
+                val += 1
             mf6.set_value('SODIUM/X', val)
             convg = mf6.solve(1)
             if convg:
