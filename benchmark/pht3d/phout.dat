@@ -1,0 +1,1497 @@
+   Input file: phinp.dat
+  Output file: phout.dat
+Database file: pht3d_datab.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	SOLUTION 1 # [K,I,J] = 1,1,1
+		units mol/kgw
+		water 1.0
+		temp 2.500000e+001
+		pH 9.910000e+000  # comp 5
+		pe 4.000000e+000  # comp 6
+		C(4) 1.230000e-004  # comp 1
+		Ca 1.230000e-004  # comp 2
+		Cl 0.000000e+000  # comp 3
+		Mg 0.000000e+000  # comp 4
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C(4)             1.230e-004  1.230e-004
+	Ca               1.230e-004  1.230e-004
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.910    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.856e-004
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  2.459e-004
+                       Total CO2 (mol/kg)  =  1.230e-004
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  =  1.163e-007
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.02
+                               Iterations  =   3
+                                  Total H  = 1.110126e+002
+                                  Total O  = 5.550667e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   8.322e-005  8.137e-005    -4.080    -4.090    -0.010
+   H+                    1.257e-010  1.230e-010    -9.901    -9.910    -0.009
+   H2O                   5.551e+001  1.000e+000     1.744    -0.000     0.000
+C(4)            1.230e-004
+   HCO3-                 8.333e-005  8.149e-005    -4.079    -4.089    -0.010
+   CO3-2                 3.396e-005  3.107e-005    -4.469    -4.508    -0.039
+   CaCO3                 5.577e-006  5.578e-006    -5.254    -5.254     0.000
+   CaHCO3+               1.139e-007  1.114e-007    -6.943    -6.953    -0.010
+   CO2                   2.254e-008  2.254e-008    -7.647    -7.647     0.000
+Ca              1.230e-004
+   Ca+2                  1.172e-004  1.072e-004    -3.931    -3.970    -0.039
+   CaCO3                 5.577e-006  5.578e-006    -5.254    -5.254     0.000
+   CaOH+                 1.478e-007  1.446e-007    -6.830    -6.840    -0.010
+   CaHCO3+               1.139e-007  1.114e-007    -6.943    -6.953    -0.010
+H(0)            2.143e-031
+   H2                    1.071e-031  1.072e-031   -30.970   -30.970     0.000
+O(0)            7.261e-031
+   O2                    3.630e-031  3.631e-031   -30.440   -30.440     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Aragonite        -0.14   -8.48   -8.34  CaCO3
+	Calcite           0.00   -8.48   -8.48  CaCO3
+	CO2(g)           -6.18   -7.65   -1.47  CO2
+	H2(g)           -27.82  -30.97   -3.15  H2
+	O2(g)           -27.55  -30.44   -2.89  O2
+	Portlandite      -6.95   15.85   22.80  Ca(OH)2
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	EQUILIBRIUM_PHASES 1
+		Calcite 0.000000e+000 1.220625e-004 # comp 7
+		Dolomite 0.000000e+000 0.000000e+000 # comp 8
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	COPY solution 1 2-50
+	COPY equilibrium_phases 1 2-50
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	PRINT
+		reset false
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	WELL in layer 1, row 1, column 1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl               2.000e-003  2.000e-003
+	Mg               1.000e-003  1.000e-003
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                           Ionic strength  =  3.000e-003
+                       Mass of water (kg)  =  1.000e+000
+                 Total alkalinity (eq/kg)  =  3.113e-008
+                    Total carbon (mol/kg)  =  0.000e+000
+                       Total CO2 (mol/kg)  =  0.000e+000
+                      Temperature (deg C)  =  25.000
+                  Electrical balance (eq)  = -3.114e-008
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+002
+                                  Total O  = 5.550622e+001
+
+----------------------------Distribution of species----------------------------
+
+                                                   Log       Log         Log 
+   Species                 Molality    Activity  Molality  Activity     Gamma
+
+   OH-                   1.063e-007  1.001e-007    -6.973    -7.000    -0.026
+   H+                    1.057e-007  1.000e-007    -6.976    -7.000    -0.024
+   H2O-0.01              9.120e-010  9.120e-010    -9.040    -9.040    -0.000
+   H2O                   5.551e+001  9.999e-001     1.744    -0.000     0.000
+Cl              2.000e-003
+   Cl-                   2.000e-003  1.883e-003    -2.699    -2.725    -0.026
+H(0)            1.415e-025
+   H2                    7.075e-026  7.079e-026   -25.150   -25.150     0.000
+Mg              1.000e-003
+   Mg+2                  1.000e-003  7.926e-004    -3.000    -3.101    -0.101
+   MgOH+                 3.048e-008  2.878e-008    -7.516    -7.541    -0.025
+O(0)            0.000e+000
+   O2                    0.000e+000  0.000e+000   -42.080   -42.080     0.000
+
+------------------------------Saturation indices-------------------------------
+
+	Phase               SI log IAP  log KT
+
+	Brucite          -5.94   10.90   16.84  Mg(OH)2
+	H2(g)           -22.00  -25.15   -3.15  H2
+	O2(g)           -39.19  -42.08   -2.89  O2
+

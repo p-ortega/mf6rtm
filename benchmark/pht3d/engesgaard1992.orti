@@ -1,0 +1,1076 @@
+<ORTi3Ddoc>
+<dict>
+<name>Modflow_val</name>
+<key><name>dis.1</name><content>['#']</content></key>
+<key><name>dis.2</name><content>[1, 1, 50, 24, 4, 2]</content></key>
+<key><name>dis.3</name><content>[0]</content></key>
+<key><name>dis.4</name><content>[0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]</content></key>
+<key><name>dis.5</name><content>[1.0]</content></key>
+<key><name>dis.6</name><content>[1.0]</content></key>
+<key><name>dis.7</name><content>[0.0]</content></key>
+<key><name>dis.8</name><content>[1.0, 1, 1.0, 0]</content></key>
+<key><name>disu.1</name><content>['#']</content></key>
+<key><name>disu.2</name><content>[0]</content></key>
+<key><name>disu.3</name><content>[0.0]</content></key>
+<key><name>disu.4</name><content>[1, 1, 0, -1, 1, 4, 2]</content></key>
+<key><name>disu.5</name><content>[0]</content></key>
+<key><name>disu.6</name><content>[0]</content></key>
+<key><name>disu.7</name><content>[1.0]</content></key>
+<key><name>disu.8</name><content>[0.0]</content></key>
+<key><name>disu.9</name><content>[1.0, 1, 1.0, 0]</content></key>
+<key><name>bas.1</name><content>[0]</content></key>
+<key><name>bas.2</name><content>['FREE']</content></key>
+<key><name>bas.3</name><content>[1.0]</content></key>
+<key><name>bas.4</name><content>[0]</content></key>
+<key><name>bas.5</name><content>[0]</content></key>
+<key><name>bcf.1</name><content>[0, 0, 0, 0, 0, 0]</content></key>
+<key><name>bcf.2</name><content>[0]</content></key>
+<key><name>bcf.3</name><content>[0]</content></key>
+<key><name>bcf.4</name><content>[0]</content></key>
+<key><name>bcf.5</name><content>[0]</content></key>
+<key><name>bcf.6</name><content>[0]</content></key>
+<key><name>bcf.7</name><content>[0]</content></key>
+<key><name>bcf.8</name><content>[0]</content></key>
+<key><name>bcf.9</name><content>[0]</content></key>
+<key><name>lpf.0</name><content>[0]</content></key>
+<key><name>lpf.1</name><content>[31, 0.01, 0, 0, ' ', ' ']</content></key>
+<key><name>lpf.2</name><content>[0]</content></key>
+<key><name>lpf.3</name><content>[0]</content></key>
+<key><name>lpf.4</name><content>[' 1']</content></key>
+<key><name>lpf.5</name><content>[0]</content></key>
+<key><name>lpf.6</name><content>[0]</content></key>
+<key><name>lpf.7</name><content>[0.1, 1, 1]</content></key>
+<key><name>lpf.8</name><content>[1]</content></key>
+<key><name>lpf.9</name><content>[1]</content></key>
+<key><name>lpf.10</name><content>[1e-06]</content></key>
+<key><name>lpf.11</name><content>[0.25]</content></key>
+<key><name>lpf.12</name><content>[0]</content></key>
+<key><name>lpf.13</name><content>[0.1]</content></key>
+<key><name>wel.1</name><content>[0]</content></key>
+<key><name>rch.1</name><content>[3, 0]</content></key>
+<key><name>rch.2</name><content>[0]</content></key>
+<key><name>evt.1</name><content>[1, 0]</content></key>
+<key><name>evt.2</name><content>[0]</content></key>
+<key><name>evt.3</name><content>[0]</content></key>
+<key><name>evt.4</name><content>[0.5]</content></key>
+<key><name>sip.1</name><content>[500, 5]</content></key>
+<key><name>sip.2</name><content>[1.0, 1e-09, 0, 0.001, 1]</content></key>
+<key><name>pcg.1</name><content>[10, 30000, 1]</content></key>
+<key><name>pcg.2</name><content>[0.0001, 0.001, 1.0, 2, 0, 2, 1.0]</content></key>
+<key><name>sor.1</name><content>[1000]</content></key>
+<key><name>sor.2</name><content>[1.0, 1e-09, 0]</content></key>
+<key><name>de4.1</name><content>[1, 0, 0, 0]</content></key>
+<key><name>de4.2</name><content>[1, 2, 1.0, 1e-09, 5]</content></key>
+<key><name>gmg.1</name><content>[1e-05, 100, 1e-05, 50]</content></key>
+<key><name>gmg.2</name><content>[0.5, 1, 0]</content></key>
+<key><name>gmg.3</name><content>[0, 0, 1.0, 0.75, 0.001, 0.01]</content></key>
+<key><name>gmg.4</name><content>[1.0]</content></key>
+<key><name>sms.1a</name><content>[0]</content></key>
+<key><name>sms.1b</name><content>[1e-06, 1e-15, 10, 10000, 1, 0, 1]</content></key>
+<key><name>sms.2</name><content>[0.7, 0.1, 0.2, 0.001, 10, 10000.0, 0.2, 100]</content></key>
+<key><name>sms.3</name><content>[2, 0, 0, 7, 0, 0.0, 0, 0.001]</content></key>
+<key><name>mnwt.0</name><content>['#']</content></key>
+<key><name>mnwt.1</name><content>[0, 0, 0, 0]</content></key>
+<key><name>mnwt.2a</name><content>[0, 0]</content></key>
+<key><name>mnwt.2b</name><content>[0, 0, 0, 0, 0]</content></key>
+<key><name>mnwt.2c</name><content>[0.1, 0.15, 0.0001, 1.0, 1.0, 2.0, 0.1]</content></key>
+<key><name>mnwt.2d1</name><content>[1, 1, 1, 0.1, 0.15, 0.0001, 1.0, 1.0, 2.0, 0.1]</content></key>
+<key><name>mnwt.2d2</name><content>[10.0, 0.0, 1, 1, 0.1, 0.15, 0.0001, 1.0, 1.0, 2.0, 0.1]</content></key>
+<key><name>mnwt.2e</name><content>[0, 0, 0, 0.0]</content></key>
+<key><name>mnwt.2f</name><content>[10.0, 0, 0.0, 1.0]</content></key>
+<key><name>mnwt.2g</name><content>[10.0, 0.0, 1.0, 0.01]</content></key>
+<key><name>mnwt.2h</name><content>[0.0, 0.0]</content></key>
+<key><name>mnwt.3</name><content>[0]</content></key>
+<key><name>mnwt.4a</name><content>['', 0.0, 1.0, 0.0]</content></key>
+<key><name>mnwt.4b</name><content>[10.0, 0, 0.0, 1.0]</content></key>
+<key><name>drn.1</name><content>[0, 0]</content></key>
+<key><name>riv.1</name><content>[0, 0, 0]</content></key>
+<key><name>chd.1</name><content>[0]</content></key>
+<key><name>ghb.1</name><content>[0, 0]</content></key>
+<key><name>upw.1</name><content>[0, -999, 0, 1]</content></key>
+<key><name>upw.2</name><content>[0]</content></key>
+<key><name>upw.3</name><content>[0]</content></key>
+<key><name>upw.4</name><content>[0]</content></key>
+<key><name>upw.5</name><content>[0]</content></key>
+<key><name>upw.6</name><content>[0]</content></key>
+<key><name>upw.7</name><content>[0]</content></key>
+<key><name>upw.8</name><content>[0]</content></key>
+<key><name>upw.9</name><content>[10]</content></key>
+<key><name>upw.10</name><content>[1e-07]</content></key>
+<key><name>upw.11</name><content>[0.4]</content></key>
+<key><name>upw.12</name><content>[0]</content></key>
+<key><name>nwt.1</name><content>[0.0001, 500, 100, 1e-05, 1, 0, 0, 'SPECIFIED', 0.7, 0.0001, 0.0, 0.1, 0, 20, 2.0, 0.6]</content></key>
+<key><name>nwt.2</name><content>[500, 2, 1, 1e-10, 10]</content></key>
+<key><name>nwt.3</name><content>[2, 1, 1, 2, 0, 0.0, 1, 0.001, 0.0001, 50]</content></key>
+<key><name>uzf.1</name><content>[0, 0, 0, 0, 0, 0, 15, 20, 0, 0.5]</content></key>
+<key><name>uzf.2</name><content>[1]</content></key>
+<key><name>uzf.3</name><content>[0]</content></key>
+<key><name>uzf.4</name><content>[10.0]</content></key>
+<key><name>uzf.5</name><content>[2.5]</content></key>
+<key><name>uzf.6</name><content>[0.4]</content></key>
+<key><name>uzf.7</name><content>[0.2]</content></key>
+<key><name>uzf.8</name><content>[0, 0, 0, 0]</content></key>
+<key><name>uzf.9</name><content>[0]</content></key>
+<key><name>uzf.10</name><content>[0]</content></key>
+<key><name>uzf.11</name><content>[0]</content></key>
+<key><name>uzf.12</name><content>[0]</content></key>
+<key><name>uzf.13</name><content>[-1]</content></key>
+<key><name>uzf.14</name><content>[0]</content></key>
+<key><name>uzf.15</name><content>[-1]</content></key>
+<key><name>uzf.16</name><content>[0]</content></key>
+<key><name>hfb.3</name><content>[0]</content></key>
+</dict>
+<dict>
+<name>Modflow_type</name>
+<key><name>dis.1</name><content>['one_value']</content></key>
+<key><name>dis.2</name><content>['one_value']</content></key>
+<key><name>dis.3</name><content>['one_value']</content></key>
+<key><name>dis.4</name><content>['one_value']</content></key>
+<key><name>dis.5</name><content>['one_value']</content></key>
+<key><name>dis.6</name><content>['one_value']</content></key>
+<key><name>dis.7</name><content>['one_value']</content></key>
+<key><name>dis.8</name><content>['one_value']</content></key>
+<key><name>disu.1</name><content>['one_value']</content></key>
+<key><name>disu.2</name><content>['one_value']</content></key>
+<key><name>disu.3</name><content>['one_value']</content></key>
+<key><name>disu.4</name><content>['one_value']</content></key>
+<key><name>disu.5</name><content>['one_value']</content></key>
+<key><name>disu.6</name><content>['one_value']</content></key>
+<key><name>disu.7</name><content>['one_value']</content></key>
+<key><name>disu.8</name><content>['one_value']</content></key>
+<key><name>disu.9</name><content>['one_value']</content></key>
+<key><name>bas.1</name><content>['one_value']</content></key>
+<key><name>bas.2</name><content>['one_value']</content></key>
+<key><name>bas.3</name><content>['zone']</content></key>
+<key><name>bas.4</name><content>['one_value']</content></key>
+<key><name>bas.5</name><content>['one_value']</content></key>
+<key><name>bcf.1</name><content>['one_value']</content></key>
+<key><name>bcf.2</name><content>['one_value']</content></key>
+<key><name>bcf.3</name><content>['one_value']</content></key>
+<key><name>bcf.4</name><content>['one_value']</content></key>
+<key><name>bcf.5</name><content>['one_value']</content></key>
+<key><name>bcf.6</name><content>['one_value']</content></key>
+<key><name>bcf.7</name><content>['one_value']</content></key>
+<key><name>bcf.8</name><content>['one_value']</content></key>
+<key><name>bcf.9</name><content>['one_value']</content></key>
+<key><name>lpf.0</name><content>['one_value']</content></key>
+<key><name>lpf.1</name><content>['one_value']</content></key>
+<key><name>lpf.2</name><content>['one_value']</content></key>
+<key><name>lpf.3</name><content>['one_value']</content></key>
+<key><name>lpf.4</name><content>['one_value']</content></key>
+<key><name>lpf.5</name><content>['one_value']</content></key>
+<key><name>lpf.6</name><content>['one_value']</content></key>
+<key><name>lpf.7</name><content>['one_value']</content></key>
+<key><name>lpf.8</name><content>['one_value']</content></key>
+<key><name>lpf.9</name><content>['one_value']</content></key>
+<key><name>lpf.10</name><content>['one_value']</content></key>
+<key><name>lpf.11</name><content>['one_value']</content></key>
+<key><name>lpf.12</name><content>['one_value']</content></key>
+<key><name>lpf.13</name><content>['one_value']</content></key>
+<key><name>wel.1</name><content>['one_value']</content></key>
+<key><name>rch.1</name><content>['one_value']</content></key>
+<key><name>rch.2</name><content>['one_value']</content></key>
+<key><name>evt.1</name><content>['one_value']</content></key>
+<key><name>evt.2</name><content>['one_value']</content></key>
+<key><name>evt.3</name><content>['one_value']</content></key>
+<key><name>evt.4</name><content>['one_value']</content></key>
+<key><name>sip.1</name><content>['one_value']</content></key>
+<key><name>sip.2</name><content>['one_value']</content></key>
+<key><name>pcg.1</name><content>['one_value']</content></key>
+<key><name>pcg.2</name><content>['one_value']</content></key>
+<key><name>sor.1</name><content>['one_value']</content></key>
+<key><name>sor.2</name><content>['one_value']</content></key>
+<key><name>de4.1</name><content>['one_value']</content></key>
+<key><name>de4.2</name><content>['one_value']</content></key>
+<key><name>gmg.1</name><content>['one_value']</content></key>
+<key><name>gmg.2</name><content>['one_value']</content></key>
+<key><name>gmg.3</name><content>['one_value']</content></key>
+<key><name>gmg.4</name><content>['one_value']</content></key>
+<key><name>sms.1a</name><content>['one_value']</content></key>
+<key><name>sms.1b</name><content>['one_value']</content></key>
+<key><name>sms.2</name><content>['one_value']</content></key>
+<key><name>sms.3</name><content>['one_value']</content></key>
+<key><name>mnwt.0</name><content>['one_value']</content></key>
+<key><name>mnwt.1</name><content>['one_value']</content></key>
+<key><name>mnwt.2a</name><content>['one_value']</content></key>
+<key><name>mnwt.2b</name><content>['one_value']</content></key>
+<key><name>mnwt.2c</name><content>['one_value']</content></key>
+<key><name>mnwt.2d1</name><content>['one_value']</content></key>
+<key><name>mnwt.2d2</name><content>['one_value']</content></key>
+<key><name>mnwt.2e</name><content>['one_value']</content></key>
+<key><name>mnwt.2f</name><content>['one_value']</content></key>
+<key><name>mnwt.2g</name><content>['one_value']</content></key>
+<key><name>mnwt.2h</name><content>['one_value']</content></key>
+<key><name>mnwt.3</name><content>['one_value']</content></key>
+<key><name>mnwt.4a</name><content>['one_value']</content></key>
+<key><name>mnwt.4b</name><content>['one_value']</content></key>
+<key><name>drn.1</name><content>['one_value']</content></key>
+<key><name>riv.1</name><content>['one_value']</content></key>
+<key><name>chd.1</name><content>['one_value']</content></key>
+<key><name>ghb.1</name><content>['one_value']</content></key>
+<key><name>upw.1</name><content>['one_value']</content></key>
+<key><name>upw.2</name><content>['one_value']</content></key>
+<key><name>upw.3</name><content>['one_value']</content></key>
+<key><name>upw.4</name><content>['one_value']</content></key>
+<key><name>upw.5</name><content>['one_value']</content></key>
+<key><name>upw.6</name><content>['one_value']</content></key>
+<key><name>upw.7</name><content>['one_value']</content></key>
+<key><name>upw.8</name><content>['one_value']</content></key>
+<key><name>upw.9</name><content>['one_value']</content></key>
+<key><name>upw.10</name><content>['one_value']</content></key>
+<key><name>upw.11</name><content>['one_value']</content></key>
+<key><name>upw.12</name><content>['one_value']</content></key>
+<key><name>nwt.1</name><content>['one_value']</content></key>
+<key><name>nwt.2</name><content>['one_value']</content></key>
+<key><name>nwt.3</name><content>['one_value']</content></key>
+<key><name>uzf.1</name><content>['one_value']</content></key>
+<key><name>uzf.2</name><content>['one_value']</content></key>
+<key><name>uzf.3</name><content>['one_value']</content></key>
+<key><name>uzf.4</name><content>['one_value']</content></key>
+<key><name>uzf.5</name><content>['one_value']</content></key>
+<key><name>uzf.6</name><content>['one_value']</content></key>
+<key><name>uzf.7</name><content>['one_value']</content></key>
+<key><name>uzf.8</name><content>['one_value']</content></key>
+<key><name>uzf.9</name><content>['one_value']</content></key>
+<key><name>uzf.10</name><content>['one_value']</content></key>
+<key><name>uzf.11</name><content>['one_value']</content></key>
+<key><name>uzf.12</name><content>['one_value']</content></key>
+<key><name>uzf.13</name><content>['one_value']</content></key>
+<key><name>uzf.14</name><content>['one_value']</content></key>
+<key><name>uzf.15</name><content>['one_value']</content></key>
+<key><name>uzf.16</name><content>['one_value']</content></key>
+<key><name>hfb.3</name><content>['one_value']</content></key>
+</dict>
+<dict>
+<name>Modflow_zone</name>
+<key><name>bas.3</name><content>{'number': [1], 'name': ['outlet'], 'coords': [[(0.495, 0.5)]], 'media': [0], 'value': [' -1'], 'type': ['']}</content></key>
+</dict>
+<dict>
+<name>Modflow_formula</name>
+</dict>
+<dict>
+<name>Modflow_array</name>
+</dict>
+<dict>
+<name>Modflow_interp</name>
+</dict>
+<dict>
+<name>Mt3dms_val</name>
+<key><name>btn.1</name><content>['# title 1']</content></key>
+<key><name>btn.2</name><content>['# title 2']</content></key>
+<key><name>btn.3</name><content>[1, 1, 50, 24, 0, 0, 0, 0, 0]</content></key>
+<key><name>btn.4</name><content>[0, 0, 0]</content></key>
+<key><name>btn.5</name><content>[0]</content></key>
+<key><name>btn.6</name><content>[0]</content></key>
+<key><name>btn.7</name><content>[0.01]</content></key>
+<key><name>btn.8</name><content>[1.0]</content></key>
+<key><name>btn.9</name><content>[0]</content></key>
+<key><name>btn.10</name><content>[0]</content></key>
+<key><name>btn.11</name><content>[0.25]</content></key>
+<key><name>btn.12</name><content>[1]</content></key>
+<key><name>btn.13</name><content>[0]</content></key>
+<key><name>btn.14</name><content>[0, 0.01]</content></key>
+<key><name>btn.15</name><content>[0, 0, 0, 0, 'T']</content></key>
+<key><name>btn.16</name><content>[0]</content></key>
+<key><name>btn.17</name><content>[0]</content></key>
+<key><name>btn.18</name><content>[0, 0]</content></key>
+<key><name>btn.19</name><content>[0, 0, 0]</content></key>
+<key><name>btn.20</name><content>['T', 1]</content></key>
+<key><name>btn.21</name><content>[1.0, 1, 1.0, '']</content></key>
+<key><name>btn.22</name><content>[0.0, 10000, 1.0, 1.0]</content></key>
+<key><name>btn.23</name><content>[0]</content></key>
+<key><name>adv.1</name><content>[0, 0.75, 50000, 1, 0]</content></key>
+<key><name>adv.2</name><content>[1, 0.75]</content></key>
+<key><name>adv.3</name><content>[1e-05, 1, 0, 16, 2, 32]</content></key>
+<key><name>adv.4</name><content>[1, 1, 16]</content></key>
+<key><name>adv.5</name><content>[1.0]</content></key>
+<key><name>dsp.1</name><content>['#']</content></key>
+<key><name>dsp.2</name><content>[1]</content></key>
+<key><name>dsp.3</name><content>[0.1]</content></key>
+<key><name>dsp.4</name><content>[0.05]</content></key>
+<key><name>dsp.5</name><content>[0]</content></key>
+<key><name>gcg.1</name><content>[1, 40, 2, 0]</content></key>
+<key><name>gcg.2</name><content>[1.0, 1e-11, 0]</content></key>
+<key><name>ssms.1</name><content>[-1]</content></key>
+<key><name>rct.1</name><content>[0, 0, 2, 0]</content></key>
+<key><name>rct.2a</name><content>[1.8]</content></key>
+<key><name>rct.2b</name><content>[1.0]</content></key>
+<key><name>rct.2c</name><content>[0.0]</content></key>
+<key><name>rct.3</name><content>[1.0]</content></key>
+<key><name>rct.4</name><content>[1.0]</content></key>
+<key><name>rct.5</name><content>[1.0]</content></key>
+<key><name>rct.6</name><content>[1.0]</content></key>
+<key><name>vdf.1</name><content>[1, 2, 0, 0]</content></key>
+<key><name>vdf.2</name><content>[0.0, 0.0]</content></key>
+<key><name>vdf.3</name><content>[0.1]</content></key>
+<key><name>vdf.4</name><content>[1000.0, 0.714]</content></key>
+<key><name>vdf.4a</name><content>[1000.0, 0.714, 0.0044]</content></key>
+<key><name>vdf.4b</name><content>[1]</content></key>
+<key><name>vdf.4c</name><content>[0, 0.714, 0.0]</content></key>
+<key><name>vdf.5</name><content>[0.01]</content></key>
+<key><name>vdf.6</name><content>[0]</content></key>
+<key><name>vdf.7</name><content>[1000]</content></key>
+<key><name>vsc.1</name><content>[-1]</content></key>
+<key><name>vsc.2</name><content>[0.0, 0.0]</content></key>
+<key><name>vsc.3a</name><content>[0.0008904]</content></key>
+<key><name>vsc.3b</name><content>[1, 1]</content></key>
+<key><name>vsc.3c</name><content>[1, 1.923e-06, 0.0]</content></key>
+<key><name>vsc.3d</name><content>[2, 2.394e-05, 10.0, 248.37, 133.15]</content></key>
+<key><name>uzt.1</name><content>[0, 0, 0, 0.5, 0, 0]</content></key>
+<key><name>uzt.2</name><content>[1]</content></key>
+<key><name>uzt.3</name><content>[0.1]</content></key>
+<key><name>uzt.4</name><content>[0.0]</content></key>
+<key><name>uzt.5</name><content>[0]</content></key>
+<key><name>uzt.6</name><content>[0.0]</content></key>
+<key><name>uzt.7</name><content>[0]</content></key>
+<key><name>uzt.8</name><content>[0.0]</content></key>
+<key><name>uzt.9</name><content>[0]</content></key>
+<key><name>uzt.10</name><content>[0.0]</content></key>
+</dict>
+<dict>
+<name>Mt3dms_type</name>
+<key><name>btn.1</name><content>['one_value']</content></key>
+<key><name>btn.2</name><content>['one_value']</content></key>
+<key><name>btn.3</name><content>['one_value']</content></key>
+<key><name>btn.4</name><content>['one_value']</content></key>
+<key><name>btn.5</name><content>['one_value']</content></key>
+<key><name>btn.6</name><content>['one_value']</content></key>
+<key><name>btn.7</name><content>['one_value']</content></key>
+<key><name>btn.8</name><content>['one_value']</content></key>
+<key><name>btn.9</name><content>['one_value']</content></key>
+<key><name>btn.10</name><content>['one_value']</content></key>
+<key><name>btn.11</name><content>['one_value']</content></key>
+<key><name>btn.12</name><content>['one_value']</content></key>
+<key><name>btn.13</name><content>['one_value']</content></key>
+<key><name>btn.14</name><content>['one_value']</content></key>
+<key><name>btn.15</name><content>['one_value']</content></key>
+<key><name>btn.16</name><content>['one_value']</content></key>
+<key><name>btn.17</name><content>['one_value']</content></key>
+<key><name>btn.18</name><content>['one_value']</content></key>
+<key><name>btn.19</name><content>['one_value']</content></key>
+<key><name>btn.20</name><content>['one_value']</content></key>
+<key><name>btn.21</name><content>['one_value']</content></key>
+<key><name>btn.22</name><content>['one_value']</content></key>
+<key><name>btn.23</name><content>['one_value']</content></key>
+<key><name>adv.1</name><content>['one_value']</content></key>
+<key><name>adv.2</name><content>['one_value']</content></key>
+<key><name>adv.3</name><content>['one_value']</content></key>
+<key><name>adv.4</name><content>['one_value']</content></key>
+<key><name>adv.5</name><content>['one_value']</content></key>
+<key><name>dsp.1</name><content>['one_value']</content></key>
+<key><name>dsp.2</name><content>['one_value']</content></key>
+<key><name>dsp.3</name><content>['one_value']</content></key>
+<key><name>dsp.4</name><content>['one_value']</content></key>
+<key><name>dsp.5</name><content>['one_value']</content></key>
+<key><name>gcg.1</name><content>['one_value']</content></key>
+<key><name>gcg.2</name><content>['one_value']</content></key>
+<key><name>ssms.1</name><content>['one_value']</content></key>
+<key><name>rct.1</name><content>['one_value']</content></key>
+<key><name>rct.2a</name><content>['one_value']</content></key>
+<key><name>rct.2b</name><content>['one_value']</content></key>
+<key><name>rct.2c</name><content>['one_value']</content></key>
+<key><name>rct.3</name><content>['one_value']</content></key>
+<key><name>rct.4</name><content>['one_value']</content></key>
+<key><name>rct.5</name><content>['one_value']</content></key>
+<key><name>rct.6</name><content>['one_value']</content></key>
+<key><name>vdf.1</name><content>['one_value']</content></key>
+<key><name>vdf.2</name><content>['one_value']</content></key>
+<key><name>vdf.3</name><content>['one_value']</content></key>
+<key><name>vdf.4</name><content>['one_value']</content></key>
+<key><name>vdf.4a</name><content>['one_value']</content></key>
+<key><name>vdf.4b</name><content>['one_value']</content></key>
+<key><name>vdf.4c</name><content>['one_value']</content></key>
+<key><name>vdf.5</name><content>['one_value']</content></key>
+<key><name>vdf.6</name><content>['one_value']</content></key>
+<key><name>vdf.7</name><content>['one_value']</content></key>
+<key><name>vsc.1</name><content>['one_value']</content></key>
+<key><name>vsc.2</name><content>['one_value']</content></key>
+<key><name>vsc.3a</name><content>['one_value']</content></key>
+<key><name>vsc.3b</name><content>['one_value']</content></key>
+<key><name>vsc.3c</name><content>['one_value']</content></key>
+<key><name>vsc.3d</name><content>['one_value']</content></key>
+<key><name>uzt.1</name><content>['one_value']</content></key>
+<key><name>uzt.2</name><content>['one_value']</content></key>
+<key><name>uzt.3</name><content>['one_value']</content></key>
+<key><name>uzt.4</name><content>['one_value']</content></key>
+<key><name>uzt.5</name><content>['one_value']</content></key>
+<key><name>uzt.6</name><content>['one_value']</content></key>
+<key><name>uzt.7</name><content>['one_value']</content></key>
+<key><name>uzt.8</name><content>['one_value']</content></key>
+<key><name>uzt.9</name><content>['one_value']</content></key>
+<key><name>uzt.10</name><content>['one_value']</content></key>
+</dict>
+<dict>
+<name>Mt3dms_zone</name>
+</dict>
+<dict>
+<name>Mt3dms_formula</name>
+</dict>
+<dict>
+<name>Mt3dms_array</name>
+</dict>
+<dict>
+<name>Mt3dms_interp</name>
+</dict>
+<dict>
+<name>MfUsgTrans_val</name>
+<key><name>bct.1a</name><content>[1, 0, 1, 1, 0, 0, 0, -1.0, 1e-09, 1, 0, 1e-10, 0, 0, 0, 0, 0, 0, 1, 1]</content></key>
+<key><name>bct.1b</name><content>[72, 73, 74, 75]</content></key>
+<key><name>bct.2</name><content>[1]</content></key>
+<key><name>bct.3</name><content>[0.25]</content></key>
+<key><name>bct.4</name><content>[1.8]</content></key>
+<key><name>bct.5</name><content>[0.0]</content></key>
+<key><name>bct.6</name><content>[1.0]</content></key>
+<key><name>bct.7</name><content>[0.1]</content></key>
+<key><name>bct.14</name><content>[0.0]</content></key>
+<key><name>bct.15</name><content>[0.0]</content></key>
+<key><name>bct.16</name><content>[0.0]</content></key>
+<key><name>bct.17</name><content>[0.0]</content></key>
+<key><name>bct.18</name><content>[0.0]</content></key>
+<key><name>bct.19</name><content>[0.0]</content></key>
+<key><name>bct.20</name><content>[0.0]</content></key>
+<key><name>pcb.1</name><content>[0]</content></key>
+<key><name>pcb.2</name><content>[0.0]</content></key>
+<key><name>crch.1</name><content>[0.0]</content></key>
+<key><name>cwell.1</name><content>[0.0]</content></key>
+<key><name>criv.1</name><content>[0.0]</content></key>
+<key><name>cghb.1</name><content>[0.0]</content></key>
+<key><name>dpt.1</name><content>[0]</content></key>
+<key><name>ddf.1</name><content>[0]</content></key>
+</dict>
+<dict>
+<name>MfUsgTrans_type</name>
+<key><name>bct.1a</name><content>['one_value']</content></key>
+<key><name>bct.1b</name><content>['one_value']</content></key>
+<key><name>bct.2</name><content>['one_value']</content></key>
+<key><name>bct.3</name><content>['one_value']</content></key>
+<key><name>bct.4</name><content>['one_value']</content></key>
+<key><name>bct.5</name><content>['one_value']</content></key>
+<key><name>bct.6</name><content>['one_value']</content></key>
+<key><name>bct.7</name><content>['one_value']</content></key>
+<key><name>bct.14</name><content>['one_value']</content></key>
+<key><name>bct.15</name><content>['one_value']</content></key>
+<key><name>bct.16</name><content>['one_value']</content></key>
+<key><name>bct.17</name><content>['one_value']</content></key>
+<key><name>bct.18</name><content>['one_value']</content></key>
+<key><name>bct.19</name><content>['one_value']</content></key>
+<key><name>bct.20</name><content>['one_value']</content></key>
+<key><name>pcb.1</name><content>['one_value']</content></key>
+<key><name>pcb.2</name><content>['one_value']</content></key>
+<key><name>crch.1</name><content>['one_value']</content></key>
+<key><name>cwell.1</name><content>['one_value']</content></key>
+<key><name>criv.1</name><content>['one_value']</content></key>
+<key><name>cghb.1</name><content>['one_value']</content></key>
+<key><name>dpt.1</name><content>['one_value']</content></key>
+<key><name>ddf.1</name><content>['one_value']</content></key>
+</dict>
+<dict>
+<name>MfUsgTrans_zone</name>
+</dict>
+<dict>
+<name>MfUsgTrans_formula</name>
+</dict>
+<dict>
+<name>MfUsgTrans_array</name>
+</dict>
+<dict>
+<name>MfUsgTrans_interp</name>
+</dict>
+<dict>
+<name>Pht3d_val</name>
+<key><name>ph.1</name><content>[2, 1, 0, 25, 0, 1e-10, 0.001, 4000]</content></key>
+<key><name>ph.2</name><content>[0]</content></key>
+<key><name>ph.3</name><content>[0]</content></key>
+<key><name>ph.4</name><content>[0]</content></key>
+<key><name>ph.5</name><content>[0]</content></key>
+<key><name>ph.6</name><content>['no_edl', 4, 4, 4, 4, 0, 2]</content></key>
+<key><name>ph.7</name><content>[0]</content></key>
+<key><name>ph.8</name><content>[0]</content></key>
+</dict>
+<dict>
+<name>Pht3d_type</name>
+<key><name>ph.1</name><content>['one_value']</content></key>
+<key><name>ph.2</name><content>['one_value']</content></key>
+<key><name>ph.3</name><content>['one_value']</content></key>
+<key><name>ph.4</name><content>['one_value']</content></key>
+<key><name>ph.5</name><content>['one_value']</content></key>
+<key><name>ph.6</name><content>['one_value']</content></key>
+<key><name>ph.7</name><content>['one_value']</content></key>
+<key><name>ph.8</name><content>['one_value']</content></key>
+</dict>
+<dict>
+<name>Pht3d_zone</name>
+</dict>
+<dict>
+<name>Pht3d_formula</name>
+</dict>
+<dict>
+<name>Pht3d_array</name>
+</dict>
+<dict>
+<name>Pht3d_interp</name>
+</dict>
+<dict>
+<name>Min3pFlow_val</name>
+<key><name>glo.1</name><content>[0, 0, 0, 0, 0, 0, 0, 0, 0]</content></key>
+<key><name>spat.1</name><content>[1, 10, 0.0, 1.0]</content></key>
+<key><name>spat.2</name><content>[1, 1, 0.0, 1.0]</content></key>
+<key><name>spat.3</name><content>[1, 1, 0.0, 1.0]</content></key>
+<key><name>spat.4</name><content>[0]</content></key>
+<key><name>spat.5</name><content>[3, 0, 0, 1]</content></key>
+<key><name>spat.6</name><content>[0]</content></key>
+<key><name>time.1</name><content>[1, 0.0, 10.0, 0.1, 1e-07]</content></key>
+<key><name>out.1</name><content>['']</content></key>
+<key><name>poro.1</name><content>[0.25]</content></key>
+<key><name>flow.1</name><content>[0.0001, 0.0001, 0.0001, 0, 0.1, 25.0, 3.0, 0.5, 0.0]</content></key>
+<key><name>flow.2</name><content>[1e-10, 1e-10, 1e-10]</content></key>
+<key><name>inif.1</name><content>[10.0]</content></key>
+<key><name>bcf.1</name><content>[10.0]</content></key>
+<key><name>bcf.2</name><content>[0.0]</content></key>
+<key><name>bcf.3</name><content>[0.0]</content></key>
+<key><name>bcf.4</name><content>[0.0]</content></key>
+<key><name>bcf.5</name><content>[0.0]</content></key>
+<key><name>conf.1</name><content>[0]</content></key>
+<key><name>conf.2</name><content>[0]</content></key>
+<key><name>conf.2a</name><content>[0]</content></key>
+<key><name>conf.3</name><content>['']</content></key>
+<key><name>conf.4</name><content>[10.0]</content></key>
+<key><name>conf.5</name><content>[1e-06, 100, 1e-06, 0.1]</content></key>
+<key><name>conf.6</name><content>[0, 100, 1, 1e-07, 1e-07]</content></key>
+<key><name>conf.7</name><content>[0, 0]</content></key>
+<key><name>conf.8</name><content>[1000.0, 0.0, 4, 2, 0.1, 0.1]</content></key>
+</dict>
+<dict>
+<name>Min3pFlow_type</name>
+<key><name>glo.1</name><content>['one_value']</content></key>
+<key><name>spat.1</name><content>['one_value']</content></key>
+<key><name>spat.2</name><content>['one_value']</content></key>
+<key><name>spat.3</name><content>['one_value']</content></key>
+<key><name>spat.4</name><content>['one_value']</content></key>
+<key><name>spat.5</name><content>['one_value']</content></key>
+<key><name>spat.6</name><content>['one_value']</content></key>
+<key><name>time.1</name><content>['one_value']</content></key>
+<key><name>out.1</name><content>['one_value']</content></key>
+<key><name>poro.1</name><content>['one_value']</content></key>
+<key><name>flow.1</name><content>['one_value']</content></key>
+<key><name>flow.2</name><content>['one_value']</content></key>
+<key><name>inif.1</name><content>['one_value']</content></key>
+<key><name>bcf.1</name><content>['one_value']</content></key>
+<key><name>bcf.2</name><content>['one_value']</content></key>
+<key><name>bcf.3</name><content>['one_value']</content></key>
+<key><name>bcf.4</name><content>['one_value']</content></key>
+<key><name>bcf.5</name><content>['one_value']</content></key>
+<key><name>conf.1</name><content>['one_value']</content></key>
+<key><name>conf.2</name><content>['one_value']</content></key>
+<key><name>conf.2a</name><content>['one_value']</content></key>
+<key><name>conf.3</name><content>['one_value']</content></key>
+<key><name>conf.4</name><content>['one_value']</content></key>
+<key><name>conf.5</name><content>['one_value']</content></key>
+<key><name>conf.6</name><content>['one_value']</content></key>
+<key><name>conf.7</name><content>['one_value']</content></key>
+<key><name>conf.8</name><content>['one_value']</content></key>
+</dict>
+<dict>
+<name>Min3pFlow_zone</name>
+</dict>
+<dict>
+<name>Min3pFlow_formula</name>
+</dict>
+<dict>
+<name>Min3pFlow_array</name>
+</dict>
+<dict>
+<name>Min3pFlow_interp</name>
+</dict>
+<dict>
+<name>Min3pTrans_val</name>
+<key><name>trans.1</name><content>[1e-10, 1e-05, 0]</content></key>
+<key><name>trans.2</name><content>[1.0, 0.1, 0.1]</content></key>
+<key><name>trac.1</name><content>['\n']</content></key>
+<key><name>trac.2</name><content>["''"]</content></key>
+<key><name>trac.3</name><content>["1 \n'tracer'"]</content></key>
+<key><name>init.1</name><content>[1e-09]</content></key>
+<key><name>bct.1</name><content>[0.0]</content></key>
+<key><name>bct.2</name><content>[0.0]</content></key>
+<key><name>bct.3</name><content>[0.0]</content></key>
+<key><name>bct.4</name><content>[0.0]</content></key>
+<key><name>cont.1</name><content>['']</content></key>
+<key><name>cont.2</name><content>[0]</content></key>
+<key><name>cont.3</name><content>[0]</content></key>
+<key><name>cont.4</name><content>[0]</content></key>
+<key><name>cont.5</name><content>[0.0]</content></key>
+<key><name>cont.6</name><content>[0]</content></key>
+<key><name>cont.7</name><content>[0]</content></key>
+<key><name>cont.8</name><content>[1.0]</content></key>
+<key><name>cont.9</name><content>[1e-06, 12, 15, 0.5, 1.0, 1e-06]</content></key>
+<key><name>cont.10</name><content>[0, 100, 1, 1e-07, 1e-07]</content></key>
+<key><name>cont.11</name><content>['']</content></key>
+<key><name>engp.1</name><content>[4182]</content></key>
+<key><name>engp.2</name><content>[1005]</content></key>
+<key><name>engp.3</name><content>[0.025]</content></key>
+<key><name>engp.4</name><content>[840, 0.58, 0.58, 0.58, 3.5, 3.5, 3.5, 1, 0.1, 0.1, 2000]</content></key>
+<key><name>inie.1</name><content>[20]</content></key>
+<key><name>inie.2</name><content>[0.03, 17]</content></key>
+<key><name>bce.1</name><content>[0.0]</content></key>
+<key><name>bce.2</name><content>[0.0]</content></key>
+<key><name>bce.3</name><content>[0.0]</content></key>
+<key><name>bce.4</name><content>[0.0]</content></key>
+<key><name>bce.5</name><content>[0.0]</content></key>
+<key><name>cone.1</name><content>[0, 0, 0]</content></key>
+<key><name>cone.2</name><content>[0]</content></key>
+<key><name>cone.3</name><content>[0]</content></key>
+<key><name>cone.4</name><content>[0]</content></key>
+<key><name>cone.5</name><content>[20]</content></key>
+<key><name>cone.6</name><content>[-0.375]</content></key>
+<key><name>cone.7</name><content>[0, 0.0]</content></key>
+<key><name>cone.8</name><content>[1e-06, 12, 15, 0.5, 1.0, 1e-06]</content></key>
+<key><name>cone.9</name><content>[0, 100, 1, 1e-07, 1e-07]</content></key>
+<key><name>conv.0</name><content>[0]</content></key>
+<key><name>conv.1</name><content>[0, 0]</content></key>
+<key><name>conv.2</name><content>[7.0]</content></key>
+<key><name>conv.3</name><content>[0]</content></key>
+<key><name>conv.4</name><content>[2.12e-05]</content></key>
+<key><name>conv.5</name><content>[0, 0.5, 8.0]</content></key>
+<key><name>conv.6</name><content>[0]</content></key>
+<key><name>conv.7</name><content>[0]</content></key>
+<key><name>conv.8</name><content>[0]</content></key>
+<key><name>conv.9</name><content>[0, 0.85, 0, 0, 182.5, 0.5]</content></key>
+<key><name>conv.10</name><content>[0, 20, 0, 0, 182.5, 0.5]</content></key>
+<key><name>conv.11</name><content>[0, 0, 0.0, 45.0, 0, 0.5, 273.5, 0.5, 0.2, 0.1]</content></key>
+<key><name>conv.12</name><content>[0, -100.0]</content></key>
+<key><name>conv.13</name><content>[0, 0, 0.0, 1.0, 0.001, 0.001, 1.0, 1.112, 0, 0.0, 0, 0, 0, 0]</content></key>
+</dict>
+<dict>
+<name>Min3pTrans_type</name>
+<key><name>trans.1</name><content>['one_value']</content></key>
+<key><name>trans.2</name><content>['one_value']</content></key>
+<key><name>trac.1</name><content>['one_value']</content></key>
+<key><name>trac.2</name><content>['one_value']</content></key>
+<key><name>trac.3</name><content>['one_value']</content></key>
+<key><name>init.1</name><content>['one_value']</content></key>
+<key><name>bct.1</name><content>['one_value']</content></key>
+<key><name>bct.2</name><content>['one_value']</content></key>
+<key><name>bct.3</name><content>['one_value']</content></key>
+<key><name>bct.4</name><content>['one_value']</content></key>
+<key><name>cont.1</name><content>['one_value']</content></key>
+<key><name>cont.2</name><content>['one_value']</content></key>
+<key><name>cont.3</name><content>['one_value']</content></key>
+<key><name>cont.4</name><content>['one_value']</content></key>
+<key><name>cont.5</name><content>['one_value']</content></key>
+<key><name>cont.6</name><content>['one_value']</content></key>
+<key><name>cont.7</name><content>['one_value']</content></key>
+<key><name>cont.8</name><content>['one_value']</content></key>
+<key><name>cont.9</name><content>['one_value']</content></key>
+<key><name>cont.10</name><content>['one_value']</content></key>
+<key><name>cont.11</name><content>['one_value']</content></key>
+<key><name>engp.1</name><content>['one_value']</content></key>
+<key><name>engp.2</name><content>['one_value']</content></key>
+<key><name>engp.3</name><content>['one_value']</content></key>
+<key><name>engp.4</name><content>['one_value']</content></key>
+<key><name>inie.1</name><content>['one_value']</content></key>
+<key><name>inie.2</name><content>['one_value']</content></key>
+<key><name>bce.1</name><content>['one_value']</content></key>
+<key><name>bce.2</name><content>['one_value']</content></key>
+<key><name>bce.3</name><content>['one_value']</content></key>
+<key><name>bce.4</name><content>['one_value']</content></key>
+<key><name>bce.5</name><content>['one_value']</content></key>
+<key><name>cone.1</name><content>['one_value']</content></key>
+<key><name>cone.2</name><content>['one_value']</content></key>
+<key><name>cone.3</name><content>['one_value']</content></key>
+<key><name>cone.4</name><content>['one_value']</content></key>
+<key><name>cone.5</name><content>['one_value']</content></key>
+<key><name>cone.6</name><content>['one_value']</content></key>
+<key><name>cone.7</name><content>['one_value']</content></key>
+<key><name>cone.8</name><content>['one_value']</content></key>
+<key><name>cone.9</name><content>['one_value']</content></key>
+<key><name>conv.0</name><content>['one_value']</content></key>
+<key><name>conv.1</name><content>['one_value']</content></key>
+<key><name>conv.2</name><content>['one_value']</content></key>
+<key><name>conv.3</name><content>['one_value']</content></key>
+<key><name>conv.4</name><content>['one_value']</content></key>
+<key><name>conv.5</name><content>['one_value']</content></key>
+<key><name>conv.6</name><content>['one_value']</content></key>
+<key><name>conv.7</name><content>['one_value']</content></key>
+<key><name>conv.8</name><content>['one_value']</content></key>
+<key><name>conv.9</name><content>['one_value']</content></key>
+<key><name>conv.10</name><content>['one_value']</content></key>
+<key><name>conv.11</name><content>['one_value']</content></key>
+<key><name>conv.12</name><content>['one_value']</content></key>
+<key><name>conv.13</name><content>['one_value']</content></key>
+</dict>
+<dict>
+<name>Min3pTrans_zone</name>
+</dict>
+<dict>
+<name>Min3pTrans_formula</name>
+</dict>
+<dict>
+<name>Min3pTrans_array</name>
+</dict>
+<dict>
+<name>Min3pTrans_interp</name>
+</dict>
+<dict>
+<name>Min3pChem_val</name>
+<key><name>geoch.1</name><content>['\n']</content></key>
+<key><name>geoch.2</name><content>["''"]</content></key>
+<key><name>geoch.3</name><content>["1 \n'tracer'"]</content></key>
+<key><name>inic.1</name><content>[0]</content></key>
+<key><name>bcc.1</name><content>[0]</content></key>
+<key><name>bcc.2</name><content>[0]</content></key>
+<key><name>bcc.3</name><content>[0]</content></key>
+<key><name>bcc.4</name><content>[0]</content></key>
+<key><name>conc.1</name><content>[1e-06, 1e-06]</content></key>
+<key><name>conc.2</name><content>[1]</content></key>
+<key><name>conc.3</name><content>[2]</content></key>
+<key><name>conc.4</name><content>[0.5]</content></key>
+</dict>
+<dict>
+<name>Min3pChem_type</name>
+<key><name>geoch.1</name><content>['one_value']</content></key>
+<key><name>geoch.2</name><content>['one_value']</content></key>
+<key><name>geoch.3</name><content>['one_value']</content></key>
+<key><name>inic.1</name><content>['one_value']</content></key>
+<key><name>bcc.1</name><content>['one_value']</content></key>
+<key><name>bcc.2</name><content>['one_value']</content></key>
+<key><name>bcc.3</name><content>['one_value']</content></key>
+<key><name>bcc.4</name><content>['one_value']</content></key>
+<key><name>conc.1</name><content>['one_value']</content></key>
+<key><name>conc.2</name><content>['one_value']</content></key>
+<key><name>conc.3</name><content>['one_value']</content></key>
+<key><name>conc.4</name><content>['one_value']</content></key>
+</dict>
+<dict>
+<name>Min3pChem_zone</name>
+</dict>
+<dict>
+<name>Min3pChem_formula</name>
+</dict>
+<dict>
+<name>Min3pChem_array</name>
+</dict>
+<dict>
+<name>Min3pChem_interp</name>
+</dict>
+<dict>
+<name>OpgeoFlow_val</name>
+<key><name>domn.1</name><content>[0, 0, 0, 0, 0]</content></key>
+<key><name>domn.2</name><content>[10]</content></key>
+<key><name>domn.3</name><content>[10]</content></key>
+<key><name>domn.4</name><content>[0]</content></key>
+<key><name>domn.5</name><content>[10.0]</content></key>
+<key><name>domn.6</name><content>[0.0]</content></key>
+<key><name>domn.7</name><content>[2, 1, 1]</content></key>
+<key><name>domn.8</name><content>[1]</content></key>
+<key><name>flow.1</name><content>[0]</content></key>
+<key><name>flow.2</name><content>[0]</content></key>
+<key><name>flow.3</name><content>[0]</content></key>
+<key><name>flow.4</name><content>[0]</content></key>
+<key><name>flow.5</name><content>[0.0001, 1e-06, 0.25]</content></key>
+<key><name>flow.6</name><content>[1.0]</content></key>
+<key><name>flow.7</name><content>[0]</content></key>
+<key><name>flow.8</name><content>[0]</content></key>
+<key><name>unsat.1</name><content>[0]</content></key>
+<key><name>unsat.2</name><content>[0]</content></key>
+<key><name>unsat.3</name><content>[0]</content></key>
+<key><name>unsat.4</name><content>[0]</content></key>
+<key><name>unsat.5</name><content>[1e-10, 0.25, 0.05, 1.0, 5.0, 0.37, 0.5]</content></key>
+<key><name>unsat.6</name><content>[1.0]</content></key>
+<key><name>unsat.7</name><content>[0]</content></key>
+</dict>
+<dict>
+<name>OpgeoFlow_type</name>
+<key><name>domn.1</name><content>['one_value']</content></key>
+<key><name>domn.2</name><content>['one_value']</content></key>
+<key><name>domn.3</name><content>['one_value']</content></key>
+<key><name>domn.4</name><content>['one_value']</content></key>
+<key><name>domn.5</name><content>['one_value']</content></key>
+<key><name>domn.6</name><content>['one_value']</content></key>
+<key><name>domn.7</name><content>['one_value']</content></key>
+<key><name>domn.8</name><content>['one_value']</content></key>
+<key><name>flow.1</name><content>['one_value']</content></key>
+<key><name>flow.2</name><content>['one_value']</content></key>
+<key><name>flow.3</name><content>['one_value']</content></key>
+<key><name>flow.4</name><content>['one_value']</content></key>
+<key><name>flow.5</name><content>['one_value']</content></key>
+<key><name>flow.6</name><content>['one_value']</content></key>
+<key><name>flow.7</name><content>['one_value']</content></key>
+<key><name>flow.8</name><content>['one_value']</content></key>
+<key><name>unsat.1</name><content>['one_value']</content></key>
+<key><name>unsat.2</name><content>['one_value']</content></key>
+<key><name>unsat.3</name><content>['one_value']</content></key>
+<key><name>unsat.4</name><content>['one_value']</content></key>
+<key><name>unsat.5</name><content>['one_value']</content></key>
+<key><name>unsat.6</name><content>['one_value']</content></key>
+<key><name>unsat.7</name><content>['one_value']</content></key>
+</dict>
+<dict>
+<name>OpgeoFlow_zone</name>
+</dict>
+<dict>
+<name>OpgeoFlow_formula</name>
+</dict>
+<dict>
+<name>OpgeoFlow_array</name>
+</dict>
+<dict>
+<name>OpgeoFlow_interp</name>
+</dict>
+<dict>
+<name>OpgeoTrans_val</name>
+<key><name>trans.1</name><content>[0]</content></key>
+<key><name>trans.2</name><content>[0]</content></key>
+<key><name>trans.3</name><content>[0]</content></key>
+<key><name>trans.4</name><content>[0]</content></key>
+<key><name>trans.5</name><content>[1.0]</content></key>
+<key><name>trans.6</name><content>[0.1]</content></key>
+<key><name>trans.7</name><content>[0.1]</content></key>
+<key><name>trans.8</name><content>[1e-09]</content></key>
+<key><name>trans.9</name><content>[0]</content></key>
+</dict>
+<dict>
+<name>OpgeoTrans_type</name>
+<key><name>trans.1</name><content>['one_value']</content></key>
+<key><name>trans.2</name><content>['one_value']</content></key>
+<key><name>trans.3</name><content>['one_value']</content></key>
+<key><name>trans.4</name><content>['one_value']</content></key>
+<key><name>trans.5</name><content>['one_value']</content></key>
+<key><name>trans.6</name><content>['one_value']</content></key>
+<key><name>trans.7</name><content>['one_value']</content></key>
+<key><name>trans.8</name><content>['one_value']</content></key>
+<key><name>trans.9</name><content>['one_value']</content></key>
+</dict>
+<dict>
+<name>OpgeoTrans_zone</name>
+</dict>
+<dict>
+<name>OpgeoTrans_formula</name>
+</dict>
+<dict>
+<name>OpgeoTrans_array</name>
+</dict>
+<dict>
+<name>OpgeoTrans_interp</name>
+</dict>
+<dict>
+<name>Sutra_val</name>
+<key><name>glob.1a</name><content>[0]</content></key>
+<key><name>glob.1b</name><content>[0]</content></key>
+<key><name>glob.2a</name><content>[0, 2, 0, 0]</content></key>
+<key><name>glob.2b</name><content>[0, 0, 0, 0, 0]</content></key>
+<key><name>glob.3</name><content>[0, 0, 0, 0, 0, 0, 0]</content></key>
+<key><name>glob.4</name><content>[0, 0, 0, 0, 0]</content></key>
+<key><name>glob.5</name><content>[0.0, 0.01, 0.01]</content></key>
+<key><name>glob.6a</name><content>[1, 1, 1]</content></key>
+<key><name>glob.6b</name><content>[0, 0, 0, 86400.0, 3, '1 3 5']</content></key>
+<key><name>glob.7</name><content>[0, 10]</content></key>
+<key><name>solv.7a</name><content>[5000, 1.0, 0.01]</content></key>
+<key><name>solv.7b</name><content>[2, 1000, 1e-12]</content></key>
+<key><name>solv.7c</name><content>[1, 1000, 1e-12]</content></key>
+<key><name>out.8a</name><content>[-1, 0, 0, 0, 0, 0, 0, 0, 0, 0]</content></key>
+<key><name>out.8b</name><content>[5, "'X' 'Y' 'Z' 'P' 'U' 'S' '-'"]</content></key>
+<key><name>out.8c</name><content>[5, "'X' 'Y' 'Z' 'VX' 'VY' 'VZ' '-'"]</content></key>
+<key><name>out.8d</name><content>[0]</content></key>
+<key><name>out.8e</name><content>[10, 10, 10, 10, 0]</content></key>
+<key><name>med.9</name><content>[1e-10, 4182, 0.6, 1000.0, 0, 0, 0.001]</content></key>
+<key><name>med.10</name><content>[0.0, 840, 3.5, 2650]</content></key>
+<key><name>med.11</name><content>[0, 0, 0]</content></key>
+<key><name>med.12</name><content>[0, 0, 0, 0]</content></key>
+<key><name>med.13</name><content>[0, 0, -9.8]</content></key>
+<key><name>med.14a</name><content>[0, 1, 1, 1, 1]</content></key>
+<key><name>med.14b</name><content>[0.25]</content></key>
+<key><name>med.15a</name><content>[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]</content></key>
+<key><name>med.15b</name><content>[1]</content></key>
+<key><name>med.15c</name><content>[1e-12]</content></key>
+<key><name>med.15d</name><content>[1e-12]</content></key>
+<key><name>med.15e</name><content>[1e-12]</content></key>
+<key><name>med.15f</name><content>[0.0, 0.0, 0.0]</content></key>
+<key><name>med.15g</name><content>[1.0]</content></key>
+<key><name>med.15h</name><content>[0.1]</content></key>
+<key><name>med.15i</name><content>[0.1]</content></key>
+<key><name>ssm.17</name><content>[0]</content></key>
+<key><name>ssm.18</name><content>[0]</content></key>
+<key><name>ssm.19</name><content>[0]</content></key>
+<key><name>ssm.20</name><content>[0]</content></key>
+<key><name>ssm.22</name><content>[0]</content></key>
+<key><name>ics.1</name><content>[0]</content></key>
+<key><name>ics.2</name><content>[0.0]</content></key>
+<key><name>ics.3</name><content>[0.0]</content></key>
+</dict>
+<dict>
+<name>Sutra_type</name>
+<key><name>glob.1a</name><content>['one_value']</content></key>
+<key><name>glob.1b</name><content>['one_value']</content></key>
+<key><name>glob.2a</name><content>['one_value']</content></key>
+<key><name>glob.2b</name><content>['one_value']</content></key>
+<key><name>glob.3</name><content>['one_value']</content></key>
+<key><name>glob.4</name><content>['one_value']</content></key>
+<key><name>glob.5</name><content>['one_value']</content></key>
+<key><name>glob.6a</name><content>['one_value']</content></key>
+<key><name>glob.6b</name><content>['one_value']</content></key>
+<key><name>glob.7</name><content>['one_value']</content></key>
+<key><name>solv.7a</name><content>['one_value']</content></key>
+<key><name>solv.7b</name><content>['one_value']</content></key>
+<key><name>solv.7c</name><content>['one_value']</content></key>
+<key><name>out.8a</name><content>['one_value']</content></key>
+<key><name>out.8b</name><content>['one_value']</content></key>
+<key><name>out.8c</name><content>['one_value']</content></key>
+<key><name>out.8d</name><content>['one_value']</content></key>
+<key><name>out.8e</name><content>['one_value']</content></key>
+<key><name>med.9</name><content>['one_value']</content></key>
+<key><name>med.10</name><content>['one_value']</content></key>
+<key><name>med.11</name><content>['one_value']</content></key>
+<key><name>med.12</name><content>['one_value']</content></key>
+<key><name>med.13</name><content>['one_value']</content></key>
+<key><name>med.14a</name><content>['one_value']</content></key>
+<key><name>med.14b</name><content>['one_value']</content></key>
+<key><name>med.15a</name><content>['one_value']</content></key>
+<key><name>med.15b</name><content>['one_value']</content></key>
+<key><name>med.15c</name><content>['one_value']</content></key>
+<key><name>med.15d</name><content>['one_value']</content></key>
+<key><name>med.15e</name><content>['one_value']</content></key>
+<key><name>med.15f</name><content>['one_value']</content></key>
+<key><name>med.15g</name><content>['one_value']</content></key>
+<key><name>med.15h</name><content>['one_value']</content></key>
+<key><name>med.15i</name><content>['one_value']</content></key>
+<key><name>ssm.17</name><content>['one_value']</content></key>
+<key><name>ssm.18</name><content>['one_value']</content></key>
+<key><name>ssm.19</name><content>['one_value']</content></key>
+<key><name>ssm.20</name><content>['one_value']</content></key>
+<key><name>ssm.22</name><content>['one_value']</content></key>
+<key><name>ics.1</name><content>['one_value']</content></key>
+<key><name>ics.2</name><content>['one_value']</content></key>
+<key><name>ics.3</name><content>['one_value']</content></key>
+</dict>
+<dict>
+<name>Sutra_zone</name>
+</dict>
+<dict>
+<name>Sutra_formula</name>
+</dict>
+<dict>
+<name>Sutra_array</name>
+</dict>
+<dict>
+<name>Sutra_interp</name>
+</dict>
+<dict>
+<name>Observation_val</name>
+<key><name>obs.1</name><content>[0]</content></key>
+</dict>
+<dict>
+<name>Observation_type</name>
+<key><name>obs.1</name><content>['one_value']</content></key>
+</dict>
+<dict>
+<name>Observation_zone</name>
+</dict>
+<dict>
+<name>Observation_formula</name>
+</dict>
+<dict>
+<name>Observation_array</name>
+</dict>
+<dict>
+<name>Observation_interp</name>
+</dict>
+<dict>
+<name>Pest_val</name>
+<key><name>sys.1</name><content>[0]</content></key>
+<key><name>sys.2</name><content>['/home/ORTI3D']</content></key>
+<key><name>ctd.1</name><content>[0, 0]</content></key>
+<key><name>ctd.2</name><content>[0]</content></key>
+<key><name>ctd.3</name><content>[1]</content></key>
+<key><name>ctd.4</name><content>[5.0, 5.0, 0.001]</content></key>
+<key><name>ctd.5</name><content>[0.1]</content></key>
+<key><name>ctd.6</name><content>[30, 0.005, 4, 4, 0.005, 4]</content></key>
+<key><name>svd.1</name><content>[1]</content></key>
+<key><name>svd.2</name><content>['', 5e-07]</content></key>
+<key><name>svd.3</name><content>[0]</content></key>
+<key><name>pgr.1</name><content>[1]</content></key>
+<key><name>pgr.2</name><content>['', 0, 0.01, 0, 0, 2.0, 0]</content></key>
+<key><name>pgr.3</name><content>['', 0, 0.01, 0, 0, 2.0, 0]</content></key>
+<key><name>pgr.4</name><content>['', 0, 0.01, 0, 0, 2.0, 0]</content></key>
+<key><name>pgr.5</name><content>['', 0, 0.01, 0, 0, 2.0, 0]</content></key>
+<key><name>pgr.6</name><content>['', 0, 0.01, 0, 0, 2.0, 0]</content></key>
+<key><name>obs.1</name><content>[0]</content></key>
+<key><name>reg.1</name><content>[1e-12, 1.1e-12, 0.1, 0]</content></key>
+<key><name>reg.2</name><content>[1.0, 1e-10, 10000000000.0, 0, 0]</content></key>
+<key><name>reg.3</name><content>[1.3, 0.01, 1, '', '', '']</content></key>
+<key><name>ppp.1</name><content>['', '', '', '', '', '', '', '']</content></key>
+<key><name>ppp.2</name><content>['', '', '', '', '', '']</content></key>
+<key><name>ppp.3</name><content>['', '', '']</content></key>
+</dict>
+<dict>
+<name>Pest_type</name>
+<key><name>sys.1</name><content>['one_value']</content></key>
+<key><name>sys.2</name><content>['one_value']</content></key>
+<key><name>ctd.1</name><content>['one_value']</content></key>
+<key><name>ctd.2</name><content>['one_value']</content></key>
+<key><name>ctd.3</name><content>['one_value']</content></key>
+<key><name>ctd.4</name><content>['one_value']</content></key>
+<key><name>ctd.5</name><content>['one_value']</content></key>
+<key><name>ctd.6</name><content>['one_value']</content></key>
+<key><name>svd.1</name><content>['one_value']</content></key>
+<key><name>svd.2</name><content>['one_value']</content></key>
+<key><name>svd.3</name><content>['one_value']</content></key>
+<key><name>pgr.1</name><content>['one_value']</content></key>
+<key><name>pgr.2</name><content>['one_value']</content></key>
+<key><name>pgr.3</name><content>['one_value']</content></key>
+<key><name>pgr.4</name><content>['one_value']</content></key>
+<key><name>pgr.5</name><content>['one_value']</content></key>
+<key><name>pgr.6</name><content>['one_value']</content></key>
+<key><name>obs.1</name><content>['one_value']</content></key>
+<key><name>reg.1</name><content>['one_value']</content></key>
+<key><name>reg.2</name><content>['one_value']</content></key>
+<key><name>reg.3</name><content>['one_value']</content></key>
+<key><name>ppp.1</name><content>['one_value']</content></key>
+<key><name>ppp.2</name><content>['one_value']</content></key>
+<key><name>ppp.3</name><content>['one_value']</content></key>
+</dict>
+<dict>
+<name>Pest_zone</name>
+</dict>
+<dict>
+<name>Pest_formula</name>
+</dict>
+<dict>
+<name>Pest_array</name>
+</dict>
+<dict>
+<name>Pest_interp</name>
+</dict>
+<dict>
+<name>dic_addin</name>
+<key><name>usedM</name><content>{}</content></key>
+<key><name>usedM_Modflow</name><content>(['DIS', 'DISU', 'BAS6', 'BCF6', 'LPF', 'WEL', 'RCH', 'EVT', 'DRN', 'RIV', 'GHB', 'SIP', 'PCG', 'SOR', 'DE4', 'UPW', 'NWT', 'UZF', 'MNWT', 'SMS', 'GMG', 'HFB6'], [True, False, True, False, True, True, False, False, False, False, False, False, True, False, False, False, False, False, False, False, False, False])</content></key>
+<key><name>usedM_Mt3dms</name><content>(['BTN', 'ADV', 'DSP', 'GCG', 'SSMs', 'RCT', 'VDF', 'VSC', 'UZT'], [True, True, True, True, False, False, False, False, False])</content></key>
+<key><name>usedM_MfUsgTrans</name><content>(['BCT', 'PCB', 'CRCH', 'CWELL', 'CGHB', 'DPT', 'DDF'], [True, True, True, True, False, False, False])</content></key>
+<key><name>usedM_Pht3d</name><content>(['PH'], [True])</content></key>
+<key><name>usedM_Min3pFlow</name><content>(['glo', 'spat', 'time', 'out', 'poro', 'flow', 'inif', 'bcf', 'conf'], [True, True, True, True, True, True, True, True, True])</content></key>
+<key><name>usedM_Min3pTrans</name><content>(['trans', 'trac', 'init', 'bct', 'cont', 'engp', 'inie', 'bce', 'cone', 'conv'], [True, True, True, True, True, True, True, True, True, True])</content></key>
+<key><name>usedM_Min3pChem</name><content>(['geoch', 'inic', 'bcc', 'conc'], [True, True, True, True])</content></key>
+<key><name>usedM_OpgeoFlow</name><content>(['DOMN', 'FLOW', 'UNSAT'], [True, True, True])</content></key>
+<key><name>usedM_OpgeoTrans</name><content>(['Trans'], [True])</content></key>
+<key><name>usedM_Sutra</name><content>(['GLOB', 'SOLV', 'OUT', 'MED', 'SSM', 'ICS'], [True, True, True, True, True, True])</content></key>
+<key><name>usedM_Observation</name><content>(['OBS'], [True])</content></key>
+<key><name>usedM_Pest</name><content>(['SYS', 'CTD', 'SVD', 'PGR', 'OBS', 'REG', 'PPP'], [True, True, True, True, True, True, True])</content></key>
+<key><name>obsHead</name><content>{}</content></key>
+<key><name>obsTracer</name><content>{}</content></key>
+<key><name>obsChemistry</name><content>{}</content></key>
+<key><name>Model</name><content>{'dimension': 'Xsection', 'type': 'Confined', 'group': 'Modflow series'}</content></key>
+<key><name>Grid</name><content>{'x0': '0', 'y0': '0', 'x1': '0.5', 'y1': '1', 'dx': ['0.01'], 'dy': ['1']}</content></key>
+<key><name>3D</name><content>{'zmin': 0.0, 'topMedia': [10], 'listLayers': [1]}</content></key>
+<key><name>Time</name><content>{'final': ['0.24'], 'steps': ['0.01']}</content></key>
+<key><name>MtSpecies</name><content>{'flag': 'Mt3dms', 'species': []}</content></key>
+<key><name>MtReact</name><content>{}</content></key>
+<key><name>Chemistry</name><content>{}</content></key>
+<key><name>MChemistry</name><content>{}</content></key>
+<key><name>Pback1</name><content>{}</content></key>
+<key><name>Pback2</name><content>{}</content></key>
+<key><name>Pzones1</name><content>{}</content></key>
+<key><name>Pzones2</name><content>{}</content></key>
+<key><name>InitialChemistry</name><content>{'name': '', 'formula': '', 'tstep': ''}</content></key>
+<key><name>UsedM_Modflow</name><content>(['DIS', 'DISU', 'BAS6', 'BCF6', 'LPF', 'WEL', 'RCH', 'EVT', 'DRN', 'RIV', 'GHB', 'SIP', 'PCG', 'SOR', 'DE4', 'UPW', 'NWT', 'UZF', 'MNWT', 'SMS', 'GMG', 'HFB6'], [True, False, True, False, True, True, False, False, False, False, False, False, True, False, False, False, False, False, False, False, False, False])</content></key>
+</dict>
+</ORTi3Ddoc>
