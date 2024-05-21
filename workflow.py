@@ -474,7 +474,7 @@ def build_gwt_model(sim_gwf, gwf_name = '1dtest', sp = 'chloride'):
 
     return sim
 
-def build_model(ws = 'model', sim_name = '1dtest', spls = ['chloride']):
+def build_model(ws = 'model', sim_name = '1dtest', spls = ['chloride'], sconc = {'chloride':sconc}):
 
     ##################### --- GWF model          --- #####################
     gwfname = 'gwf'
@@ -575,8 +575,10 @@ def build_model(ws = 'model', sim_name = '1dtest', spls = ['chloride']):
     
     ##################### --- GWT model          --- #####################
     for sp in spls:
+        
+        print(f'Setting model for component: {sp}')
         gwtname = sp
-
+        
         # Instantiating MODFLOW 6 groundwater transport package
         gwt = flopy.mf6.MFModel(
             sim,
@@ -624,7 +626,8 @@ def build_model(ws = 'model', sim_name = '1dtest', spls = ['chloride']):
         dis.set_all_data_external()
 
         
-        ic = flopy.mf6.ModflowGwtic(gwt, strt=sconc, filename=f"{gwtname}.ic")
+        ic = flopy.mf6.ModflowGwtic(gwt, strt=sconc[sp], filename=f"{gwtname}.ic")
+        ic.set_all_data_external()
 
         # Instantiating MODFLOW 6 transport source-sink mixing package
         sourcerecarray = ['wel', 'aux', 'concentration']

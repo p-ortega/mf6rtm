@@ -186,6 +186,7 @@ def SimpleAdvect():
     # Clean up
     status = phreeqc_rm.CloseFiles()
     status = phreeqc_rm.MpiWorkerBreak()
+
 def simpleadvection(c, bc_conc, ncomps, nxyz, dim):
     """
     TODO
