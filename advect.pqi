@@ -22,10 +22,12 @@ END
 SELECTED_OUTPUT
         -file            advect.sel
         -reset           false
-#        -step
+        -step
         -totals          Na Cl K Ca
 USER_PUNCH
-  -heading  Temperature Pressure Hyd_K
+  -heading  time cell_no Temperature Pressure Hyd_K
+  1 PUNCH sim_time/86400
+  2 PUNCH cell_no
   10 PUNCH TC, PRESSURE
   20 PUNCH CALLBACK(cell_no, 0, "HYDRAULIC_K")
 END

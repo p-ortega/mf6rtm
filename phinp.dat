@@ -8,6 +8,7 @@ SOLUTION 1 # [K,I,J] = 1,1,1
 	Ca 1.230000e-004  # comp 2
 	Cl 0.0000001e+000  # comp 3
 	Mg 0.000000e+000  # comp 4
+
 END
 EQUILIBRIUM_PHASES 1
 	Calcite 0.000000e+000 1.220625e-004 # comp 7

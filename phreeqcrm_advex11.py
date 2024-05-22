@@ -2,7 +2,7 @@ import phreeqcrm
 import sys
 import os
 import numpy as np
-
+import pandas as pd
 """
     Functions that accept a constant vector reference
     (const std::vector<double>&) should be callable
@@ -94,6 +94,7 @@ def SimpleAdvect():
 
     # Get component information (as a tuple)
     components = phreeqc_rm.GetComponents()
+    print(components)
 
     for comp in components:
         phreeqc_rm.OutputMessage(comp)
@@ -148,9 +149,12 @@ def SimpleAdvect():
 
     time_step = 86400.0
     status = phreeqc_rm.SetTimeStep(time_step)
-
+    print(components)
     nsteps = 10
     phreeqc_rm.SetScreenOn(True)
+
+    columns = phreeqc_rm.GetSelectedOutputHeadings()
+    stoutdf = pd.DataFrame(columns = columns)
     for steps in range(nsteps):
         # Transport calculation here
 
@@ -161,17 +165,29 @@ def SimpleAdvect():
         message = '          Time step                          {} days\n'.format(phreeqc_rm.GetTimeStep() * phreeqc_rm.GetTimeConversion())
         phreeqc_rm.LogMessage(message)
         phreeqc_rm.ScreenMessage(message)
+    
 
-        simpleadvection(c_dbl_vect, bc_conc_dbl_vect, ncomps, nxyz, nbound)
+
+        c_dbl_vect = simpleadvection(c_dbl_vect, bc_conc_dbl_vect, ncomps, nxyz, nbound)
 
         # Transfer data to PhreeqcRM for reactions
         print_selected_output_on = (steps == nsteps - 1)
         print_chemistry_on = (steps == nsteps - 1)
         status = phreeqc_rm.SetSelectedOutputOn(True)
-        status = phreeqc_rm.SetPrintChemistryOn(print_chemistry_on, False, False)  # workers, initial_phreeqc, utility
+        print(phreeqc_rm.GetTimeStep())
+        status = phreeqc_rm.SetPrintChemistryOn(True, True, True)
+        # workers, initial_phreeqc, utility
         status = phreeqc_rm.SetConcentrations(c_dbl_vect)         # Transported concentrations
         time += time_step
         status = phreeqc_rm.SetTime(time)
+        status = phreeqc_rm.SetTimeStep(time_step*steps)
+
+        sout = phreeqc_rm.GetSelectedOutput()
+        sout = [sout[i:i + nxyz] for i in range(0, len(sout), nxyz)]   
+        df = pd.DataFrame(columns = columns)
+        for col, arr in zip(df.columns, sout):
+            df[col] = arr
+        stoutdf = pd.concat([stoutdf, df])
 
         # Run cells with transported conditions
         message = 'Beginning reaction calculation               {} days\n'.format(time * phreeqc_rm.GetTimeConversion())
@@ -179,6 +195,8 @@ def SimpleAdvect():
         phreeqc_rm.ScreenMessage(message)
         status = phreeqc_rm.RunCells()
 
+
+        
         # Transfer data from PhreeqcRM for transport
         #status = phreeqc_rm.GetConcentrations(c_dbl_vect)
         c_dbl_vect = phreeqc_rm.GetConcentrations()
@@ -187,6 +205,12 @@ def SimpleAdvect():
     status = phreeqc_rm.CloseFiles()
     status = phreeqc_rm.MpiWorkerBreak()
 
+ 
+
+
+
+    stoutdf.to_csv('sout.csv', index=False)
+    # print(sout)
 def simpleadvection(c, bc_conc, ncomps, nxyz, dim):
     """
     TODO
@@ -199,6 +223,6 @@ def simpleadvection(c, bc_conc, ncomps, nxyz, dim):
     for j in range(ncomps):
         c[j * nxyz] = bc_conc[j * dim];                        # component j
 
-
+    return c
 if __name__ == '__main__':
     SimpleAdvect()
