@@ -39,8 +39,8 @@ ncol = 50  # Number of columns
 nrow = 1  # Number of rows
 delr = Lx/ncol #10.0  # Column width ($m$)
 delc = 1.0  # Row width ($m$)
-top = 1.0  # Top of the model ($m$)
-botm = 0.0  # Layer bottom elevations ($m$)
+top = 0.  # Top of the model ($m$)
+botm = -1.0  # Layer bottom elevations ($m$)
 prsity = 0.32  # Porosity
 perlen = 0.24  # Simulation time ($days$)
 k11 = 1.0  # Horizontal hydraulic conductivity ($m/d$)
@@ -930,12 +930,13 @@ def build_model(ws = 'model', sim_name = '1dtest', spls = ['chloride'], sconc = 
 
         # Instantiating MODFLOW 6 transport source-sink mixing package
         sourcerecarray = ['wel', 'aux', f'{sp}']
-        flopy.mf6.ModflowGwtssm(
+        ssm = flopy.mf6.ModflowGwtssm(
             gwt, 
             sources=sourcerecarray, 
 
             filename=f"{gwtname}.ssm"
         )
+        ssm.set_all_data_external()
         # Instantiating MODFLOW 6 transport adv package
         print('--- Building ADV package ---')
         adv = flopy.mf6.ModflowGwtadv(
@@ -1040,9 +1041,9 @@ def plot_heads(sim):
 
     linecollection = mapview.plot_grid(ax = ax, alpha = 1, zorder=2, lw = 0.5)
     arr = mapview.plot_array(heads[-1,0,0,:])
-    contours = mapview.contour_array(heads[-1,0,0,:], levels = np.arange(0,0.12, 0.01),colors="black", linewidths=0.5)
-    ax.clabel(contours, colors="black", fontsize = 10)
-    ax.set_ylim(-1.1,0)
+    # contours = mapview.contour_array(heads[-1,0,0,:], levels = np.arange(0,0.12, 0.01),colors="black", linewidths=0.5)
+    # ax.clabel(contours, colors="black", fontsize = 10)
+    # ax.set_ylim(-1.1,0)
     cbar = plt.colorbar(arr)
     cbar.ax.set_title('Head (m)')
     fig.tight_layout()
@@ -1110,7 +1111,7 @@ if __name__ == "__main__":
     sim_name = 'engesgaard1992'
     initsol_com, sconc = init_solution()
     # print(components, sconc)
-    q = 0.259*1e-5
+    q = 0.259
     wel_rec = wel_array(q, sconc)
     components, phreeqc_rm, sconc = initialize_phreeqcrm(sim_name)    
     # print(initsol_com)
