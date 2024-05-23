@@ -256,10 +256,7 @@ def initialize_phreeqcrm(sim_name, nthreads = 1, init_file = 'phinp.dat'):
 
     return components, phreeqc_rm, sconc
 
-def mf6rtm_api_test(dll, sim_ws, phreeqc_rm, components):
-    # sim_ws = os.path.join('model', '1dtest', 'chloride')
-    sim_ws = Path("model/engesgaard1992/")
-    dll = Path("bin/win/libmf6")
+def mf6rtm_api_test(dll, sim_ws, phreeqc_rm, components, reaction = True):
 
     mf6 = modflowapi.ModflowApi(dll, working_directory = sim_ws)
     mf6.initialize()
@@ -268,23 +265,25 @@ def mf6rtm_api_test(dll, sim_ws, phreeqc_rm, components):
 
     sim_start = datetime.now()
     print("...starting transport solution at {0}".format(sim_start.strftime(DT_FMT)))
+
     # reset the node tracking containers
 
     # get the current sim time
     ctime = mf6.get_current_time()
     ctimes = [0.0]
+
     # get the ending sim time
     etime = mf6.get_end_time()
+
     # max number of solution iterations
-    max_iter = mf6.get_value(mf6.get_var_address("MXITER", "SLN_2"))
+    max_iter = mf6.get_value(mf6.get_var_address("MXITER", "SLN_1"))
     num_fails = 0
     
     phreeqc_rm.SetScreenOn(True)
-    # let's do it!
-
     columns = phreeqc_rm.GetSelectedOutputHeadings()
     stoutdf = pd.DataFrame(columns = columns)
 
+    # let's do it!
     while ctime < etime:
             
         sol_start = datetime.now()
@@ -292,7 +291,9 @@ def mf6rtm_api_test(dll, sim_ws, phreeqc_rm, components):
         dt = mf6.get_time_step()
         # prep the current time step
         mf6.prepare_time_step(dt)
+
         status = phreeqc_rm.SetTimeStep(dt*86400)
+
         kiter = 0
         # prep to solve
         mf6.prepare_solve(1)
@@ -306,49 +307,46 @@ def mf6rtm_api_test(dll, sim_ws, phreeqc_rm, components):
         c_dbl_vect = flatten_list(mf6_conc_array)
 
         ### Phreeqc BLOCK
-        # if ctime>=0.0:
-        #update phreeqc time and time steps
-        status = phreeqc_rm.SetTime(ctime*86400)
-        print(time_step, ctime)
-        
-        print_selected_output_on = True
-        print_chemistry_on = True
-        status = phreeqc_rm.SetSelectedOutputOn(True)
-        status = phreeqc_rm.SetPrintChemistryOn(print_chemistry_on, False, False) 
+        if reaction:
+            # if ctime>=0.0:
+            #update phreeqc time and time steps
+            status = phreeqc_rm.SetTime(ctime*86400)
+            print(time_step, ctime)
+            
+            print_selected_output_on = True
+            print_chemistry_on = True
+            status = phreeqc_rm.SetSelectedOutputOn(True)
+            status = phreeqc_rm.SetPrintChemistryOn(print_chemistry_on, False, False) 
 
-        status = phreeqc_rm.SetConcentrations(c_dbl_vect)  
-        message = '\nBeginning reaction calculation               {} days\n'.format(ctime)
-        phreeqc_rm.LogMessage(message)
-        phreeqc_rm.ScreenMessage(message)
-        status = phreeqc_rm.RunCells()
+            status = phreeqc_rm.SetConcentrations(c_dbl_vect)  
+            message = '\nBeginning reaction calculation               {} days\n'.format(ctime)
+            phreeqc_rm.LogMessage(message)
+            phreeqc_rm.ScreenMessage(message)
+            status = phreeqc_rm.RunCells()
 
-        print(phreeqc_rm.GetTimeStep())
+            print(phreeqc_rm.GetTimeStep())
 
-        sout = phreeqc_rm.GetSelectedOutput()
-        sout = [sout[i:i + nxyz] for i in range(0, len(sout), nxyz)]   
-        df = pd.DataFrame(columns = columns)
-        for col, arr in zip(df.columns, sout):
-            df[col] = arr
-        stoutdf = pd.concat([stoutdf, df])
+            sout = phreeqc_rm.GetSelectedOutput()
+            sout = [sout[i:i + nxyz] for i in range(0, len(sout), nxyz)]   
+            df = pd.DataFrame(columns = columns)
+            for col, arr in zip(df.columns, sout):
+                df[col] = arr
+            stoutdf = pd.concat([stoutdf, df])
 
-        c_dbl_vect = phreeqc_rm.GetConcentrations()
+            c_dbl_vect = phreeqc_rm.GetConcentrations()
 
-        
-        conc = [c_dbl_vect[i:i + nxyz] for i in range(0, len(c_dbl_vect), nxyz)]
-        sconc = {}
-        for e, c in enumerate(components):
-            sconc[c] = np.reshape(conc[e], (nlay, nrow, ncol))
+            
+            conc = [c_dbl_vect[i:i + nxyz] for i in range(0, len(c_dbl_vect), nxyz)]
+            sconc = {}
+            for e, c in enumerate(components):
+                sconc[c] = np.reshape(conc[e], (nlay, nrow, ncol))
 
         # solve transport until converged
         for c in components:
             print(f'\nSolving for component: {c}')
             while kiter < max_iter:
-                # print(list(mf6_conc_array))
-                # if c == 'Mg':
-                #     mf6.set_value(f'{c.upper()}/X', sconc[c]+0.1)
-                # else:
-                #     mf6.set_value(f'{c.upper()}/X', sconc[c])
-                mf6.set_value(f'{c.upper()}/X', sconc[c])
+                if reaction:
+                    mf6.set_value(f'{c.upper()}/X', sconc[c])
                 convg = mf6.solve(1)
                 if convg:
                     td = (datetime.now() - sol_start).total_seconds() / 60.0
@@ -376,15 +374,6 @@ def mf6rtm_api_test(dll, sim_ws, phreeqc_rm, components):
         print("...failed to converge {0} times".format(num_fails))
     print("\n")
 
-    # sout = phreeqc_rm.GetSelectedOutput()
-    # sout = [sout[i:i + nxyz] for i in range(0, len(sout), nxyz)]    
-
-    # columns = phreeqc_rm.GetSelectedOutputHeadings()    
-    # df = pd.DataFrame(columns = columns)
-    # for col, arr in zip(df.columns, sout):
-    #     print(arr)
-    #     df[col] = arr
-
     stoutdf.to_csv('sout.csv', index=False)
     mf6.finalize()
 
@@ -392,9 +381,8 @@ def mf6rtm_api_test(dll, sim_ws, phreeqc_rm, components):
     status = phreeqc_rm.CloseFiles()
     status = phreeqc_rm.MpiWorkerBreak()
 
-    print(phreeqc_rm.GetSelectedOutputHeadings())
 
-    return sout
+    return
 
 def api_test(dll, sim_ws):
     
@@ -785,6 +773,7 @@ def build_model(ws = 'model', sim_name = '1dtest', spls = ['chloride'], sconc = 
 
     # Instantiating MODFLOW 6 time discretization
     flopy.mf6.ModflowTdis(sim, nper=nper, perioddata=tdis_rc, time_units=time_units)
+
     # Instantiating MODFLOW 6 groundwater flow model
     gwf = flopy.mf6.ModflowGwf(
         sim,
@@ -857,13 +846,15 @@ def build_model(ws = 'model', sim_name = '1dtest', spls = ['chloride'], sconc = 
             gwf,
             stress_period_data=wel_rec,
             # auxiliary = f'concentration',
+            save_flows = True,
             auxiliary = [c for c in wel_comp],
             pname = 'wel',
             filename=f"{gwfname}.wel"
         )
-    wel.set_all_data_external()
+    # wel.set_all_data_external()
+
     # Instantiating MODFLOW 6 output control package for flow model
-    oc = flopy.mf6.ModflowGwfoc(
+    oc_gwf = flopy.mf6.ModflowGwfoc(
         gwf,
         head_filerecord=f"{gwfname}.hds",
         budget_filerecord=f"{gwfname}.cbb",
@@ -992,7 +983,7 @@ def build_model(ws = 'model', sim_name = '1dtest', spls = ['chloride'], sconc = 
         print('building FMI and OC ...')
 
         # Instantiating MODFLOW 6 transport output control package
-        oc = flopy.mf6.ModflowGwtoc(
+        oc_gwt = flopy.mf6.ModflowGwtoc(
             gwt,
             budget_filerecord=f"{gwtname}.cbb",
             concentration_filerecord=f"{gwtname}.ucn",
@@ -1014,13 +1005,18 @@ def build_model(ws = 'model', sim_name = '1dtest', spls = ['chloride'], sconc = 
             exgmnameb=gwtname,
             filename=f"{gwtname}.gwfgwt",
         )
-    
+        # flow_packagedata = [
+        # ("GWFHEAD", os.path.join("..", f"{gwfname}.hds"), None),
+        # ("GWFBUDGET", os.path.join("..", f"{gwfname}.cbb"), None, None),
+        #     ]
+        # fmi = flopy.mf6.ModflowGwtfmi(gwt, packagedata=flow_packagedata)
+
     sim.write_simulation()
     prep_bins(sim_ws, get_only=['mf6'])
     
     return sim
 
-def plot_heads(sim):
+def plot_heads(sim, prefix = None):
     #create figures dir
     figures_dir = 'figures'
 
@@ -1039,15 +1035,19 @@ def plot_heads(sim):
     # mapview = flopy.plot.PlotMapView(model=gwf, ax=ax)
     mapview = flopy.plot.PlotCrossSection(model=gwf, ax=ax, line={"Row": 0})
 
+    if prefix != None:
+        fname = f'{prefix}_{sim.name}_hds'
+    else: fname = f'{sim.name}_hds'
+
     linecollection = mapview.plot_grid(ax = ax, alpha = 1, zorder=2, lw = 0.5)
     arr = mapview.plot_array(heads[-1,0,0,:])
-    # contours = mapview.contour_array(heads[-1,0,0,:], levels = np.arange(0,0.12, 0.01),colors="black", linewidths=0.5)
-    # ax.clabel(contours, colors="black", fontsize = 10)
-    # ax.set_ylim(-1.1,0)
+    # # contours = mapview.contour_array(heads[-1,0,0,:], levels = np.arange(0,0.12, 0.01),colors="black", linewidths=0.5)
+    # # ax.clabel(contours, colors="black", fontsize = 10)
+    # # ax.set_ylim(-1.1,0)
     cbar = plt.colorbar(arr)
     cbar.ax.set_title('Head (m)')
     fig.tight_layout()
-    fig.savefig(os.path.join(figures_dir,f'{sim.name}_hds_map.png'), dpi=300, bbox_inches='tight')
+    fig.savefig(os.path.join(figures_dir,f'{fname}_map.png'), dpi=300, bbox_inches='tight')
     plt.close(fig)
 
     fig, axs = plt.subplots(1, 1, figsize=(6.3,3.2))
@@ -1056,11 +1056,12 @@ def plot_heads(sim):
     ax.set_ylabel('Head (m)')
     ax.set_xlabel('Time')
     fig.tight_layout()
-    fig.savefig(os.path.join(figures_dir,f'{sim.name}_hds_ts.png'), dpi=300, bbox_inches='tight')
+
+    fig.savefig(os.path.join(figures_dir, f'{fname}_ts.png'), dpi=300, bbox_inches='tight')
     plt.close(fig)
     # print(heads[:, 0, 0,-1], times)
 
-def plot_concentrations(sim):
+def plot_concentrations(sim, prefix = None):
     print(f'Saving figures for simulation: {sim.name}')
     #create figures dir
     figures_dir = 'figures'
@@ -1068,9 +1069,15 @@ def plot_concentrations(sim):
     if not os.path.exists(figures_dir):
         os.makedirs(figures_dir)
 
+
     mf6_out_path = sim.simulation_data.mfpath.get_sim_path()
     for model_name in list(sim.model_names[1:]):
         gwf = sim.get_model(model_name)
+
+        if prefix != None:
+            fname = f'{prefix}_{sim.name}_{model_name}'
+        else: fname = f'{sim.name}_{model_name}'
+
         print(f'Saving figures for component: {model_name}')
         ucn = flopy.utils.HeadFile(os.path.join("model",sim.name,f"{model_name}.ucn"),text="concentration")
         results = ucn.get_alldata()
@@ -1084,13 +1091,13 @@ def plot_concentrations(sim):
 
         linecollection = mapview.plot_grid(ax = ax, alpha = 1, zorder=2, lw = 0.5)
         arr = mapview.plot_array(results[-1,0,0,:])
-        contours = mapview.contour_array(results[-1,0,0,:], levels = np.arange(0,0.12, 0.01),colors="black", linewidths=0.5)
-        ax.clabel(contours, colors="black", fontsize = 10)
-        ax.set_ylim(-1.1,0)
+        # contours = mapview.contour_array(results[-1,0,0,:], levels = np.arange(0,0.12, 0.01),colors="black", linewidths=0.5)
+        # ax.clabel(contours, colors="black", fontsize = 10)
+        # ax.set_ylim(-1.1,0)
         cbar = plt.colorbar(arr)
         cbar.ax.set_title('Conc')
         fig.tight_layout()
-        fig.savefig(os.path.join(figures_dir,f'{sim.name}_{model_name}_conc_map.png'), dpi=300, bbox_inches='tight')
+        fig.savefig(os.path.join(figures_dir,f'{fname}_conc_map.png'), dpi=300, bbox_inches='tight')
         plt.close(fig)
 
         fig, axs = plt.subplots(1, 1, figsize=(6.3,3.2))
@@ -1099,7 +1106,8 @@ def plot_concentrations(sim):
         ax.set_ylabel('Conc (mol/L)')
         ax.set_xlabel('Time')
         fig.tight_layout()
-        fig.savefig(os.path.join(figures_dir,f'{sim.name}_{model_name}_ts.png'), dpi=300, bbox_inches='tight')
+
+        fig.savefig(os.path.join(figures_dir,f'{fname}_ts.png'), dpi=300, bbox_inches='tight')
         plt.close(fig)
 
 
@@ -1109,8 +1117,8 @@ def plot_concentrations(sim):
 
 if __name__ == "__main__":
     sim_name = 'engesgaard1992'
-    initsol_com, sconc = init_solution()
-    # print(components, sconc)
+    initsol_com, sconc = init_solution(init_file = 'initsol.dat')
+
     q = 0.259
     wel_rec = wel_array(q, sconc)
     components, phreeqc_rm, sconc = initialize_phreeqcrm(sim_name)    
@@ -1121,9 +1129,12 @@ if __name__ == "__main__":
     sim_ws = Path("model/engesgaard1992/")
     dll = Path("bin/win/libmf6")
 
-    sout = mf6rtm_api_test(dll, sim_ws, components=components, phreeqc_rm=phreeqc_rm)
-    # sout.to_csv('sout.csv', index=False)
-    print(sout)
-    # print(sout, len(sout), sout.shape)
+    run_model(sim)
+
     plot_heads(sim)
     plot_concentrations(sim)
+
+    mf6rtm_api_test(dll, sim_ws, components=components, phreeqc_rm=phreeqc_rm, reaction = False)
+
+    plot_heads(sim, prefix = 'api')
+    plot_concentrations(sim, prefix = 'api')
