@@ -2,29 +2,29 @@ Beginning transport calculation              0.0 days
           Time step                          1.0 days
 Beginning reaction calculation               1.0 days
 Beginning transport calculation              1.0 days
-          Time step                          1.0 days
+          Time step                          0.0 days
 Beginning reaction calculation               2.0 days
 Beginning transport calculation              2.0 days
           Time step                          1.0 days
 Beginning reaction calculation               3.0 days
 Beginning transport calculation              3.0 days
-          Time step                          1.0 days
+          Time step                          2.0 days
 Beginning reaction calculation               4.0 days
 Beginning transport calculation              4.0 days
-          Time step                          1.0 days
+          Time step                          3.0 days
 Beginning reaction calculation               5.0 days
 Beginning transport calculation              5.0 days
-          Time step                          1.0 days
+          Time step                          4.0 days
 Beginning reaction calculation               6.0 days
 Beginning transport calculation              6.0 days
-          Time step                          1.0 days
+          Time step                          5.0 days
 Beginning reaction calculation               7.0 days
 Beginning transport calculation              7.0 days
-          Time step                          1.0 days
+          Time step                          6.0 days
 Beginning reaction calculation               8.0 days
 Beginning transport calculation              8.0 days
-          Time step                          1.0 days
+          Time step                          7.0 days
 Beginning reaction calculation               9.0 days
 Beginning transport calculation              9.0 days
-          Time step                          1.0 days
+          Time step                          8.0 days
 Beginning reaction calculation               10.0 days

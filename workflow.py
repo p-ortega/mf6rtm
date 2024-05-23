@@ -2,21 +2,25 @@
 import platform
 from pathlib import Path
 import os
-import modflowapi
-from modflowapi import Callbacks
 import shutil
 import sys
 import warnings
 warnings.filterwarnings("ignore")
 warnings.filterwarnings("ignore", category=DeprecationWarning)
+
 import pandas as pd
 import numpy as np
 import math
 import time
+import itertools
 #sys.path.insert(0,os.path.join("dependencies"))
+
 import flopy
 import pyemu
-import itertools
+import phreeqcrm
+import modflowapi
+from modflowapi import Callbacks
+
 # from pypestutils.pestutilslib import PestUtilsLib
 
 from flopy.utils.gridintersect import GridIntersect
@@ -35,8 +39,8 @@ ncol = 50  # Number of columns
 nrow = 1  # Number of rows
 delr = Lx/ncol #10.0  # Column width ($m$)
 delc = 1.0  # Row width ($m$)
-top = 0.0  # Top of the model ($m$)
-botm = -1.0  # Layer bottom elevations ($m$)
+top = 1.0  # Top of the model ($m$)
+botm = 0.0  # Layer bottom elevations ($m$)
 prsity = 0.32  # Porosity
 perlen = 0.24  # Simulation time ($days$)
 k11 = 1.0  # Horizontal hydraulic conductivity ($m/d$)
@@ -49,19 +53,16 @@ nstp = perlen/tstep #100.0
 # Lx = (ncol - 1) * delr
 v = 0.24
 
-q = v * prsity
-h1 = q * Lx
 strt = np.zeros((nlay, nrow, ncol), dtype=float)
-strt[0, 0, 0] = h1  # Starting head ($m$)
+strt[0, 0, :] = 1  # Starting head ($m$)
 
 diffcdir = {'benzene':  9.392e-5, #m2/d
             'naphthalene': 6.471e-5 #m2/d,
             }
 
-l = 1000.0  # Needed for plots
 icelltype = 1  # Cell conversion type
 ibound = np.ones((nlay, nrow, ncol), dtype=int)
-ibound[0, 0, 0] = -1
+# ibound[0, 0, 0] = -1
 ibound[0, 0, -1] = -1
 
 mixelm = 0  # TVD
@@ -91,17 +92,314 @@ tdis_rc = []
 tdis_rc.append((perlen, nstp, 1.0))
 
 chdspd = [
-        # [(0, 0, 0), h1], 
-          [(0, 0, ncol - 1), 0.0]
+          [(0, 0, ncol - 1), 1.]
           ]
-c0 = 1.0
-cnc_spd = [[(0, 0, 0), c0]]
-conc = 2
-q = 0.259
-wel_rec = [[(0,0,0), q, conc]]
+# c0 = 1.0
+# cnc_spd = [[(0, 0, 0), c0]]
+# conc = 2
+
+
+# q = 0.259
+# wel_rec = [[(0,0,0), q, sconc]]
+
+def wel_array(q, sconc):
+    # sconc = [v for k,v in sconc.items()]
+    spd = [(0,0,0), q]
+    spd.extend([v for k,v in sconc.items()])
+    wel_rec = [spd]
+    # print(wel_rec)
+    return wel_rec
+
+def flatten_list(xss):
+    return [x for xs in xss for x in xs]
+
+def init_solution(nthreads = 1, init_file = 'initsol.dat'):
+    nxyz = 1
+
+    phreeqc_rm = phreeqcrm.PhreeqcRM(nxyz, nthreads)
+    status = phreeqc_rm.SetComponentH2O(False)
+    phreeqc_rm.UseSolutionDensityVolume(False)
+    status = phreeqc_rm.SetFilePrefix('initsol')
+    phreeqc_rm.OpenFiles()
+    # Set concentration units
+    status = phreeqc_rm.SetUnitsSolution(2) 
+
+          
+    poro = np.full((nxyz), prsity)
+    status = phreeqc_rm.SetPorosity(poro)
+    print_chemistry_mask = np.full((nxyz), 1)
+    status = phreeqc_rm.SetPrintChemistryMask(print_chemistry_mask)
+    nchem = phreeqc_rm.GetChemistryCellCount()
+
+
+    # Set printing of chemistry file
+    status = phreeqc_rm.SetPrintChemistryOn(False, True, False)  # workers, initial_phreeqc, utility
+
+    # Load database
+    databasews = os.path.join("database", "pht3d_datab.dat")
+    status = phreeqc_rm.LoadDatabase(databasews)
+    status = phreeqc_rm.RunFile(True, True, True, init_file)
+
+    # Clear contents of workers and utility
+    input = "DELETE; -all"
+    status = phreeqc_rm.RunString(True, False, True, input)
+
+    # Get component information - these two functions need to be invoked to find comps
+    ncomps = phreeqc_rm.FindComponents()
+    components = phreeqc_rm.GetComponents()
+
+    for comp in components:
+        phreeqc_rm.OutputMessage(comp)
+    phreeqc_rm.OutputMessage("\n")
+
+    ic1 = [-1] * nxyz * 7 
+    for i in range(nxyz):
+        ic1[i]            =  1  # Solution 1
+        ic1[nxyz + i]     = -1  # Equilibrium phases none
+        ic1[2 * nxyz + i] =  -1  # Exchange 1
+        ic1[3 * nxyz + i] = -1  # Surface none
+        ic1[4 * nxyz + i] = -1  # Gas phase none
+        ic1[5 * nxyz + i] = -1  # Solid solutions none
+        ic1[6 * nxyz + i] = -1  # Kinetics none
+
+    status = phreeqc_rm.InitialPhreeqc2Module(ic1)
+
+    # # Initial equilibration of cells
+    time = 0.0
+    time_step = 0.0
+    status = phreeqc_rm.SetTime(time)
+    status = phreeqc_rm.SetTimeStep(time_step)
+    # eqphases = phreeqc_rm.GetEquilibriumPhases()
+    
+    status = phreeqc_rm.RunCells()
+    c_dbl_vect = phreeqc_rm.GetConcentrations()
+    # conc = [c_dbl_vect[i:i + nxyz] for i in range(0, len(c_dbl_vect), nxyz)]
+
+    # sconc = {}
+    # for e, c in enumerate(components):
+    #     sconc[c] = conc[e]
+    sconc = {c: v for c,v in zip(components, c_dbl_vect)}
+    print('solution  ready')
+
+    return components, sconc
+
+def initialize_phreeqcrm(sim_name, nthreads = 1, init_file = 'phinp.dat'):
+
+    nxyz = nlay*nrow*ncol
+    phreeqc_rm = phreeqcrm.PhreeqcRM(nxyz, nthreads)
+    status = phreeqc_rm.SetComponentH2O(False)
+    phreeqc_rm.UseSolutionDensityVolume(False)
+
+    status = phreeqc_rm.SetFilePrefix(sim_name)
+
+    phreeqc_rm.OpenFiles()
+
+    # Set concentration units
+    status = phreeqc_rm.SetUnitsSolution(2) 
+
+          
+    poro = np.full((nxyz), prsity)
+    status = phreeqc_rm.SetPorosity(poro)
+    print_chemistry_mask = np.full((nxyz), 1)
+    status = phreeqc_rm.SetPrintChemistryMask(print_chemistry_mask)
+    nchem = phreeqc_rm.GetChemistryCellCount()
+
+
+    # Set printing of chemistry file
+    status = phreeqc_rm.SetPrintChemistryOn(False, True, False)  # workers, initial_phreeqc, utility
+
+    # Load database
+    databasews = os.path.join("database", "pht3d_datab.dat")
+    status = phreeqc_rm.LoadDatabase(databasews)
+
+    status = phreeqc_rm.RunFile(True, True, True, init_file)
+
+    # Clear contents of workers and utility
+    input = "DELETE; -all"
+    status = phreeqc_rm.RunString(True, False, True, input)
+
+    # Get component information - these two functions need to be invoked to find comps
+    ncomps = phreeqc_rm.FindComponents()
+    components = phreeqc_rm.GetComponents()
+
+    for comp in components:
+        phreeqc_rm.OutputMessage(comp)
+    phreeqc_rm.OutputMessage("\n")
+
+    ic1 = [-1] * nxyz * 7 
+    for i in range(nxyz):
+        ic1[i]            =  1  # Solution 1
+        ic1[nxyz + i]     = 1  # Equilibrium phases none
+        ic1[2 * nxyz + i] =  -1  # Exchange 1
+        ic1[3 * nxyz + i] = -1  # Surface none
+        ic1[4 * nxyz + i] = -1  # Gas phase none
+        ic1[5 * nxyz + i] = -1  # Solid solutions none
+        ic1[6 * nxyz + i] = -1  # Kinetics none
+
+    status = phreeqc_rm.InitialPhreeqc2Module(ic1)
+
+    # Initial equilibration of cells
+    time = 0.0
+    time_step = 0.0
+    status = phreeqc_rm.SetTime(time)
+    status = phreeqc_rm.SetTimeStep(time_step)
+    eqphases = phreeqc_rm.GetEquilibriumPhases()
+    
+    status = phreeqc_rm.RunCells()
+    c_dbl_vect = phreeqc_rm.GetConcentrations()
+    conc = [c_dbl_vect[i:i + nxyz] for i in range(0, len(c_dbl_vect), nxyz)]
+
+    sconc = {}
+    for e, c in enumerate(components):
+        sconc[c] = np.reshape(conc[e], (nlay, nrow, ncol))
+    print('initialize ready')
+
+    return components, phreeqc_rm, sconc
+
+def mf6rtm_api_test(dll, sim_ws, phreeqc_rm, components, reaction = True):
+    # sim_ws = os.path.join('model', '1dtest', 'chloride')
+    sim_ws = Path("model/engesgaard1992/")
+    dll = Path("bin/win/libmf6")
+
+    mf6 = modflowapi.ModflowApi(dll, working_directory = sim_ws)
+    mf6.initialize()
+
+    nxyz = nlay*nrow*ncol
+
+    sim_start = datetime.now()
+    print("...starting transport solution at {0}".format(sim_start.strftime(DT_FMT)))
+    # reset the node tracking containers
+
+    # get the current sim time
+    ctime = mf6.get_current_time()
+    ctimes = [0.0]
+    # get the ending sim time
+    etime = mf6.get_end_time()
+    # max number of solution iterations
+    max_iter = mf6.get_value(mf6.get_var_address("MXITER", "SLN_2"))
+    num_fails = 0
+    
+    phreeqc_rm.SetScreenOn(True)
+    # let's do it!
+
+    columns = phreeqc_rm.GetSelectedOutputHeadings()
+    stoutdf = pd.DataFrame(columns = columns)
+
+    while ctime < etime:
+            
+        sol_start = datetime.now()
+        # length of the current solve time
+        dt = mf6.get_time_step()
+        # prep the current time step
+        mf6.prepare_time_step(dt)
+        status = phreeqc_rm.SetTimeStep(dt*86400)
+        kiter = 0
+        # prep to solve
+        mf6.prepare_solve(1)
+        # the one-based stress period number
+        stress_period = mf6.get_value(mf6.get_var_address("KPER", "TDIS"))[0]
+        time_step = mf6.get_value(mf6.get_var_address("KSTP", "TDIS"))[0]
+
+        # array to store transported components
+        print(f'\nGetting concentration arrays --- time step: {time_step} --- elapsed time: {ctime}')
+        mf6_conc_array = [mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) for c in components]
+        c_dbl_vect = flatten_list(mf6_conc_array)
+
+        ### Phreeqc BLOCK
+        if reaction:
+            # if ctime>=0.0:
+            #update phreeqc time and time steps
+            status = phreeqc_rm.SetTime(ctime*86400)
+            print(time_step, ctime)
+            
+            print_selected_output_on = True
+            print_chemistry_on = True
+            status = phreeqc_rm.SetSelectedOutputOn(True)
+            status = phreeqc_rm.SetPrintChemistryOn(print_chemistry_on, False, False) 
+
+            status = phreeqc_rm.SetConcentrations(c_dbl_vect)  
+            message = '\nBeginning reaction calculation               {} days\n'.format(ctime)
+            phreeqc_rm.LogMessage(message)
+            phreeqc_rm.ScreenMessage(message)
+            status = phreeqc_rm.RunCells()
+
+            print(phreeqc_rm.GetTimeStep())
+
+            sout = phreeqc_rm.GetSelectedOutput()
+            sout = [sout[i:i + nxyz] for i in range(0, len(sout), nxyz)]   
+            df = pd.DataFrame(columns = columns)
+            for col, arr in zip(df.columns, sout):
+                df[col] = arr
+            stoutdf = pd.concat([stoutdf, df])
+
+            c_dbl_vect = phreeqc_rm.GetConcentrations()
+
+            
+            conc = [c_dbl_vect[i:i + nxyz] for i in range(0, len(c_dbl_vect), nxyz)]
+            sconc = {}
+            for e, c in enumerate(components):
+                sconc[c] = np.reshape(conc[e], (nlay, nrow, ncol))
+
+        # solve transport until converged
+        for c in components:
+            print(f'\nSolving for component: {c}')
+            while kiter < max_iter:
+                # print(list(mf6_conc_array))
+                # if c == 'Mg':
+                #     mf6.set_value(f'{c.upper()}/X', sconc[c]+0.1)
+                # else:
+                #     mf6.set_value(f'{c.upper()}/X', sconc[c])
+                mf6.set_value(f'{c.upper()}/X', sconc[c])
+                convg = mf6.solve(1)
+                if convg:
+                    td = (datetime.now() - sol_start).total_seconds() / 60.0
+                    print("Transport stress period: {0} --- time step: {1} --- converged with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter,td))
+                    break
+                kiter += 1
+
+        if not convg:
+            td = (datetime.now() - sol_start).total_seconds() / 60.0
+            print("transport stress period {0}, time step {1}, did not converged, {2} iters, took {3:10.5G} mins".format(
+                stress_period, time_step, kiter, td))
+            num_fails += 1
+        try:
+            mf6.finalize_solve(1)
+        except:
+            pass
+        mf6.finalize_time_step()
+        # update the current time tracking
+        ctime = mf6.get_current_time()
+
+    sim_end = datetime.now()
+    td = (sim_end - sim_start).total_seconds() / 60.0
+    print("\n...Reactive transport solution finished at {0} --- it took: {1:10.5G} mins".format(sim_end.strftime(DT_FMT),td))
+    if num_fails > 0:
+        print("...failed to converge {0} times".format(num_fails))
+    print("\n")
+
+    # sout = phreeqc_rm.GetSelectedOutput()
+    # sout = [sout[i:i + nxyz] for i in range(0, len(sout), nxyz)]    
+
+    # columns = phreeqc_rm.GetSelectedOutputHeadings()    
+    # df = pd.DataFrame(columns = columns)
+    # for col, arr in zip(df.columns, sout):
+    #     print(arr)
+    #     df[col] = arr
+
+    stoutdf.to_csv('sout.csv', index=False)
+    mf6.finalize()
+
+    # Clean up
+    status = phreeqc_rm.CloseFiles()
+    status = phreeqc_rm.MpiWorkerBreak()
+
+    print(phreeqc_rm.GetSelectedOutputHeadings())
+
+    return sout
 
 def api_test(dll, sim_ws):
     
+
     mf6 = modflowapi.ModflowApi(dll, working_directory = sim_ws)
     mf6.initialize()
 
@@ -132,6 +430,7 @@ def api_test(dll, sim_ws):
         time_step = mf6.get_value(mf6.get_var_address("KSTP", "TDIS"))[0]
 
         # solve until converged
+
         while kiter < max_iter:
             if ctime == 0.15:
                 val = mf6.get_value(mf6.get_var_address("X", 'SODIUM'))
@@ -162,8 +461,8 @@ def api_test(dll, sim_ws):
         mf6.finalize_time_step()
         # update the current time tracking
         ctime = mf6.get_current_time()
-    # sim = flopy.mf6.MFSimulation.load('engesgaard1992', 'mf6', 'mf6' , os.path.join('model', 'engesgaard1992'))
-    # plot_concentrations(sim)
+
+
     sim_end = datetime.now()
     td = (sim_end - sim_start).total_seconds() / 60.0
     print("\n...transport solution finished at {0}, took: {1:10.5G} mins".format(sim_end.strftime(DT_FMT),td))
@@ -474,7 +773,7 @@ def build_gwt_model(sim_gwf, gwf_name = '1dtest', sp = 'chloride'):
 
     return sim
 
-def build_model(ws = 'model', sim_name = '1dtest', spls = ['chloride']):
+def build_model(ws = 'model', sim_name = '1dtest', spls = ['chloride'], sconc = {'chloride':sconc}, wel_rec = None, wel_comp = None):
 
     ##################### --- GWF model          --- #####################
     gwfname = 'gwf'
@@ -558,7 +857,8 @@ def build_model(ws = 'model', sim_name = '1dtest', spls = ['chloride']):
     wel = flopy.mf6.ModflowGwfwel(
             gwf,
             stress_period_data=wel_rec,
-            auxiliary = 'concentration',
+            # auxiliary = f'concentration',
+            auxiliary = [c for c in wel_comp],
             pname = 'wel',
             filename=f"{gwfname}.wel"
         )
@@ -575,8 +875,10 @@ def build_model(ws = 'model', sim_name = '1dtest', spls = ['chloride']):
     
     ##################### --- GWT model          --- #####################
     for sp in spls:
+        
+        print(f'Setting model for component: {sp}')
         gwtname = sp
-
+        
         # Instantiating MODFLOW 6 groundwater transport package
         gwt = flopy.mf6.MFModel(
             sim,
@@ -624,10 +926,11 @@ def build_model(ws = 'model', sim_name = '1dtest', spls = ['chloride']):
         dis.set_all_data_external()
 
         
-        ic = flopy.mf6.ModflowGwtic(gwt, strt=sconc, filename=f"{gwtname}.ic")
+        ic = flopy.mf6.ModflowGwtic(gwt, strt=sconc[sp], filename=f"{gwtname}.ic")
+        ic.set_all_data_external()
 
         # Instantiating MODFLOW 6 transport source-sink mixing package
-        sourcerecarray = ['wel', 'aux', 'concentration']
+        sourcerecarray = ['wel', 'aux', f'{sp}']
         flopy.mf6.ModflowGwtssm(
             gwt, 
             sources=sourcerecarray, 
@@ -758,7 +1061,7 @@ def plot_heads(sim):
     # print(heads[:, 0, 0,-1], times)
 
 def plot_concentrations(sim):
-    print(f'saving figures for {sim.name}')
+    print(f'Saving figures for simulation: {sim.name}')
     #create figures dir
     figures_dir = 'figures'
 
@@ -768,7 +1071,7 @@ def plot_concentrations(sim):
     mf6_out_path = sim.simulation_data.mfpath.get_sim_path()
     for model_name in list(sim.model_names[1:]):
         gwf = sim.get_model(model_name)
-        print(list(sim.model_names))
+        print(f'Saving figures for component: {model_name}')
         ucn = flopy.utils.HeadFile(os.path.join("model",sim.name,f"{model_name}.ucn"),text="concentration")
         results = ucn.get_alldata()
         # results = gwf.output.concentration().get_alldata()
@@ -799,20 +1102,28 @@ def plot_concentrations(sim):
         fig.savefig(os.path.join(figures_dir,f'{sim.name}_{model_name}_ts.png'), dpi=300, bbox_inches='tight')
         plt.close(fig)
 
+
+
+
     return
 
 if __name__ == "__main__":
+    sim_name = 'engesgaard1992'
+    initsol_com, sconc = init_solution()
+    # print(components, sconc)
+    q = 0.259*1e-5
+    wel_rec = wel_array(q, sconc)
+    components, phreeqc_rm, sconc = initialize_phreeqcrm(sim_name)    
+    # print(initsol_com)
 
-    ##################### --- Setup base GWF model          --- #####################
-    sim = build_model(ws = 'model', sim_name = 'engesgaard1992', spls = ['sodium'])
+    sim = build_model(ws = 'model', sim_name = sim_name, spls = components, sconc=sconc, wel_rec = wel_rec, wel_comp = initsol_com)
 
-    # sim = flopy.mf6.MFSimulation.load('engesgaard1992', 'mf6', 'mf6' , os.path.join('model', 'engesgaard1992'))
-    # run_model(sim)
     sim_ws = Path("model/engesgaard1992/")
     dll = Path("bin/win/libmf6")
-    api_test(dll, sim_ws)
-    # print('saving figures')
-    # run_model(sim)
-    
-    # plot_heads(sim)
+
+    sout = mf6rtm_api_test(dll, sim_ws, components=components, phreeqc_rm=phreeqc_rm)
+    # sout.to_csv('sout.csv', index=False)
+    print(sout)
+    # print(sout, len(sout), sout.shape)
+    plot_heads(sim)
     plot_concentrations(sim)
