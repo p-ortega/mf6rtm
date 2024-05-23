@@ -3,15 +3,15 @@ Solution 1
  units mol/L 
 C(+4) 1.23e-4
 Ca 1.23e-4
-Cl 0.0
-Mg 0.0
+Cl 1e-18
+Mg 1e-18
 pH 9.91
 pe 4
 end 
 Solution 2 
  units mol/L 
-C(+4) 0.0
-Ca 0.0
+C(+4) 1e-18
+Ca 1e-18
 Cl 2e-3
 Mg 1e-3
 pH 7.0

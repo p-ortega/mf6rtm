@@ -66,8 +66,8 @@
   T F F F F F                                                                                                                                                                                            
  MAJOR STRESS COMPONENTS PRESENT IN THE FLOW MODEL:
   o WELL [WEL]
- MAXIMUM NUMBER OF POINT SINKS/SOURCES =      48
-        624 ELEMENTS OF THE  X ARRAY USED BY THE SSM PACKAGE
+ MAXIMUM NUMBER OF POINT SINKS/SOURCES =      72
+        936 ELEMENTS OF THE  X ARRAY USED BY THE SSM PACKAGE
           0 ELEMENTS OF THE IX ARRAY BY THE SSM PACKAGE
 
  GCG5 -- GENERALIZED CONJUGATE GRADIENT SOLVER PACKAGE, VERSION 5, FEBRUARY 2010 INPUT READ FROM UNIT 45
@@ -79,7 +79,7 @@
         120 ELEMENTS OF THE IX ARRAY USED BY THE GCG PACKAGE
 
  ..........................................
- ELEMENTS OF THE  X ARRAY USED =      2869
+ ELEMENTS OF THE  X ARRAY USED =      3181
  ELEMENTS OF THE IX ARRAY USED =       172
  ..........................................
 
@@ -163,7 +163,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD  1
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -206,13 +207,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD   1
-     1 TOTAL ITERATIONS
+     7 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD   1
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.8626E-01 (  1,  1,  1)  0.2435E-04 (  1,  1,  2)   0.000     (  1,  1,  1)
 
 
 
@@ -232,14 +233,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.1217946E-33
+                                                WELLS:   0.2590000E-05                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.2590000E-05
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.2590000E-05  0           -0.2590000E-05  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.2273737E-12
+                                                   DISCREPANCY (PERCENT):   0.8778907E-05
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -258,7 +259,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD  2
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -301,13 +303,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD   2
-     1 TOTAL ITERATIONS
+     8 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD   2
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.6955E-01 (  1,  1,  1)  0.1043E-04 (  1,  1,  3)   0.000     (  1,  1,  1)
 
 
 
@@ -327,14 +329,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.1082539E-31
+                                                WELLS:   0.5180000E-05                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.5179999E-05
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.5180000E-05  0           -0.5179999E-05  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.9094947E-12
+                                                   DISCREPANCY (PERCENT):   0.1755781E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -353,7 +355,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD  3
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -396,13 +399,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD   3
-     1 TOTAL ITERATIONS
+     8 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD   3
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.6599E-01 (  1,  1,  1)  0.5931E-05 (  1,  1,  4)   0.000     (  1,  1,  1)
 
 
 
@@ -422,14 +425,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.4638949E-30
+                                                WELLS:   0.7769998E-05                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.7769997E-05
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.7769998E-05  0           -0.7769997E-05  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.9094947E-12
+                                                   DISCREPANCY (PERCENT):   0.1170521E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -448,7 +451,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD  4
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -491,13 +495,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD   4
-     1 TOTAL ITERATIONS
+     8 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD   4
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.6464E-01 (  1,  1,  1)  0.4768E-05 (  1,  1,  2)   0.000     (  1,  1,  1)
 
 
 
@@ -517,14 +521,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.1310382E-28
+                                                WELLS:   0.1036000E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.1036000E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.1036000E-04  0           -0.1036000E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.1818989E-11
+                                                   DISCREPANCY (PERCENT):   0.1755782E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -543,7 +547,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD  5
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -586,13 +591,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD   5
-     1 TOTAL ITERATIONS
+     7 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD   5
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.6400E-01 (  1,  1,  1)  0.3576E-05 (  1,  1,  2)   0.000     (  1,  1,  1)
 
 
 
@@ -612,14 +617,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.2753891E-27
+                                                WELLS:   0.1295000E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.1295000E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.1295000E-04  0           -0.1295000E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.9094947E-12
+                                                   DISCREPANCY (PERCENT):   0.7023127E-05
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -638,7 +643,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD  6
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -681,13 +687,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD   6
-     1 TOTAL ITERATIONS
+     8 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD   6
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.6262E-01 (  1,  1,  1)  0.2623E-05 (  1,  1,  3)   0.000     (  1,  1,  1)
 
 
 
@@ -707,14 +713,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.4597280E-26
+                                                WELLS:   0.1554000E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.1553999E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.1554000E-04  0           -0.1553999E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.3637979E-11
+                                                   DISCREPANCY (PERCENT):   0.2341043E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -733,7 +739,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD  7
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -776,13 +783,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD   7
-     1 TOTAL ITERATIONS
+     7 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD   7
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.6148E-01 (  1,  1,  1)  0.2086E-05 (  1,  1,  3)   0.000     (  1,  1,  1)
 
 
 
@@ -802,14 +809,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.6347232E-25
+                                                WELLS:   0.1813000E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.1812999E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.1813000E-04  0           -0.1812999E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.5456968E-11
+                                                   DISCREPANCY (PERCENT):   0.3009912E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -828,7 +835,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD  8
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -871,13 +879,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD   8
-     1 TOTAL ITERATIONS
+     7 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD   8
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.6077E-01 (  1,  1,  1)  0.1848E-05 (  1,  1,  4)   0.000     (  1,  1,  1)
 
 
 
@@ -897,14 +905,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.7452982E-24
+                                                WELLS:   0.2072000E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.2071999E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.2072000E-04  0           -0.2071999E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.5456968E-11
+                                                   DISCREPANCY (PERCENT):   0.2633673E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -923,7 +931,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD  9
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -966,13 +975,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD   9
-     1 TOTAL ITERATIONS
+     7 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD   9
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.6032E-01 (  1,  1,  1)  0.1609E-05 (  1,  1,  5)   0.000     (  1,  1,  1)
 
 
 
@@ -992,14 +1001,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.7595302E-23
+                                                WELLS:   0.2330999E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.2330999E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.2330999E-04  0           -0.2330999E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.7275958E-11
+                                                   DISCREPANCY (PERCENT):   0.3121390E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1018,7 +1027,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD 10
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -1061,13 +1071,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD  10
-     1 TOTAL ITERATIONS
+     7 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD  10
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.6002E-01 (  1,  1,  1)  0.1431E-05 (  1,  1,  5)   0.000     (  1,  1,  1)
 
 
 
@@ -1087,14 +1097,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.6822241E-22
+                                                WELLS:   0.2590000E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.2589999E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.2590000E-04  0           -0.2589999E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.9094947E-11
+                                                   DISCREPANCY (PERCENT):   0.3511564E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1113,7 +1123,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD 11
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -1156,13 +1167,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD  11
-     1 TOTAL ITERATIONS
+     7 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD  11
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.5982E-01 (  1,  1,  1)  0.1311E-05 (  1,  1,  6)   0.000     (  1,  1,  1)
 
 
 
@@ -1182,14 +1193,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.5466845E-21
+                                                WELLS:   0.2848999E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.2848998E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.2848999E-04  0           -0.2848998E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.1091394E-10
+                                                   DISCREPANCY (PERCENT):   0.3830797E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1208,7 +1219,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD 12
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -1251,13 +1263,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD  12
-     1 TOTAL ITERATIONS
+     7 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD  12
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.5969E-01 (  1,  1,  1)  0.1192E-05 (  1,  1,  7)   0.000     (  1,  1,  1)
 
 
 
@@ -1277,14 +1289,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.3946533E-20
+                                                WELLS:   0.3107999E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.3107998E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.3107999E-04  0           -0.3107998E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.1091394E-10
+                                                   DISCREPANCY (PERCENT):   0.3511564E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1303,7 +1315,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD 13
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -1346,13 +1359,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD  13
-     1 TOTAL ITERATIONS
+     7 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD  13
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.5959E-01 (  1,  1,  1)  0.1073E-05 (  1,  1,  7)   0.000     (  1,  1,  1)
 
 
 
@@ -1372,14 +1385,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.2587363E-19
+                                                WELLS:   0.3366999E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.3366998E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.3366999E-04  0           -0.3366998E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.1091394E-10
+                                                   DISCREPANCY (PERCENT):   0.3241444E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1398,7 +1411,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD 14
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -1441,13 +1455,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD  14
-     1 TOTAL ITERATIONS
+     7 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD  14
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.5953E-01 (  1,  1,  1)  0.1013E-05 (  1,  1,  8)   0.000     (  1,  1,  1)
 
 
 
@@ -1467,14 +1481,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.1550926E-18
+                                                WELLS:   0.3625999E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.3625998E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.3625999E-04  0           -0.3625998E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.7275958E-11
+                                                   DISCREPANCY (PERCENT):   0.2006608E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1493,7 +1507,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD 15
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -1536,13 +1551,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD  15
-     1 TOTAL ITERATIONS
+     7 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD  15
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.5948E-01 (  1,  1,  1)  0.9090E-06 (  1,  1, 16)   0.000     (  1,  1,  1)
 
 
 
@@ -1562,14 +1577,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.8548861E-18
+                                                WELLS:   0.3884999E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.3884998E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.3884999E-04  0           -0.3884998E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.7275958E-11
+                                                   DISCREPANCY (PERCENT):   0.1872834E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1588,7 +1603,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD 16
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -1631,13 +1647,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD  16
-     1 TOTAL ITERATIONS
+     6 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD  16
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.5945E-01 (  1,  1,  1)  0.8494E-06 (  1,  1, 17)   0.000     (  1,  1,  1)
 
 
 
@@ -1657,14 +1673,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.4354728E-17
+                                                WELLS:   0.4143999E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.4143998E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.4143999E-04  0           -0.4143998E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.7275958E-11
+                                                   DISCREPANCY (PERCENT):   0.1755782E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1683,7 +1699,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD 17
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -1726,13 +1743,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD  17
-     1 TOTAL ITERATIONS
+     6 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD  17
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.5943E-01 (  1,  1,  1)  0.8345E-06 (  1,  1, 10)   0.000     (  1,  1,  1)
 
 
 
@@ -1752,14 +1769,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.2058870E-16
+                                                WELLS:   0.4402999E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.4402998E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.4402999E-04  0           -0.4402998E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.1091394E-10
+                                                   DISCREPANCY (PERCENT):   0.2478751E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1778,7 +1795,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD 18
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -1821,13 +1839,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD  18
-     1 TOTAL ITERATIONS
+     6 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD  18
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.5941E-01 (  1,  1,  1)  0.7749E-06 (  1,  1, 11)   0.000     (  1,  1,  1)
 
 
 
@@ -1847,14 +1865,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.9069256E-16
+                                                WELLS:   0.4661999E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.4661997E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.4661999E-04  0           -0.4661997E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.1091394E-10
+                                                   DISCREPANCY (PERCENT):   0.2341043E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1873,7 +1891,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD 19
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -1916,13 +1935,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD  19
-     1 TOTAL ITERATIONS
+     6 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD  19
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.5940E-01 (  1,  1,  1)  0.7153E-06 (  1,  1, 11)   0.000     (  1,  1,  1)
 
 
 
@@ -1942,14 +1961,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.3734840E-15
+                                                WELLS:   0.4920999E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.4920998E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.4920999E-04  0           -0.4920998E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.1091394E-10
+                                                   DISCREPANCY (PERCENT):   0.2217830E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1968,7 +1987,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD 20
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -2011,13 +2031,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD  20
-     1 TOTAL ITERATIONS
+     6 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD  20
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.5940E-01 (  1,  1,  1)  0.6706E-06 (  1,  1, 21)   0.000     (  1,  1,  1)
 
 
 
@@ -2037,14 +2057,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.1442335E-14
+                                                WELLS:   0.5179999E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.5179998E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.5179999E-04  0           -0.5179998E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.1091394E-10
+                                                   DISCREPANCY (PERCENT):   0.2106938E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2063,7 +2083,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD 21
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -2106,13 +2127,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD  21
-     1 TOTAL ITERATIONS
+     6 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD  21
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.5939E-01 (  1,  1,  1)  0.6557E-06 (  1,  1, 12)   0.000     (  1,  1,  1)
 
 
 
@@ -2132,14 +2153,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.5238049E-14
+                                                WELLS:   0.5438998E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.5438998E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.5438998E-04  0           -0.5438998E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.7275958E-11
+                                                   DISCREPANCY (PERCENT):   0.1337739E-04
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2158,7 +2179,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD 22
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -2201,13 +2223,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD  22
-     1 TOTAL ITERATIONS
+     6 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD  22
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.5939E-01 (  1,  1,  1)  0.6109E-06 (  1,  1, 23)   0.000     (  1,  1,  1)
 
 
 
@@ -2227,14 +2249,14 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.1793495E-13
+                                                WELLS:   0.5697998E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.5697998E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.5697998E-04  0           -0.5697998E-04  0  
 
-                                                          NET (IN - OUT):    0.000000    
-                                                   DISCREPANCY (PERCENT):    0.000000    
+                                                          NET (IN - OUT):   0.3637979E-11
+                                                   DISCREPANCY (PERCENT):   0.6384661E-05
 
 
                                    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2253,7 +2275,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD 23
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -2296,13 +2319,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD  23
-     1 TOTAL ITERATIONS
+     6 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD  23
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.5938E-01 (  1,  1,  1)  0.5960E-06 (  1,  1, 14)   0.000     (  1,  1,  1)
 
 
 
@@ -2322,11 +2345,11 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.5803528E-13
+                                                WELLS:   0.5956999E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.5956999E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.5956999E-04  0           -0.5956999E-04  0  
 
                                                           NET (IN - OUT):    0.000000    
                                                    DISCREPANCY (PERCENT):    0.000000    
@@ -2348,7 +2371,8 @@
  MULTIPLIER FOR SUCCESSIVE TRANSPORT STEPS  [USED IN IMPLICIT SCHEMES] =     1.000
  MAXIMUM TRANSPORT STEP SIZE  [USED IN IMPLICIT SCHEMES] =   1.000000        
 
- NO. OF POINT SINKS/SOURCES OF SPECIFIED CONCONCENTRATIONS =    0 IN STRESS PERIOD 24
+       NO    LAYER   ROW   COLUMN   CONCENTRATION       TYPE            COMPONENT
+       1       1       1       1      0.1000000E-02     WELL                1
 
 
                                           ================================================
@@ -2391,13 +2415,13 @@
 
 
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   1 IN FLOW TIME STEP   1 STRESS PERIOD  24
-     1 TOTAL ITERATIONS
+     6 TOTAL ITERATIONS
      1 CALLS TO GCG PACKAGE FOR TRANSPORT TIME STEP   2 IN FLOW TIME STEP   1 STRESS PERIOD  24
-     1 TOTAL ITERATIONS
+     3 TOTAL ITERATIONS
   MAXIMUM CONCENTRATION CHANGES FOR EACH ITERATION:
   MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL MAX. CHANGE LAYER,ROW,COL
  ------------------------------------------------------------------------------------------------------------------------------------
-    0.000     (  1,  1,  1)
+   0.5938E-01 (  1,  1,  1)  0.5960E-06 (  1,  1, 15)   0.000     (  1,  1,  1)
 
 
 
@@ -2417,11 +2441,11 @@
                                                              IN                           OUT
                                                       ----------------             ----------------
                                CONSTANT CONCENTRATION:    0.000000                    0.000000    
-                                        CONSTANT HEAD:    0.000000                    0.000000    
-                                                WELLS:    0.000000                    0.000000    
-                                MASS STORAGE (SOLUTE):    0.000000                    0.000000    
+                                        CONSTANT HEAD:    0.000000                  -0.1778733E-12
+                                                WELLS:   0.6215998E-04                0.000000    
+                                MASS STORAGE (SOLUTE):    0.000000                  -0.6215998E-04
                             ---------------------------------------------------------------------------
-                                              [TOTAL]:    0.000000      0             0.000000      0  
+                                              [TOTAL]:   0.6215998E-04  0           -0.6215998E-04  0  
 
                                                           NET (IN - OUT):    0.000000    
                                                    DISCREPANCY (PERCENT):    0.000000    

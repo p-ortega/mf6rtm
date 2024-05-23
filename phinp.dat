@@ -1,13 +1,13 @@
 SOLUTION 1 # [K,I,J] = 1,1,1
 	units mol/kgw
 	water 1.0
-	temp 2.500000e+001
-	pH 9.910000e+000  # comp 5
+	temp 25
+	pH 9.91  # comp 5
 	pe 4.000000e+000  # comp 6
 	C(4) 1.230000e-004  # comp 1
 	Ca 1.230000e-004  # comp 2
-	Cl 0.0000001e+000  # comp 3
-	Mg 0.000001e+000  # comp 4
+	Cl 1e-18  # comp 3
+	Mg 1e-18  # comp 4
 
 END
 EQUILIBRIUM_PHASES 1
@@ -20,20 +20,7 @@ END
 PRINT
 	-reset false
 END
-# Start of contents postfix.phrq
-SOLUTION_SPECIES
-	H2O + 0.01e- = H2O-0.01
-	log_k  -9
 
-
-INCREMENTAL_REACTIONS True
-
-KNOBS
-	-convergence_tolerance 1e-8
-	-tolerance 1e-13
-	-step_size 1.25
-	-diagonal_scale true
-	-iterations 500
 
 SELECTED_OUTPUT
 -reset         false

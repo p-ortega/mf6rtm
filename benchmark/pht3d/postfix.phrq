@@ -19,11 +19,12 @@ SELECTED_OUTPUT
 
 USER_PUNCH
 
--headings  time_d cell pH pe Ca Cl C4 Mg Calcite Dolomite
+-headings  time_d cell pH H pe Ca Cl C4 Mg Calcite Dolomite
 1    PUNCH sim_time/86400
 2    PUNCH cell_no
 4    PUNCH -LA("H+")
-5    PUNCH -LA("e-")
+5	 PUNCH TOTMOLE("H")
+6    PUNCH -LA("e-")
 7   PUNCH TOT("Ca")
 9   PUNCH TOT("Cl")
 10   PUNCH TOT("C(+4)")
