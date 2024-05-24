@@ -329,8 +329,8 @@ def mf6rtm_api_test(dll, sim_ws, phreeqc_rm, components, reaction = True):
     num_fails = 0
     
     phreeqc_rm.SetScreenOn(True)
-    columns = phreeqc_rm.GetSelectedOutputHeadings()
-    stoutdf = pd.DataFrame(columns = columns)
+    sout_columns = phreeqc_rm.GetSelectedOutputHeadings()
+    soutdf = pd.DataFrame(columns = sout_columns)
 
     results = []
     # let's do it!
@@ -381,11 +381,15 @@ def mf6rtm_api_test(dll, sim_ws, phreeqc_rm, components, reaction = True):
 
             #selected ouput
             sout = phreeqc_rm.GetSelectedOutput()
-            sout = [sout[i:i + nxyz] for i in range(0, len(sout), nxyz)]   
-            df = pd.DataFrame(columns = columns)
+            sout = [sout[i:i + nxyz] for i in range(0, len(sout), nxyz)]
+
+            #add time to selected ouput
+            sout[0] = np.ones_like(sout[0])*(ctime+dt) #TODO: generalize
+
+            df = pd.DataFrame(columns = sout_columns)
             for col, arr in zip(df.columns, sout):
                 df[col] = arr
-            stoutdf = pd.concat([stoutdf, df])
+            soutdf = pd.concat([soutdf, df])
 
             #TODO: merge the next two loops into one
             # Get concentrations from phreeqc 
@@ -437,7 +441,7 @@ def mf6rtm_api_test(dll, sim_ws, phreeqc_rm, components, reaction = True):
     print("\n")
 
     #save selected ouput to csv
-    stoutdf.to_csv('sout.csv', index=False)
+    soutdf.to_csv('sout.csv', index=False)
 
     # Clean up and close api objs
     status = phreeqc_rm.CloseFiles()
