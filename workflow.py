@@ -1330,7 +1330,7 @@ if __name__ == "__main__":
     # plot_concentrations(sim)
 
     sim_name = 'engesgaard1992api'
-    sim = build_model(ws = 'model', sim_name = sim_name, spls = components, 
+    sim = build_model(ws = 'model', sim_name = sim_name, comps = components, 
                       sconc=sconc, wel_rec=wel_rec, init_comp=sconc_init)
     sim_ws = Path(f"model/{sim_name}/")
     dll = Path("bin/win/libmf6")

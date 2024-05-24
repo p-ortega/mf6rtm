@@ -29,7 +29,7 @@ SELECTED_OUTPUT
 
 USER_PUNCH
 
--headings  time_d tstep cell pH pe Ca Cl C4 Mg Calcite Dolomite
+-headings  time_d cell tstep pH pe Ca Cl C4 Mg Calcite Dolomite
 1    PUNCH sim_time/86400
 2    PUNCH cell_no
 3 	 PUNCH STEP_NO
