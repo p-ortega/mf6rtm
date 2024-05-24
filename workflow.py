@@ -7,6 +7,7 @@ import sys
 import warnings
 warnings.filterwarnings("ignore")
 warnings.filterwarnings("ignore", category=DeprecationWarning)
+from PIL import Image
 
 import pandas as pd
 import numpy as np
@@ -27,6 +28,8 @@ from time import sleep
 from flopy.utils.gridintersect import GridIntersect
 from datetime import datetime
 import matplotlib.pyplot as plt
+
+
 
 DT_FMT = "%Y-%m-%d %H:%M:%S"
 
@@ -91,6 +94,30 @@ tdis_rc.append((perlen, nstp, 1.0))
 chdspd = [
           [(0, 0, ncol - 1), 1.]
           ]
+
+def mrbeaker():
+    # Load the image of Mr. Beaker
+    mr_beaker_image = Image.open("mrbeaker.png")
+
+    # Resize the image to fit the terminal width
+    terminal_width = 80  # Adjust this based on your terminal width
+    aspect_ratio = mr_beaker_image.width / mr_beaker_image.height
+    terminal_height = int(terminal_width / aspect_ratio*0.5)
+    mr_beaker_image = mr_beaker_image.resize((terminal_width, terminal_height))
+
+    # Convert the image to grayscale
+    mr_beaker_image = mr_beaker_image.convert("L")
+
+    # Convert the grayscale image to ASCII art
+    ascii_chars = "%,.?>#*+=-:."
+
+    mrbeaker = ""
+    for y in range(int(mr_beaker_image.height)):
+        for x in range(int(mr_beaker_image.width)):
+            pixel_value = mr_beaker_image.getpixel((x, y))
+            mrbeaker += ascii_chars[pixel_value // 64]
+        mrbeaker += "\n"
+    return mrbeaker
 
 def concentration_l_to_m3(x):
     '''Convert M/L to M/m3
@@ -308,6 +335,10 @@ def mf6rtm_api_test(dll, sim_ws, phreeqc_rm, components, reaction = True):
     components (iterable): iterable with names of the components to transport
     reaction (bool): to indicate wether to invoke phreeqcrm or not. Default is True
     """
+    print('\n-----------------------------  WELCOME TO  MUPin3D -----------------------------\n')
+    print(mrbeaker())
+    print('\nTake your time to appreciate MR BEAKER!')
+    sleep(5)
 
     mf6 = modflowapi.ModflowApi(dll, working_directory = sim_ws)
     mf6.initialize()
@@ -1319,31 +1350,31 @@ def build_mt3dms_model(sim_name, ws, dispersivity=dispersivity, mixelm=mixelm, s
 if __name__ == "__main__":
     ##### Set up stuff #####
     sim_name = 'engesgaard1992api'
-    initsol_components, sconc_init = init_solution(init_file = 'initsol.dat')
-    q = 0.259
-    wel_rec = wel_array(q, sconc_init, aux = True)
+    # initsol_components, sconc_init = init_solution(init_file = 'initsol.dat')
+    # q = 0.259
+    # wel_rec = wel_array(q, sconc_init, aux = True)
     components, phreeqc_rm, sconc = initialize_phreeqcrm(sim_name)    
 
-    ##### Run API Benchmarks #####
-    sim = build_model(ws = 'benchmark', sim_name = sim_name, comps = components, 
-                      sconc=sconc, wel_rec=wel_rec, init_comp=sconc_init)
+    # ##### Run API Benchmarks #####
+    # sim = build_model(ws = 'benchmark', sim_name = sim_name, comps = components, 
+    #                   sconc=sconc, wel_rec=wel_rec, init_comp=sconc_init)
     sim_ws = Path(f"benchmark/{sim_name}/")
     dll = Path("bin/win/libmf6")
     results = mf6rtm_api_test(dll, sim_ws, components=components, phreeqc_rm=phreeqc_rm, reaction = True)
 
     ##### Transport Benchmarks #####
-    sim_name = 'mt3dms'
-    ws = os.path.join('benchmark')
-    mf, mt = build_mt3dms_model(sim_name, ws = ws)
-    run_mt3dms(mt)
+    # sim_name = 'mt3dms'
+    # ws = os.path.join('benchmark')
+    # mf, mt = build_mt3dms_model(sim_name, ws = ws)
+    # run_mt3dms(mt)
 
-    sim_name = 'mf6gwt'
-    ws = os.path.join('benchmark')
-    sim = build_model(ws = ws, sim_name = sim_name)
-    run_mf6(sim)
+    # sim_name = 'mf6gwt'
+    # ws = os.path.join('benchmark')
+    # sim = build_model(ws = ws, sim_name = sim_name)
+    # run_mf6(sim)
 
-    sim_name = 'mf6gwtapi'
-    ws = os.path.join('benchmark')
-    sim = build_model(ws = ws, sim_name = sim_name)
-    sim_ws = Path(f"benchmark/{sim_name}/")
-    results = api_test(dll, sim_ws)
+    # sim_name = 'mf6gwtapi'
+    # ws = os.path.join('benchmark')
+    # sim = build_model(ws = ws, sim_name = sim_name)
+    # sim_ws = Path(f"benchmark/{sim_name}/")
+    # results = api_test(dll, sim_ws)
