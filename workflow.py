@@ -1323,7 +1323,7 @@ if __name__ == "__main__":
     ##### Run API Benchmarks #####
     sim = build_model(ws = 'benchmark', sim_name = sim_name, comps = components, 
                       sconc=sconc, wel_rec=wel_rec, init_comp=sconc_init)
-    sim_ws = Path(f"model/{sim_name}/")
+    sim_ws = Path(f"benchmark/{sim_name}/")
     dll = Path("bin/win/libmf6")
     results = mf6rtm_api_test(dll, sim_ws, components=components, phreeqc_rm=phreeqc_rm, reaction = True)
 
