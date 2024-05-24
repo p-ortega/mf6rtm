@@ -2,7 +2,7 @@
 Testing and piloting MF6RTM 
 
 ## Software requirements
-All dependencies and executables are included in this repo. To install the environment to run this test just type in conda
+All dependencies and executables are included in this repo. To run this test I recommend creating the environment by typing in conda
 
 ```commandline
 conda env create -f env.yml
