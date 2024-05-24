@@ -1313,45 +1313,33 @@ def build_mt3dms_model(sim_name, ws, dispersivity=dispersivity, mixelm=mixelm, s
     return mf, mt
 
 if __name__ == "__main__":
-    sim_name = 'engesgaard1992'
+    ##### Set up stuff #####
+    sim_name = 'engesgaard1992api'
     initsol_components, sconc_init = init_solution(init_file = 'initsol.dat')
-
     q = 0.259
     wel_rec = wel_array(q, sconc_init, aux = True)
     components, phreeqc_rm, sconc = initialize_phreeqcrm(sim_name)    
 
-    
-    # sim = build_model(ws = 'model', sim_name = sim_name, spls = components, 
-    #                   sconc=sconc, wel_rec=wel_rec, init_comp=sconc_init)
-
-
-    # run_mf6(sim)
-    # plot_heads(sim)
-    # plot_concentrations(sim)
-
-    sim_name = 'engesgaard1992api'
+    ##### Run API Benchmarks #####
     sim = build_model(ws = 'model', sim_name = sim_name, comps = components, 
                       sconc=sconc, wel_rec=wel_rec, init_comp=sconc_init)
     sim_ws = Path(f"model/{sim_name}/")
     dll = Path("bin/win/libmf6")
     results = mf6rtm_api_test(dll, sim_ws, components=components, phreeqc_rm=phreeqc_rm, reaction = True)
 
-    # plot_heads(sim, prefix = 'api')
-    # plot_concentrations(sim, prefix = 'api')
-
     ##### Transport Benchmarks #####
-    # sim_name = 'mt3dms'
-    # ws = os.path.join('benchmark')
-    # mf, mt = build_mt3dms_model(sim_name, ws = ws)
-    # run_mt3dms(mt)
+    sim_name = 'mt3dms'
+    ws = os.path.join('benchmark')
+    mf, mt = build_mt3dms_model(sim_name, ws = ws)
+    run_mt3dms(mt)
 
-    # sim_name = 'mf6gwt'
-    # ws = os.path.join('benchmark')
-    # sim = build_model(ws = ws, sim_name = sim_name)
-    # run_mf6(sim)
+    sim_name = 'mf6gwt'
+    ws = os.path.join('benchmark')
+    sim = build_model(ws = ws, sim_name = sim_name)
+    run_mf6(sim)
 
-    # sim_name = 'mf6gwtapi'
-    # ws = os.path.join('benchmark')
-    # sim = build_model(ws = ws, sim_name = sim_name)
-    # sim_ws = Path(f"benchmark/{sim_name}/")
-    # results = api_test(dll, sim_ws)
+    sim_name = 'mf6gwtapi'
+    ws = os.path.join('benchmark')
+    sim = build_model(ws = ws, sim_name = sim_name)
+    sim_ws = Path(f"benchmark/{sim_name}/")
+    results = api_test(dll, sim_ws)
