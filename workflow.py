@@ -1321,7 +1321,7 @@ if __name__ == "__main__":
     components, phreeqc_rm, sconc = initialize_phreeqcrm(sim_name)    
 
     ##### Run API Benchmarks #####
-    sim = build_model(ws = 'model', sim_name = sim_name, comps = components, 
+    sim = build_model(ws = 'benchmark', sim_name = sim_name, comps = components, 
                       sconc=sconc, wel_rec=wel_rec, init_comp=sconc_init)
     sim_ws = Path(f"model/{sim_name}/")
     dll = Path("bin/win/libmf6")

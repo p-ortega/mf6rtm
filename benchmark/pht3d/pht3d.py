@@ -1,8 +1,0 @@
-C_4 = loadtxt('PHT3D001.ACN')
-Ca = loadtxt('PHT3D002.ACN')
-Cl = loadtxt('PHT3D003.ACN')
-Mg = loadtxt('PHT3D004.ACN')
-pH = loadtxt('PHT3D005.ACN')
-pe = loadtxt('PHT3D006.ACN')
-Calcite = loadtxt('PHT3D007.ACN')
-Dolomite = loadtxt('PHT3D008.ACN')
