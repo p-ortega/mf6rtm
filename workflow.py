@@ -139,7 +139,7 @@ def init_solution(nthreads = 1, init_file = 'initsol.dat'):
     '''
     nxyz = 1
     phreeqc_rm = phreeqcrm.PhreeqcRM(nxyz, nthreads)
-    status = phreeqc_rm.SetComponentH2O(True)
+    status = phreeqc_rm.SetComponentH2O(False)
     phreeqc_rm.UseSolutionDensityVolume(False)
     status = phreeqc_rm.SetFilePrefix('initsol')
     phreeqc_rm.OpenFiles()
@@ -147,7 +147,7 @@ def init_solution(nthreads = 1, init_file = 'initsol.dat'):
     status = phreeqc_rm.SetUnitsSolution(2) 
 
           
-    poro = np.full((nxyz), prsity)
+    poro = np.full((nxyz), 1.)
     status = phreeqc_rm.SetPorosity(poro)
     print_chemistry_mask = np.full((nxyz), 1)
     status = phreeqc_rm.SetPrintChemistryMask(print_chemistry_mask)
@@ -206,8 +206,8 @@ def initialize_phreeqcrm(sim_name, nthreads = 1, init_file = 'phinp.dat'):
 
     nxyz = nlay*nrow*ncol
     phreeqc_rm = phreeqcrm.PhreeqcRM(nxyz, nthreads)
-    status = phreeqc_rm.SetComponentH2O(True)
-    phreeqc_rm.UseSolutionDensityVolume(True)
+    status = phreeqc_rm.SetComponentH2O(False)
+    phreeqc_rm.UseSolutionDensityVolume(False)
 
     status = phreeqc_rm.SetFilePrefix(sim_name)
 
@@ -217,7 +217,7 @@ def initialize_phreeqcrm(sim_name, nthreads = 1, init_file = 'phinp.dat'):
     status = phreeqc_rm.SetUnitsSolution(2) 
 
           
-    poro = np.full((nxyz), prsity)
+    poro = np.full((nxyz), 1.)
     status = phreeqc_rm.SetPorosity(poro)
     print_chemistry_mask = np.full((nxyz), 1)
     status = phreeqc_rm.SetPrintChemistryMask(print_chemistry_mask)
@@ -1308,7 +1308,7 @@ if __name__ == "__main__":
     sim_ws = Path(f"model/{sim_name}/")
     dll = Path("bin/win/libmf6")
     print(components)
-    results = mf6rtm_api_test(dll, sim_ws, components=components, phreeqc_rm=phreeqc_rm, reaction = False)
+    results = mf6rtm_api_test(dll, sim_ws, components=components, phreeqc_rm=phreeqc_rm, reaction = True)
     # print(results)
 
     # plot_heads(sim, prefix = 'api')

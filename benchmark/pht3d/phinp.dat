@@ -49,7 +49,7 @@ USER_PUNCH
 6    PUNCH -LA("e-")
 7   PUNCH TOT("Ca")
 9   PUNCH TOT("Cl")
-10   PUNCH TOT("C(+4)")
+10   PUNCH TOT("C(4)")
 13   PUNCH TOT("Mg")
 30   PUNCH EQUI("Calcite")
 31   PUNCH EQUI("Dolomite")
