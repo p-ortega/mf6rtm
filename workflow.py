@@ -5,6 +5,8 @@ import os
 import shutil
 import sys
 import warnings
+
+import mf6rtm.mf6rtm
 warnings.filterwarnings("ignore")
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 from PIL import Image
@@ -29,7 +31,7 @@ from flopy.utils.gridintersect import GridIntersect
 from datetime import datetime
 import matplotlib.pyplot as plt
 
-
+import mf6rtm
 
 DT_FMT = "%Y-%m-%d %H:%M:%S"
 
@@ -38,7 +40,7 @@ DT_FMT = "%Y-%m-%d %H:%M:%S"
 nper = 1  # Number of periods
 nlay = 1  # Number of layers
 Lx = 0.5 #m
-ncol = 50  # Number of columns
+ncol = 50 # Number of columns
 nrow = 1  # Number of rows
 delr = Lx/ncol #10.0  # Column width ($m$)
 delc = 1.0  # Row width ($m$)
@@ -55,6 +57,9 @@ nstp = perlen/tstep #100.0
 dt0 = perlen / nstp
 
 v = 0.24
+# flow_vx = 0.259/(1*1)
+# courant = 0.75
+# tstep = delr*courant/flow_vx
 
 strt = np.zeros((nlay, nrow, ncol), dtype=float)
 strt[0, 0, :] = 1  # Starting head ($m$)
@@ -240,7 +245,7 @@ def init_solution(nthreads = 1, init_file = 'initsol.dat'):
 
     return components, sconc
 
-def initialize_phreeqcrm(sim_name, nthreads = 1, init_file = 'phinp.dat'):
+def initialize_phreeqcrm_local(sim_name, nthreads = 1, init_file = 'phinp.dat'):
     '''Initialize a solution with phreeqcrm and returns a dictionary with components as keys and 
         concentration array in moles/m3 as items
     '''
@@ -274,7 +279,7 @@ def initialize_phreeqcrm(sim_name, nthreads = 1, init_file = 'phinp.dat'):
     # Load database
     databasews = os.path.join("database", "pht3d_datab.dat")  #TODO: allow user to choose path/file for dbase
     status = phreeqc_rm.LoadDatabase(databasews)
-    status = phreeqc_rm.RunFile(True, True, True, init_file)
+    status = phreeqc_rm.RunFile(True, True, False, init_file)
 
     # Clear contents of workers and utility
     input = "DELETE; -all"
@@ -289,9 +294,10 @@ def initialize_phreeqcrm(sim_name, nthreads = 1, init_file = 'phinp.dat'):
     phreeqc_rm.OutputMessage("\n")
 
     #TODO: automate this boundary conditions from user inputs
-    ic1 = [-1] * nxyz * 7 
+    ic1 = [1] * nxyz * 7 
     for i in range(nxyz):
-        ic1[i]            =  1  # Solution 1
+        if i>25:
+            ic1[i]            =  2  # Solution 1
         ic1[nxyz + i]     = 1  # Equilibrium phases none
         ic1[2 * nxyz + i] =  -1  # Exchange 1
         ic1[3 * nxyz + i] = -1  # Surface none
@@ -337,8 +343,8 @@ def mf6rtm_api_test(dll, sim_ws, phreeqc_rm, components, reaction = True):
     """
     print('\n-----------------------------  WELCOME TO  MUPin3D -----------------------------\n')
     print(mrbeaker())
-    print('\nTake your time to appreciate MR BEAKER!')
-    sleep(5)
+    # print('\nTake your time to appreciate MR BEAKER!')
+    # sleep(5)
 
     mf6 = modflowapi.ModflowApi(dll, working_directory = sim_ws)
     mf6.initialize()
@@ -789,8 +795,8 @@ def build_gwt_model(sim_gwf, gwf_name = '1dtest', c = 'chloride'):
 
     # Instantiating MODFLOW 6 transport dispersion package
     alpha_l = np.ones(shape=(nlay, nrow, ncol))*dispersivity # Longitudinal dispersivity ($m$)
-    alpha_th = np.ones(shape=(nlay, nrow, ncol))*1  # Transverse horizontal dispersivity ($m$)
-    alpha_tv = np.ones(shape=(nlay, nrow, ncol))*1  # Transverse vertical dispersivity ($m$)
+    alpha_th = np.ones(shape=(nlay, nrow, ncol))*0.1  # Transverse horizontal dispersivity ($m$)
+    alpha_tv = np.ones(shape=(nlay, nrow, ncol))*0.1  # Transverse vertical dispersivity ($m$)
 
 
     print('--- Building DSP package ---')
@@ -1350,17 +1356,18 @@ def build_mt3dms_model(sim_name, ws, dispersivity=dispersivity, mixelm=mixelm, s
 if __name__ == "__main__":
     ##### Set up stuff #####
     sim_name = 'engesgaard1992api'
-    # initsol_components, sconc_init = init_solution(init_file = 'initsol.dat')
-    # q = 0.259
-    # wel_rec = wel_array(q, sconc_init, aux = True)
-    components, phreeqc_rm, sconc = initialize_phreeqcrm(sim_name)    
+    initsol_components, sconc_init = init_solution(init_file = 'initsol.dat')
+    q = 0.259
+    wel_rec = wel_array(q, sconc_init, aux = True)
+    components, phreeqc_rm, sconc = initialize_phreeqcrm_local(sim_name)    
 
     # ##### Run API Benchmarks #####
-    # sim = build_model(ws = 'benchmark', sim_name = sim_name, comps = components, 
-    #                   sconc=sconc, wel_rec=wel_rec, init_comp=sconc_init)
+    sim = build_model(ws = 'benchmark', sim_name = sim_name, comps = components, 
+                      sconc=sconc, wel_rec=wel_rec, init_comp=sconc_init)
+    print(sconc)
     sim_ws = Path(f"benchmark/{sim_name}/")
     dll = Path("bin/win/libmf6")
-    results = mf6rtm_api_test(dll, sim_ws, components=components, phreeqc_rm=phreeqc_rm, reaction = True)
+    results = mf6rtm.mf6rtm.mf6rtm_run(dll, sim, phreeqc_rm, reaction = True)
 
     ##### Transport Benchmarks #####
     # sim_name = 'mt3dms'
@@ -1378,3 +1385,27 @@ if __name__ == "__main__":
     # sim = build_model(ws = ws, sim_name = sim_name)
     # sim_ws = Path(f"benchmark/{sim_name}/")
     # results = api_test(dll, sim_ws)
+    # data = {
+    # 'pH': [9.91, 7.5,9.91, 1.91],
+    # 'pe': [4.0, 4.0, 4.0, 4.0],
+    # 'C(+4)': [1.23e-004, 0, 1.23e-004, 1.23e-004],
+    # 'Ca': [1.230e-004, 0, 1.230e-004,1.23e-004],
+    # 'Cl': [1e-18, 1, 1e-18,1],
+    # 'Mg': [1e-18, 2, 1e-18,1]
+    # }
+
+    # phases_dict = {
+    # 'Calcite': [[0.0, 10.220625e-004], 
+    #             [0.0, 1]],
+    # 'Dolomite': [[0.0, 10.220625e-004], 
+    #             [0.0, 1]], 
+    # }
+    # nlay, nrow, ncol = 1, 1, 40
+    # model = mf6rtm.mf6rtm.mup3d(data, nlay, nrow, ncol)
+
+    # model.set_equilibrium_phases(phases_dict)
+    # phinp = model.generate_phreeqc_script()
+    # model.phinp = 'advect.pqi'
+    # model.initialize()
+    # print(model.database)
+    # model.initialize()
