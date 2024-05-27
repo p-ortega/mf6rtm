@@ -1,26 +1,63 @@
-SOLUTION 1 # [K,I,J] = 1,1,1
-	units mol/kgw
-	water 1.0
-	temp 25
-	pH 9.91  # comp 5
-	pe 4.000000e+000  # comp 6
-	C(4) 1.230000e-004  # comp 1
-	Ca 1.230000e-004  # comp 2
-	Cl 1e-18  # comp 3
-	Mg 1e-18  # comp 4
+SOLUTION 1
+   units mol/kgw
+    water 1.0
+    temp 25.0
+    pH 9.91000e+00
+    pe 4.00000e+00
+    C(+4) 1.23000e-04
+    Ca 1.23000e-04
+    Cl 1.00000e-18
+    Mg 1.00000e-18
+
+END
+SOLUTION 2
+   units mol/kgw
+    water 1.0
+    temp 25.0
+    pH 7.50000e+00
+    pe 4.00000e+00
+    C(+4) 0.00000e+00
+    Ca 0.00000e+00
+    Cl 1.00000e+00
+    Mg 2.00000e+00
+
+END
+SOLUTION 3
+   units mol/kgw
+    water 1.0
+    temp 25.0
+    pH 9.91000e+00
+    pe 4.00000e+00
+    C(+4) 1.23000e-04
+    Ca 1.23000e-04
+    Cl 1.00000e-18
+    Mg 1.00000e-18
+
+END
+SOLUTION 4
+   units mol/kgw
+    water 1.0
+    temp 25.0
+    pH 1.91000e+00
+    pe 4.00000e+00
+    C(+4) 1.23000e-04
+    Ca 1.23000e-04
+    Cl 1.00000e+00
+    Mg 1.00000e+00
 
 END
 EQUILIBRIUM_PHASES 1
-	Calcite 0.000000e+000 1.220625e-004 # comp 7
-	Dolomite 0.000000e+000 0.000000e+000 # comp 8
+    Calcite 0.00000e+00 1.02206e-03
+    Dolomite 0.00000e+00 1.02206e-03
+EQUILIBRIUM_PHASES 2
+    Calcite 0.00000e+00 1.00000e+00
+    Dolomite 0.00000e+00 1.00000e+00
+
 END
-COPY solution 1 2-50
-COPY equilibrium_phases 1 2-50
-END
+
 PRINT
 	-reset false
 END
-
 
 SELECTED_OUTPUT
 -reset         false
@@ -29,16 +66,15 @@ SELECTED_OUTPUT
 
 USER_PUNCH
 
--headings  time_d cell tstep pH pe Ca Cl C4 Mg Calcite Dolomite
+-headings  time_d cell pH H pe Ca Cl C4 Mg Calcite Dolomite
 1    PUNCH sim_time/86400
 2    PUNCH cell_no
-3 	 PUNCH STEP_NO
 4    PUNCH -LA("H+")
-5    PUNCH -LA("e-")
+5	 PUNCH TOTMOLE("H")
+6    PUNCH -LA("e-")
 7   PUNCH TOT("Ca")
 9   PUNCH TOT("Cl")
-10   PUNCH TOT("C(+4)")
+10   PUNCH TOT("C(4)")
 13   PUNCH TOT("Mg")
 30   PUNCH EQUI("Calcite")
 31   PUNCH EQUI("Dolomite")
-# End of contents postfix.phrq
