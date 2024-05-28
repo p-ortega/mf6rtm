@@ -1,3 +1,8 @@
+import platform
+import os
+import shutil
+
+#global variables
 endmainblock  = '''\nPRINT
 	-reset false
 END\n'''
@@ -109,3 +114,23 @@ def rearrange_copy_blocks(script):
 
     return rearranged_script
 
+def prep_bins(dest_path, src_path=os.path.join('bin'),  get_only=[]):
+
+    if "linux" in platform.platform().lower():
+        bin_path = os.path.join(src_path, "linux")
+    elif "darwin" in platform.platform().lower() or "macos" in platform.platform().lower():
+        bin_path = os.path.join(src_path, "mac")
+    else:
+        bin_path = os.path.join(src_path, "win")
+    files = os.listdir(bin_path)
+    if len(get_only)>0:
+        files = [f for f in files if f.split(".")[0] in get_only]
+
+    for f in files:
+        if os.path.exists(os.path.join(dest_path,f)):
+            try:
+                os.remove(os.path.join(dest_path,f))
+            except:
+                continue
+        shutil.copy2(os.path.join(bin_path,f),os.path.join(dest_path,f))
+    return

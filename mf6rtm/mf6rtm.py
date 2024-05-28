@@ -75,9 +75,12 @@ class ChemStress():
 
     def set_packtype(self, packtype):
         self.packtype = packtype
-    
+
+
+
 class Mup3d(object):
-    def __init__(self, solutions, nlay, nrow, ncol):
+    def __init__(self, name, solutions, nlay, nrow, ncol):
+        self.name = name
         self.wd = None
         self.database = os.path.join('database', 'pht3d_datab.dat')
         self.solutions = solutions
@@ -99,15 +102,14 @@ class Mup3d(object):
 
     def set_chem_stress(self, chem_stress):
         assert isinstance(chem_stress, ChemStress), 'chem_stress must be an instance of the ChemStress class'
-        self.chem_stress = chem_stress
-
         attribute_name = chem_stress.packnme
         setattr(self, attribute_name, chem_stress)
-        
+
+        self.initiliaze_chem_stress(attribute_name)
     
-    def initialize_chem_stress(self):
-        #initialize phreeqc for chemstress
-        pass
+    # def initialize_chem_stress(self):
+    #     #initialize phreeqc for chemstress
+    #     pass
 
     def set_wd(self, wd):
         #joint current directory with wd, check if exist, create if not
@@ -153,6 +155,9 @@ class Mup3d(object):
         for key, value in self.solutions.data.items():
             if not isinstance(value, list):
                 self.solutions.data[key] = [value]
+        # replace all values in self.solutinons.data that are 0.0 to a very small number
+        for key, value in self.solutions.data.items():
+            self.solutions.data[key] = [1e-30 if val == 0.0 else val for val in value]
 
         # Get the number of solutions
         num_solutions = len(next(iter(self.solutions.data.values())))
@@ -228,7 +233,7 @@ class Mup3d(object):
 
         # Get component information - these two functions need to be invoked to find comps
         ncomps = self.phreeqc_rm.FindComponents()
-        components = self.phreeqc_rm.GetComponents()
+        components = list(self.phreeqc_rm.GetComponents())
 
         # set components as attribute
         self.components = components
@@ -288,7 +293,82 @@ class Mup3d(object):
         print('Phreeqc initialized')
 
         return 
+    
+    def initiliaze_chem_stress(self, attr, nthreads = 1):
+        '''Initialize a solution with phreeqcrm and returns a dictionary with components as keys and 
+            concentration array in moles/m3 as items
+        '''
+        print('Initializing ChemStress')
+        #check if self has a an attribute that is a class ChemStress but without knowing the attribute name
+        chem_stress = [attr for attr in dir(self) if isinstance(getattr(self, attr), ChemStress)]
 
+        assert len(chem_stress) > 0, 'No ChemStress attribute found in self'
+        
+
+        nxyz = len(getattr(self, attr).sol_spd)
+        phreeqc_rm = phreeqcrm.PhreeqcRM(nxyz, nthreads)
+        status = phreeqc_rm.SetComponentH2O(False)
+        phreeqc_rm.UseSolutionDensityVolume(False)
+
+        # Set concentration units
+        status = phreeqc_rm.SetUnitsSolution(2) 
+
+        poro = np.full((nxyz), 1.)
+        status = phreeqc_rm.SetPorosity(poro)
+        print_chemistry_mask = np.full((nxyz), 1)
+        status = phreeqc_rm.SetPrintChemistryMask(print_chemistry_mask)
+        nchem = phreeqc_rm.GetChemistryCellCount()
+
+        # Set printing of chemistry file
+        status = phreeqc_rm.SetPrintChemistryOn(False, True, False)  # workers, initial_phreeqc, utility
+
+        # Load database
+        status = phreeqc_rm.LoadDatabase(self.database)
+        status = phreeqc_rm.RunFile(True, True, True, self.phinp)
+
+        # Clear contents of workers and utility
+        input = "DELETE; -all"
+        status = phreeqc_rm.RunString(True, False, True, input)
+
+        # Get component information - these two functions need to be invoked to find comps
+        ncomps = phreeqc_rm.FindComponents()
+        components = list(phreeqc_rm.GetComponents())
+
+        ic1 = [-1] * nxyz * 7 
+        for e, i in enumerate(getattr(self, attr).sol_spd):
+            ic1[e]    =  i  # Solution 1
+            # ic1[nxyz + i]     = -1  # Equilibrium phases none
+            # ic1[2 * nxyz + i] =  -1  # Exchange 1
+            # ic1[3 * nxyz + i] = -1  # Surface none
+            # ic1[4 * nxyz + i] = -1  # Gas phase none
+            # ic1[5 * nxyz + i] = -1  # Solid solutions none
+            # ic1[6 * nxyz + i] = -1  # Kinetics none
+        status = phreeqc_rm.InitialPhreeqc2Module(ic1)
+        # # Initial equilibration of cells
+        time = 0.0
+        time_step = 0.0
+        status = phreeqc_rm.SetTime(time)
+        status = phreeqc_rm.SetTimeStep(time_step)
+
+        status = phreeqc_rm.RunCells()
+        c_dbl_vect = phreeqc_rm.GetConcentrations()
+        c_dbl_vect = concentration_l_to_m3(c_dbl_vect)
+
+        c_dbl_vect = [c_dbl_vect[i:i + nxyz] for i in range(0, len(c_dbl_vect), nxyz)]
+
+        sconc = {}
+        for i in range(nxyz):
+            sconc[i] = [array[i] for array in c_dbl_vect]
+
+        status = phreeqc_rm.CloseFiles()
+        status = phreeqc_rm.MpiWorkerBreak()
+
+        #set as attribute
+        setattr(getattr(self, attr), 'data',sconc)
+        setattr(getattr(self, attr), 'auxiliary',components)
+        print(f'ChemStress {attr} initialized')
+        return sconc
+    
 def get_mf6_dis(sim):
     # extract dis from modflow6 sim object 
     dis = sim.get_model(sim.model_names[0]).dis
@@ -303,7 +383,12 @@ def get_mf6_dis(sim):
 
 def mrbeaker():
     # Load the image of Mr. Beaker
-    mr_beaker_image = Image.open("mrbeaker.png")
+
+    # get the path of this file
+
+
+    whereismrbeaker = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mrbeaker.png')
+    mr_beaker_image = Image.open(whereismrbeaker)
 
     # Resize the image to fit the terminal width
     terminal_width = 80  # Adjust this based on your terminal width
@@ -347,7 +432,7 @@ def concentration_to_massrate(q, conc):
     return mrate
 
 
-def mf6rtm_run(dll, sim, phreeqc_rm, reaction = True):
+def run_simulation(dll, sim, phreeqc_rm, reaction = True):
     """
     Modflow6 API and PhreeqcRM integration function to solve model.
 

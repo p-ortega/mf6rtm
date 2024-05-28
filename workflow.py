@@ -6,7 +6,6 @@ import shutil
 import sys
 import warnings
 
-import mf6rtm.mf6rtm
 warnings.filterwarnings("ignore")
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 from PIL import Image
@@ -31,7 +30,7 @@ from flopy.utils.gridintersect import GridIntersect
 from datetime import datetime
 import matplotlib.pyplot as plt
 
-import mf6rtm
+# import mf6rtm
 
 DT_FMT = "%Y-%m-%d %H:%M:%S"
 
@@ -1359,15 +1358,16 @@ if __name__ == "__main__":
     initsol_components, sconc_init = init_solution(init_file = 'initsol.dat')
     q = 0.259
     wel_rec = wel_array(q, sconc_init, aux = True)
-    components, phreeqc_rm, sconc = initialize_phreeqcrm_local(sim_name)    
+    print(wel_rec)
+    # components, phreeqc_rm, sconc = initialize_phreeqcrm_local(sim_name)    
 
-    # ##### Run API Benchmarks #####
-    sim = build_model(ws = 'benchmark', sim_name = sim_name, comps = components, 
-                      sconc=sconc, wel_rec=wel_rec, init_comp=sconc_init)
-    print(sconc)
-    sim_ws = Path(f"benchmark/{sim_name}/")
-    dll = Path("bin/win/libmf6")
-    results = mf6rtm.mf6rtm.mf6rtm_run(dll, sim, phreeqc_rm, reaction = True)
+    # # ##### Run API Benchmarks #####
+    # sim = build_model(ws = 'benchmark', sim_name = sim_name, comps = components, 
+    #                   sconc=sconc, wel_rec=wel_rec, init_comp=sconc_init)
+    # print(sconc)
+    # sim_ws = Path(f"benchmark/{sim_name}/")
+    # dll = Path("bin/win/libmf6")
+    # results = mf6rtm.mf6rtm.mf6rtm_run(dll, sim, phreeqc_rm, reaction = True)
 
     ##### Transport Benchmarks #####
     # sim_name = 'mt3dms'
