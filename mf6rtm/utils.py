@@ -1,7 +1,50 @@
-endmainblock  = '''\nEND\n
-PRINT
+endmainblock  = '''\nPRINT
 	-reset false
 END\n'''
+
+def solution_csv_to_dict(csv_file, header = True):
+    # Read the CSV file and convert it to a dictionary using first row as keys and columns as value (array of shape ncol)
+    import csv
+    with open(csv_file, mode='r') as infile:
+        reader = csv.reader(infile)
+        #skip header assuming first line is header
+        if header:
+            next(reader)
+        
+        data = {rows[0]: rows[1:] for rows in reader if rows[0].startswith('#') == False}
+
+        for key, value in data.items():
+            data[key] = [float(i) for i in value]
+    return data
+
+def solution_df_to_dict(data, header = True):
+    import pandas as pd
+    data = data.T.to_dict('list')
+    for key, value in data.items():
+        data[key] = [float(i) for i in value]
+    return data
+
+def equilibrium_phases_csv_to_dict(csv_file, header = True):
+    import csv
+    with open(csv_file, mode='r') as infile:
+        reader = csv.reader(infile)
+        #skip header assuming first line is header
+        if header:
+            next(reader)
+        data = {}
+        for row in reader:
+            if row[0].startswith('#'):
+                continue
+            if int(row[-1]) not in data:
+                # data[row[0]] = [[float(row[1]), float(row[2])]]
+                data[int(row[-1])] = {row[0]: [float(row[1]), float(row[2])]}
+            else:
+                # data[int(row[-1])] # append {row[0]: [float(row[1]), float(row[2])]} to the existing nested dictionary
+                data[int(row[-1])][row[0]] = [float(row[1]), float(row[2])]
+    return data
+
+
+
 
 def handle_block(current_items, block_generator, i):
     script = ""
@@ -30,6 +73,7 @@ def generate_phases_block(phases_dict, i):
     for name, values in phases_dict.items():
         saturation_index, amount = values
         script += f"    {name} {saturation_index:.5e} {amount:.5e}\n"
+    script += "\nEND\n"
     return script
 
 def generate_solution_block(species_dict, i, temp = 25.0, water = 1.0):

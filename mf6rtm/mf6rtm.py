@@ -14,9 +14,9 @@ import numpy as np
 # import pyemu
 import phreeqcrm
 import modflowapi
-from modflowapi import Callbacks
+# from modflowapi import Callbacks
 from modflowapi.extensions import ApiSimulation
-from .utils import*
+from utils import*
 from datetime import datetime
 
 DT_FMT = "%Y-%m-%d %H:%M:%S"
@@ -30,11 +30,6 @@ time_units_dic = {
     'month': 2628000,
     'year': 31536000
 }
-
-endmainblock  = '''\nEND\n
-PRINT
-	-reset false
-END\n'''
 
 class Block:
     def __init__(self, data, ic=None) -> None:
@@ -69,10 +64,22 @@ class KineticPhases(Block):
     def set_parameters(self, parameters):
         self.parameters = parameters
 
+class ChemStress():
+    def __init__(self, packnme) -> None:
+        self.packnme = packnme
+        self.sol_spd = None
+        self.packtype = None
 
+    def set_spd(self, sol_spd):
+        self.sol_spd = sol_spd
+
+    def set_packtype(self, packtype):
+        self.packtype = packtype
+    
 class Mup3d(object):
     def __init__(self, solutions, nlay, nrow, ncol):
-        self.database = os.path.join('database','pht3d_datab.dat')
+        self.wd = None
+        self.database = os.path.join('database', 'pht3d_datab.dat')
         self.solutions = solutions
         self.equilibrium_phases = None
         self.kinetic_phases = None
@@ -81,26 +88,32 @@ class Mup3d(object):
         # self.solid_solutions = None
         self.phreeqc_rm = None
         self.sconc = None
-        self.phinp = 'phinp.dat'
-        self.components = None
-        self.solutions = solutions
-        self.equilibrium_phases = None
-        self.kinetic_phases = None
-        # self.exchange = None
-        # self.gas_phase = None
-        # self.solid_solutions = None
-        self.phreeqc_rm = None
-        self.sconc = None
-        self.phinp = 'phinp.dat'
+        self.phinp = None
         self.components = None
         self.nlay = nlay
         self.nrow = nrow
         self.ncol = ncol
         self.ncpl = self.nlay*self.nrow*self.ncol
     
-        #assert that database in self.database exists 
-        assert os.path.exists(self.database), f'{self.database} not found'
 
+
+    def set_chem_stress(self, chem_stress):
+        assert isinstance(chem_stress, ChemStress), 'chem_stress must be an instance of the ChemStress class'
+        self.chem_stress = chem_stress
+
+        attribute_name = chem_stress.packnme
+        setattr(self, attribute_name, chem_stress)
+        
+    
+    def initialize_chem_stress(self):
+        #initialize phreeqc for chemstress
+        pass
+
+    def set_wd(self, wd):
+        #joint current directory with wd, check if exist, create if not
+        self.wd = Path(wd)
+        if not self.wd.exists():
+            self.wd.mkdir(parents=True, exist_ok=True)
 
     def set_database(self, database):
         """
@@ -117,20 +130,23 @@ class Mup3d(object):
 
     def set_equilibrium_phases(self, eq_phases):
         assert isinstance(eq_phases, EquilibriumPhases), 'eq_phases must be an instance of the EquilibriumPhases class'
+        #change all keys from eq_phases so they start from 0
+        eq_phases.data = {i: eq_phases.data[key] for i, key in enumerate(eq_phases.data.keys())}
         self.equilibrium_phases = eq_phases
 
 
-    def generate_phreeqc_script(self, filename='phinp.dat'):
+    def generate_phreeqc_script(self, postfix = 'postfix.phqr'):
+        
+        #where to save the phinp file
+        filename=os.path.join(self.wd,'phinp.dat')
+        self.phinp = filename 
+        #assert that database in self.database exists 
+        assert os.path.exists(self.database), f'{self.database} not found'
 
         # Check if all compounds are in the database
         names = get_compound_names(self.database)
-        assert all([key in names for key in self.solutions.data.keys() if key not in ['pH', 'pe']]), 'not all compounds are in the database - check names'
+        assert all([key in names for key in self.solutions.data.keys() if key not in ["pH", "pe"]]), f'Not all compounds are in the database - check: {", ".join([key for key in self.solutions.data.keys() if key not in names and key not in ["pH", "pe"]])}'
 
-        # check if all equilibrium phases are in the database
-        names = get_compound_names(self.database, 'PHASES')
-        assert all([key in names for key in self.equilibrium_phases.data.keys()]), 'not all compounds are in the database - check names'
-
-        postfix = 'postfix.phqr'
         script = ""
 
         # Convert single values to lists
@@ -140,12 +156,6 @@ class Mup3d(object):
 
         # Get the number of solutions
         num_solutions = len(next(iter(self.solutions.data.values())))
-        num_phases = max(len(phases) for phases in self.equilibrium_phases.data.values())
-
-        # Iterate over the dataionary and fill arrays with zeros until they reach the maximum length
-        for name, phases in self.equilibrium_phases.data.items():
-            while len(self.equilibrium_phases.data) < num_phases:
-                phases.append([0.0, 0.0])
 
         # Initialize the list of previous concentrations and phases
 
@@ -154,11 +164,18 @@ class Mup3d(object):
             concentrations = {species: values[i] for species, values in self.solutions.data.items()}
             script += handle_block(concentrations, generate_solution_block, i)
 
-        for i in range(num_phases):
-            # Get the current   phases
-            phases = {name: phase[i] for name, phase in self.equilibrium_phases.data.items() if i < len(self.equilibrium_phases.data)}
-            # Handle the  EQUILIBRIUM_PHASES blocks
-            script += handle_block(phases, generate_phases_block, i)
+        #check if self.equilibrium_phases is not None
+        if self.equilibrium_phases is not None:
+            for i in self.equilibrium_phases.data.keys():
+                # Get the current   phases
+                phases = self.equilibrium_phases.data[i]
+
+                # check if all equilibrium phases are in the database
+                names = get_compound_names(self.database, 'PHASES')
+                assert all([key in names for key in phases.keys()]), 'not all compounds are in the database - check names'
+
+                # Handle the  EQUILIBRIUM_PHASES blocks
+                script += handle_block(phases, generate_phases_block, i)
 
         # add end of line before postfix
         script += endmainblock
@@ -272,7 +289,7 @@ class Mup3d(object):
 
         return 
 
-def get_model_dis(sim):
+def get_mf6_dis(sim):
     # extract dis from modflow6 sim object 
     dis = sim.get_model(sim.model_names[0]).dis
     nlay = dis.nlay.get_data()
@@ -280,7 +297,7 @@ def get_model_dis(sim):
     ncol = dis.ncol.get_data()
     return nlay, nrow, ncol
 
-# def get_model_disv(sim):
+# def get_mf6_disv(sim):
 #     #TODO: implement this function
 #     return icpl, nvert, vertices, cell2d, top, botm
 
@@ -307,10 +324,6 @@ def mrbeaker():
             mrbeaker += ascii_chars[pixel_value // 64]
         mrbeaker += "\n"
     return mrbeaker
-
-def get_dis_from_mf6(sim):
-
-    return
 
 def flatten_list(xss):
     return [x for xs in xss for x in xs]
@@ -350,7 +363,7 @@ def mf6rtm_run(dll, sim, phreeqc_rm, reaction = True):
     print('\nTake your time to appreciate MR BEAKER!')
     
     sim_ws = sim.simulation_data.mfpath.get_sim_path()
-    nlay, nrow, ncol = get_model_dis(sim)
+    nlay, nrow, ncol = get_mf6_dis(sim)
     nxyz = nlay*nrow*ncol
 
     components = components = [nme.capitalize() for nme in sim.model_names[1:]]
@@ -486,7 +499,7 @@ def mf6rtm_run(dll, sim, phreeqc_rm, reaction = True):
     print("\n")
 
     #save selected ouput to csv
-    soutdf.to_csv('sout.csv', index=False)
+    soutdf.to_csv(os.path.join(sim_ws,'sout.csv'), index=False)
 
     # Clean up and close api objs
     status = phreeqc_rm.CloseFiles()
