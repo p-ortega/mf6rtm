@@ -1,4 +1,4 @@
-SOLUTION_RAW                 26 Solution after simulation 1.
+SOLUTION_RAW                 1 Solution after simulation 1.
   -temp                      25
   -pressure                  1
   -potential                 0
@@ -48,7 +48,7 @@ SOLUTION_RAW                 26 Solution after simulation 1.
     S(6)                     -2.5409059363855
     Si                       -2.7121164868633
   -gammas
-EQUILIBRIUM_PHASES_RAW       26 Pure-phase assemblage after simulation 1.
+EQUILIBRIUM_PHASES_RAW       1 Pure-phase assemblage after simulation 1.
   # EXCHANGE_MODIFY candidates; use new_def=true #
   -new_def                   0
   -component                 Calcite

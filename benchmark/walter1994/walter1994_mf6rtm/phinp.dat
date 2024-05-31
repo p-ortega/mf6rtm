@@ -41,12 +41,12 @@ SOLUTION 2
 
 END
 EQUILIBRIUM_PHASES 1
-    Calcite 0.00000e+00 1.95000e-02
-    Siderite 0.00000e+00 4.22000e-03
-    Gibbsite 0.00000e+00 2.51000e-03
-    Fe(OH)3(a) 0.00000e+00 1.86000e-03
+    Calcite 0.00000e+00 5.57143e-02
+    Siderite 0.00000e+00 1.20571e-02
+    Gibbsite 0.00000e+00 7.17143e-03
+    Fe(OH)3(a) 0.00000e+00 5.31429e-03
     Gypsum 0.00000e+00 0.00000e+00
-    SiO2(a) 0.00000e+00 4.07000e-01
+    SiO2(a) 0.00000e+00 1.16286e+00
 
 END
 
@@ -71,7 +71,7 @@ USER_PUNCH
 10  PUNCH TOT("C(4)")
 13  PUNCH TOT("Mg")
 14  PUNCH TOT("S(6)")
-15  PUNCH TOT("S(-2)")
+15  PUNCH TOT("S(2)")
 16  PUNCH TOT("Fe(+2)")
 17  PUNCH TOT("Fe(+3)")
 18  PUNCH TOT("Mn(2)")

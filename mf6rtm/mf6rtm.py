@@ -374,6 +374,11 @@ class Mup3d(object):
 
         c_dbl_vect = [c_dbl_vect[i:i + nxyz] for i in range(0, len(c_dbl_vect), nxyz)]
 
+        #find charge in c_dbl_vect and add charge_offset
+        for i, c in enumerate(components):
+            if c.lower() == 'charge':
+                c_dbl_vect[i] += self.charge_offset
+
         sconc = {}
         for i in range(nxyz):
             sconc[i] = [array[i] for array in c_dbl_vect]
@@ -462,13 +467,6 @@ class Mup3d(object):
                 # mf6 api is giving weird init conc for some cases for tstep 0 so re setting here for now
                 c_dbl_vect = self.init_conc_array_phreeqc
             else:
-                c_dbl_vect = np.reshape(mf6_conc_array, self.ncpl*self.ncomps)
-
-            ### Phreeqc loop block
-            if reaction:
-                #get arrays from mf6 and flatten for phreeqc
-                print(f'\nGetting concentration arrays --- time step: {time_step} --- elapsed time: {ctime}')
-
                 mf6_conc_array = []
                 for c in components:
                     if c.lower() == 'charge':
@@ -478,6 +476,13 @@ class Mup3d(object):
                         mf6_conc_array.append( concentration_m3_to_l( mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) ) )
 
                 c_dbl_vect = np.reshape(mf6_conc_array, self.ncpl*self.ncomps) #flatten array
+
+            ### Phreeqc loop block
+            if reaction:
+                #get arrays from mf6 and flatten for phreeqc
+                print(f'\nGetting concentration arrays --- time step: {time_step} --- elapsed time: {ctime}')
+
+
 
                 #update phreeqc time and time steps
                 status = phreeqc_rm.SetTime(ctime*86400)
@@ -633,4 +638,6 @@ def concentration_to_massrate(q, conc):
     mrate = q*conc #M/T
     return mrate
 
-
+def concentration_volbulk_to_volwater(volbulk, porosity):
+    volwater = volbulk*(1/porosity)
+    return volwater
