@@ -1358,7 +1358,6 @@ if __name__ == "__main__":
     initsol_components, sconc_init = init_solution(init_file = 'initsol.dat')
     q = 0.259
     wel_rec = wel_array(q, sconc_init, aux = True)
-    print(wel_rec)
     # components, phreeqc_rm, sconc = initialize_phreeqcrm_local(sim_name)    
 
     # # ##### Run API Benchmarks #####
