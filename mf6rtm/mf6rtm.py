@@ -476,7 +476,7 @@ class Mup3d(object):
                         mf6_conc_array.append( concentration_m3_to_l( mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) ) )
 
                 c_dbl_vect = np.reshape(mf6_conc_array, self.ncpl*self.ncomps) #flatten array
-
+            
             ### Phreeqc loop block
             if reaction:
                 #get arrays from mf6 and flatten for phreeqc
