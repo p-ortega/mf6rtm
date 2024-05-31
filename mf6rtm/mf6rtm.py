@@ -568,12 +568,15 @@ class Mup3d(object):
             print("\nFailed to converge {0} times".format(num_fails))
         print("\n")
 
+        #save selected ouput to csv
+        soutdf.to_csv(os.path.join(sim_ws,'sout.csv'), index=False)
+
         # Clean up and close api objs
         status = phreeqc_rm.CloseFiles()
         status = phreeqc_rm.MpiWorkerBreak()
         mf6.finalize()
-        #save selected ouput to csv
-        soutdf.to_csv(os.path.join(sim_ws,'sout.csv'), index=False)
+
+        #print mrbeaker
         print(mrbeaker())
         print('\nMR BEAKER IMPORTANT MESSAGE: MODEL RUN FINISHED BUT CHECK THE RESULTS .. THEY ARE PROLY RUBBISH\n')
     

@@ -19,13 +19,12 @@ liable for any damages resulting from the authorized or unauthorized
 use of the software.
 
  
- Run start date and time (yyyy/mm/dd hh:mm:ss): 2024/05/31 14:35:03
+ Run start date and time (yyyy/mm/dd hh:mm:ss): 2024/05/31 15:05:31
  
  Writing simulation list file: mfsim.lst
  Using Simulation name file: mfsim.nam
  
     Solving:  Stress period:     1    Time step:     1
- BMI Error, Numerical Solution  14 failed to converge
     Solving:  Stress period:     1    Time step:     2
     Solving:  Stress period:     1    Time step:     3
     Solving:  Stress period:     1    Time step:     4
@@ -126,7 +125,7 @@ use of the software.
     Solving:  Stress period:     1    Time step:    99
     Solving:  Stress period:     1    Time step:   100
  
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2024/05/31 14:35:26
- Elapsed run time: 22.866 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2024/05/31 15:05:55
+ Elapsed run time: 23.827 Seconds
  
  Normal termination of simulation.
