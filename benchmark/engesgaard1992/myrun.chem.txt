@@ -1,0 +1,4037 @@
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	SOLUTION 1
+	   units mol/kgw
+	    water 1.0
+	    temp 25.0
+	    pH 9.91000e+00
+	    pe 4.00000e+00
+	    C(+4) 1.23000e-04
+	    Ca 1.23000e-04
+	    Cl 1.00000e-30
+	    Mg 1.00000e-30
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C(4)              1.230e-04   1.230e-04
+	Ca                1.230e-04   1.230e-04
+	Cl                1.000e-30   1.000e-30
+	Mg                1.000e-30   1.000e-30
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   9.910    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   3.857e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.459e-04
+                       Total CO2 (mol/kg)  =   1.230e-04
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =   1.120e-07
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.02
+                               Iterations  =   3
+                                  Total H  = 1.110126e+02
+                                  Total O  = 5.550667e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             8.323e-05   8.137e-05    -4.080    -4.090    -0.010     (0)  
+   H+              1.257e-10   1.230e-10    -9.901    -9.910    -0.009      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+C(4)          1.230e-04
+   HCO3-           8.333e-05   8.149e-05    -4.079    -4.089    -0.010     (0)  
+   CO3-2           3.396e-05   3.106e-05    -4.469    -4.508    -0.039     (0)  
+   CaCO3           5.576e-06   5.577e-06    -5.254    -5.254     0.000     (0)  
+   CaHCO3+         1.139e-07   1.114e-07    -6.944    -6.953    -0.010     (0)  
+   CO2             2.254e-08   2.254e-08    -7.647    -7.647     0.000     (0)  
+   MgCO3           2.569e-32   2.569e-32   -31.590   -31.590     0.000     (0)  
+   MgHCO3+         8.452e-34   8.264e-34   -33.073   -33.083    -0.010     (0)  
+Ca            1.230e-04
+   Ca+2            1.172e-04   1.072e-04    -3.931    -3.970    -0.039     (0)  
+   CaCO3           5.576e-06   5.577e-06    -5.254    -5.254     0.000     (0)  
+   CaOH+           1.478e-07   1.446e-07    -6.830    -6.840    -0.010     (0)  
+   CaHCO3+         1.139e-07   1.114e-07    -6.944    -6.953    -0.010     (0)  
+Cl            1.000e-30
+   Cl-             1.000e-30   9.777e-31   -30.000   -30.010    -0.010     (0)  
+H(0)          2.143e-31
+   H2              1.071e-31   1.072e-31   -30.970   -30.970     0.000     (0)  
+Mg            1.000e-30
+   Mg+2            9.473e-31   8.667e-31   -30.024   -30.062    -0.039     (0)  
+   MgOH+           2.615e-32   2.558e-32   -31.583   -31.592    -0.010     (0)  
+   MgCO3           2.569e-32   2.569e-32   -31.590   -31.590     0.000     (0)  
+   MgHCO3+         8.452e-34   8.264e-34   -33.073   -33.083    -0.010     (0)  
+O(0)          7.261e-31
+   O2              3.630e-31   3.631e-31   -30.440   -30.440     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Aragonite        -0.14     -8.48   -8.34  CaCO3
+  Artinite        -54.41    -44.81    9.60  MgCO3:Mg(OH)2:3H2O
+  Brucite         -27.08    -10.24   16.84  Mg(OH)2
+  Calcite           0.00     -8.48   -8.48  CaCO3
+  CO2(g)           -6.18     -7.65   -1.47  CO2
+  Dolomite        -25.96    -43.05  -17.09  CaMg(CO3)2
+  Dolomite(d)     -26.51    -43.05  -16.54  CaMg(CO3)2
+  H2(g)           -27.82    -30.97   -3.15  H2
+  Huntite         -82.22   -112.19  -29.97  CaMg3(CO3)4
+  Hydromagnesite -139.76   -148.52   -8.76  Mg5(CO3)4(OH)2:4H2O
+  Magnesite       -26.54    -34.57   -8.03  MgCO3
+  Nesquehonite    -28.95    -34.57   -5.62  MgCO3:3H2O
+  O2(g)           -27.55    -30.44   -2.89  O2
+  Portlandite      -6.95     15.85   22.80  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 2
+	   units mol/kgw
+	    water 1.0
+	    temp 25.0
+	    pH 7.00000e+00
+	    pe 4.00000e+00
+	    C(+4) 1.00000e-30
+	    Ca 1.00000e-30
+	    Cl 2.00000e-03
+	    Mg 1.00000e-03
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 2.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	C(4)              1.000e-30   1.000e-30
+	Ca                1.000e-30   1.000e-30
+	Cl                2.000e-03   2.000e-03
+	Mg                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   3.000e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.113e-08
+                       Total CO2 (mol/kg)  =   1.000e-30
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -3.113e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.063e-07   1.001e-07    -6.973    -7.000    -0.026     (0)  
+   H+              1.057e-07   1.000e-07    -6.976    -7.000    -0.024      0.00
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+C(4)          1.000e-30
+   HCO3-           8.183e-31   7.717e-31   -30.087   -30.113    -0.025     (0)  
+   CO2             1.734e-31   1.735e-31   -30.761   -30.761     0.000     (0)  
+   MgHCO3+         7.597e-33   7.154e-33   -32.119   -32.145    -0.026     (0)  
+   CO3-2           4.575e-34   3.619e-34   -33.340   -33.441    -0.102     (0)  
+   MgCO3           2.734e-34   2.736e-34   -33.563   -33.563     0.000     (0)  
+   CaHCO3+         0.000e+00   0.000e+00   -59.084   -59.109    -0.025     (0)  
+   CaCO3           0.000e+00   0.000e+00   -60.320   -60.319     0.000     (0)  
+Ca            1.000e-30
+   Ca+2            1.000e-30   7.906e-31   -30.000   -30.102    -0.102     (0)  
+   CaOH+           1.390e-36   1.312e-36   -35.857   -35.882    -0.025     (0)  
+   CaHCO3+         0.000e+00   0.000e+00   -59.084   -59.109    -0.025     (0)  
+   CaCO3           0.000e+00   0.000e+00   -60.320   -60.319     0.000     (0)  
+Cl            2.000e-03
+   Cl-             2.000e-03   1.883e-03    -2.699    -2.725    -0.026     (0)  
+H(0)          1.415e-25
+   H2              7.075e-26   7.079e-26   -25.150   -25.150     0.000     (0)  
+Mg            1.000e-03
+   Mg+2            1.000e-03   7.923e-04    -3.000    -3.101    -0.101     (0)  
+   MgOH+           3.047e-08   2.877e-08    -7.516    -7.541    -0.025     (0)  
+   MgHCO3+         7.597e-33   7.154e-33   -32.119   -32.145    -0.026     (0)  
+   MgCO3           2.734e-34   2.736e-34   -33.563   -33.563     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Aragonite       -55.21    -63.54   -8.34  CaCO3
+  Artinite        -35.24    -25.64    9.60  MgCO3:Mg(OH)2:3H2O
+  Brucite          -5.94     10.90   16.84  Mg(OH)2
+  Calcite         -55.06    -63.54   -8.48  CaCO3
+  CO2(g)          -29.29    -30.76   -1.47  CO2
+  Dolomite        -83.00   -100.09  -17.09  CaMg(CO3)2
+  Dolomite(d)     -83.55   -100.09  -16.54  CaMg(CO3)2
+  H2(g)           -22.00    -25.15   -3.15  H2
+  Huntite        -143.20   -173.17  -29.97  CaMg3(CO3)4
+  Hydromagnesite -126.51   -135.27   -8.76  Mg5(CO3)4(OH)2:4H2O
+  Magnesite       -28.51    -36.54   -8.03  MgCO3
+  Nesquehonite    -30.92    -36.54   -5.62  MgCO3:3H2O
+  O2(g)           -39.19    -42.08   -2.89  O2
+  Portlandite     -38.90    -16.10   22.80  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+	EQUILIBRIUM_PHASES 1
+	    Calcite 0.00000e+00 1.22063e-04
+	    Dolomite 0.00000e+00 0.00000e+00
+	END
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 4.
+------------------------------------
+
+	PRINT
+		reset false
+Time:                   0
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+WARNING: Element in phase, Dolomite, is not in model.
+Time:                   0
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   0
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+WARNING: Element Mg is contained in Dolomite (which has 0.0 mass),	
+but is not in solution or other phases.
+Time:                   864
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   864
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   864
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   864
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   864
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   864
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   864
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   864
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   864
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   864
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   864
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   864
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   864
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   864
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   864
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   864
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   864
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   864
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   864
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   864
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   864
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   864
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   864
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   864
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   864
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   864
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   864
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   864
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   864
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   864
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   864
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   864
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   864
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   864
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   864
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-16 ...
+
+Time:                   864
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-16 ...
+
+Time:                   864
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-16 ...
+
+Time:                   864
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-16 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying increased tolerance 1e-14 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying diagonal scaling ...
+
+Time:                   864
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-16 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying increased tolerance 1e-14 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying diagonal scaling ...
+
+Time:                   864
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying smaller step size, pe step size 10, 5 ... 
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying reduced tolerance 1e-16 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying increased tolerance 1e-14 ...
+
+WARNING: Maximum iterations exceeded, 200
+
+WARNING: Numerical method failed with this set of convergence parameters.
+
+WARNING: Trying diagonal scaling ...
+
+Time:                   864
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   864
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   864
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   864
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   864
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   864
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   864
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   864
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   864
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   864
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   1728
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   1728
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   1728
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   1728
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   1728
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   1728
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   1728
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   1728
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   1728
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   1728
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   1728
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   1728
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   1728
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   1728
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   1728
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   1728
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   1728
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   1728
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   1728
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   1728
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   1728
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   1728
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   1728
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   1728
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   1728
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   1728
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   1728
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   1728
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   1728
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   1728
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   1728
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   1728
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   1728
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   1728
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   1728
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   1728
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   1728
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   1728
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   1728
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   1728
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   1728
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   1728
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   1728
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   1728
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   1728
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   1728
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   1728
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   1728
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   1728
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   1728
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   2592
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   2592
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   2592
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   2592
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   2592
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   2592
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   2592
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   2592
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   2592
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   2592
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   2592
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   2592
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   2592
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   2592
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   2592
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   2592
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   2592
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   2592
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   2592
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   2592
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   2592
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   2592
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   2592
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   2592
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   2592
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   2592
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   2592
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   2592
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   2592
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   2592
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   2592
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   2592
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   2592
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   2592
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   2592
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   2592
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   2592
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   2592
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   2592
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   2592
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   2592
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   2592
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   2592
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   2592
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   2592
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   2592
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   2592
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   2592
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   2592
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   2592
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   3456
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   3456
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   3456
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   3456
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   3456
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   3456
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   3456
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   3456
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   3456
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   3456
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   3456
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   3456
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   3456
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   3456
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   3456
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   3456
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   3456
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   3456
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   3456
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   3456
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   3456
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   3456
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   3456
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   3456
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   3456
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   3456
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   3456
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   3456
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   3456
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   3456
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   3456
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   3456
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   3456
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   3456
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   3456
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   3456
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   3456
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   3456
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   3456
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   3456
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   3456
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   3456
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   3456
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   3456
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   3456
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   3456
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   3456
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   3456
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   3456
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   3456
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   4320
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   4320
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   4320
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   4320
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   4320
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   4320
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   4320
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   4320
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   4320
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   4320
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   4320
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   4320
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   4320
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   4320
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   4320
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   4320
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   4320
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   4320
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   4320
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   4320
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   4320
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   4320
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   4320
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   4320
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   4320
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   4320
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   4320
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   4320
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   4320
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   4320
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   4320
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   4320
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   4320
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   4320
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   4320
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   4320
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   4320
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   4320
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   4320
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   4320
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   4320
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   4320
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   4320
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   4320
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   4320
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   4320
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   4320
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   4320
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   4320
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   4320
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   5184
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   5184
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   5184
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   5184
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   5184
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   5184
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   5184
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   5184
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   5184
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   5184
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   5184
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   5184
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   5184
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   5184
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   5184
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   5184
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   5184
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   5184
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   5184
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   5184
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   5184
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   5184
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   5184
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   5184
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   5184
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   5184
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   5184
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   5184
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   5184
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   5184
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   5184
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   5184
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   5184
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   5184
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   5184
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   5184
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   5184
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   5184
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   5184
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   5184
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   5184
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   5184
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   5184
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   5184
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   5184
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   5184
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   5184
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   5184
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   5184
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   5184
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   6048
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   6048
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   6048
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   6048
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   6048
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   6048
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   6048
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   6048
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   6048
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   6048
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   6048
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   6048
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   6048
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   6048
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   6048
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   6048
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   6048
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   6048
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   6048
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   6048
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   6048
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   6048
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   6048
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   6048
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   6048
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   6048
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   6048
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   6048
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   6048
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   6048
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   6048
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   6048
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   6048
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   6048
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   6048
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   6048
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   6048
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   6048
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   6048
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   6048
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   6048
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   6048
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   6048
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   6048
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   6048
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   6048
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   6048
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   6048
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   6048
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   6048
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   6912
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   6912
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   6912
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   6912
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   6912
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   6912
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   6912
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   6912
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   6912
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   6912
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   6912
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   6912
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   6912
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   6912
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   6912
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   6912
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   6912
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   6912
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   6912
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   6912
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   6912
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   6912
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   6912
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   6912
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   6912
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   6912
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   6912
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   6912
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   6912
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   6912
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   6912
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   6912
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   6912
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   6912
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   6912
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   6912
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   6912
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   6912
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   6912
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   6912
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   6912
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   6912
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   6912
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   6912
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   6912
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   6912
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   6912
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   6912
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   6912
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   6912
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   7776
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   7776
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   7776
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   7776
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   7776
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   7776
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   7776
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   7776
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   7776
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   7776
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   7776
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   7776
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   7776
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   7776
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   7776
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   7776
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   7776
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   7776
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   7776
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   7776
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   7776
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   7776
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   7776
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   7776
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   7776
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   7776
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   7776
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   7776
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   7776
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   7776
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   7776
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   7776
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   7776
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   7776
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   7776
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   7776
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   7776
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   7776
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   7776
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   7776
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   7776
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   7776
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   7776
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   7776
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   7776
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   7776
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   7776
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   7776
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   7776
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   7776
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   8640
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   8640
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   8640
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   8640
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   8640
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   8640
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   8640
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   8640
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   8640
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   8640
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   8640
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   8640
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   8640
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   8640
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   8640
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   8640
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   8640
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   8640
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   8640
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   8640
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   8640
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   8640
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   8640
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   8640
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   8640
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   8640
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   8640
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   8640
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   8640
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   8640
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   8640
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   8640
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   8640
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   8640
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   8640
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   8640
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   8640
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   8640
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   8640
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   8640
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   8640
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   8640
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   8640
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   8640
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   8640
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   8640
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   8640
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   8640
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   8640
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   8640
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   9504
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   9504
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   9504
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   9504
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   9504
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   9504
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   9504
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   9504
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   9504
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   9504
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   9504
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   9504
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   9504
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   9504
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   9504
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   9504
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   9504
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   9504
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   9504
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   9504
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   9504
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   9504
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   9504
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   9504
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   9504
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   9504
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   9504
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   9504
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   9504
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   9504
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   9504
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   9504
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   9504
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   9504
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   9504
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   9504
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   9504
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   9504
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   9504
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   9504
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   9504
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   9504
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   9504
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   9504
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   9504
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   9504
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   9504
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   9504
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   9504
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   9504
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   10368
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   10368
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   10368
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   10368
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   10368
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   10368
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   10368
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   10368
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   10368
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   10368
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   10368
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   10368
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   10368
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   10368
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   10368
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   10368
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   10368
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   10368
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   10368
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   10368
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   10368
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   10368
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   10368
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   10368
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   10368
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   10368
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   10368
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   10368
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   10368
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   10368
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   10368
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   10368
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   10368
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   10368
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   10368
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   10368
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   10368
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   10368
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   10368
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   10368
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   10368
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   10368
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   10368
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   10368
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   10368
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   10368
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   10368
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   10368
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   10368
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   10368
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   11232
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   11232
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   11232
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   11232
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   11232
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   11232
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   11232
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   11232
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   11232
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   11232
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   11232
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   11232
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   11232
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   11232
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   11232
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   11232
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   11232
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   11232
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   11232
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   11232
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   11232
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   11232
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   11232
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   11232
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   11232
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   11232
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   11232
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   11232
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   11232
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   11232
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   11232
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   11232
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   11232
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   11232
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   11232
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   11232
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   11232
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   11232
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   11232
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   11232
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   11232
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   11232
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   11232
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   11232
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   11232
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   11232
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   11232
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   11232
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   11232
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   11232
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   12096
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   12096
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   12096
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   12096
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   12096
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   12096
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   12096
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   12096
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   12096
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   12096
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   12096
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   12096
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   12096
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   12096
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   12096
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   12096
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   12096
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   12096
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   12096
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   12096
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   12096
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   12096
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   12096
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   12096
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   12096
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   12096
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   12096
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   12096
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   12096
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   12096
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   12096
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   12096
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   12096
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   12096
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   12096
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   12096
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   12096
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   12096
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   12096
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   12096
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   12096
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   12096
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   12096
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   12096
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   12096
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   12096
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   12096
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   12096
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   12096
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   12096
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   12960
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   12960
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   12960
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   12960
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   12960
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   12960
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   12960
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   12960
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   12960
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   12960
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   12960
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   12960
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   12960
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   12960
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   12960
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   12960
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   12960
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   12960
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   12960
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   12960
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   12960
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   12960
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   12960
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   12960
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   12960
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   12960
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   12960
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   12960
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   12960
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   12960
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   12960
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   12960
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   12960
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   12960
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   12960
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   12960
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   12960
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   12960
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   12960
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   12960
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   12960
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   12960
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   12960
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   12960
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   12960
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   12960
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   12960
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   12960
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   12960
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   12960
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   13824
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   13824
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   13824
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   13824
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   13824
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   13824
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   13824
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   13824
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   13824
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   13824
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   13824
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   13824
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   13824
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   13824
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   13824
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   13824
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   13824
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   13824
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   13824
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   13824
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   13824
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   13824
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   13824
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   13824
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   13824
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   13824
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   13824
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   13824
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   13824
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   13824
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   13824
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   13824
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   13824
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   13824
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   13824
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   13824
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   13824
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   13824
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   13824
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   13824
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   13824
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   13824
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   13824
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   13824
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   13824
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   13824
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   13824
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   13824
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   13824
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   13824
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   14688
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   14688
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   14688
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   14688
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   14688
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   14688
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   14688
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   14688
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   14688
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   14688
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   14688
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   14688
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   14688
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   14688
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   14688
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   14688
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   14688
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   14688
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   14688
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   14688
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   14688
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   14688
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   14688
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   14688
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   14688
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   14688
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   14688
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   14688
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   14688
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   14688
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   14688
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   14688
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   14688
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   14688
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   14688
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   14688
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   14688
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   14688
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   14688
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   14688
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   14688
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   14688
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   14688
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   14688
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   14688
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   14688
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   14688
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   14688
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   14688
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   14688
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   15552
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   15552
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   15552
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   15552
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   15552
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   15552
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   15552
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   15552
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   15552
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   15552
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   15552
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   15552
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   15552
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   15552
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   15552
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   15552
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   15552
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   15552
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   15552
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   15552
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   15552
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   15552
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   15552
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   15552
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   15552
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   15552
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   15552
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   15552
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   15552
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   15552
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   15552
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   15552
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   15552
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   15552
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   15552
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   15552
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   15552
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   15552
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   15552
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   15552
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   15552
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   15552
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   15552
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   15552
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   15552
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   15552
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   15552
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   15552
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   15552
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   15552
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   16416
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   16416
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   16416
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   16416
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   16416
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   16416
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   16416
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   16416
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   16416
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   16416
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   16416
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   16416
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   16416
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   16416
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   16416
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   16416
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   16416
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   16416
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   16416
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   16416
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   16416
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   16416
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   16416
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   16416
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   16416
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   16416
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   16416
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   16416
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   16416
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   16416
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   16416
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   16416
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   16416
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   16416
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   16416
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   16416
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   16416
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   16416
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   16416
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   16416
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   16416
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   16416
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   16416
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   16416
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   16416
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   16416
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   16416
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   16416
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   16416
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   16416
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   17280
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   17280
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   17280
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   17280
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   17280
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   17280
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   17280
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   17280
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   17280
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   17280
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   17280
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   17280
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   17280
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   17280
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   17280
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   17280
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   17280
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   17280
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   17280
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   17280
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   17280
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   17280
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   17280
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   17280
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   17280
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   17280
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   17280
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   17280
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   17280
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   17280
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   17280
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   17280
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   17280
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   17280
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   17280
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   17280
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   17280
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   17280
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   17280
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   17280
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   17280
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   17280
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   17280
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   17280
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   17280
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   17280
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   17280
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   17280
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   17280
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   17280
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   18144
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   18144
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   18144
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   18144
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   18144
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   18144
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   18144
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   18144
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   18144
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   18144
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   18144
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   18144
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   18144
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   18144
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   18144
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   18144
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   18144
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   18144
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   18144
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   18144
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   18144
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   18144
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   18144
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   18144
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   18144
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   18144
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   18144
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   18144
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   18144
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   18144
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   18144
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   18144
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   18144
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   18144
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   18144
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   18144
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   18144
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   18144
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   18144
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   18144
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   18144
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   18144
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   18144
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   18144
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   18144
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   18144
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   18144
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   18144
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   18144
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   18144
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   19008
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   19008
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   19008
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   19008
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   19008
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   19008
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   19008
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   19008
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   19008
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   19008
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   19008
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   19008
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   19008
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   19008
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   19008
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   19008
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   19008
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   19008
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   19008
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   19008
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   19008
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   19008
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   19008
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   19008
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   19008
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   19008
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   19008
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   19008
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   19008
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   19008
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   19008
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   19008
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   19008
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   19008
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   19008
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   19008
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   19008
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   19008
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   19008
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   19008
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   19008
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   19008
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   19008
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   19008
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   19008
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   19008
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   19008
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   19008
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   19008
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   19008
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 
+Time:                   19872
+Chemistry cell:         0
+Grid cell(s) (0-based): 0 
+Time:                   19872
+Chemistry cell:         1
+Grid cell(s) (0-based): 1 
+Time:                   19872
+Chemistry cell:         2
+Grid cell(s) (0-based): 2 
+Time:                   19872
+Chemistry cell:         3
+Grid cell(s) (0-based): 3 
+Time:                   19872
+Chemistry cell:         4
+Grid cell(s) (0-based): 4 
+Time:                   19872
+Chemistry cell:         5
+Grid cell(s) (0-based): 5 
+Time:                   19872
+Chemistry cell:         6
+Grid cell(s) (0-based): 6 
+Time:                   19872
+Chemistry cell:         7
+Grid cell(s) (0-based): 7 
+Time:                   19872
+Chemistry cell:         8
+Grid cell(s) (0-based): 8 
+Time:                   19872
+Chemistry cell:         9
+Grid cell(s) (0-based): 9 
+Time:                   19872
+Chemistry cell:         10
+Grid cell(s) (0-based): 10 
+Time:                   19872
+Chemistry cell:         11
+Grid cell(s) (0-based): 11 
+Time:                   19872
+Chemistry cell:         12
+Grid cell(s) (0-based): 12 
+Time:                   19872
+Chemistry cell:         13
+Grid cell(s) (0-based): 13 
+Time:                   19872
+Chemistry cell:         14
+Grid cell(s) (0-based): 14 
+Time:                   19872
+Chemistry cell:         15
+Grid cell(s) (0-based): 15 
+Time:                   19872
+Chemistry cell:         16
+Grid cell(s) (0-based): 16 
+Time:                   19872
+Chemistry cell:         17
+Grid cell(s) (0-based): 17 
+Time:                   19872
+Chemistry cell:         18
+Grid cell(s) (0-based): 18 
+Time:                   19872
+Chemistry cell:         19
+Grid cell(s) (0-based): 19 
+Time:                   19872
+Chemistry cell:         20
+Grid cell(s) (0-based): 20 
+Time:                   19872
+Chemistry cell:         21
+Grid cell(s) (0-based): 21 
+Time:                   19872
+Chemistry cell:         22
+Grid cell(s) (0-based): 22 
+Time:                   19872
+Chemistry cell:         23
+Grid cell(s) (0-based): 23 
+Time:                   19872
+Chemistry cell:         24
+Grid cell(s) (0-based): 24 
+Time:                   19872
+Chemistry cell:         25
+Grid cell(s) (0-based): 25 
+Time:                   19872
+Chemistry cell:         26
+Grid cell(s) (0-based): 26 
+Time:                   19872
+Chemistry cell:         27
+Grid cell(s) (0-based): 27 
+Time:                   19872
+Chemistry cell:         28
+Grid cell(s) (0-based): 28 
+Time:                   19872
+Chemistry cell:         29
+Grid cell(s) (0-based): 29 
+Time:                   19872
+Chemistry cell:         30
+Grid cell(s) (0-based): 30 
+Time:                   19872
+Chemistry cell:         31
+Grid cell(s) (0-based): 31 
+Time:                   19872
+Chemistry cell:         32
+Grid cell(s) (0-based): 32 
+Time:                   19872
+Chemistry cell:         33
+Grid cell(s) (0-based): 33 
+Time:                   19872
+Chemistry cell:         34
+Grid cell(s) (0-based): 34 
+Time:                   19872
+Chemistry cell:         35
+Grid cell(s) (0-based): 35 
+Time:                   19872
+Chemistry cell:         36
+Grid cell(s) (0-based): 36 
+Time:                   19872
+Chemistry cell:         37
+Grid cell(s) (0-based): 37 
+Time:                   19872
+Chemistry cell:         38
+Grid cell(s) (0-based): 38 
+Time:                   19872
+Chemistry cell:         39
+Grid cell(s) (0-based): 39 
+Time:                   19872
+Chemistry cell:         40
+Grid cell(s) (0-based): 40 
+Time:                   19872
+Chemistry cell:         41
+Grid cell(s) (0-based): 41 
+Time:                   19872
+Chemistry cell:         42
+Grid cell(s) (0-based): 42 
+Time:                   19872
+Chemistry cell:         43
+Grid cell(s) (0-based): 43 
+Time:                   19872
+Chemistry cell:         44
+Grid cell(s) (0-based): 44 
+Time:                   19872
+Chemistry cell:         45
+Grid cell(s) (0-based): 45 
+Time:                   19872
+Chemistry cell:         46
+Grid cell(s) (0-based): 46 
+Time:                   19872
+Chemistry cell:         47
+Grid cell(s) (0-based): 47 
+Time:                   19872
+Chemistry cell:         48
+Grid cell(s) (0-based): 48 
+Time:                   19872
+Chemistry cell:         49
+Grid cell(s) (0-based): 49 

@@ -1,0 +1,1576 @@
+                                   MODFLOW 6
+                U.S. GEOLOGICAL SURVEY MODULAR HYDROLOGIC MODEL
+                          GROUNDWATER FLOW MODEL (GWF)
+                VERSION 6.5.0.dev0+prt (preliminary) 10/07/2023
+                               ***DEVELOP MODE***
+
+   MODFLOW 6 compiled Oct 07 2023 02:19:02 with Intel(R) Fortran Intel(R) 64
+   Compiler Classic for applications running on Intel(R) 64, Version 2021.7.0
+                             Build 20220726_000000
+
+This software is preliminary or provisional and is subject to 
+revision. It is being provided to meet the need for timely best 
+science. The software has not received final approval by the U.S. 
+Geological Survey (USGS). No warranty, expressed or implied, is made 
+by the USGS or the U.S. Government as to the functionality of the 
+software and related material nor shall the fact of release 
+constitute any such warranty. The software is provided on the 
+condition that neither the USGS nor the U.S. Government shall be held 
+liable for any damages resulting from the authorized or unauthorized 
+use of the software.
+
+
+As a work of the United States Government, this USGS product is 
+in the public domain within the United States. You can copy, 
+modify, distribute, and perform the work, even for commercial 
+purposes, all without asking permission. Additionally, USGS 
+waives copyright and related rights in the work worldwide 
+through CC0 1.0 Universal Public Domain Dedication 
+(https://creativecommons.org/publicdomain/zero/1.0/).
+
+The following GNU Lesser General Public License (LGPL) libraries
+are used in this USGS product:
+
+    SPARSKIT version 2.0
+      ilut, luson, and qsplit 
+      (https://www-users.cse.umn.edu/~saad/software/SPARSKIT/)
+
+    RCM - Reverse Cuthill McKee Ordering
+      (https://people.math.sc.edu/Burkardt/f_src/rcm/rcm.html)
+
+    BLAS - Basic Linear Algebra Subprograms Level 1
+      (https://people.math.sc.edu/Burkardt/f_src/blas1_d/blas1_d.html)
+
+    SPARSEKIT - Sparse Matrix Utility Package
+      amux, dperm, dvperm, rperm, and cperm
+      (https://people.sc.fsu.edu/~jburkardt/f77_src/sparsekit/sparsekit.html)
+
+The following BSD-3 License libraries are used in this USGS product:
+
+    Modern Fortran DAG Library
+      Copyright (c) 2018, Jacob Williams
+      All rights reserved.
+      (https://github.com/jacobwilliams/daglib)
+
+MODFLOW 6 compiler options: /Isrc\libmf6core.a.p /Isrc /I..\src
+/Isrc\libmf6_external.a.p /MTd /nologo /warn:general /warn:truncated_source
+/stand:f08 /Zi /traceback /O2 /fpe:0 /heap-arrays:0 /traceback /fpp
+/Qdiag-disable:7416 /Qdiag-disable:7025 /Qdiag-disable:5268
+/Fdsrc\libmf6core.a.p\Utilities_compilerversion.F90.pdb
+/module:src\libmf6core.a.p
+/Fosrc/libmf6core.a.p/Utilities_compilerversion.F90.obj /c
+
+System command used to initiate simulation:
+c:\Users\portega\anaconda3\envs\mf6rtm\python.exe -m ipykernel_launcher --f=c:\Users\portega\AppData\Roaming\jupyter\runtime\kernel-v2-11124YcjPNbY2kVR3.json
+
+MODFLOW was compiled using uniform precision.
+
+Real Variables
+  KIND: 8
+  TINY (smallest non-zero value):    2.225074-308
+  HUGE (largest value):    1.797693+308
+  PRECISION: 15
+  SIZE IN BITS: 64
+
+Integer Variables
+  KIND: 4
+  HUGE (largest value): 2147483647
+  SIZE IN BITS: 32
+
+Long Integer Variables
+  KIND: 8
+  HUGE (largest value): 9223372036854775807
+  SIZE IN BITS: 64
+
+Logical Variables
+  KIND: 4
+  SIZE IN BITS: 32
+ 
+ NAMEFILE OPTIONS:
+    FLOWS WILL BE SAVED TO BUDGET FILE SPECIFIED IN OUTPUT CONTROL
+ END NAMEFILE OPTIONS:
+
+ DIS -- STRUCTURED GRID DISCRETIZATION PACKAGE, VERSION 2 : 3/27/2014 - INPUT READ FROM MEMPATH: __INPUT__/GWF/DIS                                 
+
+
+ NPF -- NODE PROPERTY FLOW PACKAGE, VERSION 1, 3/30/2015 INPUT READ FROM MEMPATH: __INPUT__/GWF/NPF                                 
+
+ Setting Discretization Options
+    Model length unit [0=UND, 1=FEET, 2=METERS, 3=CENTIMETERS] set as 2
+ End Setting Discretization Options
+
+ Setting Discretization Dimensions
+    NLAY = 10
+    NROW = 1
+    NCOL = 25
+ End Setting Discretization Dimensions
+
+ Setting Discretization Griddata
+    DELR set from input file
+    DELC set from input file
+    TOP set from input file
+    BOTM set from input file
+    IDOMAIN set from input file
+ End Setting Discretization Griddata
+
+ Setting NPF Options
+    Cell-by-cell flow information will be saved to binary file whenever ICBCFL is not zero.
+    Specific discharge will be calculated at cell centers and written to DATA-SPDIS in budget file when requested.
+    Saturation will be written to DATA-SAT in budget file when requested.
+ End Setting NPF Options
+
+ Setting NPF Griddata
+    ICELLTYPE set from input file
+    K set from input file
+    K33 set from input file
+    K22 not provided.  Setting K22 = K.
+ End Setting NPF Griddata
+
+
+ CHD   -- CHD PACKAGE, VERSION 8, 2/22/2014 INPUT READ FROM MEMPATH: __INPUT__/GWF/CHD                                 
+
+ PROCESSING CHD BASE OPTIONS
+ END OF CHD BASE OPTIONS
+
+ PROCESSING CHD BASE DIMENSIONS
+    MAXBOUND =      20
+ END OF CHD BASE DIMENSIONS
+
+ IC -- INITIAL CONDITIONS PACKAGE, VERSION 8, 3/28/2015 INPUT READ FROM UNIT 2180
+ # File generated by Flopy version 3.5.0.dev0 on 05/31/2024 at 08:18:53.
+ PROCESSING GRIDDATA
+ END PROCESSING GRIDDATA
+
+ CELL CONVERSIONS FOR ITER.=0  STEP=0  PERIOD=0   (NODE or LRC)
+     DRY             (1,1,2) DRY             (1,1,3) DRY             (1,1,4) DRY             (1,1,5) DRY             (1,1,6)
+     DRY             (1,1,7) DRY             (1,1,8) DRY             (1,1,9) DRY            (1,1,10) DRY            (1,1,11)
+     DRY            (1,1,12) DRY            (1,1,13) DRY            (1,1,14) DRY            (1,1,15) DRY            (1,1,16)
+     DRY            (1,1,17) DRY            (1,1,18) DRY            (1,1,19) DRY            (1,1,20) DRY            (1,1,21)
+     DRY            (1,1,22) DRY            (1,1,23) DRY            (1,1,24) DRY             (2,1,2) DRY             (2,1,3)
+     DRY             (2,1,4) DRY             (2,1,5) DRY             (2,1,6) DRY             (2,1,7) DRY             (2,1,8)
+     DRY             (2,1,9) DRY            (2,1,10) DRY            (2,1,11) DRY            (2,1,12) DRY            (2,1,13)
+     DRY            (2,1,14) DRY            (2,1,15) DRY            (2,1,16) DRY            (2,1,17) DRY            (2,1,18)
+     DRY            (2,1,19) DRY            (2,1,20) DRY            (2,1,21) DRY            (2,1,22) DRY            (2,1,23)
+     DRY            (2,1,24) DRY             (3,1,2) DRY             (3,1,3) DRY             (3,1,4) DRY             (3,1,5)
+     DRY             (3,1,6) DRY             (3,1,7) DRY             (3,1,8) DRY             (3,1,9) DRY            (3,1,10)
+     DRY            (3,1,11) DRY            (3,1,12) DRY            (3,1,13) DRY            (3,1,14) DRY            (3,1,15)
+     DRY            (3,1,16) DRY            (3,1,17) DRY            (3,1,18) DRY            (3,1,19) DRY            (3,1,20)
+     DRY            (3,1,21) DRY            (3,1,22) DRY            (3,1,23) DRY            (3,1,24) DRY             (4,1,2)
+     DRY             (4,1,3) DRY             (4,1,4) DRY             (4,1,5) DRY             (4,1,6) DRY             (4,1,7)
+     DRY             (4,1,8) DRY             (4,1,9) DRY            (4,1,10) DRY            (4,1,11) DRY            (4,1,12)
+     DRY            (4,1,13) DRY            (4,1,14) DRY            (4,1,15) DRY            (4,1,16) DRY            (4,1,17)
+     DRY            (4,1,18) DRY            (4,1,19) DRY            (4,1,20) DRY            (4,1,21) DRY            (4,1,22)
+     DRY            (4,1,23) DRY            (4,1,24) DRY             (5,1,2) DRY             (5,1,3) DRY             (5,1,4)
+     DRY             (5,1,5) DRY             (5,1,6) DRY             (5,1,7) DRY             (5,1,8) DRY             (5,1,9)
+     DRY            (5,1,10) DRY            (5,1,11) DRY            (5,1,12) DRY            (5,1,13) DRY            (5,1,14)
+     DRY            (5,1,15) DRY            (5,1,16) DRY            (5,1,17) DRY            (5,1,18) DRY            (5,1,19)
+     DRY            (5,1,20) DRY            (5,1,21) DRY            (5,1,22) DRY            (5,1,23) DRY            (5,1,24)
+     DRY             (6,1,2) DRY             (6,1,3) DRY             (6,1,4) DRY             (6,1,5) DRY             (6,1,6)
+     DRY             (6,1,7) DRY             (6,1,8) DRY             (6,1,9) DRY            (6,1,10) DRY            (6,1,11)
+     DRY            (6,1,12) DRY            (6,1,13) DRY            (6,1,14) DRY            (6,1,15) DRY            (6,1,16)
+     DRY            (6,1,17) DRY            (6,1,18) DRY            (6,1,19) DRY            (6,1,20) DRY            (6,1,21)
+     DRY            (6,1,22) DRY            (6,1,23) DRY            (6,1,24) DRY             (7,1,2) DRY             (7,1,3)
+     DRY             (7,1,4) DRY             (7,1,5) DRY             (7,1,6) DRY             (7,1,7) DRY             (7,1,8)
+     DRY             (7,1,9) DRY            (7,1,10) DRY            (7,1,11) DRY            (7,1,12) DRY            (7,1,13)
+     DRY            (7,1,14) DRY            (7,1,15) DRY            (7,1,16) DRY            (7,1,17) DRY            (7,1,18)
+     DRY            (7,1,19) DRY            (7,1,20) DRY            (7,1,21) DRY            (7,1,22) DRY            (7,1,23)
+     DRY            (7,1,24) DRY             (8,1,2) DRY             (8,1,3) DRY             (8,1,4) DRY             (8,1,5)
+     DRY             (8,1,6) DRY             (8,1,7) DRY             (8,1,8) DRY             (8,1,9) DRY            (8,1,10)
+     DRY            (8,1,11) DRY            (8,1,12) DRY            (8,1,13) DRY            (8,1,14) DRY            (8,1,15)
+     DRY            (8,1,16) DRY            (8,1,17) DRY            (8,1,18) DRY            (8,1,19) DRY            (8,1,20)
+     DRY            (8,1,21) DRY            (8,1,22) DRY            (8,1,23) DRY            (8,1,24) DRY             (9,1,2)
+     DRY             (9,1,3) DRY             (9,1,4) DRY             (9,1,5) DRY             (9,1,6) DRY             (9,1,7)
+     DRY             (9,1,8) DRY             (9,1,9) DRY            (9,1,10) DRY            (9,1,11) DRY            (9,1,12)
+     DRY            (9,1,13) DRY            (9,1,14) DRY            (9,1,15) DRY            (9,1,16) DRY            (9,1,17)
+     DRY            (9,1,18) DRY            (9,1,19) DRY            (9,1,20) DRY            (9,1,21) DRY            (9,1,22)
+     DRY            (9,1,23) DRY            (9,1,24) DRY            (10,1,2) DRY            (10,1,3) DRY            (10,1,4)
+     DRY            (10,1,5) DRY            (10,1,6) DRY            (10,1,7) DRY            (10,1,8) DRY            (10,1,9)
+     DRY           (10,1,10) DRY           (10,1,11) DRY           (10,1,12) DRY           (10,1,13) DRY           (10,1,14)
+     DRY           (10,1,15) DRY           (10,1,16) DRY           (10,1,17) DRY           (10,1,18) DRY           (10,1,19)
+     DRY           (10,1,20) DRY           (10,1,21) DRY           (10,1,22) DRY           (10,1,23) DRY           (10,1,24)
+    BINARY GRID INFORMATION WILL BE WRITTEN TO:
+      UNIT NUMBER: 3083
+      FILE NAME: gwf.dis.grb
+
+ OPENED gwf.dis.grb
+ FILE TYPE:DATA(BINARY)   UNIT 3083   STATUS:REPLACE             
+ FORMAT:UNFORMATTED            ACCESS:STREAM              
+ ACTION:READWRITE           
+
+      THE LAST TIME STEP WILL BE PRINTED
+      THE LAST TIME STEP WILL BE PRINTED
+ # File generated by Flopy version 3.5.0.dev0 on 05/31/2024 at 08:18:53.
+
+ PROCESSING OC OPTIONS
+
+    BUDGET INFORMATION WILL BE WRITTEN TO:
+      UNIT NUMBER: 3084
+      FILE NAME: gwf.cbb
+
+ OPENED gwf.cbb
+ FILE TYPE:DATA(BINARY)   UNIT 3084   STATUS:REPLACE             
+ FORMAT:UNFORMATTED            ACCESS:STREAM              
+ ACTION:READWRITE           
+
+    HEAD INFORMATION WILL BE WRITTEN TO:
+      UNIT NUMBER: 3085
+      FILE NAME: gwf.hds
+
+ OPENED gwf.hds
+ FILE TYPE:DATA(BINARY)   UNIT 3085   STATUS:REPLACE             
+ FORMAT:UNFORMATTED            ACCESS:STREAM              
+ ACTION:READWRITE           
+
+ END OF OC OPTIONS
+
+start timestep kper="1" kstp="1" mode="normal"
+
+
+ BEGIN READING OUTPUT CONTROL FOR STRESS PERIOD 1
+      ALL TIME STEPS WILL BE SAVED
+      ALL TIME STEPS WILL BE SAVED
+      THE LAST TIME STEP WILL BE PRINTED
+      THE LAST TIME STEP WILL BE PRINTED
+
+ END READING OUTPUT CONTROL FOR STRESS PERIOD 1
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      1, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP      1, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP    1, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="2" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      2, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP      2, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP    2, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="3" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP      3, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      3, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      3, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP      3, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP    3, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="4" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP      4, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      4, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      4, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP      4, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP    4, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="5" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP      5, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      5, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      5, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP      5, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP    5, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="6" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP      6, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      6, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      6, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP      6, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP    6, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="7" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP      7, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      7, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      7, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP      7, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP    7, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="8" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP      8, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      8, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      8, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP      8, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP    8, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="9" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP      9, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      9, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP      9, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP      9, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP    9, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="10" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     10, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     10, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     10, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     10, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   10, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="11" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     11, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     11, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     11, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     11, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   11, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="12" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     12, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     12, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     12, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     12, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   12, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="13" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     13, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     13, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     13, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     13, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   13, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="14" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     14, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     14, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     14, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     14, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   14, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="15" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     15, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     15, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     15, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     15, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   15, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="16" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     16, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     16, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     16, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     16, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   16, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="17" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     17, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     17, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     17, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     17, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   17, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="18" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     18, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     18, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     18, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     18, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   18, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="19" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     19, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     19, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     19, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     19, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   19, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="20" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     20, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     20, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     20, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     20, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   20, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="21" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     21, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     21, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     21, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     21, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   21, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="22" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     22, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     22, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     22, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     22, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   22, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="23" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     23, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     23, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     23, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     23, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   23, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="24" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     24, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     24, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     24, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     24, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   24, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="25" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     25, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     25, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     25, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     25, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   25, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="26" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     26, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     26, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     26, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     26, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   26, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="27" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     27, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     27, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     27, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     27, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   27, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="28" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     28, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     28, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     28, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     28, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   28, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="29" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     29, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     29, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     29, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     29, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   29, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="30" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     30, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     30, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     30, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     30, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   30, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="31" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     31, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     31, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     31, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     31, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   31, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="32" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     32, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     32, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     32, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     32, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   32, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="33" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     33, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     33, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     33, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     33, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   33, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="34" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     34, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     34, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     34, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     34, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   34, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="35" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     35, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     35, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     35, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     35, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   35, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="36" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     36, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     36, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     36, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     36, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   36, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="37" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     37, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     37, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     37, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     37, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   37, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="38" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     38, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     38, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     38, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     38, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   38, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="39" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     39, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     39, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     39, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     39, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   39, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="40" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     40, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     40, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     40, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     40, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   40, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="41" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     41, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     41, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     41, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     41, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   41, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="42" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     42, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     42, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     42, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     42, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   42, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="43" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     43, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     43, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     43, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     43, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   43, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="44" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     44, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     44, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     44, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     44, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   44, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="45" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     45, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     45, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     45, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     45, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   45, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="46" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     46, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     46, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     46, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     46, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   46, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="47" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     47, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     47, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     47, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     47, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   47, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="48" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     48, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     48, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     48, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     48, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   48, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="49" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     49, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     49, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     49, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     49, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   49, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="50" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     50, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     50, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     50, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     50, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   50, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="51" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     51, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     51, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     51, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     51, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   51, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="52" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     52, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     52, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     52, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     52, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   52, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="53" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     53, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     53, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     53, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     53, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   53, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="54" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     54, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     54, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     54, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     54, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   54, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="55" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     55, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     55, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     55, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     55, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   55, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="56" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     56, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     56, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     56, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     56, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   56, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="57" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     57, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     57, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     57, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     57, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   57, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="58" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     58, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     58, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     58, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     58, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   58, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="59" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     59, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     59, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     59, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     59, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   59, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="60" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     60, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     60, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     60, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     60, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   60, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="61" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     61, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     61, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     61, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     61, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   61, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="62" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     62, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     62, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     62, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     62, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   62, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="63" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     63, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     63, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     63, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     63, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   63, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="64" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     64, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     64, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     64, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     64, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   64, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="65" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     65, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     65, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     65, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     65, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   65, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="66" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     66, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     66, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     66, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     66, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   66, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="67" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     67, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     67, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     67, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     67, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   67, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="68" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     68, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     68, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     68, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     68, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   68, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="69" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     69, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     69, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     69, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     69, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   69, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="70" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     70, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     70, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     70, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     70, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   70, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="71" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     71, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     71, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     71, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     71, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   71, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="72" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     72, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     72, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     72, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     72, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   72, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="73" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     73, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     73, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     73, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     73, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   73, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="74" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     74, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     74, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     74, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     74, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   74, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="75" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     75, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     75, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     75, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     75, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   75, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="76" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     76, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     76, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     76, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     76, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   76, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="77" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     77, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     77, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     77, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     77, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   77, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="78" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     78, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     78, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     78, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     78, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   78, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="79" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     79, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     79, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     79, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     79, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   79, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="80" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     80, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     80, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     80, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     80, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   80, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="81" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     81, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     81, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     81, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     81, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   81, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="82" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     82, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     82, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     82, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     82, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   82, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="83" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     83, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     83, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     83, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     83, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   83, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="84" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     84, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     84, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     84, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     84, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   84, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="85" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     85, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     85, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     85, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     85, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   85, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="86" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     86, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     86, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     86, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     86, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   86, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="87" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     87, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     87, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     87, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     87, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   87, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="88" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     88, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     88, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     88, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     88, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   88, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="89" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     89, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     89, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     89, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     89, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   89, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="90" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     90, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     90, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     90, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     90, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   90, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="91" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     91, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     91, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     91, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     91, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   91, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="92" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     92, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     92, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     92, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     92, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   92, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="93" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     93, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     93, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     93, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     93, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   93, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="94" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     94, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     94, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     94, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     94, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   94, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="95" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     95, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     95, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     95, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     95, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   95, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="96" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     96, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     96, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     96, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     96, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   96, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="97" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     97, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     97, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     97, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     97, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   97, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="98" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     98, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     98, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     98, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     98, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   98, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="99" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP     99, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     99, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP     99, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP     99, STRESS PERIOD      1
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP   99, STRESS PERIOD    1
+
+end timestep
+
+
+start timestep kper="1" kstp="100" mode="normal"
+
+ UBDSV1 SAVING     FLOW-JA-FACE ON UNIT   3084 AT TIME STEP    100, STRESS PERIOD      1
+ UBDSV06 SAVING       DATA-SPDIS IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP    100, STRESS PERIOD      1
+ UBDSV06 SAVING         DATA-SAT IN MODEL GWF              PACKAGE NPF             CONNECTED TO MODEL GWF              PACKAGE NPF              ON UNIT   3084 AT TIME STEP    100, STRESS PERIOD      1
+ UBDSV06 SAVING              CHD IN MODEL GWF              PACKAGE GWF             CONNECTED TO MODEL GWF              PACKAGE CHD              ON UNIT   3084 AT TIME STEP    100, STRESS PERIOD      1
+1
+  HEAD IN LAYER   1 AT END OF TIME STEP 100 IN STRESS PERIOD    1
+  ---------------------------------------------------------------------------
+
+                1               2               3               4               5               6               7               8               9              10
+               11              12              13              14              15              16              17              18              19              20
+               21              22              23              24              25
+ ................................................................................................................................................................
+   1      12.0000       -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30     10.0000    
+1
+  HEAD IN LAYER   2 AT END OF TIME STEP 100 IN STRESS PERIOD    1
+  ---------------------------------------------------------------------------
+
+                1               2               3               4               5               6               7               8               9              10
+               11              12              13              14              15              16              17              18              19              20
+               21              22              23              24              25
+ ................................................................................................................................................................
+   1      12.0000       -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30     10.0000    
+1
+  HEAD IN LAYER   3 AT END OF TIME STEP 100 IN STRESS PERIOD    1
+  ---------------------------------------------------------------------------
+
+                1               2               3               4               5               6               7               8               9              10
+               11              12              13              14              15              16              17              18              19              20
+               21              22              23              24              25
+ ................................................................................................................................................................
+   1      12.0000       -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30     10.0000    
+1
+  HEAD IN LAYER   4 AT END OF TIME STEP 100 IN STRESS PERIOD    1
+  ---------------------------------------------------------------------------
+
+                1               2               3               4               5               6               7               8               9              10
+               11              12              13              14              15              16              17              18              19              20
+               21              22              23              24              25
+ ................................................................................................................................................................
+   1      12.0000       -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30     10.0000    
+1
+  HEAD IN LAYER   5 AT END OF TIME STEP 100 IN STRESS PERIOD    1
+  ---------------------------------------------------------------------------
+
+                1               2               3               4               5               6               7               8               9              10
+               11              12              13              14              15              16              17              18              19              20
+               21              22              23              24              25
+ ................................................................................................................................................................
+   1      12.0000       -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30     10.0000    
+1
+  HEAD IN LAYER   6 AT END OF TIME STEP 100 IN STRESS PERIOD    1
+  ---------------------------------------------------------------------------
+
+                1               2               3               4               5               6               7               8               9              10
+               11              12              13              14              15              16              17              18              19              20
+               21              22              23              24              25
+ ................................................................................................................................................................
+   1      12.0000       -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30     10.0000    
+1
+  HEAD IN LAYER   7 AT END OF TIME STEP 100 IN STRESS PERIOD    1
+  ---------------------------------------------------------------------------
+
+                1               2               3               4               5               6               7               8               9              10
+               11              12              13              14              15              16              17              18              19              20
+               21              22              23              24              25
+ ................................................................................................................................................................
+   1      12.0000       -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30     10.0000    
+1
+  HEAD IN LAYER   8 AT END OF TIME STEP 100 IN STRESS PERIOD    1
+  ---------------------------------------------------------------------------
+
+                1               2               3               4               5               6               7               8               9              10
+               11              12              13              14              15              16              17              18              19              20
+               21              22              23              24              25
+ ................................................................................................................................................................
+   1      12.0000       -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30     10.0000    
+1
+  HEAD IN LAYER   9 AT END OF TIME STEP 100 IN STRESS PERIOD    1
+  ---------------------------------------------------------------------------
+
+                1               2               3               4               5               6               7               8               9              10
+               11              12              13              14              15              16              17              18              19              20
+               21              22              23              24              25
+ ................................................................................................................................................................
+   1      12.0000       -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30     10.0000    
+1
+  HEAD IN LAYER  10 AT END OF TIME STEP 100 IN STRESS PERIOD    1
+  ---------------------------------------------------------------------------
+
+                1               2               3               4               5               6               7               8               9              10
+               11              12              13              14              15              16              17              18              19              20
+               21              22              23              24              25
+ ................................................................................................................................................................
+   1      12.0000       -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30
+        -1.000000E+30   -1.000000E+30   -1.000000E+30   -1.000000E+30     10.0000    
+
+ HEAD WILL BE SAVED ON UNIT 3085 AT END OF TIME STEP  100, STRESS PERIOD    1
+
+
+  VOLUME BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  100, STRESS PERIOD   1
+  ---------------------------------------------------------------------------------------------------
+
+     CUMULATIVE VOLUME      L**3       RATES FOR THIS TIME STEP      L**3/T          PACKAGE NAME    
+     ------------------                 ------------------------                     ----------------
+
+           IN:                                      IN:
+           ---                                      ---
+                 CHD =           0.0000                   CHD =           0.0000     CHD                              
+
+            TOTAL IN =           0.0000              TOTAL IN =           0.0000
+
+          OUT:                                     OUT:
+          ----                                     ----
+                 CHD =           0.0000                   CHD =           0.0000     CHD                              
+
+           TOTAL OUT =           0.0000             TOTAL OUT =           0.0000
+
+            IN - OUT =           0.0000              IN - OUT =           0.0000
+
+ PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+
+
+
+
+         TIME SUMMARY AT END OF TIME STEP  100 IN STRESS PERIOD    1
+                    SECONDS     MINUTES      HOURS       DAYS        YEARS
+                    -----------------------------------------------------------
+   TIME STEP LENGTH 1.72800E+06  28800.      480.00      20.000     5.47570E-02
+ STRESS PERIOD TIME 1.72800E+08 2.88000E+06  48000.      2000.0      5.4757    
+         TOTAL TIME 1.72800E+08 2.88000E+06  48000.      2000.0      5.4757    
+
+
+end timestep
+
