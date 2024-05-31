@@ -80,8 +80,6 @@ class ChemStress():
     def set_packtype(self, packtype):
         self.packtype = packtype
 
-
-
 class Mup3d(object):
     def __init__(self, name, solutions, nlay, nrow, ncol):
         self.name = name
@@ -104,6 +102,9 @@ class Mup3d(object):
         self.ncpl = self.nlay*self.nrow*self.ncol
     
     def set_charge_offset(self, charge_offset):
+        """
+        Sets the charge offset for the MF6RTM model to handle negative charge values
+        """
         self.charge_offset = charge_offset
 
     def set_chem_stress(self, chem_stress):
@@ -118,6 +119,9 @@ class Mup3d(object):
     #     pass
 
     def set_wd(self, wd):
+        """
+        Sets the working directory for the MF6RTM model.
+        """
         #joint current directory with wd, check if exist, create if not
         self.wd = Path(wd)
         if not self.wd.exists():
@@ -137,6 +141,9 @@ class Mup3d(object):
         self.database = database
 
     def set_equilibrium_phases(self, eq_phases):
+        #docstrings
+        '''Sets the equilibrium phases for the MF6RTM model.
+        '''
         assert isinstance(eq_phases, EquilibriumPhases), 'eq_phases must be an instance of the EquilibriumPhases class'
         #change all keys from eq_phases so they start from 0
         eq_phases.data = {i: eq_phases.data[key] for i, key in enumerate(eq_phases.data.keys())}
@@ -266,13 +273,9 @@ class Mup3d(object):
             ic1[:, 1] = self.equilibrium_phases.ic  # Equilibrium phases
         else:
             ic1[:, 1] = -1
-
-        ic1[:, 2] = -1  # Exchange 1
-        
-        ic1[:, 3] = -1  # Surface
-        
-        ic1[:, 4] = -1  # Gas phase
-        
+        ic1[:, 2] = -1  # Exchange 1      
+        ic1[:, 3] = -1  # Surface      
+        ic1[:, 4] = -1  # Gas phase     
         ic1[:, 5] = -1  # Solid solutions
         
         if isinstance(self.kinetic_phases, KineticPhases):
@@ -384,21 +387,19 @@ class Mup3d(object):
         print(f'ChemStress {attr} initialized')
         return sconc
     
-    def run_mup3d(self, sim, dll = None, reaction = True, skiptstep0 = False):
+    def run_mup3d(self, sim, dll = None, reaction = True):
         """
         Modflow6 API and PhreeqcRM integration function to solve model.
 
         Parameters
         ----------
+        sim(mf6.simulation): the MODFLOW-6 simulation object (from flopy)
         dll (Path like): the MODFLOW-6 shared/DLL library filename
-        sim_ws (Path like): the model directory
-        phreeqc_rm (phreeqcrm object): an initialized phreeqcrm object
         reaction (bool): to indicate wether to invoke phreeqcrm or not. Default is True
         """
 
-        print('\n-----------------------------  WELCOME TO  MUPin3D -----------------------------\n')
-        print(mrbeaker())
-        print('\nTake your time to appreciate MR BEAKER!')
+        print('\n-----------------------------  WELCOME TO  MUP3D -----------------------------\n')
+
 
         phreeqc_rm = self.phreeqc_rm
         sim_ws = sim.simulation_data.mfpath.get_sim_path()
@@ -431,21 +432,21 @@ class Mup3d(object):
 
         num_fails = 0
         
-        
+        #some phreeqc output settings
+        phreeqc_rm.SetScreenOn(True)
         sout_columns = phreeqc_rm.GetSelectedOutputHeadings()
         soutdf = pd.DataFrame(columns = sout_columns)
 
         # let's do it!
         while ctime < etime:
-            phreeqc_rm.SetScreenOn(True)
+            
             sol_start = datetime.now()
             # length of the current solve time
             dt = mf6.get_time_step()
             # prep the current time step
             mf6.prepare_time_step(dt)
     
-            status = phreeqc_rm.SetTimeStep(dt*86400)
-
+            status = phreeqc_rm.SetTimeStep(dt*86400)#FIXME: generalize	with time_units_dic and mf6.sim.time_units
             kiter = 0
 
             # prep to solve
@@ -456,28 +457,28 @@ class Mup3d(object):
             stress_period = mf6.get_value(mf6.get_var_address("KPER", "TDIS"))[0]
             time_step = mf6.get_value(mf6.get_var_address("KSTP", "TDIS"))[0]
 
-            #get arrays from mf6 and flatten for phreeqc
-            print(f'\nGetting concentration arrays --- time step: {time_step} --- elapsed time: {ctime}')
-
-
-            mf6_conc_array = []
-            for c in components:
-                if c.lower() == 'charge':
-                    mf6_conc_array.append(concentration_m3_to_l (mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) - self.charge_offset ) )
-                    
-                else:
-                    mf6_conc_array.append( concentration_m3_to_l( mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) ) )
-                print(c, '     ', np.reshape( mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')), (self.nlay, self.nrow, self.ncol)) )
-            # c_dbl_vect = flatten_list(mf6_conc_array)
-            if skiptstep0 and ctime == 0.0:
+            if ctime == 0.0:
+                # Set concentrations in mf6 for the first time step again
+                # mf6 api is giving weird init conc for some cases for tstep 0 so re setting here for now
                 c_dbl_vect = self.init_conc_array_phreeqc
             else:
                 c_dbl_vect = np.reshape(mf6_conc_array, self.ncpl*self.ncomps)
 
-            # print(mf6_conc_array)
-
             ### Phreeqc loop block
             if reaction:
+                #get arrays from mf6 and flatten for phreeqc
+                print(f'\nGetting concentration arrays --- time step: {time_step} --- elapsed time: {ctime}')
+
+                mf6_conc_array = []
+                for c in components:
+                    if c.lower() == 'charge':
+                        mf6_conc_array.append(concentration_m3_to_l (mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) - self.charge_offset ) )
+                        
+                    else:
+                        mf6_conc_array.append( concentration_m3_to_l( mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) ) )
+
+                c_dbl_vect = np.reshape(mf6_conc_array, self.ncpl*self.ncomps) #flatten array
+
                 #update phreeqc time and time steps
                 status = phreeqc_rm.SetTime(ctime*86400)
                 
@@ -513,7 +514,8 @@ class Mup3d(object):
                 # Get concentrations from phreeqc 
                 c_dbl_vect = phreeqc_rm.GetConcentrations()
                 conc = [c_dbl_vect[i:i + nxyz] for i in range(0, len(c_dbl_vect), nxyz)] #reshape array
-                sconc = {}
+
+                sconc = {} #FIXME: renam this variable
                 for e, c in enumerate(components):
                     sconc[c] = np.reshape(conc[e], (nlay, nrow, ncol))
 
@@ -526,8 +528,7 @@ class Mup3d(object):
                     else:
                         mf6.set_value(f'{c.upper()}/X', concentration_l_to_m3(sconc[c]))
 
-            
-            # solve transport until converged
+            ### mf6 transport loop block
             for sln in range(1, nsln+1):
                 # max number of solution iterations
                 max_iter = mf6.get_value(mf6.get_var_address("MXITER", f"SLN_{sln}")) #TODO: not sure to define this inside the loop
@@ -568,7 +569,8 @@ class Mup3d(object):
         mf6.finalize()
         #save selected ouput to csv
         soutdf.to_csv(os.path.join(sim_ws,'sout.csv'), index=False)
-
+        print(mrbeaker())
+        print('\nMR BEAKER IMPORTANT MESSAGE: MODEL RUN FINISHED BUT CHECK THE RESULTS .. THEY ARE PROLY RUBBISH\n')
     
 def get_mf6_dis(sim):
     # extract dis from modflow6 sim object 
@@ -583,11 +585,10 @@ def get_mf6_dis(sim):
 #     return icpl, nvert, vertices, cell2d, top, botm
 
 def mrbeaker():
-    # Load the image of Mr. Beaker
-
+    #docstrings
+    '''ASCII art of Mr. Beaker
+    '''
     # get the path of this file
-
-
     whereismrbeaker = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mrbeaker.png')
     mr_beaker_image = Image.open(whereismrbeaker)
 

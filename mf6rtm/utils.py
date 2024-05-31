@@ -8,6 +8,18 @@ endmainblock  = '''\nPRINT
 END\n'''
 
 def solution_csv_to_dict(csv_file, header = True):
+    """Read a solution CSV file and convert it to a dictionary
+    Parameters
+    ----------
+    csv_file : str
+        The path to the solution CSV file.
+    header : bool, optional
+        Whether the CSV file has a header. The default is True.
+    Returns
+    -------
+    data : dict
+        A dictionary with the first column as keys and the remaining columns as values.
+    """
     # Read the CSV file and convert it to a dictionary using first row as keys and columns as value (array of shape ncol)
     import csv
     with open(csv_file, mode='r') as infile:
@@ -23,6 +35,18 @@ def solution_csv_to_dict(csv_file, header = True):
     return data
 
 def solution_df_to_dict(data, header = True):
+    """Convert a pandas DataFrame to a dictionary
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        The DataFrame to convert.
+    header : bool, optional
+        Whether the DataFrame has a header. The default is True.
+    Returns
+    -------
+    data : dict
+        A dictionary with the first column as keys and the remaining columns as values.
+    """
     import pandas as pd
     data = data.T.to_dict('list')
     for key, value in data.items():
@@ -30,6 +54,18 @@ def solution_df_to_dict(data, header = True):
     return data
 
 def equilibrium_phases_csv_to_dict(csv_file, header = True):
+    """Read an equilibrium phases CSV file and convert it to a dictionary	
+    Parameters
+    ----------
+    csv_file : str
+        The path to the equilibrium phases CSV file.
+    header : bool, optional
+        Whether the CSV file has a header. The default is True.
+    Returns
+    -------
+    data : dict
+        A dictionary with phase names as keys and lists of saturation indices and amounts as values.
+    """
     import csv
     with open(csv_file, mode='r') as infile:
         reader = csv.reader(infile)
@@ -48,15 +84,38 @@ def equilibrium_phases_csv_to_dict(csv_file, header = True):
                 data[int(row[-1])][row[0]] = [float(row[1]), float(row[2])]
     return data
 
-
-
-
 def handle_block(current_items, block_generator, i):
+    """Generate a block for a PHREEQC input script if the current items are not empty
+    Parameters
+    ----------
+    current_items : list
+        A list of items to include in the block.
+    block_generator : function
+        A function that generates the block.
+    i : int
+        The block number.
+    Returns
+    -------
+    script : str
+        The block as a string.
+    """
     script = ""
     script += block_generator(current_items, i)
     return script
 
 def get_compound_names(database_file, block = 'SOLUTION_MASTER_SPECIES'):
+    """Get a list of compound names from a PHREEQC database file	
+    Parameters
+    ----------
+    database_file : str
+        The path to the PHREEQC database file.
+    block : str, optional
+        The keyword for the block containing the compound names. The default is 'SOLUTION_MASTER_SPECIES'.
+    Returns
+    -------
+    compound_names : list
+        A list of compound names.
+    """
     species_names = []
     with open(database_file, 'r') as db:
         lines = db.readlines()
@@ -73,6 +132,18 @@ def get_compound_names(database_file, block = 'SOLUTION_MASTER_SPECIES'):
     return species_names
 
 def generate_phases_block(phases_dict, i):
+    """Generate an EQUILIBRIUM_PHASES block for PHREEQC input script
+    Parameters
+    ----------
+    phases_dict : dict
+        A dictionary with phase names as keys and lists of saturation indices and amounts as values.
+    i : int
+        The block number.
+    Returns
+    -------
+    script : str
+        The EQUILIBRIUM_PHASES block as a string.
+    """
     script = ""
     script += f"EQUILIBRIUM_PHASES {i+1}\n"
     for name, values in phases_dict.items():
@@ -82,6 +153,22 @@ def generate_phases_block(phases_dict, i):
     return script
 
 def generate_solution_block(species_dict, i, temp = 25.0, water = 1.0):
+    """Generate a SOLUTION block for PHREEQC input script	
+    Parameters	
+    ----------
+    species_dict : dict	
+        A dictionary with species names as keys and concentrations as values.
+    i : int
+        The solution number.
+    temp : float, optional
+        The temperature of the solution in degrees Celsius. The default is 25.0.
+    water : float, optional
+        The mass of water in kg. The default is 1.0.
+    Returns
+    -------
+    script : str
+        The SOLUTION block as a string.
+    """
     script = f"SOLUTION {i+1}\n"
     script += f'''   units mol/kgw
     water {water}
