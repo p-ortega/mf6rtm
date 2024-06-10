@@ -270,9 +270,12 @@ class Mup3d(object):
         ic1[:, 0] = np.reshape(self.solutions.ic, self.ncpl)
 
         if isinstance(self.equilibrium_phases, EquilibriumPhases):
-            ic1[:, 1] = self.equilibrium_phases.ic  # Equilibrium phases
+            if len(self.equilibrium_phases.ic) == 1:
+                self.equilibrium_phases.ic = [self.equilibrium_phases.ic[0]]*self.ncpl
+            ic1[:, 1] = np.reshape(self.equilibrium_phases.ic, self.ncpl)  # Equilibrium phases
         else:
             ic1[:, 1] = -1
+        
         ic1[:, 2] = -1  # Exchange 1      
         ic1[:, 3] = -1  # Surface      
         ic1[:, 4] = -1  # Gas phase     
@@ -523,6 +526,7 @@ class Mup3d(object):
                 sconc = {} #FIXME: renam this variable
                 for e, c in enumerate(components):
                     sconc[c] = np.reshape(conc[e], (nlay, nrow, ncol))
+                    sconc[c] = conc[e]
 
                 # Set concentrations in mf6
                 for c in components:
