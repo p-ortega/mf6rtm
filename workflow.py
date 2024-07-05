@@ -15,7 +15,7 @@ import numpy as np
 import math
 import time
 import itertools
-#sys.path.insert(0,os.path.join("dependencies"))
+# sys.path.insert(0,os.path.join("dependencies"))
 
 import flopy
 import pyemu
@@ -26,7 +26,7 @@ from modflowapi.extensions import ApiSimulation
 
 from time import sleep
 
-from flopy.utils.gridintersect import GridIntersect
+# from flopy.utils.gridintersect import GridIntersect
 from datetime import datetime
 import matplotlib.pyplot as plt
 
@@ -1352,59 +1352,12 @@ def build_mt3dms_model(sim_name, ws, dispersivity=dispersivity, mixelm=mixelm, s
 
     return mf, mt
 
+def run_pht3d(ws):
+    '''Runs pht3d with pyemu.
+    '''
+    pyemu.os_utils.run('pht3dv217 pht3d.nam', cwd  = ws)
+    return
+
 if __name__ == "__main__":
-    ##### Set up stuff #####
-    sim_name = 'engesgaard1992api'
-    initsol_components, sconc_init = init_solution(init_file = 'initsol.dat')
-    q = 0.259
-    wel_rec = wel_array(q, sconc_init, aux = True)
-    # components, phreeqc_rm, sconc = initialize_phreeqcrm_local(sim_name)    
-
-    # # ##### Run API Benchmarks #####
-    # sim = build_model(ws = 'benchmark', sim_name = sim_name, comps = components, 
-    #                   sconc=sconc, wel_rec=wel_rec, init_comp=sconc_init)
-    # print(sconc)
-    # sim_ws = Path(f"benchmark/{sim_name}/")
-    # dll = Path("bin/win/libmf6")
-    # results = mf6rtm.mf6rtm.mf6rtm_run(dll, sim, phreeqc_rm, reaction = True)
-
-    ##### Transport Benchmarks #####
-    # sim_name = 'mt3dms'
-    # ws = os.path.join('benchmark')
-    # mf, mt = build_mt3dms_model(sim_name, ws = ws)
-    # run_mt3dms(mt)
-
-    # sim_name = 'mf6gwt'
-    # ws = os.path.join('benchmark')
-    # sim = build_model(ws = ws, sim_name = sim_name)
-    # run_mf6(sim)
-
-    # sim_name = 'mf6gwtapi'
-    # ws = os.path.join('benchmark')
-    # sim = build_model(ws = ws, sim_name = sim_name)
-    # sim_ws = Path(f"benchmark/{sim_name}/")
-    # results = api_test(dll, sim_ws)
-    # data = {
-    # 'pH': [9.91, 7.5,9.91, 1.91],
-    # 'pe': [4.0, 4.0, 4.0, 4.0],
-    # 'C(+4)': [1.23e-004, 0, 1.23e-004, 1.23e-004],
-    # 'Ca': [1.230e-004, 0, 1.230e-004,1.23e-004],
-    # 'Cl': [1e-18, 1, 1e-18,1],
-    # 'Mg': [1e-18, 2, 1e-18,1]
-    # }
-
-    # phases_dict = {
-    # 'Calcite': [[0.0, 10.220625e-004], 
-    #             [0.0, 1]],
-    # 'Dolomite': [[0.0, 10.220625e-004], 
-    #             [0.0, 1]], 
-    # }
-    # nlay, nrow, ncol = 1, 1, 40
-    # model = mf6rtm.mf6rtm.mup3d(data, nlay, nrow, ncol)
-
-    # model.set_equilibrium_phases(phases_dict)
-    # phinp = model.generate_phreeqc_script()
-    # model.phinp = 'advect.pqi'
-    # model.initialize()
-    # print(model.database)
-    # model.initialize()
+    ws = os.path.join('benchmark', 'walter1994', 'walter1994_pht3d')
+    run_pht3d(ws)
