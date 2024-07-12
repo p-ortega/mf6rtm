@@ -263,10 +263,17 @@ class Mup3d(object):
 
         if self.solutions.ic is None:
             self.solutions.ic = [1]*self.ncpl
-        if len(self.solutions.ic) == 1:
+        # if len(self.solutions.ic) == 1:
+        #     self.solutions.ic = [self.solutions.ic[0]]*self.ncpl
+        # check if solutions.ic is instance array
+
+        if isinstance(self.solutions.ic, list) and len(self.solutions.ic) == 1:
             self.solutions.ic = [self.solutions.ic[0]]*self.ncpl
 
-        #this is getting a column slice
+        if isinstance(self.solutions.ic, np.ndarray) and self.solutions.ic.shape != (self.nlay, self.nrow, self.ncol):
+            self.solutions.ic = [self.solutions.ic[0]]*self.ncpl
+
+        #this gets a column slice
         ic1[:, 0] = np.reshape(self.solutions.ic, self.ncpl)
 
         if isinstance(self.equilibrium_phases, EquilibriumPhases):

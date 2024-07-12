@@ -7,7 +7,7 @@ Screen output will be suppressed.
 --------------------------------------------------------
 Concentration cutoff: 1.00e-014.
 --------------------------------------------------------
-Number of mobile equilibrium components: 15
+Number of mobile equilibrium components: 14
 Number of equilibrium minerals: 6
 Number of sorbed cations: 0
 Number of surfaces: 0
@@ -27,19 +27,18 @@ Component 7: K
 Component 8: Mg
 Component 9: Mn(2)
 Component 10: Na
-Component 11: S(-2)
-Component 12: S(6)
-Component 13: Si
-Component 14: pH
-Component 15: pe
+Component 11: S(6)
+Component 12: Si
+Component 13: pH
+Component 14: pe
 ---------- Immobile kinetic species ----------
 ---------- Equilibrium minerals ----------
-Component 16: Calcite. SI to equilibrate with: 0.000000
-Component 17: Fe(OH)3(a). SI to equilibrate with: 0.000000
-Component 18: Gibbsite. SI to equilibrate with: 0.000000
-Component 19: Gypsum. SI to equilibrate with: 0.000000
-Component 20: SiO2(a). SI to equilibrate with: 0.000000
-Component 21: Siderite. SI to equilibrate with: 0.000000
+Component 15: Calcite. SI to equilibrate with: 0.000000
+Component 16: Fe(OH)3(a). SI to equilibrate with: 0.000000
+Component 17: Gibbsite. SI to equilibrate with: 0.000000
+Component 18: Gypsum. SI to equilibrate with: 0.000000
+Component 19: SiO2(a). SI to equilibrate with: 0.000000
+Component 20: Siderite. SI to equilibrate with: 0.000000
 ---------- Exchanger species ----------
 ---------- Surface species ----------
 ---------- Kinetic minerals ----------
