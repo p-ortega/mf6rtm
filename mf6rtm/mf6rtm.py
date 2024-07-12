@@ -464,28 +464,61 @@ class Mup3d(object):
             # the one-based stress period number
             stress_period = mf6.get_value(mf6.get_var_address("KPER", "TDIS"))[0]
             time_step = mf6.get_value(mf6.get_var_address("KSTP", "TDIS"))[0]
-
-            if ctime == 0.0:
-                # Set concentrations in mf6 for the first time step again
-                # mf6 api is giving weird init conc for some cases for tstep 0 so re setting here for now
-                c_dbl_vect = self.init_conc_array_phreeqc
-            else:
-                mf6_conc_array = []
-                for c in components:
-                    if c.lower() == 'charge':
-                        mf6_conc_array.append(concentration_m3_to_l (mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) - self.charge_offset ) )
-                        
-                    else:
-                        mf6_conc_array.append( concentration_m3_to_l( mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) ) )
-
-                c_dbl_vect = np.reshape(mf6_conc_array, self.ncpl*self.ncomps) #flatten array
             
-            ### Phreeqc loop block
+            ### mf6 transport loop block
+            for sln in range(1, nsln+1):
+                # max number of solution iterations
+                max_iter = mf6.get_value(mf6.get_var_address("MXITER", f"SLN_{sln}")) #TODO: not sure to define this inside the loop
+                mf6.prepare_solve(sln)
+
+                print(f'\nSolving solution {sln} - Solving {modelnmes[sln-1]}') #TODO: Tie sln number with gwf or component
+                while kiter < max_iter:
+                    convg = mf6.solve(sln)
+                    if convg:
+                        td = (datetime.now() - sol_start).total_seconds() / 60.0
+                        print("Transport stress period: {0} --- time step: {1} --- converged with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter,td))
+                        break
+                    kiter += 1
+                    
+                if not convg:
+                    td = (datetime.now() - sol_start).total_seconds() / 60.0
+                    print("Transport stress period: {0} --- time step: {1} --- did not converge with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter,td))
+                    num_fails += 1
+                try:
+                    mf6.finalize_solve(sln)
+                    print(f'\nSolution {sln} finalized')
+                except:
+                    pass
+
+            # if ctime == 0.0:
+            #     # Set concentrations in mf6 for the first time step again
+            #     # mf6 api is giving weird init conc for some cases for tstep 0 so re setting here for now
+            #     c_dbl_vect = self.init_conc_array_phreeqc
+            # else:
+            #     mf6_conc_array = []
+            #     for c in components:
+            #         if c.lower() == 'charge':
+            #             mf6_conc_array.append(concentration_m3_to_l (mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) - self.charge_offset ) )
+                        
+            #         else:
+            #             mf6_conc_array.append( concentration_m3_to_l( mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) ) )
+
+            #     c_dbl_vect = np.reshape(mf6_conc_array, self.ncpl*self.ncomps) #flatten array
+
+            mf6_conc_array = []
+            for c in components:
+                if c.lower() == 'charge':
+                    mf6_conc_array.append(concentration_m3_to_l (mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) - self.charge_offset ) )
+                    
+                else:
+                    mf6_conc_array.append( concentration_m3_to_l( mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) ) )
+
+            c_dbl_vect = np.reshape(mf6_conc_array, self.ncpl*self.ncomps) #flatten array
+
+           ### Phreeqc loop block
             if reaction:
                 #get arrays from mf6 and flatten for phreeqc
                 print(f'\nGetting concentration arrays --- time step: {time_step} --- elapsed time: {ctime}')
-
-
 
                 #update phreeqc time and time steps
                 status = phreeqc_rm.SetTime(ctime*86400)
@@ -537,50 +570,26 @@ class Mup3d(object):
                     else:
                         mf6.set_value(f'{c.upper()}/X', concentration_l_to_m3(sconc[c]))
 
-            ### mf6 transport loop block
-            for sln in range(1, nsln+1):
-                # max number of solution iterations
-                max_iter = mf6.get_value(mf6.get_var_address("MXITER", f"SLN_{sln}")) #TODO: not sure to define this inside the loop
-                mf6.prepare_solve(sln)
-
-                print(f'\nSolving solution {sln} - Solving {modelnmes[sln-1]}') #TODO: Tie sln number with gwf or component
-                while kiter < max_iter:
-                    convg = mf6.solve(sln)
-                    if convg:
-                        td = (datetime.now() - sol_start).total_seconds() / 60.0
-                        print("Transport stress period: {0} --- time step: {1} --- converged with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter,td))
-                        break
-                    kiter += 1
-                    
-                if not convg:
-                    td = (datetime.now() - sol_start).total_seconds() / 60.0
-                    print("Transport stress period: {0} --- time step: {1} --- did not converge with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter,td))
-                    num_fails += 1
-                try:
-                    mf6.finalize_solve(sln)
-                    print(f'\nSolution {sln} finalized')
-                except:
-                    pass
 
             mf6.finalize_time_step()
             ctime = mf6.get_current_time()  #update the current time tracking
 
         sim_end = datetime.now()
         td = (sim_end - sim_start).total_seconds() / 60.0
-        print("\nReactive transport solution finished at {0} --- it took: {1:10.5G} mins".format(sim_end.strftime(DT_FMT),td))
         if num_fails > 0:
             print("\nFailed to converge {0} times".format(num_fails))
         print("\n")
 
         #save selected ouput to csv
         soutdf.to_csv(os.path.join(sim_ws,'sout.csv'), index=False)
+        
+        print("\nReactive transport solution finished at {0} --- it took: {1:10.5G} mins".format(sim_end.strftime(DT_FMT),td))
 
         # Clean up and close api objs
         status = phreeqc_rm.CloseFiles()
         status = phreeqc_rm.MpiWorkerBreak()
         mf6.finalize()
 
-        #print mrbeaker
         print(mrbeaker())
         print('\nMR BEAKER IMPORTANT MESSAGE: MODEL RUN FINISHED BUT CHECK THE RESULTS .. THEY ARE PROLY RUBBISH\n')
     

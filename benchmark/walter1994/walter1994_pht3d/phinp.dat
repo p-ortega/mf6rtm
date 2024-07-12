@@ -2,7 +2,7 @@ SOLUTION 1 # [K,I,J] = 1,1,1
 	units mol/kgw
 	water 1.0
 	temp 2.500000e+001
-	pH 6.960000e+000  # comp 14
+	pH 6.955000e+000  # comp 14
 	pe 1.670000e+000  # comp 15
 	Al 1.270000e-007  # comp 1
 	C(4) 3.940000e-003  # comp 2

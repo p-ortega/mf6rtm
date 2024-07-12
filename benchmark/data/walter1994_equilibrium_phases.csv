@@ -1,4 +1,4 @@
-phase,sat_index,conc_mol_kg,num
+phase,sat_index,conc_mol_l,num
 Calcite,0,1.95e-2,1
 Siderite,0,4.22e-3,1
 Gibbsite,0,2.51e-3,1
