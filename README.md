@@ -1,7 +1,7 @@
 # MF6RTM: Reactive Transport Model via the MODFLOW 6 and PHREEQCRM APIs
 
 ## Benchmarks
-Benchmark comparing model results against PHT3d are in benchmark/. Each folder contains a Jupyter notebook to write and execute an MF6RTM model via the MUP3D class. Additionally, PHT3d files are provided in the corresponding _pht3d directory.
+Benchmark comparing model results against PHT3d are in `benchmark/`. Each folder contains a Jupyter notebook to write and execute an MF6RTM model via the MUP3D class. Additionally, PHT3d files are provided in the corresponding _pht3d directory.
 
 ## Considerations
 
@@ -9,8 +9,9 @@ The current version is intended to work with structured grids (dis object in MF6
 
 On the PHREEQC side, the following have been included:
 
-Solution
-Equilibrium phases
+- Solution
+- Equilibrium phases
+
 Future updates will include kinetic phases, ion exchange, and surface complexation, with their respective benchmarks.
 
 ## Software requirements
