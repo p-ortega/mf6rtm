@@ -1,1 +1,1 @@
-  chdtail  aux  C
+  chd  aux  C

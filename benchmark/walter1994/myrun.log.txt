@@ -1,0 +1,400 @@
+
+Beginning reaction calculation               0.0 days
+
+Beginning reaction calculation               10.0 days
+
+Beginning reaction calculation               20.0 days
+
+Beginning reaction calculation               30.0 days
+
+Beginning reaction calculation               40.0 days
+
+Beginning reaction calculation               50.0 days
+
+Beginning reaction calculation               60.0 days
+
+Beginning reaction calculation               70.0 days
+
+Beginning reaction calculation               80.0 days
+
+Beginning reaction calculation               90.0 days
+
+Beginning reaction calculation               100.0 days
+
+Beginning reaction calculation               110.0 days
+
+Beginning reaction calculation               120.0 days
+
+Beginning reaction calculation               130.0 days
+
+Beginning reaction calculation               140.0 days
+
+Beginning reaction calculation               150.0 days
+
+Beginning reaction calculation               160.0 days
+
+Beginning reaction calculation               170.0 days
+
+Beginning reaction calculation               180.0 days
+
+Beginning reaction calculation               190.0 days
+
+Beginning reaction calculation               200.0 days
+
+Beginning reaction calculation               210.0 days
+
+Beginning reaction calculation               220.0 days
+
+Beginning reaction calculation               230.0 days
+
+Beginning reaction calculation               240.0 days
+
+Beginning reaction calculation               250.0 days
+
+Beginning reaction calculation               260.0 days
+
+Beginning reaction calculation               270.0 days
+
+Beginning reaction calculation               280.0 days
+
+Beginning reaction calculation               290.0 days
+
+Beginning reaction calculation               300.0 days
+
+Beginning reaction calculation               310.0 days
+
+Beginning reaction calculation               320.0 days
+
+Beginning reaction calculation               330.0 days
+
+Beginning reaction calculation               340.0 days
+
+Beginning reaction calculation               350.0 days
+
+Beginning reaction calculation               360.0 days
+
+Beginning reaction calculation               370.0 days
+
+Beginning reaction calculation               380.0 days
+
+Beginning reaction calculation               390.0 days
+
+Beginning reaction calculation               400.0 days
+
+Beginning reaction calculation               410.0 days
+
+Beginning reaction calculation               420.0 days
+
+Beginning reaction calculation               430.0 days
+
+Beginning reaction calculation               440.0 days
+
+Beginning reaction calculation               450.0 days
+
+Beginning reaction calculation               460.0 days
+
+Beginning reaction calculation               470.0 days
+
+Beginning reaction calculation               480.0 days
+
+Beginning reaction calculation               490.0 days
+
+Beginning reaction calculation               500.0 days
+
+Beginning reaction calculation               510.0 days
+
+Beginning reaction calculation               520.0 days
+
+Beginning reaction calculation               530.0 days
+
+Beginning reaction calculation               540.0 days
+
+Beginning reaction calculation               550.0 days
+
+Beginning reaction calculation               560.0 days
+
+Beginning reaction calculation               570.0 days
+
+Beginning reaction calculation               580.0 days
+
+Beginning reaction calculation               590.0 days
+
+Beginning reaction calculation               600.0 days
+
+Beginning reaction calculation               610.0 days
+
+Beginning reaction calculation               620.0 days
+
+Beginning reaction calculation               630.0 days
+
+Beginning reaction calculation               640.0 days
+
+Beginning reaction calculation               650.0 days
+
+Beginning reaction calculation               660.0 days
+
+Beginning reaction calculation               670.0 days
+
+Beginning reaction calculation               680.0 days
+
+Beginning reaction calculation               690.0 days
+
+Beginning reaction calculation               700.0 days
+
+Beginning reaction calculation               710.0 days
+
+Beginning reaction calculation               720.0 days
+
+Beginning reaction calculation               730.0 days
+
+Beginning reaction calculation               740.0 days
+
+Beginning reaction calculation               750.0 days
+
+Beginning reaction calculation               760.0 days
+
+Beginning reaction calculation               770.0 days
+
+Beginning reaction calculation               780.0 days
+
+Beginning reaction calculation               790.0 days
+
+Beginning reaction calculation               800.0 days
+
+Beginning reaction calculation               810.0 days
+
+Beginning reaction calculation               820.0 days
+
+Beginning reaction calculation               830.0 days
+
+Beginning reaction calculation               840.0 days
+
+Beginning reaction calculation               850.0 days
+
+Beginning reaction calculation               860.0 days
+
+Beginning reaction calculation               870.0 days
+
+Beginning reaction calculation               880.0 days
+
+Beginning reaction calculation               890.0 days
+
+Beginning reaction calculation               900.0 days
+
+Beginning reaction calculation               910.0 days
+
+Beginning reaction calculation               920.0 days
+
+Beginning reaction calculation               930.0 days
+
+Beginning reaction calculation               940.0 days
+
+Beginning reaction calculation               950.0 days
+
+Beginning reaction calculation               960.0 days
+
+Beginning reaction calculation               970.0 days
+
+Beginning reaction calculation               980.0 days
+
+Beginning reaction calculation               990.0 days
+
+Beginning reaction calculation               1000.0 days
+
+Beginning reaction calculation               1010.0 days
+
+Beginning reaction calculation               1020.0 days
+
+Beginning reaction calculation               1030.0 days
+
+Beginning reaction calculation               1040.0 days
+
+Beginning reaction calculation               1050.0 days
+
+Beginning reaction calculation               1060.0 days
+
+Beginning reaction calculation               1070.0 days
+
+Beginning reaction calculation               1080.0 days
+
+Beginning reaction calculation               1090.0 days
+
+Beginning reaction calculation               1100.0 days
+
+Beginning reaction calculation               1110.0 days
+
+Beginning reaction calculation               1120.0 days
+
+Beginning reaction calculation               1130.0 days
+
+Beginning reaction calculation               1140.0 days
+
+Beginning reaction calculation               1150.0 days
+
+Beginning reaction calculation               1160.0 days
+
+Beginning reaction calculation               1170.0 days
+
+Beginning reaction calculation               1180.0 days
+
+Beginning reaction calculation               1190.0 days
+
+Beginning reaction calculation               1200.0 days
+
+Beginning reaction calculation               1210.0 days
+
+Beginning reaction calculation               1220.0 days
+
+Beginning reaction calculation               1230.0 days
+
+Beginning reaction calculation               1240.0 days
+
+Beginning reaction calculation               1250.0 days
+
+Beginning reaction calculation               1260.0 days
+
+Beginning reaction calculation               1270.0 days
+
+Beginning reaction calculation               1280.0 days
+
+Beginning reaction calculation               1290.0 days
+
+Beginning reaction calculation               1300.0 days
+
+Beginning reaction calculation               1310.0 days
+
+Beginning reaction calculation               1320.0 days
+
+Beginning reaction calculation               1330.0 days
+
+Beginning reaction calculation               1340.0 days
+
+Beginning reaction calculation               1350.0 days
+
+Beginning reaction calculation               1360.0 days
+
+Beginning reaction calculation               1370.0 days
+
+Beginning reaction calculation               1380.0 days
+
+Beginning reaction calculation               1390.0 days
+
+Beginning reaction calculation               1400.0 days
+
+Beginning reaction calculation               1410.0 days
+
+Beginning reaction calculation               1420.0 days
+
+Beginning reaction calculation               1430.0 days
+
+Beginning reaction calculation               1440.0 days
+
+Beginning reaction calculation               1450.0 days
+
+Beginning reaction calculation               1460.0 days
+
+Beginning reaction calculation               1470.0 days
+
+Beginning reaction calculation               1480.0 days
+
+Beginning reaction calculation               1490.0 days
+
+Beginning reaction calculation               1500.0 days
+
+Beginning reaction calculation               1510.0 days
+
+Beginning reaction calculation               1520.0 days
+
+Beginning reaction calculation               1530.0 days
+
+Beginning reaction calculation               1540.0 days
+
+Beginning reaction calculation               1550.0 days
+
+Beginning reaction calculation               1560.0 days
+
+Beginning reaction calculation               1570.0 days
+
+Beginning reaction calculation               1580.0 days
+
+Beginning reaction calculation               1590.0 days
+
+Beginning reaction calculation               1600.0 days
+
+Beginning reaction calculation               1610.0 days
+
+Beginning reaction calculation               1620.0 days
+
+Beginning reaction calculation               1630.0 days
+
+Beginning reaction calculation               1640.0 days
+
+Beginning reaction calculation               1650.0 days
+
+Beginning reaction calculation               1660.0 days
+
+Beginning reaction calculation               1670.0 days
+
+Beginning reaction calculation               1680.0 days
+
+Beginning reaction calculation               1690.0 days
+
+Beginning reaction calculation               1700.0 days
+
+Beginning reaction calculation               1710.0 days
+
+Beginning reaction calculation               1720.0 days
+
+Beginning reaction calculation               1730.0 days
+
+Beginning reaction calculation               1740.0 days
+
+Beginning reaction calculation               1750.0 days
+
+Beginning reaction calculation               1760.0 days
+
+Beginning reaction calculation               1770.0 days
+
+Beginning reaction calculation               1780.0 days
+
+Beginning reaction calculation               1790.0 days
+
+Beginning reaction calculation               1800.0 days
+
+Beginning reaction calculation               1810.0 days
+
+Beginning reaction calculation               1820.0 days
+
+Beginning reaction calculation               1830.0 days
+
+Beginning reaction calculation               1840.0 days
+
+Beginning reaction calculation               1850.0 days
+
+Beginning reaction calculation               1860.0 days
+
+Beginning reaction calculation               1870.0 days
+
+Beginning reaction calculation               1880.0 days
+
+Beginning reaction calculation               1890.0 days
+
+Beginning reaction calculation               1900.0 days
+
+Beginning reaction calculation               1910.0 days
+
+Beginning reaction calculation               1920.0 days
+
+Beginning reaction calculation               1930.0 days
+
+Beginning reaction calculation               1940.0 days
+
+Beginning reaction calculation               1950.0 days
+
+Beginning reaction calculation               1960.0 days
+
+Beginning reaction calculation               1970.0 days
+
+Beginning reaction calculation               1980.0 days
+
+Beginning reaction calculation               1990.0 days
