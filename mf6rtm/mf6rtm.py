@@ -36,13 +36,14 @@ class Block:
     def __init__(self, data, ic=None) -> None:
         self.data = data
         self.names = [key for key in data.keys()]
-        self.ic = ic #None means no initial condition
+        self.ic = ic #None means no initial condition (-1)
 
     def set_ic(self, ic):
-        if isinstance(ic, (int, float)):
-            ic = [ic]
+        assert isinstance(ic, (int, float, np.ndarray)), 'ic must be an int, float or ndarray'
+        # if isinstance(ic, (int, float)):
+        #     ic = [ic]
         self.ic = ic
-
+        
 
 class GasPhase(Block):
     def __init__(self, data) -> None:
@@ -55,6 +56,11 @@ class Solutions(Block):
         # super().__init__(ic)
 
 class EquilibriumPhases(Block):
+    def __init__(self, data) -> None:
+        super().__init__(data)
+        # super().__init__(ic)
+
+class ExchangePhases(Block):
     def __init__(self, data) -> None:
         super().__init__(data)
         # super().__init__(ic)
@@ -89,7 +95,7 @@ class Mup3d(object):
         self.solutions = solutions
         self.equilibrium_phases = None
         self.kinetic_phases = None
-        # self.exchange = None
+        self.exchange_phases = None
         # self.gas_phase = None
         # self.solid_solutions = None
         self.phreeqc_rm = None
@@ -100,7 +106,38 @@ class Mup3d(object):
         self.nrow = nrow
         self.ncol = ncol
         self.ncpl = self.nlay*self.nrow*self.ncol
+
+        if self.solutions.ic is None:
+            self.solutions.ic = [1]*self.ncpl
+        if isinstance(self.solutions.ic, (int, float)):
+            self.solutions.ic = np.reshape([self.solutions.ic]*self.ncpl, (self.nlay, self.nrow, self.ncol))
+        assert self.solutions.ic.shape == (self.nlay, self.nrow, self.ncol), f'Initial conditions array must be an array of the shape ({nlay}, {nrow}, {ncol}) not {self.solutions.ic.shape}'
+
+
+    # def set_kinetic_phases(self, kinetic_phases):
+    #     assert isinstance(kinetic_phases, KineticPhases), 'kinetic_phases must be an instance of the KineticPhases class'
+    #     attribute_name = kinetic_phases.packnme
+    #     setattr(self, attribute_name, kinetic_phases)
     
+    def set_exchange_phases(self, exchanger):
+        assert isinstance(exchanger, ExchangePhases), 'exchanger must be an instance of the Exchange class'
+        # exchanger.data = {i: exchanger.data[key] for i, key in enumerate(exchanger.data.keys())}
+        if isinstance(exchanger.ic, (int, float)):
+            exchanger.ic = np.reshape([exchanger.ic]*self.ncpl, (self.nlay, self.nrow, self.ncol))
+        assert exchanger.ic.shape == (self.nlay, self.nrow, self.ncol), f'Initial conditions array must be an array of the shape ({self.nlay}, {self.nrow}, {self.ncol}) not {exchanger.ic.shape}'
+        self.exchange_phases = exchanger
+        
+    def set_equilibrium_phases(self, eq_phases):
+        '''Sets the equilibrium phases for the MF6RTM model.
+        '''
+        assert isinstance(eq_phases, EquilibriumPhases), 'eq_phases must be an instance of the EquilibriumPhases class'
+        #change all keys from eq_phases so they start from 0
+        eq_phases.data = {i: eq_phases.data[key] for i, key in enumerate(eq_phases.data.keys())}
+        self.equilibrium_phases = eq_phases
+        if isinstance(self.equilibrium_phases.ic, (int, float)):
+            self.equilibrium_phases.ic = np.reshape([self.equilibrium_phases.ic]*self.ncpl, (self.nlay, self.nrow, self.ncol))
+        assert self.equilibrium_phases.ic.shape == (self.nlay, self.nrow, self.ncol), f'Initial conditions array must be an array of the shape ({self.nlay}, {self.nrow}, {self.ncol}) not {self.equilibrium_phases.ic.shape}'
+
     def set_charge_offset(self, charge_offset):
         """
         Sets the charge offset for the MF6RTM model to handle negative charge values
@@ -140,15 +177,6 @@ class Mup3d(object):
         assert os.path.exists(database), f'{database} not found'
         self.database = database
 
-    def set_equilibrium_phases(self, eq_phases):
-        #docstrings
-        '''Sets the equilibrium phases for the MF6RTM model.
-        '''
-        assert isinstance(eq_phases, EquilibriumPhases), 'eq_phases must be an instance of the EquilibriumPhases class'
-        #change all keys from eq_phases so they start from 0
-        eq_phases.data = {i: eq_phases.data[key] for i, key in enumerate(eq_phases.data.keys())}
-        self.equilibrium_phases = eq_phases
-
 
     def generate_phreeqc_script(self, postfix = 'postfix.phqr'):
         
@@ -187,13 +215,26 @@ class Mup3d(object):
             for i in self.equilibrium_phases.data.keys():
                 # Get the current   phases
                 phases = self.equilibrium_phases.data[i]
-
                 # check if all equilibrium phases are in the database
                 names = get_compound_names(self.database, 'PHASES')
                 assert all([key in names for key in phases.keys()]), 'not all compounds are in the database - check names'
 
                 # Handle the  EQUILIBRIUM_PHASES blocks
                 script += handle_block(phases, generate_phases_block, i)
+                
+        #check if self.exchange_phases is not None
+        if self.exchange_phases is not None:
+            # Get the current   phases
+            phases = self.exchange_phases.data
+            # check if all exchange phases are in the database
+            names = get_compound_names(self.database, 'EXCHANGE')
+            assert all([key in names for key in phases.keys()]), 'not all compounds are in the database - check names'
+            
+            num_exch = len(next(iter(self.exchange_phases.data.values())))
+            for i in range(num_exch):
+                # Get the current concentrations and phases
+                concentrations = {species: values[i] for species, values in self.exchange_phases.data.items()}
+                script += handle_block(concentrations, generate_exchange_block, i)
 
         # add end of line before postfix
         script += endmainblock
@@ -261,37 +302,26 @@ class Mup3d(object):
 
         ic1 = np.ones((self.ncpl, 7), dtype=int)*-1
 
-        if self.solutions.ic is None:
-            self.solutions.ic = [1]*self.ncpl
-        # if len(self.solutions.ic) == 1:
-        #     self.solutions.ic = [self.solutions.ic[0]]*self.ncpl
-        # check if solutions.ic is instance array
-
-        if isinstance(self.solutions.ic, list) and len(self.solutions.ic) == 1:
-            self.solutions.ic = [self.solutions.ic[0]]*self.ncpl
-
-        if isinstance(self.solutions.ic, np.ndarray) and self.solutions.ic.shape != (self.nlay, self.nrow, self.ncol):
-            self.solutions.ic = [self.solutions.ic[0]]*self.ncpl
-
         #this gets a column slice
         ic1[:, 0] = np.reshape(self.solutions.ic, self.ncpl)
 
         if isinstance(self.equilibrium_phases, EquilibriumPhases):
-            if len(self.equilibrium_phases.ic) == 1:
-                self.equilibrium_phases.ic = [self.equilibrium_phases.ic[0]]*self.ncpl
-            ic1[:, 1] = np.reshape(self.equilibrium_phases.ic, self.ncpl)  # Equilibrium phases
-        else:
-            ic1[:, 1] = -1
-        
-        ic1[:, 2] = -1  # Exchange 1      
+            ic1[:, 1] = np.reshape(self.equilibrium_phases.ic, self.ncpl)
+
+        #     if len(self.equilibrium_phases.ic) == 1:
+        #         self.equilibrium_phases.ic = [self.equilibrium_phases.ic[0]]*self.ncpl
+        #     ic1[:, 1] = np.reshape(self.equilibrium_phases.ic, self.ncpl)  # Equilibrium phases
+        # else:
+        #     ic1[:, 1] = -1
+        if isinstance(self.exchange_phases, ExchangePhases):
+            ic1[:, 2] = np.reshape(self.exchange_phases.ic, self.ncpl)  # Exchange 1    
+
         ic1[:, 3] = -1  # Surface      
         ic1[:, 4] = -1  # Gas phase     
         ic1[:, 5] = -1  # Solid solutions
         
         if isinstance(self.kinetic_phases, KineticPhases):
-            ic1[:, 6] = self.kinetic_phases.ic  # Kinetics
-        else:
-            ic1[:, 6] = -1
+            ic1[:, 6] = np.reshape(self.kinetic_phases.ic, self.ncpl)  # Kinetics
 
         ic1_flatten = ic1.flatten('F')
 
@@ -397,7 +427,7 @@ class Mup3d(object):
         status = phreeqc_rm.MpiWorkerBreak()
 
         #set as attribute
-        setattr(getattr(self, attr), 'data',sconc)
+        setattr(getattr(self, attr), 'data', sconc)
         setattr(getattr(self, attr), 'auxiliary',components)
         print(f'ChemStress {attr} initialized')
         return sconc
@@ -475,10 +505,10 @@ class Mup3d(object):
             ### mf6 transport loop block
             for sln in range(1, nsln+1):
                 # max number of solution iterations
-                max_iter = mf6.get_value(mf6.get_var_address("MXITER", f"SLN_{sln}")) #TODO: not sure to define this inside the loop
+                max_iter = mf6.get_value(mf6.get_var_address("MXITER", f"SLN_{sln}")) #FIXME: not sure to define this inside the loop
                 mf6.prepare_solve(sln)
 
-                print(f'\nSolving solution {sln} - Solving {modelnmes[sln-1]}') #TODO: Tie sln number with gwf or component
+                print(f'\nSolving solution {sln} - Solving {modelnmes[sln-1]}')
                 while kiter < max_iter:
                     convg = mf6.solve(sln)
                     if convg:
@@ -496,21 +526,6 @@ class Mup3d(object):
                     print(f'\nSolution {sln} finalized')
                 except:
                     pass
-
-            # if ctime == 0.0:
-            #     # Set concentrations in mf6 for the first time step again
-            #     # mf6 api is giving weird init conc for some cases for tstep 0 so re setting here for now
-            #     c_dbl_vect = self.init_conc_array_phreeqc
-            # else:
-            #     mf6_conc_array = []
-            #     for c in components:
-            #         if c.lower() == 'charge':
-            #             mf6_conc_array.append(concentration_m3_to_l (mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) - self.charge_offset ) )
-                        
-            #         else:
-            #             mf6_conc_array.append( concentration_m3_to_l( mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) ) )
-
-            #     c_dbl_vect = np.reshape(mf6_conc_array, self.ncpl*self.ncomps) #flatten array
 
             mf6_conc_array = []
             for c in components:
@@ -558,24 +573,21 @@ class Mup3d(object):
                     df[col] = arr
                 soutdf = pd.concat([soutdf, df])
 
-                #TODO: merge the next two loops into one
                 # Get concentrations from phreeqc 
                 c_dbl_vect = phreeqc_rm.GetConcentrations()
                 conc = [c_dbl_vect[i:i + nxyz] for i in range(0, len(c_dbl_vect), nxyz)] #reshape array
 
-                sconc = {} #FIXME: renam this variable
+                conc_dic = {} 
                 for e, c in enumerate(components):
-                    sconc[c] = np.reshape(conc[e], (nlay, nrow, ncol))
-                    sconc[c] = conc[e]
-
+                    conc_dic[c] = np.reshape(conc[e], (nlay, nrow, ncol))
+                    conc_dic[c] = conc[e]
                 # Set concentrations in mf6
-                for c in components:
                     print(f'\nTransferring concentrations to mf6 for component: {c}')
                     if c.lower() == 'charge':
-                        mf6.set_value(f'{c.upper()}/X', concentration_l_to_m3(sconc[c] ) + self.charge_offset)
-                    # c_dbl_vect = concentration_l_to_m3(sconc[c]) #units to m3
+                        mf6.set_value(f'{c.upper()}/X', concentration_l_to_m3(conc_dic[c] ) + self.charge_offset)
+
                     else:
-                        mf6.set_value(f'{c.upper()}/X', concentration_l_to_m3(sconc[c]))
+                        mf6.set_value(f'{c.upper()}/X', concentration_l_to_m3(conc_dic[c]))
 
 
             mf6.finalize_time_step()
@@ -661,6 +673,8 @@ def concentration_to_massrate(q, conc):
     mrate = q*conc #M/T
     return mrate
 
-def concentration_volbulk_to_volwater(volbulk, porosity):
-    volwater = volbulk*(1/porosity)
-    return volwater
+def concentration_volbulk_to_volwater(conc_volbulk, porosity):
+    '''Calculate concentrations as volume of pore water from bulk volume and porosity
+    '''
+    conc_volwater = conc_volbulk*(1/porosity)
+    return conc_volwater

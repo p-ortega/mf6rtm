@@ -117,7 +117,7 @@ def get_compound_names(database_file, block = 'SOLUTION_MASTER_SPECIES'):
         A list of compound names.
     """
     species_names = []
-    with open(database_file, 'r') as db:
+    with open(database_file, 'r', errors='replace') as db:
         lines = db.readlines()
         in_block = False
         for line in lines:
@@ -129,7 +129,31 @@ def get_compound_names(database_file, block = 'SOLUTION_MASTER_SPECIES'):
                 if line.strip() and not line.startswith('#') and line.split()[0][0].isupper():  # Ignore empty lines and comments
                     species = line.split()[0]  # The species name is the first word on the line
                     species_names.append(species)
+                if line.strip() and not line.startswith('#') and line.split()[0][0].isupper() and block.startswith('EXCHANGE'):  # Ignore empty lines and comments
+                    species = line.split()[-1]  # The exchange species are the last word on the line
+                    species_names.append(species)
     return species_names
+
+def generate_exchange_block(exchange_dict, i):
+    """Generate an EXCHANGE block for PHREEQC input script
+    Parameters
+    ----------
+    exchange_dict : dict
+        A dictionary with species names as keys and exchange concentrations as values.
+    i : int
+        The block number.
+    Returns
+    -------
+    script : str
+        The EXCHANGE block as a string.
+    """
+    script = f"EXCHANGE {i+1}\n"
+    for species, conc in exchange_dict.items():
+        print(species, conc)
+        script += f"    {species} {conc:.5e}\n"
+    script += "    -equilibrate 1"
+    script += "\nEND\n"
+    return script
 
 def generate_phases_block(phases_dict, i):
     """Generate an EQUILIBRIUM_PHASES block for PHREEQC input script
