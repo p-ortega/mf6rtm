@@ -11,8 +11,9 @@ On the PHREEQC side, the following have been included:
 
 - Solution
 - Equilibrium phases
+- Cation Exchange
 
-Future updates will include kinetic phases, ion exchange, and surface complexation, with their respective benchmarks.
+Future updates will include kinetic phases and surface complexation, with their respective benchmarks.
 
 ## Software requirements
 All dependencies and executables are included in this repo. To run this test, I recommend creating the environment by typing in conda
