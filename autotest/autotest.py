@@ -20,6 +20,9 @@ import utils
 import re
 import difflib
 
+dataws = os.path.join("data")
+databasews = os.path.join("database")
+
 def build_mf6_1d_injection_model(mup3d, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
                                  top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                  strt, rclose, relax, nouter, ninner):
@@ -259,6 +262,109 @@ def build_mf6_1d_injection_model(mup3d, nper, tdis_rc, length_units, time_units,
     
     return sim
 
+def test_01(prefix = 'test01'):
+    ### Model params and setup
+    length_units = "meters"
+    time_units = "days"
+
+    nper = 1  # Number of periods
+    nlay = 1  # Number of layers
+    Lx = 0.5 #m
+    ncol = 50 # Number of columns
+    nrow = 1  # Number of rows
+    delr = Lx/ncol #10.0  # Column width ($m$)
+    delc = 1.0  # Row width ($m$)
+    top = 0.  # Top of the model ($m$)
+    botm = -1.0  # Layer bottom elevations ($m$)
+    prsity = 0.32  # Porosity
+    k11 = 1.0  # Horizontal hydraulic conductivity ($m/d$)
+    k33 = k11  # Vertical hydraulic conductivity ($m/d$)
+
+    tstep = 0.01  # Time step ($days$)
+    perlen = 0.24  # Simulation time ($days$)
+    nstp = perlen/tstep #100.0
+    dt0 = perlen / nstp
+
+    chdspd = [[(0, 0, ncol - 1), 1.]]  # Constant head boundary $m$
+    strt = np.zeros((nlay, nrow, ncol), dtype=float)
+    strt[0, 0, :] = 1  # Starting head ($m$)
+
+    tdis_rc = []
+    tdis_rc.append((perlen, nstp, 1.0))
+
+    icelltype = 1  # Cell conversion type
+    ibound = np.ones((nlay, nrow, ncol), dtype=int)
+    ibound[0, 0, -1] = -1
+
+    q=0.259 #m3/d
+
+    wel_spd = [[(0,0,0), q]]
+
+    #transport
+    dispersivity = 0.0067 # Longitudinal dispersivity ($m$)
+
+    # Set solver parameter values (and related)
+    nouter, ninner = 100, 300
+    hclose, rclose, relax = 1e-6, 1e-6, 1.0
+    ttsmult = 1.0
+    dceps = 1.0e-5  # HMOC parameters in case they are invoked
+    nplane = 1  # HMOC
+    npl = 0  # HMOC
+    nph = 4  # HMOC
+    npmin = 0  # HMOC
+    npmax = 8  # HMOC
+    nlsink = nplane  # HMOC
+    npsink = nph  # HMOC   
+
+    solutionsdf = pd.read_csv(os.path.join(dataws,f"{prefix}_solutions.csv"), comment = '#',  index_col = 0)
+    solutions = utils.solution_df_to_dict(solutionsdf)
+    #get postfix file
+    postfix = os.path.join(dataws, f'{prefix}_postfix.phqr')
+    equilibrium_phases = utils.equilibrium_phases_csv_to_dict(os.path.join(dataws, f'{prefix}_equilibrium_phases.csv'))
+
+    sol_ic = 1
+    #add solutions to clss
+    solution = mf6rtm.Solutions(solutions)
+    solution.set_ic(sol_ic)
+    #create equilibrium phases class
+    equilibrium_phases = mf6rtm.EquilibriumPhases(equilibrium_phases)
+    equilibrium_phases.set_ic(1)
+
+    #create model class
+    model = mf6rtm.Mup3d(prefix,solution, nlay, nrow, ncol)
+
+    #set model workspace
+    model.set_wd(os.path.join(f'mf6rtm'))
+
+    #set database
+    database = os.path.join(databasews, f'pht3d_datab.dat')
+    model.set_database(database)
+
+    #include equilibrium phases in model class
+    model.set_equilibrium_phases(equilibrium_phases)
+
+    #get phreeqc input
+    phinp = model.generate_phreeqc_script(postfix =  postfix)
+    model.initialize()
+    wellchem = mf6rtm.ChemStress('wel')
+
+    sol_spd = [2]
+    wellchem.set_spd(sol_spd)
+    model.set_chem_stress(wellchem)
+
+    for i in range(len(wel_spd)):
+        wel_spd[i].extend(model.wel.data[i])
+
+    mf6sim = build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
+                                    top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
+                                    strt, rclose, relax, nouter, ninner)
+    run_test(prefix, model, mf6sim)
+    try:
+        cleanup(prefix)
+    except:
+        pass
+
+    return 
 
 def test_04(prefix = 'test04'):
     '''Test 4: Cation exchange from phreeqc'''
@@ -342,7 +448,7 @@ def test_04(prefix = 'test04'):
     # model.set_wd(temp_dir.name)
 
     #set database
-    database = os.path.join('database', f'pht3d_datab.dat')
+    database = os.path.join(databasews, f'pht3d_datab.dat')
     model.set_database(database)
     model.set_exchange_phases(exchanger)
 
@@ -418,6 +524,7 @@ def cleanup(prefix):
     return
 
 def run_autotest():
+    test_01()
     test_04()
 
 if __name__ == '__main__':
