@@ -562,6 +562,9 @@ class Mup3d(object):
                 #get arrays from mf6 and flatten for phreeqc
                 print(f'\nGetting concentration arrays --- time step: {time_step} --- elapsed time: {ctime}')
 
+                # status = phreeqc_rm.SetTemperature([20.0] * nxyz)
+                # status = phreeqc_rm.SetPressure([2.0] * nxyz)
+
                 #update phreeqc time and time steps
                 status = phreeqc_rm.SetTime(ctime*86400)
                 
@@ -591,7 +594,7 @@ class Mup3d(object):
                 df = pd.DataFrame(columns = sout_columns)
                 for col, arr in zip(df.columns, sout):
                     df[col] = arr
-                soutdf = pd.concat([soutdf, df])
+                soutdf = pd.concat([soutdf.astype(df.dtypes), df]) #avoid pandas warning by passing dtypes to empty df
 
                 # Get concentrations from phreeqc 
                 c_dbl_vect = phreeqc_rm.GetConcentrations()
