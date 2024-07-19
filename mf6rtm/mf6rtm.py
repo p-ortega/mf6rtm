@@ -445,6 +445,7 @@ class Mup3d(object):
 
         print('\n-----------------------------  WELCOME TO  MUP3D -----------------------------\n')
 
+        success = False #initialize success flag
 
         phreeqc_rm = self.phreeqc_rm
         sim_ws = sim.simulation_data.mfpath.get_sim_path()
@@ -605,12 +606,21 @@ class Mup3d(object):
         print("\nReactive transport solution finished at {0} --- it took: {1:10.5G} mins".format(sim_end.strftime(DT_FMT),td))
 
         # Clean up and close api objs
-        status = phreeqc_rm.CloseFiles()
-        status = phreeqc_rm.MpiWorkerBreak()
-        mf6.finalize()
+        try:
+            status = phreeqc_rm.CloseFiles()
+            status = phreeqc_rm.MpiWorkerBreak()
+            mf6.finalize()
+            success = True
+            print(mrbeaker())
+            print('\nMR BEAKER IMPORTANT MESSAGE: MODEL RUN FINISHED BUT CHECK THE RESULTS .. THEY ARE PROLY RUBBISH\n')
+        except:
+            print('\nMR BEAKER IMPORTANT MESSAGE: SOMETHING WENT WRONG. BUMMER\n')
+            pass
+        # status = phreeqc_rm.CloseFiles()
+        # status = phreeqc_rm.MpiWorkerBreak()
+        # mf6.finalize()
 
-        print(mrbeaker())
-        print('\nMR BEAKER IMPORTANT MESSAGE: MODEL RUN FINISHED BUT CHECK THE RESULTS .. THEY ARE PROLY RUBBISH\n')
+        return success
     
 def get_mf6_dis(sim):
     # extract dis from modflow6 sim object 
