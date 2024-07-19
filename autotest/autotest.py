@@ -333,13 +333,13 @@ def test_04(prefix = 'test04'):
     #create model class
     model = mf6rtm.Mup3d(prefix,solution, nlay, nrow, ncol)
 
-    #set model workspace
-    # if not os.path.exists(prefix):
-    #     os.makedirs(prefix)
-    temp_dir = tempfile.TemporaryDirectory()
+    # set model workspace
+    if not os.path.exists(prefix):
+        os.makedirs(prefix)
+    # temp_dir = tempfile.TemporaryDirectory()
 
-    # model.set_wd(os.path.join(f'{prefix}'))
-    model.set_wd(temp_dir.name)
+    model.set_wd(os.path.join(f'{prefix}'))
+    # model.set_wd(temp_dir.name)
 
     #set database
     database = os.path.join('database', f'pht3d_datab.dat')
@@ -362,30 +362,61 @@ def test_04(prefix = 'test04'):
     mf6sim = build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
-    outcome = run_test(prefix, model, mf6sim)
+    
+    run_test(prefix, model, mf6sim)
 
     try:
-        temp_dir.cleanup()
+        cleanup(prefix)
     except:
         pass
 
     return 
 
 
-def clean_dir(folder):
-    os.chmod(folder, 777)
-    #clean tmp folder
-    if os.path.exists(f'{folder}'):
-        for f in os.listdir(f'{folder}'): 
-            os.remove(os.path.join(f'{folder}', f))
-        os.rmdir(f'{folder}')
+def get_benchmark_results(prefix):
+    '''Get benchmark results'''
+    dataws = os.path.join("benchmark")
+    benchmarkdf = pd.read_csv(os.path.join(dataws,f"{prefix}_benchmark.csv"), index_col = 0)
+    return benchmarkdf
+
+def get_test_results(model):
+    '''Get test results'''
+    testdf = pd.read_csv(os.path.join(model.wd,f"sout.csv"), index_col = 0)
+    return testdf
+
+def compare_results(benchmarkdf, testdf):
+    '''Compare benchmark and test results'''
+    # assert both dataframes have the same shape
+    assert benchmarkdf.shape == testdf.shape
+    # assert both dataframes have the same columns
+    assert benchmarkdf.columns.tolist() == testdf.columns.tolist()
+    # assert both dataframes have the same indices
+    assert benchmarkdf.index.tolist() == testdf.index.tolist()
+    # iterate each column and each index and assert an absolute difference less than 0.01 
+    for col in benchmarkdf.columns:
+        # # for idx in benchmarkdf.index:
+        # # print(benchmarkdf.loc[idx, col].values, testdf.loc[idx, col].values)
+        # print(np.abs(benchmarkdf.loc[:, col].values - testdf.loc[:, col].values))
+        assert all(i < 0.01 for i in np.abs(benchmarkdf.loc[:, col].values - testdf.loc[:, col].values))
 
 def run_test(prefix, model, mf6sim):
     #try to run the model if success print test passed
     success = model.run_mup3d(mf6sim, reaction=True)
     assert success
     
-    
+    benchmarkdf = get_benchmark_results(prefix)
+    testdf = get_test_results(model)
+
+    compare_results(benchmarkdf, testdf)
+
+    return
+
+def cleanup(prefix):
+    '''Cleanup test files'''
+    if os.path.exists(prefix):
+        shutil.rmtree(prefix)
+    return
+
 def run_autotest():
     test_04()
 
