@@ -334,11 +334,12 @@ def test_04(prefix = 'test04'):
     model = mf6rtm.Mup3d(prefix,solution, nlay, nrow, ncol)
 
     #set model workspace
-    #create tmp folder
-    if not os.path.exists(prefix):
-        os.makedirs(prefix)
-    tempfile.TemporaryDirectory()
-    model.set_wd(os.path.join(f'{prefix}'))
+    # if not os.path.exists(prefix):
+    #     os.makedirs(prefix)
+    temp_dir = tempfile.TemporaryDirectory()
+
+    # model.set_wd(os.path.join(f'{prefix}'))
+    model.set_wd(temp_dir.name)
 
     #set database
     database = os.path.join('database', f'pht3d_datab.dat')
@@ -362,50 +363,31 @@ def test_04(prefix = 'test04'):
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
     outcome = run_test(prefix, model, mf6sim)
-    # clean_dir(prefix)
-    return outcome
+
+    try:
+        temp_dir.cleanup()
+    except:
+        pass
+
+    return 
+
 
 def clean_dir(folder):
     os.chmod(folder, 777)
     #clean tmp folder
     if os.path.exists(f'{folder}'):
-        for f in os.listdir(f'{folder}'):
+        for f in os.listdir(f'{folder}'): 
             os.remove(os.path.join(f'{folder}', f))
         os.rmdir(f'{folder}')
 
-# #refactor clean_dir using shutil
-# def clean_dir(folder):
-#     #clean tmp folder
-#     if os.path.exists(f'{folder}'):
-#         shutil.rmtree(f'{folder}')
-
-
 def run_test(prefix, model, mf6sim):
     #try to run the model if success print test passed
-    try: 
-        model.run_mup3d(mf6sim, reaction=True)
-        outcome = f'{prefix.capitalize()} passed'
-    except Exception as e:
-        outcome = f'{prefix.capitalize()} failed'
-        print(e)
-        raise e
-    return outcome
+    success = model.run_mup3d(mf6sim, reaction=True)
+    assert success
+    
     
 def run_autotest():
-    def dummy_writer(script):
-        o = test_04()
-        print(o)
-        script+=f'{o}\n'
-        return script
-    script = ''
-    for i in range(4):
-        script = dummy_writer(script)
-    # dummy_writer(script)
-    # dummy_writer(script)
-    # dummy_writer(script)
-
-    for line in script.split('\n'):
-        print(line)
+    test_04()
 
 if __name__ == '__main__':
     run_autotest()
