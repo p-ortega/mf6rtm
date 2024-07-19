@@ -260,6 +260,9 @@ class Mup3d(object):
         self.phreeqc_rm = phreeqcrm.PhreeqcRM(self.ncpl, nthreads)
         status = self.phreeqc_rm.SetComponentH2O(False)
         self.phreeqc_rm.UseSolutionDensityVolume(False)
+
+        # Open files for phreeqcrm logging
+        status = self.phreeqc_rm.SetFilePrefix(os.path.join(self.wd, '_phreeqc'))
         self.phreeqc_rm.OpenFiles()
 
         # Set concentration units
