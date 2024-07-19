@@ -84,7 +84,7 @@ def equilibrium_phases_csv_to_dict(csv_file, header = True):
                 data[int(row[-1])][row[0]] = [float(row[1]), float(row[2])]
     return data
 
-def handle_block(current_items, block_generator, i):
+def handle_block(current_items, block_generator, i, *args, **kwargs):
     """Generate a block for a PHREEQC input script if the current items are not empty
     Parameters
     ----------
@@ -99,8 +99,11 @@ def handle_block(current_items, block_generator, i):
     script : str
         The block as a string.
     """
+    # temp = kwargs.get('temp')  # Safely get 'temp' if it exists, else returns None
+    # water = kwargs.get('water')
+
     script = ""
-    script += block_generator(current_items, i)
+    script += block_generator(current_items, i, *args, **kwargs)
     return script
 
 def get_compound_names(database_file, block = 'SOLUTION_MASTER_SPECIES'):

@@ -96,6 +96,7 @@ class Mup3d(object):
         self.equilibrium_phases = None
         self.kinetic_phases = None
         self.exchange_phases = None
+        self.postfix = None
         # self.gas_phase = None
         # self.solid_solutions = None
         self.phreeqc_rm = None
@@ -177,8 +178,20 @@ class Mup3d(object):
         assert os.path.exists(database), f'{database} not found'
         self.database = database
 
+    def set_postfix(self, postfix):
+        """
+        Sets the postfix file for the MF6RTM model.
 
-    def generate_phreeqc_script(self, postfix = 'postfix.phqr'):
+        Parameters:
+        postfix (str): The path to the postfix file.
+
+        Returns:
+        None
+        """
+        assert os.path.exists(postfix), f'{postfix} not found'
+        self.postfix = postfix
+    
+    def generate_phreeqc_script(self):
         
         #where to save the phinp file
         filename=os.path.join(self.wd,'phinp.dat')
@@ -208,7 +221,7 @@ class Mup3d(object):
         for i in range(num_solutions):
             # Get the current concentrations and phases
             concentrations = {species: values[i] for species, values in self.solutions.data.items()}
-            script += handle_block(concentrations, generate_solution_block, i)
+            script += handle_block(concentrations, generate_solution_block, i, temp=25, water =1)
 
         #check if self.equilibrium_phases is not None
         if self.equilibrium_phases is not None:
@@ -240,8 +253,8 @@ class Mup3d(object):
         script += endmainblock
 
         # Append the postfix file to the script
-        if os.path.isfile(postfix):
-            with open(postfix, 'r') as source:  # Open the source file in read mode
+        if os.path.isfile(self.postfix):
+            with open(self.postfix, 'r') as source:  # Open the source file in read mode
                 script += '\n'
                 script += source.read()
 
@@ -255,6 +268,9 @@ class Mup3d(object):
         '''
         #get model dis info
         # dis = sim.get_model(sim.model_names[0]).dis
+
+        # create phinp
+        phinp = self.generate_phreeqc_script()
 
         # initialize phreeqccrm object 
         self.phreeqc_rm = phreeqcrm.PhreeqcRM(self.ncpl, nthreads)

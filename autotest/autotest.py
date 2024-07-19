@@ -312,7 +312,6 @@ def test_01(prefix = 'test01'):
     solutionsdf = pd.read_csv(os.path.join(dataws,f"{prefix}_solutions.csv"), comment = '#',  index_col = 0)
     solutions = utils.solution_df_to_dict(solutionsdf)
     #get postfix file
-    postfix = os.path.join(dataws, f'{prefix}_postfix.phqr')
     equilibrium_phases = utils.equilibrium_phases_csv_to_dict(os.path.join(dataws, f'{prefix}_equilibrium_phases.csv'))
 
     sol_ic = 1
@@ -328,6 +327,8 @@ def test_01(prefix = 'test01'):
 
     #set model workspace
     model.set_wd(os.path.join(f'{prefix}'))
+    postfix = os.path.join(dataws, f'{prefix}_postfix.phqr')
+    model.set_postfix(postfix)
 
     #set database
     database = os.path.join(databasews, f'pht3d_datab.dat')
@@ -335,9 +336,6 @@ def test_01(prefix = 'test01'):
 
     #include equilibrium phases in model class
     model.set_equilibrium_phases(equilibrium_phases)
-
-    #get phreeqc input
-    phinp = model.generate_phreeqc_script(postfix =  postfix)
 
     model.initialize()
 
@@ -390,41 +388,33 @@ def test_02(prefix = 'test02'):
     q = 0.007 #injection rate m3/d
     wel_spd = [[(0,0,0), q]]
 
-
     #hydraulic properties
     prsity = 0.35  # Porosity
     k11 = 1.0  # Horizontal hydraulic conductivity ($m/d$)
     k33 = k11  # Vertical hydraulic conductivity ($m/d$)
     strt = np.ones((nlay, nrow, ncol), dtype=float)*1
-    # two chd one for tailings and conc and other one for hds 
 
     # two chd one for tailings and conc and other one for hds 
     r_hd = 1
     strt = np.ones((nlay, nrow, ncol), dtype=float)
 
     chdspd = [[(i, 0, ncol-1), r_hd] for i in range(nlay)] # Constant head boundary $m$
-    # chdspd.extend([(i, 0, ncol - 1), r_hd] for i in range(nlay))
-
-    # chdspd_tail = [[(i, 0, 0), l_hd] for i in range(0,3)]
 
     #transport
     dispersivity = 0.005 # Longitudinal dispersivity ($m$)
     disp_tr_vert = dispersivity*0.1 # Transverse vertical dispersivity ($m$)
 
-
     icelltype = 1  # Cell conversion type
+
     # Set solver parameter values (and related)
     nouter, ninner = 300, 600
     hclose, rclose, relax = 1e-6, 1e-6, 1.0
-
 
     solutionsdf = pd.read_csv(os.path.join(dataws,f"{prefix}_solutions.csv"), comment = '#',  index_col = 0)
 
     # solutions = utils.solution_csv_to_dict(os.path.join(dataws,f"{prefix}_solutions.csv"))
     solutions = utils.solution_df_to_dict(solutionsdf)
 
-    #get postfix file
-    postfix = os.path.join(dataws, f'{prefix}_postfix.phqr')
     # get equilibrium phases file
     equilibrium_phases = utils.equilibrium_phases_csv_to_dict(os.path.join(dataws, f'{prefix}_equilibrium_phases.csv'))
 
@@ -457,8 +447,10 @@ def test_02(prefix = 'test02'):
     #include equilibrium phases in model class
     model.set_equilibrium_phases(equilibrium_phases)
 
-    #get phreeqc input
-    phinp = model.generate_phreeqc_script(postfix =  postfix)
+    postfix = os.path.join(dataws, f'{prefix}_postfix.phqr')
+    model.set_postfix(postfix)
+
+    model.initialize()
 
     wellchem = mf6rtm.ChemStress('wel')
     sol_spd = [2]
@@ -466,7 +458,6 @@ def test_02(prefix = 'test02'):
     wellchem.set_spd(sol_spd)
     model.set_chem_stress(wellchem)
 
-    model.initialize()
 
     for i in range(len(wel_spd)):
         wel_spd[i].extend(model.wel.data[i])
@@ -565,8 +556,8 @@ def test_04(prefix = 'test04'):
     model.set_database(database)
     model.set_exchange_phases(exchanger)
 
-    #get phreeqc input
-    phinp = model.generate_phreeqc_script(postfix =  postfix)
+    postfix = os.path.join(dataws, f'{prefix}_postfix.phqr')
+    model.set_postfix(postfix)
 
     model.initialize()
 
@@ -632,12 +623,12 @@ def cleanup(prefix):
         shutil.rmtree(prefix)
     return
 
-def run_autotest():
-    test_01()
-    test_02()
-    test_04()
+# def run_autotest():
+#     test_01()
+#     test_02()
+#     test_04()
 
-if __name__ == '__main__':
-    run_autotest()
+# if __name__ == '__main__':
+#     run_autotest()
 
 
