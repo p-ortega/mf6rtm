@@ -1,7 +1,7 @@
 # MF6RTM: Reactive Transport Model via the MODFLOW 6 and PHREEQCRM APIs
 
 ## Benchmarks
-Benchmark comparing model results against PHT3d are in `benchmark/`. Each folder contains a Jupyter notebook to write and execute an MF6RTM model via the MUP3D class. Additionally, PHT3d files are provided in the corresponding _pht3d directory.
+Benchmark comparing model results against PHT3d are in `benchmark/`. Each folder contains a Jupyter notebook to write and execute an MF6RTM model via the MUP3D class. Additionally, PHT3D files are provided in the corresponding `pht3d` directory.
 
 ## Considerations
 
