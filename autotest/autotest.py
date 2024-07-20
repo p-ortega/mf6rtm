@@ -335,7 +335,7 @@ def test_01(prefix = 'test01'):
     model.set_database(database)
 
     #include equilibrium phases in model class
-    model.set_equilibrium_phases(equilibrium_phases)
+    model.set_phases(equilibrium_phases)
 
     model.initialize()
 
@@ -445,7 +445,7 @@ def test_02(prefix = 'test02'):
     model.set_database(database)
 
     #include equilibrium phases in model class
-    model.set_equilibrium_phases(equilibrium_phases)
+    model.set_phases(equilibrium_phases)
 
     postfix = os.path.join(dataws, f'{prefix}_postfix.phqr')
     model.set_postfix(postfix)

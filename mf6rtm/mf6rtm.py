@@ -31,6 +31,7 @@ time_units_dic = {
     'month': 2628000,
     'year': 31536000
 }
+        
 
 class Block:
     def __init__(self, data, ic=None) -> None:
@@ -74,6 +75,11 @@ class KineticPhases(Block):
     def set_parameters(self, parameters):
         self.parameters = parameters
 
+class Surfaces(Block):
+    def __init__(self, data) -> None:
+        super().__init__(data)
+        # super().__init__(ic)
+
 class ChemStress():
     def __init__(self, packnme) -> None:
         self.packnme = packnme
@@ -86,6 +92,12 @@ class ChemStress():
     def set_packtype(self, packtype):
         self.packtype = packtype
 
+phase_types = {
+    'KineticPhases': KineticPhases,
+    # 'ExchangePhases': ExchangePhases,
+    'EquilibriumPhases': EquilibriumPhases,
+}
+
 class Mup3d(object):
     def __init__(self, name, solutions, nlay, nrow, ncol):
         self.name = name
@@ -93,9 +105,11 @@ class Mup3d(object):
         self.charge_offset = 0.0
         self.database = os.path.join('database', 'pht3d_datab.dat')
         self.solutions = solutions
+        self.init_temp = 25.0
         self.equilibrium_phases = None
         self.kinetic_phases = None
         self.exchange_phases = None
+        self.surfaces = None
         self.postfix = None
         # self.gas_phase = None
         # self.solid_solutions = None
@@ -114,11 +128,37 @@ class Mup3d(object):
             self.solutions.ic = np.reshape([self.solutions.ic]*self.ncpl, (self.nlay, self.nrow, self.ncol))
         assert self.solutions.ic.shape == (self.nlay, self.nrow, self.ncol), f'Initial conditions array must be an array of the shape ({nlay}, {nrow}, {ncol}) not {self.solutions.ic.shape}'
 
+    def set_initial_temp(self, temp):
+        assert isinstance(temp, (int, float)), 'temp must be an int or float'
+        #TODO: for non-homogeneous fields allow 3D and 2D arrays
+        self.init_temp = temp
+
+
+    def set_phases(self, phase):
+        # Dynamically get the class of the phase object
+        phase_class = phase.__class__
+        
+        # Check if the phase object's class is in the dictionary of phase types
+        if phase_class not in phase_types.values():
+            raise AssertionError(f'{phase_class.__name__} is not a recognized phase type')
+        
+        # Proceed with the common logic
+        if isinstance(phase.ic, (int, float)):
+            phase.ic = np.reshape([phase.ic]*self.ncpl, (self.nlay, self.nrow, self.ncol))
+        phase.data = {i: phase.data[key] for i, key in enumerate(phase.data.keys())}
+        assert phase.ic.shape == (self.nlay, self.nrow, self.ncol), f'Initial conditions array must be an array of the shape ({self.nlay}, {self.nrow}, {self.ncol}) not {phase.ic.shape}'
+        
+        # Dynamically set the phase attribute based on the class name
+        setattr(self, f"{phase_class.__name__.lower().split('phases')[0]}_phases", phase)
 
     # def set_kinetic_phases(self, kinetic_phases):
     #     assert isinstance(kinetic_phases, KineticPhases), 'kinetic_phases must be an instance of the KineticPhases class'
-    #     attribute_name = kinetic_phases.packnme
-    #     setattr(self, attribute_name, kinetic_phases)
+    #     if isinstance(kinetic_phases.ic, (int, float)):
+    #         kinetic_phases.ic = np.reshape([kinetic_phases.ic]*self.ncpl, (self.nlay, self.nrow, self.ncol))
+    #     #make sure keys in kinetic_phases start from 0
+    #     kinetic_phases.data = {i: kinetic_phases.data[key] for i, key in enumerate(kinetic_phases.data.keys())}
+    #     assert kinetic_phases.ic.shape == (self.nlay, self.nrow, self.ncol), f'Initial conditions array must be an array of the shape ({self.nlay}, {self.nrow}, {self.ncol}) not {kinetic_phases.ic.shape}'
+    #     self.kinetic_phases = kinetic_phases
     
     def set_exchange_phases(self, exchanger):
         assert isinstance(exchanger, ExchangePhases), 'exchanger must be an instance of the Exchange class'
@@ -221,7 +261,7 @@ class Mup3d(object):
         for i in range(num_solutions):
             # Get the current concentrations and phases
             concentrations = {species: values[i] for species, values in self.solutions.data.items()}
-            script += handle_block(concentrations, generate_solution_block, i, temp=25, water =1)
+            script += handle_block(concentrations, generate_solution_block, i, temp=self.init_temp, water =1)
 
         #check if self.equilibrium_phases is not None
         if self.equilibrium_phases is not None:
@@ -230,7 +270,7 @@ class Mup3d(object):
                 phases = self.equilibrium_phases.data[i]
                 # check if all equilibrium phases are in the database
                 names = get_compound_names(self.database, 'PHASES')
-                assert all([key in names for key in phases.keys()]), 'not all compounds are in the database - check names'
+                assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
 
                 # Handle the  EQUILIBRIUM_PHASES blocks
                 script += handle_block(phases, generate_phases_block, i)
@@ -241,22 +281,37 @@ class Mup3d(object):
             phases = self.exchange_phases.data
             # check if all exchange phases are in the database
             names = get_compound_names(self.database, 'EXCHANGE')
-            assert all([key in names for key in phases.keys()]), 'not all compounds are in the database - check names'
+            assert all([key in names for key in phases.keys()]), 'Following are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
             
             num_exch = len(next(iter(self.exchange_phases.data.values())))
             for i in range(num_exch):
                 # Get the current concentrations and phases
                 concentrations = {species: values[i] for species, values in self.exchange_phases.data.items()}
                 script += handle_block(concentrations, generate_exchange_block, i)
+        
+        #check if self.kinetic_phases is not None
+        if self.kinetic_phases is not None:
+            for i in self.kinetic_phases.data.keys():
+                # Get the current   phases
+                phases = self.kinetic_phases.data[i]
+                # check if all kinetic phases are in the database
+                names = []
+                for blocknme in ['PHASES', 'SOLUTION_MASTER_SPECIES']:
+                    names += get_compound_names(self.database, blocknme)
+
+                assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
+                
+                script += handle_block(phases, generate_kinetics_block, i)
 
         # add end of line before postfix
         script += endmainblock
 
         # Append the postfix file to the script
-        if os.path.isfile(self.postfix):
+        if self.postfix is not None and os.path.isfile(self.postfix):
             with open(self.postfix, 'r') as source:  # Open the source file in read mode
                 script += '\n'
                 script += source.read()
+        
 
         with open(filename, 'w') as file:
             file.write(script)
@@ -327,11 +382,6 @@ class Mup3d(object):
         if isinstance(self.equilibrium_phases, EquilibriumPhases):
             ic1[:, 1] = np.reshape(self.equilibrium_phases.ic, self.ncpl)
 
-        #     if len(self.equilibrium_phases.ic) == 1:
-        #         self.equilibrium_phases.ic = [self.equilibrium_phases.ic[0]]*self.ncpl
-        #     ic1[:, 1] = np.reshape(self.equilibrium_phases.ic, self.ncpl)  # Equilibrium phases
-        # else:
-        #     ic1[:, 1] = -1
         if isinstance(self.exchange_phases, ExchangePhases):
             ic1[:, 2] = np.reshape(self.exchange_phases.ic, self.ncpl)  # Exchange 1    
 

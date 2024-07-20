@@ -1,6 +1,7 @@
 import platform
 import os
 import shutil
+import pandas 
 
 #global variables
 endmainblock  = '''\nPRINT
@@ -34,6 +35,29 @@ def solution_csv_to_dict(csv_file, header = True):
             data[key] = [float(i) for i in value]
     return data
 
+def kinetics_df_to_dict(data, header = True):
+    """Read a kinetics CSV file and convert it to a dictionary
+    Parameters
+    ----------
+    csv_file : str
+        The path to the kinetics CSV file.
+    header : bool, optional
+        Whether the CSV file has a header. The default is True.
+    Returns
+    -------
+    data : dict
+        A dictionary with the first column as keys and the remaining columns as values.
+    """
+    dic = {}
+    # data.set_index(data.columns[0], inplace=True)
+    par_cols = [col for col in data.columns if col.startswith('par')]
+    for key in data.index:
+        parms = [item for item in data.loc[key, par_cols] if not pandas.isna(item)]
+        print(parms)
+        dic[key] = [item for item in data.loc[key] if item not in parms and not pandas.isna(item)]
+        dic[key].append(parms)
+    return dic
+
 def solution_df_to_dict(data, header = True):
     """Convert a pandas DataFrame to a dictionary
     Parameters
@@ -47,7 +71,6 @@ def solution_df_to_dict(data, header = True):
     data : dict
         A dictionary with the first column as keys and the remaining columns as values.
     """
-    import pandas as pd
     data = data.T.to_dict('list')
     for key, value in data.items():
         data[key] = [float(i) for i in value]
@@ -82,6 +105,41 @@ def equilibrium_phases_csv_to_dict(csv_file, header = True):
             else:
                 # data[int(row[-1])] # append {row[0]: [float(row[1]), float(row[2])]} to the existing nested dictionary
                 data[int(row[-1])][row[0]] = [float(row[1]), float(row[2])]
+    return data
+
+def kinetics_phases_csv_to_dict(csv_file, header = True):
+    """Read an equilibrium phases CSV file and convert it to a dictionary	
+    Parameters
+    ----------
+    csv_file : str
+        The path to the equilibrium phases CSV file.
+    header : bool, optional
+        Whether the CSV file has a header. The default is True.
+    Returns
+    -------
+    data : dict
+        A dictionary with phase names as keys and lists of saturation indices and amounts as values.
+    """
+    import csv
+    with open(csv_file, mode='r') as infile:
+        reader = csv.reader(infile)
+        #skip header assuming first line is header
+        if header:
+            cols = next(reader)
+            print(cols)
+        data = {}
+        for row in reader:
+            if row[0].startswith('#'):
+                continue
+            rowcleaned = [i for i in row if i != '']
+            if int(rowcleaned[-1]) not in data:
+                # data[row[0]] = [[float(row[1]), float(row[2])]]
+                data[int(rowcleaned[-1])] = {rowcleaned[0]: [float(rowcleaned[1])]}
+                data[int(rowcleaned[-1])][rowcleaned[0]].append([float(i) for i in rowcleaned[2:-1]])
+            else:
+                data[int(rowcleaned[-1])][rowcleaned[0]] = [float(rowcleaned[1])]
+                data[int(rowcleaned[-1])][rowcleaned[0]].append([float(i) for i in rowcleaned[2:-1]])
+                # [float(i) for i in rowcleaned[1:-1]]
     return data
 
 def handle_block(current_items, block_generator, i, *args, **kwargs):
@@ -152,9 +210,36 @@ def generate_exchange_block(exchange_dict, i):
     """
     script = f"EXCHANGE {i+1}\n"
     for species, conc in exchange_dict.items():
-        print(species, conc)
         script += f"    {species} {conc:.5e}\n"
     script += "    -equilibrate 1"
+    script += "\nEND\n"
+    return script
+
+def generate_kinetics_block(kinetics_dict, i):
+    """Generate a KINETICS block for PHREEQC input script
+    Parameters
+    ----------
+    kinetics_dict : dict
+        A dictionary with species names as keys and lists of rate constants and exponents as values.
+    i : int
+        The block number.
+    Returns
+    -------
+    script : str
+        The KINETICS block as a string.
+    """
+    script = f"KINETICS {i+1}\n"
+    options = ["m0", "m", "formula"]
+    for species, values in kinetics_dict.items():
+        print(values)
+        script += f"    {species}\n"
+        for k in range(len(values)):
+            if isinstance(values[k], list):
+                script += f"        -{options[k]} "  + ' '.join(f"{parm:.5e}" for parm in values[k])  +   "\n"
+            elif isinstance(values[k], str):
+                script += f"        -{options[k]} {values[k]}\n"
+            else:
+                script += f"        -{options[k]} {values[k]:.5e}\n"
     script += "\nEND\n"
     return script
 
