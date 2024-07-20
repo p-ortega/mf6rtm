@@ -38,13 +38,18 @@ class Block:
         self.data = data
         self.names = [key for key in data.keys()]
         self.ic = ic #None means no initial condition (-1)
+        self.eq_solutions = []
 
     def set_ic(self, ic):
         assert isinstance(ic, (int, float, np.ndarray)), 'ic must be an int, float or ndarray'
         # if isinstance(ic, (int, float)):
         #     ic = [ic]
         self.ic = ic
-        
+    def set_equilibrate_solutions(self, eq_solutions):
+        '''Set the equilibrium solutions for the exchange phases.
+        Array where index is the exchange phase number and value is the solution number to equilibrate with.
+        '''
+        self.eq_solutions = eq_solutions
 
 class GasPhase(Block):
     def __init__(self, data) -> None:
@@ -64,7 +69,6 @@ class EquilibriumPhases(Block):
 class ExchangePhases(Block):
     def __init__(self, data) -> None:
         super().__init__(data)
-        # super().__init__(ic)
 
 class KineticPhases(Block):
     def __init__(self, data) -> None:
@@ -96,6 +100,7 @@ phase_types = {
     'KineticPhases': KineticPhases,
     # 'ExchangePhases': ExchangePhases,
     'EquilibriumPhases': EquilibriumPhases,
+    'Surfaces': Surfaces,
 }
 
 class Mup3d(object):
@@ -109,7 +114,7 @@ class Mup3d(object):
         self.equilibrium_phases = None
         self.kinetic_phases = None
         self.exchange_phases = None
-        self.surfaces = None
+        self.surfaces_phases = None
         self.postfix = None
         # self.gas_phase = None
         # self.solid_solutions = None
@@ -287,7 +292,7 @@ class Mup3d(object):
             for i in range(num_exch):
                 # Get the current concentrations and phases
                 concentrations = {species: values[i] for species, values in self.exchange_phases.data.items()}
-                script += handle_block(concentrations, generate_exchange_block, i)
+                script += handle_block(concentrations, generate_exchange_block, i, equilibrate_solutions = self.exchange_phases.eq_solutions)
         
         #check if self.kinetic_phases is not None
         if self.kinetic_phases is not None:
@@ -302,6 +307,15 @@ class Mup3d(object):
                 assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
                 
                 script += handle_block(phases, generate_kinetics_block, i)
+        
+        if self.surfaces_phases is not None:
+            for i in self.surfaces_phases.data.keys():
+                # Get the current   phases
+                phases = self.surfaces_phases.data[i]
+                # check if all surfaces are in the database
+                names = get_compound_names(self.database, 'SURFACE_MASTER_SPECIES')
+                assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
+                script += handle_block(phases, generate_surface_block, i)
 
         # add end of line before postfix
         script += endmainblock
@@ -325,6 +339,7 @@ class Mup3d(object):
         # dis = sim.get_model(sim.model_names[0]).dis
 
         # create phinp
+        #check if phinp.dat is in wd
         phinp = self.generate_phreeqc_script()
 
         # initialize phreeqccrm object 
@@ -383,9 +398,11 @@ class Mup3d(object):
             ic1[:, 1] = np.reshape(self.equilibrium_phases.ic, self.ncpl)
 
         if isinstance(self.exchange_phases, ExchangePhases):
-            ic1[:, 2] = np.reshape(self.exchange_phases.ic, self.ncpl)  # Exchange 1    
+            ic1[:, 2] = np.reshape(self.exchange_phases.ic, self.ncpl)  # Exchange  
 
-        ic1[:, 3] = -1  # Surface      
+        if isinstance(self.surfaces_phases, Surfaces):
+            ic1[:, 3] = np.reshape(self.surfaces_phases.ic, self.ncpl)  # Surface
+
         ic1[:, 4] = -1  # Gas phase     
         ic1[:, 5] = -1  # Solid solutions
         

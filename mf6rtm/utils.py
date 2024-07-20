@@ -107,6 +107,38 @@ def equilibrium_phases_csv_to_dict(csv_file, header = True):
                 data[int(row[-1])][row[0]] = [float(row[1]), float(row[2])]
     return data
 
+def surfaces_csv_to_dict(csv_file, header = True):
+    """Read an equilibrium phases CSV file and convert it to a dictionary	
+    Parameters
+    ----------
+    csv_file : str
+        The path to the equilibrium phases CSV file.
+    header : bool, optional
+        Whether the CSV file has a header. The default is True.
+    Returns
+    -------
+    data : dict
+        A dictionary with phase names as keys and lists of saturation indices and amounts as values.
+    """
+    import csv
+    with open(csv_file, mode='r') as infile:
+        reader = csv.reader(infile)
+        #skip header assuming first line is header
+        if header:
+            next(reader)
+        data = {}
+        for row in reader:
+            if row[0].startswith('#'):
+                continue
+            if int(row[-1]) not in data:
+                # data[row[0]] = [[float(row[1]), float(row[2])]]
+                data[int(row[-1])] = {row[0]: [i for i in row[1:-1]]}
+            else:
+                # data[int(row[-1])] # append {row[0]: [float(row[1]), float(row[2])]} to the existing nested dictionary
+                data[int(row[-1])][row[0]] = [i for i in row[1:-1]]
+    return data
+
+
 def kinetics_phases_csv_to_dict(csv_file, header = True):
     """Read an equilibrium phases CSV file and convert it to a dictionary	
     Parameters
@@ -195,7 +227,8 @@ def get_compound_names(database_file, block = 'SOLUTION_MASTER_SPECIES'):
                     species_names.append(species)
     return species_names
 
-def generate_exchange_block(exchange_dict, i):
+
+def generate_exchange_block(exchange_dict, i, equilibrate_solutions = []):
     """Generate an EXCHANGE block for PHREEQC input script
     Parameters
     ----------
@@ -211,7 +244,31 @@ def generate_exchange_block(exchange_dict, i):
     script = f"EXCHANGE {i+1}\n"
     for species, conc in exchange_dict.items():
         script += f"    {species} {conc:.5e}\n"
-    script += "    -equilibrate 1"
+    if len(equilibrate_solutions) > 0:
+        script += f"    -equilibrate {equilibrate_solutions[i]}"
+    else:
+        script += f"    -equilibrate {1}"
+    script += "\nEND\n"
+    return script
+
+def generate_surface_block(surface_dict, i):
+    """Generate a SURFACE block for PHREEQC input script
+    Parameters
+    ----------
+    surface_dict : dict
+        A dictionary with surface names as keys and lists of site densities and site densities as values.
+    i : int
+        The block number.
+    Returns
+    -------
+    script : str
+        The SURFACE block as a string.
+    """
+    script = f"SURFACE {i+1}\n"
+    for name, values in surface_dict.items():
+        script += f"    {name}"
+        script += f"    "  + ' '.join(f"{v}" for v in values)  +   "\n"
+        script += f"    -equilibrate {1}" #TODO: make equilibrate a parameter from eq_solutions
     script += "\nEND\n"
     return script
 
@@ -229,9 +286,8 @@ def generate_kinetics_block(kinetics_dict, i):
         The KINETICS block as a string.
     """
     script = f"KINETICS {i+1}\n"
-    options = ["m0", "m", "formula"]
+    options = ["m0", "parms", "formula"]
     for species, values in kinetics_dict.items():
-        print(values)
         script += f"    {species}\n"
         for k in range(len(values)):
             if isinstance(values[k], list):
