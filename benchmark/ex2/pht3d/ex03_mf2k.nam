@@ -1,0 +1,13 @@
+LIST           3 output.dat
+DIS          105 discret.dat
+BAS6           1 bas6.dat
+ZONE          93 zone.dat
+MULT          94 multiple.dat
+BCF6          11 bcf6.dat
+WEL           12 wel6.dat
+PCG           23 pcg2.dat
+LMT6          66 lmt6.dat
+OC            22 oc.dat
+DATA(BINARY)  50 budget.dat
+DATA(BINARY)  51 heads.dat
+DATA(BINARY)  52 ddown.dat

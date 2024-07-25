@@ -1,0 +1,35 @@
+Input summary for PHC (MT3DMS-PHREEQC) interface package
+--------------------------------------------------------
+Reading input from file Pht3d_ph.dat
+This is an input file for PHT3D version 1.47 or lower.
+--------------------------------------------------------
+Screen output will be suppressed.
+--------------------------------------------------------
+Concentration cutoff: 1.00e-014.
+--------------------------------------------------------
+Number of mobile equilibrium components: 7
+Number of equilibrium minerals: 0
+Number of sorbed cations: 3
+Number of surfaces: 0
+Number of mobile kinetic species: 0
+Number of kinetic minerals: 0
+Number of kinetic surfaces: 0
+Number of immobile kinetic species: 0
+---------- Mobile kinetic species ----------
+---------- Mobile equilibrium species ----------
+Component 1: Ca
+Component 2: Cl
+Component 3: K
+Component 4: N(5)
+Component 5: Na
+Component 6: pH
+Component 7: pe
+---------- Immobile kinetic species ----------
+---------- Equilibrium minerals ----------
+---------- Exchanger species ----------
+Component 8: CaX2
+Component 9: KX
+Component 10: NaX
+---------- Surface species ----------
+---------- Kinetic minerals ----------
+---------- Kinetic surface species ----------

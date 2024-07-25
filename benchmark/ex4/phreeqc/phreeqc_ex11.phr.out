@@ -1,0 +1,2864 @@
+WARNING: Database file from DATABASE keyword is used; command line argument ignored.
+   Input file: .\phreeqc_ex11.phr
+  Output file: .\phreeqc_ex11.phr.out
+Database file: ../../database/pht3d_datab.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	DATABASE ../../database/pht3d_datab.dat
+	TITLE Example 11.--Transport and ion exchange.
+	SOLUTION 0  CaCl2
+	        units            mmol/kgw
+	        temp             25.0
+	        pH               7.0     
+	        pe               12.5    
+	        Ca               0.6
+	        Cl               1.2
+	SOLUTION 1-40  Initial solution for column
+	        units            mmol/kgw
+	        temp             25.0
+	        pH               7.0     
+	        pe               12.5    
+	        Na               1.0
+	        K                0.2
+	        N(5)             1.2
+	EXCHANGE 1-40
+	    CaX2 0.00000e+00
+	    NaX 5.49300e-04
+	    KX 5.50700e-04
+	    equilibrate 1
+	ADVECTION
+	        cells           40
+	        shifts          120
+	        punch_cells     40
+	        punch_frequency 1
+	        print_cells     40
+	        print_frequency 20      
+	SELECTED_OUTPUT
+	        file            ex11adv.csv
+	        reset           false
+	        step
+	        totals          Na Cl K Ca
+	USER_PUNCH
+	  heading  pore_vol time_d cell 
+	  10   PUNCH (STEP_NO + .5) / 40.
+	  11   PUNCH STEP_NO*0.24/120
+	  21   PUNCH cell_no
+	END
+-----
+TITLE
+-----
+
+ Example 11.--Transport and ion exchange.
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	CaCl2
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                6.000e-04   6.000e-04
+	Cl                1.200e-03   1.200e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =  12.500    
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.800e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.315e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.315e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.050e-07   1.001e-07    -6.979    -7.000    -0.021     (0)  
+   H+              1.045e-07   1.000e-07    -6.981    -7.000    -0.019      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Ca            6.000e-04
+   Ca+2            6.000e-04   4.983e-04    -3.222    -3.302    -0.081     (0)  
+   CaOH+           8.659e-10   8.270e-10    -9.063    -9.082    -0.020     (0)  
+Cl            1.200e-03
+   Cl-             1.200e-03   1.144e-03    -2.921    -2.941    -0.021     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.150   -42.150     0.000     (0)  
+O(0)          1.663e-08
+   O2              8.314e-09   8.317e-09    -8.080    -8.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.00    -42.15   -3.15  H2
+  O2(g)            -5.19     -8.08   -2.89  O2
+  Portlandite     -12.10     10.70   22.80  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 1.	Initial solution for column
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	K                 2.000e-04   2.000e-04
+	N(5)              1.200e-03   1.200e-03
+	Na                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =  12.500    
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.200e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.389e-10
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -3.389e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   3 (7 overall)
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550982e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.041e-07   1.001e-07    -6.983    -7.000    -0.017     (0)  
+   H+              1.038e-07   1.000e-07    -6.984    -7.000    -0.016      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.150   -42.150     0.000     (0)  
+K             2.000e-04
+   K+              2.000e-04   1.923e-04    -3.699    -3.716    -0.017     (0)  
+N(5)          1.200e-03
+   NO3-            1.200e-03   1.154e-03    -2.921    -2.938    -0.017     (0)  
+Na            1.000e-03
+   Na+             1.000e-03   9.620e-04    -3.000    -3.017    -0.017     (0)  
+O(0)          1.663e-08
+   O2              8.315e-09   8.317e-09    -8.080    -8.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.00    -42.15   -3.15  H2
+  O2(g)            -5.19     -8.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+-------------------------------------------------------
+Beginning of initial exchange-composition calculations.
+-------------------------------------------------------
+
+Exchange 1.	
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	KX                5.503e-04   5.503e-04   5.002e-01     0.000
+	NaX               5.492e-04   5.492e-04   4.992e-01     0.000
+	HX                5.708e-07   5.708e-07   5.189e-04     0.000
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	CaCl2
+Using exchange 1.	Exchange assemblage after simulation 1.
+
+-----------------------------Exchange composition------------------------------
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	CaX2              4.917e-04   9.835e-04   8.941e-01     0.000
+	KX                9.453e-05   9.453e-05   8.594e-02     0.000
+	NaX               2.183e-05   2.183e-05   1.985e-02     0.000
+	HX                1.745e-07   1.745e-07   1.587e-04     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                1.083e-04   1.083e-04
+	Cl                1.200e-03   1.200e-03
+	K                 4.557e-04   4.557e-04
+	Na                5.273e-04   5.273e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.393      Charge balance
+                                       pe  =  13.107      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.308e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.950e-07
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.315e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   8
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              4.208e-07   4.049e-07    -6.376    -6.393    -0.017      0.00
+   OH-             2.575e-08   2.472e-08    -7.589    -7.607    -0.018     (0)  
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Ca            1.083e-04
+   Ca+2            1.083e-04   9.227e-05    -3.965    -4.035    -0.069     (0)  
+   CaOH+           3.935e-11   3.782e-11   -10.405   -10.422    -0.017     (0)  
+Cl            1.200e-03
+   Cl-             1.200e-03   1.152e-03    -2.921    -2.939    -0.018     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.150   -42.150     0.000     (0)  
+K             4.557e-04
+   K+              4.557e-04   4.375e-04    -3.341    -3.359    -0.018     (0)  
+Na            5.273e-04
+   Na+             5.273e-04   5.065e-04    -3.278    -3.295    -0.018     (0)  
+O(0)          1.663e-08
+   O2              8.314e-09   8.316e-09    -8.080    -8.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.00    -42.15   -3.15  H2
+  Halite           -7.82     -6.23    1.58  NaCl
+  O2(g)            -5.19     -8.08   -2.89  O2
+  Portlandite     -14.05      8.75   22.80  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------------------------
+Beginning of advection calculations.
+------------------------------------
+
+Beginning of advection time step 1, cumulative pore volumes 0.025000.
+Beginning of advection time step 2, cumulative pore volumes 0.050000.
+Beginning of advection time step 3, cumulative pore volumes 0.075000.
+Beginning of advection time step 4, cumulative pore volumes 0.100000.
+Beginning of advection time step 5, cumulative pore volumes 0.125000.
+Beginning of advection time step 6, cumulative pore volumes 0.150000.
+Beginning of advection time step 7, cumulative pore volumes 0.175000.
+Beginning of advection time step 8, cumulative pore volumes 0.200000.
+Beginning of advection time step 9, cumulative pore volumes 0.225000.
+Beginning of advection time step 10, cumulative pore volumes 0.250000.
+Beginning of advection time step 11, cumulative pore volumes 0.275000.
+Beginning of advection time step 12, cumulative pore volumes 0.300000.
+Beginning of advection time step 13, cumulative pore volumes 0.325000.
+Beginning of advection time step 14, cumulative pore volumes 0.350000.
+Beginning of advection time step 15, cumulative pore volumes 0.375000.
+Beginning of advection time step 16, cumulative pore volumes 0.400000.
+Beginning of advection time step 17, cumulative pore volumes 0.425000.
+Beginning of advection time step 18, cumulative pore volumes 0.450000.
+Beginning of advection time step 19, cumulative pore volumes 0.475000.
+Beginning of advection time step 20, cumulative pore volumes 0.500000.
+
+Cell 40.
+
+Using solution 40.	Solution after simulation 1.
+Using exchange 40.	Exchange assemblage after simulation 1.
+
+-----------------------------Exchange composition------------------------------
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	KX                5.503e-04   5.503e-04   5.002e-01     0.000
+	NaX               5.492e-04   5.492e-04   4.992e-01     0.000
+	HX                5.663e-07   5.663e-07   5.149e-04     0.000
+	NH4X              8.332e-55   8.332e-55   7.574e-52     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	K                 2.000e-04   2.000e-04
+	N                 1.200e-03   1.200e-03
+	Na                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.003      Charge balance
+                                       pe  =  12.568      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.200e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.984e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -3.389e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550982e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.049e-07   1.009e-07    -6.979    -6.996    -0.017     (0)  
+   H+              1.029e-07   9.921e-08    -6.987    -7.003    -0.016      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.292   -42.292     0.000     (0)  
+K             2.000e-04
+   K+              2.000e-04   1.923e-04    -3.699    -3.716    -0.017     (0)  
+N(-3)         0.000e+00
+   NH4+            0.000e+00   0.000e+00   -54.419   -54.436    -0.017     (0)  
+   NH3             0.000e+00   0.000e+00   -56.677   -56.677     0.000     (0)  
+N(0)          6.141e-09
+   N2              3.071e-09   3.071e-09    -8.513    -8.513     0.000     (0)  
+N(3)          3.214e-14
+   NO2-            3.214e-14   3.091e-14   -13.493   -13.510    -0.017     (0)  
+N(5)          1.200e-03
+   NO3-            1.200e-03   1.154e-03    -2.921    -2.938    -0.017     (0)  
+Na            1.000e-03
+   Na+             1.000e-03   9.620e-04    -3.000    -3.017    -0.017     (0)  
+O(0)          3.198e-08
+   O2              1.599e-08   1.600e-08    -7.796    -7.796     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.14    -42.29   -3.15  H2
+  N2(g)            -5.25     -8.51   -3.26  N2
+  NH3(g)          -58.45    -56.68    1.77  NH3
+  O2(g)            -4.90     -7.80   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Beginning of advection time step 21, cumulative pore volumes 0.525000.
+Beginning of advection time step 22, cumulative pore volumes 0.550000.
+Beginning of advection time step 23, cumulative pore volumes 0.575000.
+Beginning of advection time step 24, cumulative pore volumes 0.600000.
+Beginning of advection time step 25, cumulative pore volumes 0.625000.
+Beginning of advection time step 26, cumulative pore volumes 0.650000.
+Beginning of advection time step 27, cumulative pore volumes 0.675000.
+Beginning of advection time step 28, cumulative pore volumes 0.700000.
+Beginning of advection time step 29, cumulative pore volumes 0.725000.
+Beginning of advection time step 30, cumulative pore volumes 0.750000.
+Beginning of advection time step 31, cumulative pore volumes 0.775000.
+Beginning of advection time step 32, cumulative pore volumes 0.800000.
+Beginning of advection time step 33, cumulative pore volumes 0.825000.
+Beginning of advection time step 34, cumulative pore volumes 0.850000.
+Beginning of advection time step 35, cumulative pore volumes 0.875000.
+Beginning of advection time step 36, cumulative pore volumes 0.900000.
+Beginning of advection time step 37, cumulative pore volumes 0.925000.
+Beginning of advection time step 38, cumulative pore volumes 0.950000.
+Beginning of advection time step 39, cumulative pore volumes 0.975000.
+Beginning of advection time step 40, cumulative pore volumes 1.000000.
+
+Cell 40.
+
+Using solution 40.	Solution after simulation 1.
+Using exchange 40.	Exchange assemblage after simulation 1.
+
+-----------------------------Exchange composition------------------------------
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	KX                5.503e-04   5.503e-04   5.002e-01     0.000
+	NaX               5.492e-04   5.492e-04   4.992e-01     0.000
+	HX                5.663e-07   5.663e-07   5.149e-04     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.200e-03   1.200e-03
+	K                 2.000e-04   2.000e-04
+	Na                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.003      Charge balance
+                                       pe  =  12.497      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.200e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.983e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.312e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   1
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.049e-07   1.009e-07    -6.979    -6.996    -0.017     (0)  
+   H+              1.029e-07   9.921e-08    -6.987    -7.003    -0.016      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Cl            1.200e-03
+   Cl-             1.200e-03   1.154e-03    -2.921    -2.938    -0.017     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.150   -42.150     0.000     (0)  
+K             2.000e-04
+   K+              2.000e-04   1.923e-04    -3.699    -3.716    -0.017     (0)  
+Na            1.000e-03
+   Na+             1.000e-03   9.620e-04    -3.000    -3.017    -0.017     (0)  
+O(0)          1.663e-08
+   O2              8.314e-09   8.316e-09    -8.080    -8.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.00    -42.15   -3.15  H2
+  Halite           -7.54     -5.95    1.58  NaCl
+  O2(g)            -5.19     -8.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Beginning of advection time step 41, cumulative pore volumes 1.025000.
+Beginning of advection time step 42, cumulative pore volumes 1.050000.
+Beginning of advection time step 43, cumulative pore volumes 1.075000.
+Beginning of advection time step 44, cumulative pore volumes 1.100000.
+Beginning of advection time step 45, cumulative pore volumes 1.125000.
+Beginning of advection time step 46, cumulative pore volumes 1.150000.
+Beginning of advection time step 47, cumulative pore volumes 1.175000.
+Beginning of advection time step 48, cumulative pore volumes 1.200000.
+Beginning of advection time step 49, cumulative pore volumes 1.225000.
+Beginning of advection time step 50, cumulative pore volumes 1.250000.
+Beginning of advection time step 51, cumulative pore volumes 1.275000.
+Beginning of advection time step 52, cumulative pore volumes 1.300000.
+Beginning of advection time step 53, cumulative pore volumes 1.325000.
+Beginning of advection time step 54, cumulative pore volumes 1.350000.
+Beginning of advection time step 55, cumulative pore volumes 1.375000.
+Beginning of advection time step 56, cumulative pore volumes 1.400000.
+Beginning of advection time step 57, cumulative pore volumes 1.425000.
+Beginning of advection time step 58, cumulative pore volumes 1.450000.
+Beginning of advection time step 59, cumulative pore volumes 1.475000.
+Beginning of advection time step 60, cumulative pore volumes 1.500000.
+
+Cell 40.
+
+Using solution 40.	Solution after simulation 1.
+Using exchange 40.	Exchange assemblage after simulation 1.
+
+-----------------------------Exchange composition------------------------------
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	KX                7.006e-04   7.006e-04   6.369e-01     0.000
+	NaX               3.988e-04   3.988e-04   3.625e-01     0.000
+	HX                6.461e-07   6.461e-07   5.874e-04     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.200e-03   1.200e-03
+	K                 3.115e-04   3.115e-04
+	Na                8.884e-04   8.884e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.859      Charge balance
+                                       pe  =  12.641      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.200e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -6.851e-08
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.311e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              1.437e-07   1.385e-07    -6.843    -6.859    -0.016      0.00
+   OH-             7.517e-08   7.229e-08    -7.124    -7.141    -0.017     (0)  
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Cl            1.200e-03
+   Cl-             1.200e-03   1.154e-03    -2.921    -2.938    -0.017     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.150   -42.150     0.000     (0)  
+K             3.115e-04
+   K+              3.115e-04   2.996e-04    -3.506    -3.523    -0.017     (0)  
+Na            8.884e-04
+   Na+             8.884e-04   8.547e-04    -3.051    -3.068    -0.017     (0)  
+O(0)          1.663e-08
+   O2              8.314e-09   8.316e-09    -8.080    -8.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.00    -42.15   -3.15  H2
+  Halite           -7.59     -6.01    1.58  NaCl
+  O2(g)            -5.19     -8.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Beginning of advection time step 61, cumulative pore volumes 1.525000.
+Beginning of advection time step 62, cumulative pore volumes 1.550000.
+Beginning of advection time step 63, cumulative pore volumes 1.575000.
+Beginning of advection time step 64, cumulative pore volumes 1.600000.
+Beginning of advection time step 65, cumulative pore volumes 1.625000.
+Beginning of advection time step 66, cumulative pore volumes 1.650000.
+Beginning of advection time step 67, cumulative pore volumes 1.675000.
+Beginning of advection time step 68, cumulative pore volumes 1.700000.
+Beginning of advection time step 69, cumulative pore volumes 1.725000.
+Beginning of advection time step 70, cumulative pore volumes 1.750000.
+Beginning of advection time step 71, cumulative pore volumes 1.775000.
+Beginning of advection time step 72, cumulative pore volumes 1.800000.
+Beginning of advection time step 73, cumulative pore volumes 1.825000.
+Beginning of advection time step 74, cumulative pore volumes 1.850000.
+Beginning of advection time step 75, cumulative pore volumes 1.875000.
+Beginning of advection time step 76, cumulative pore volumes 1.900000.
+Beginning of advection time step 77, cumulative pore volumes 1.925000.
+Beginning of advection time step 78, cumulative pore volumes 1.950000.
+Beginning of advection time step 79, cumulative pore volumes 1.975000.
+Beginning of advection time step 80, cumulative pore volumes 2.000000.
+
+Cell 40.
+
+Using solution 40.	Solution after simulation 1.
+Using exchange 40.	Exchange assemblage after simulation 1.
+
+-----------------------------Exchange composition------------------------------
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	CaX2              5.500e-04   1.100e-03   1.000e+00     0.000
+	HX                2.005e-08   2.005e-08   1.823e-05     0.000
+	KX                8.444e-09   8.444e-09   7.676e-06     0.000
+	NaX               3.075e-21   3.075e-21   2.796e-18     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                6.000e-04   6.000e-04
+	Cl                1.200e-03   1.200e-03
+	K                 9.006e-08   9.006e-08
+	Na                1.643e-19   1.643e-19
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.990      Charge balance
+                                       pe  =  12.510      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.800e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.303e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.315e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   5
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              1.068e-07   1.022e-07    -6.971    -6.990    -0.019      0.00
+   OH-             1.027e-07   9.793e-08    -6.988    -7.009    -0.021     (0)  
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Ca            6.000e-04
+   Ca+2            6.000e-04   4.983e-04    -3.222    -3.303    -0.081     (0)  
+   CaOH+           8.471e-10   8.090e-10    -9.072    -9.092    -0.020     (0)  
+Cl            1.200e-03
+   Cl-             1.200e-03   1.144e-03    -2.921    -2.941    -0.021     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.150   -42.150     0.000     (0)  
+K             9.006e-08
+   K+              9.006e-08   8.588e-08    -7.045    -7.066    -0.021     (0)  
+Na            1.643e-19
+   Na+             1.643e-19   1.568e-19   -18.784   -18.805    -0.020     (0)  
+O(0)          1.663e-08
+   O2              8.314e-09   8.317e-09    -8.080    -8.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.00    -42.15   -3.15  H2
+  Halite          -23.33    -21.75    1.58  NaCl
+  O2(g)            -5.19     -8.08   -2.89  O2
+  Portlandite     -12.12     10.68   22.80  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Beginning of advection time step 81, cumulative pore volumes 2.025000.
+Beginning of advection time step 82, cumulative pore volumes 2.050000.
+Beginning of advection time step 83, cumulative pore volumes 2.075000.
+Beginning of advection time step 84, cumulative pore volumes 2.100000.
+Beginning of advection time step 85, cumulative pore volumes 2.125000.
+Beginning of advection time step 86, cumulative pore volumes 2.150000.
+Beginning of advection time step 87, cumulative pore volumes 2.175000.
+Beginning of advection time step 88, cumulative pore volumes 2.200000.
+Beginning of advection time step 89, cumulative pore volumes 2.225000.
+Beginning of advection time step 90, cumulative pore volumes 2.250000.
+Beginning of advection time step 91, cumulative pore volumes 2.275000.
+Beginning of advection time step 92, cumulative pore volumes 2.300000.
+Beginning of advection time step 93, cumulative pore volumes 2.325000.
+Beginning of advection time step 94, cumulative pore volumes 2.350000.
+Beginning of advection time step 95, cumulative pore volumes 2.375000.
+Beginning of advection time step 96, cumulative pore volumes 2.400000.
+Beginning of advection time step 97, cumulative pore volumes 2.425000.
+Beginning of advection time step 98, cumulative pore volumes 2.450000.
+Beginning of advection time step 99, cumulative pore volumes 2.475000.
+Beginning of advection time step 100, cumulative pore volumes 2.500000.
+
+Cell 40.
+
+Using solution 40.	Solution after simulation 1.
+Using exchange 40.	Exchange assemblage after simulation 1.
+
+-----------------------------Exchange composition------------------------------
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	CaX2              5.500e-04   1.100e-03   1.000e+00     0.000
+	HX                1.962e-08   1.962e-08   1.783e-05     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                6.000e-04   6.000e-04
+	Cl                1.200e-03   1.200e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  12.500      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.800e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.315e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.315e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.050e-07   1.001e-07    -6.979    -7.000    -0.021     (0)  
+   H+              1.045e-07   1.000e-07    -6.981    -7.000    -0.019      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Ca            6.000e-04
+   Ca+2            6.000e-04   4.983e-04    -3.222    -3.302    -0.081     (0)  
+   CaOH+           8.659e-10   8.270e-10    -9.063    -9.082    -0.020     (0)  
+Cl            1.200e-03
+   Cl-             1.200e-03   1.144e-03    -2.921    -2.941    -0.021     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.150   -42.150     0.000     (0)  
+O(0)          1.663e-08
+   O2              8.314e-09   8.317e-09    -8.080    -8.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.00    -42.15   -3.15  H2
+  O2(g)            -5.19     -8.08   -2.89  O2
+  Portlandite     -12.10     10.70   22.80  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Beginning of advection time step 101, cumulative pore volumes 2.525000.
+Beginning of advection time step 102, cumulative pore volumes 2.550000.
+Beginning of advection time step 103, cumulative pore volumes 2.575000.
+Beginning of advection time step 104, cumulative pore volumes 2.600000.
+Beginning of advection time step 105, cumulative pore volumes 2.625000.
+Beginning of advection time step 106, cumulative pore volumes 2.650000.
+Beginning of advection time step 107, cumulative pore volumes 2.675000.
+Beginning of advection time step 108, cumulative pore volumes 2.700000.
+Beginning of advection time step 109, cumulative pore volumes 2.725000.
+Beginning of advection time step 110, cumulative pore volumes 2.750000.
+Beginning of advection time step 111, cumulative pore volumes 2.775000.
+Beginning of advection time step 112, cumulative pore volumes 2.800000.
+Beginning of advection time step 113, cumulative pore volumes 2.825000.
+Beginning of advection time step 114, cumulative pore volumes 2.850000.
+Beginning of advection time step 115, cumulative pore volumes 2.875000.
+Beginning of advection time step 116, cumulative pore volumes 2.900000.
+Beginning of advection time step 117, cumulative pore volumes 2.925000.
+Beginning of advection time step 118, cumulative pore volumes 2.950000.
+Beginning of advection time step 119, cumulative pore volumes 2.975000.
+Beginning of advection time step 120, cumulative pore volumes 3.000000.
+
+Cell 40.
+
+Using solution 40.	Solution after simulation 1.
+Using exchange 40.	Exchange assemblage after simulation 1.
+
+-----------------------------Exchange composition------------------------------
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	CaX2              5.500e-04   1.100e-03   1.000e+00     0.000
+	HX                1.962e-08   1.962e-08   1.783e-05     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                6.000e-04   6.000e-04
+	Cl                1.200e-03   1.200e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  12.500      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.800e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.315e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.315e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.050e-07   1.001e-07    -6.979    -7.000    -0.021     (0)  
+   H+              1.045e-07   1.000e-07    -6.981    -7.000    -0.019      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Ca            6.000e-04
+   Ca+2            6.000e-04   4.983e-04    -3.222    -3.302    -0.081     (0)  
+   CaOH+           8.659e-10   8.270e-10    -9.063    -9.082    -0.020     (0)  
+Cl            1.200e-03
+   Cl-             1.200e-03   1.144e-03    -2.921    -2.941    -0.021     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.150   -42.150     0.000     (0)  
+O(0)          1.663e-08
+   O2              8.314e-09   8.317e-09    -8.080    -8.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.00    -42.15   -3.15  H2
+  O2(g)            -5.19     -8.08   -2.89  O2
+  Portlandite     -12.10     10.70   22.80  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	SOLUTION 1-40  Initial solution for column
+	        units            mmol/kgw
+	        temp             25.0
+	        pH               7.0    
+	        pe               12.5    
+	        Na               1.0
+	        K                0.2
+	        N(5)             1.2
+	EXCHANGE 1-40
+	    CaX2 0.00000e+00
+	    NaX 5.49300e-04
+	    KX 5.50700e-04
+	    equilibrate 1
+	TRANSPORT
+	        cells           40
+	        length          0.002
+	        shifts          120
+	        time_step       720.0
+	        flow_direction  forward
+	        boundary_conditions   flux    flux
+	        diffc           0.0e-9
+	        dispersivity    0.002
+	        correct_disp    True
+	        punch           40
+	        punch_frequency 1
+	        print           40
+	        print_frequency 20
+	SELECTED_OUTPUT
+WARNING: Cell-lengths were read for 1 cells. Last value is used till cell 40.
+WARNING: Dispersivities were read for 1 cells. Last value is used till cell 40.
+	        file            ex11trn.csv
+	        reset           false
+	        step
+	        totals          Na Cl K Ca
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 1.	Initial solution for column
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	K                 2.000e-04   2.000e-04
+	N(5)              1.200e-03   1.200e-03
+	Na                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =  12.500    
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.200e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.389e-10
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -3.389e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   3
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550982e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.041e-07   1.001e-07    -6.983    -7.000    -0.017     (0)  
+   H+              1.038e-07   1.000e-07    -6.984    -7.000    -0.016      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.150   -42.150     0.000     (0)  
+K             2.000e-04
+   K+              2.000e-04   1.923e-04    -3.699    -3.716    -0.017     (0)  
+N(5)          1.200e-03
+   NO3-            1.200e-03   1.154e-03    -2.921    -2.938    -0.017     (0)  
+Na            1.000e-03
+   Na+             1.000e-03   9.620e-04    -3.000    -3.017    -0.017     (0)  
+O(0)          1.663e-08
+   O2              8.315e-09   8.317e-09    -8.080    -8.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.00    -42.15   -3.15  H2
+  O2(g)            -5.19     -8.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+-------------------------------------------------------
+Beginning of initial exchange-composition calculations.
+-------------------------------------------------------
+
+Exchange 1.	
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	KX                5.503e-04   5.503e-04   5.002e-01     0.000
+	NaX               5.492e-04   5.492e-04   4.992e-01     0.000
+	HX                5.708e-07   5.708e-07   5.189e-04     0.000
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 1.	Initial solution for column
+Using exchange 1.	Exchange assemblage after simulation 2.
+
+-----------------------------Exchange composition------------------------------
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	KX                5.503e-04   5.503e-04   5.002e-01     0.000
+	NaX               5.492e-04   5.492e-04   4.992e-01     0.000
+	HX                5.663e-07   5.663e-07   5.149e-04     0.000
+	NH4X              8.332e-55   8.332e-55   7.574e-52     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	K                 2.000e-04   2.000e-04
+	N                 1.200e-03   1.200e-03
+	Na                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.003      Charge balance
+                                       pe  =  12.568      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.200e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.984e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -3.389e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550982e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.049e-07   1.009e-07    -6.979    -6.996    -0.017     (0)  
+   H+              1.029e-07   9.921e-08    -6.987    -7.003    -0.016      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.292   -42.292     0.000     (0)  
+K             2.000e-04
+   K+              2.000e-04   1.923e-04    -3.699    -3.716    -0.017     (0)  
+N(-3)         0.000e+00
+   NH4+            0.000e+00   0.000e+00   -54.419   -54.436    -0.017     (0)  
+   NH3             0.000e+00   0.000e+00   -56.677   -56.677     0.000     (0)  
+N(0)          6.141e-09
+   N2              3.071e-09   3.071e-09    -8.513    -8.513     0.000     (0)  
+N(3)          3.214e-14
+   NO2-            3.214e-14   3.091e-14   -13.493   -13.510    -0.017     (0)  
+N(5)          1.200e-03
+   NO3-            1.200e-03   1.154e-03    -2.921    -2.938    -0.017     (0)  
+Na            1.000e-03
+   Na+             1.000e-03   9.620e-04    -3.000    -3.017    -0.017     (0)  
+O(0)          3.198e-08
+   O2              1.599e-08   1.600e-08    -7.796    -7.796     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.14    -42.29   -3.15  H2
+  N2(g)            -5.25     -8.51   -3.26  N2
+  NH3(g)          -58.45    -56.68    1.77  NH3
+  O2(g)            -4.90     -7.80   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------------------------
+Beginning of transport calculations.
+------------------------------------
+
+-------------------------------
+Equilibrating initial solutions
+-------------------------------
+
+Using solution 40.	Initial solution for column
+Using exchange 40.	Exchange assemblage after simulation 2.
+
+-----------------------------Exchange composition------------------------------
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	KX                5.503e-04   5.503e-04   5.002e-01     0.000
+	NaX               5.492e-04   5.492e-04   4.992e-01     0.000
+	HX                5.663e-07   5.663e-07   5.149e-04     0.000
+	NH4X              8.332e-55   8.332e-55   7.574e-52     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	K                 2.000e-04   2.000e-04
+	N                 1.200e-03   1.200e-03
+	Na                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.003      Charge balance
+                                       pe  =  12.568      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.200e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.984e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -3.389e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   4 (164 overall)
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550982e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.049e-07   1.009e-07    -6.979    -6.996    -0.017     (0)  
+   H+              1.029e-07   9.921e-08    -6.987    -7.003    -0.016      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.292   -42.292     0.000     (0)  
+K             2.000e-04
+   K+              2.000e-04   1.923e-04    -3.699    -3.716    -0.017     (0)  
+N(-3)         0.000e+00
+   NH4+            0.000e+00   0.000e+00   -54.419   -54.436    -0.017     (0)  
+   NH3             0.000e+00   0.000e+00   -56.677   -56.677     0.000     (0)  
+N(0)          6.141e-09
+   N2              3.071e-09   3.071e-09    -8.513    -8.513     0.000     (0)  
+N(3)          3.214e-14
+   NO2-            3.214e-14   3.091e-14   -13.493   -13.510    -0.017     (0)  
+N(5)          1.200e-03
+   NO3-            1.200e-03   1.154e-03    -2.921    -2.938    -0.017     (0)  
+Na            1.000e-03
+   Na+             1.000e-03   9.620e-04    -3.000    -3.017    -0.017     (0)  
+O(0)          3.198e-08
+   O2              1.599e-08   1.600e-08    -7.796    -7.796     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.14    -42.29   -3.15  H2
+  N2(g)            -5.25     -8.51   -3.26  N2
+  NH3(g)          -58.45    -56.68    1.77  NH3
+  O2(g)            -4.90     -7.80   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+WARNING: 
+Calculating transport: 40 (mobile) cells, 120 shifts, 4 mixruns...
+
+
+Transport step   1.
+
+Transport step   1. Mixrun   1.
+
+Transport step   1. Mixrun   2.
+
+Transport step   1. Mixrun   3.
+
+Transport step   1. Mixrun   4.
+
+Transport step   2.
+
+Transport step   2. Mixrun   1.
+
+Transport step   2. Mixrun   2.
+
+Transport step   2. Mixrun   3.
+
+Transport step   2. Mixrun   4.
+
+Transport step   3.
+
+Transport step   3. Mixrun   1.
+
+Transport step   3. Mixrun   2.
+
+Transport step   3. Mixrun   3.
+
+Transport step   3. Mixrun   4.
+
+Transport step   4.
+
+Transport step   4. Mixrun   1.
+
+Transport step   4. Mixrun   2.
+
+Transport step   4. Mixrun   3.
+
+Transport step   4. Mixrun   4.
+
+Transport step   5.
+
+Transport step   5. Mixrun   1.
+
+Transport step   5. Mixrun   2.
+
+Transport step   5. Mixrun   3.
+
+Transport step   5. Mixrun   4.
+
+Transport step   6.
+
+Transport step   6. Mixrun   1.
+
+Transport step   6. Mixrun   2.
+
+Transport step   6. Mixrun   3.
+
+Transport step   6. Mixrun   4.
+
+Transport step   7.
+
+Transport step   7. Mixrun   1.
+
+Transport step   7. Mixrun   2.
+
+Transport step   7. Mixrun   3.
+
+Transport step   7. Mixrun   4.
+
+Transport step   8.
+
+Transport step   8. Mixrun   1.
+
+Transport step   8. Mixrun   2.
+
+Transport step   8. Mixrun   3.
+
+Transport step   8. Mixrun   4.
+
+Transport step   9.
+
+Transport step   9. Mixrun   1.
+
+Transport step   9. Mixrun   2.
+
+Transport step   9. Mixrun   3.
+
+Transport step   9. Mixrun   4.
+
+Transport step  10.
+
+Transport step  10. Mixrun   1.
+
+Transport step  10. Mixrun   2.
+
+Transport step  10. Mixrun   3.
+
+Transport step  10. Mixrun   4.
+
+Transport step  11.
+
+Transport step  11. Mixrun   1.
+
+Transport step  11. Mixrun   2.
+
+Transport step  11. Mixrun   3.
+
+Transport step  11. Mixrun   4.
+
+Transport step  12.
+
+Transport step  12. Mixrun   1.
+
+Transport step  12. Mixrun   2.
+
+Transport step  12. Mixrun   3.
+
+Transport step  12. Mixrun   4.
+
+Transport step  13.
+
+Transport step  13. Mixrun   1.
+
+Transport step  13. Mixrun   2.
+
+Transport step  13. Mixrun   3.
+
+Transport step  13. Mixrun   4.
+
+Transport step  14.
+
+Transport step  14. Mixrun   1.
+
+Transport step  14. Mixrun   2.
+
+Transport step  14. Mixrun   3.
+
+Transport step  14. Mixrun   4.
+
+Transport step  15.
+
+Transport step  15. Mixrun   1.
+
+Transport step  15. Mixrun   2.
+
+Transport step  15. Mixrun   3.
+
+Transport step  15. Mixrun   4.
+
+Transport step  16.
+
+Transport step  16. Mixrun   1.
+
+Transport step  16. Mixrun   2.
+
+Transport step  16. Mixrun   3.
+
+Transport step  16. Mixrun   4.
+
+Transport step  17.
+
+Transport step  17. Mixrun   1.
+
+Transport step  17. Mixrun   2.
+
+Transport step  17. Mixrun   3.
+
+Transport step  17. Mixrun   4.
+
+Transport step  18.
+
+Transport step  18. Mixrun   1.
+
+Transport step  18. Mixrun   2.
+
+Transport step  18. Mixrun   3.
+
+Transport step  18. Mixrun   4.
+
+Transport step  19.
+
+Transport step  19. Mixrun   1.
+
+Transport step  19. Mixrun   2.
+
+Transport step  19. Mixrun   3.
+
+Transport step  19. Mixrun   4.
+
+Transport step  20.
+
+Transport step  20. Mixrun   1.
+
+Transport step  20. Mixrun   2.
+
+Transport step  20. Mixrun   3.
+
+Transport step  20. Mixrun   4.
+
+Using mix 40.	
+Using exchange 40.	Exchange assemblage after simulation 2.
+
+Mixture 40.	
+
+	  2.625e-01 Solution 39	Solution after simulation 2.                           
+	  7.375e-01 Solution 40	Solution after simulation 2.                           
+	  0.000e+00 Solution 41	Solution after simulation 2.                           
+
+-----------------------------Exchange composition------------------------------
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	KX                5.503e-04   5.503e-04   5.002e-01    -0.000
+	NaX               5.492e-04   5.492e-04   4.992e-01    -0.000
+	HX                5.663e-07   5.663e-07   5.149e-04    -0.000
+	NH4X              8.330e-55   8.330e-55   7.573e-52    -0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.848e-06   1.848e-06
+	K                 2.000e-04   2.000e-04
+	N                 1.198e-03   1.198e-03
+	Na                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.003      Charge balance
+                                       pe  =  12.567      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.200e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.984e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -3.404e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   2
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550981e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.049e-07   1.009e-07    -6.979    -6.996    -0.017     (0)  
+   H+              1.029e-07   9.921e-08    -6.987    -7.003    -0.016      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Cl            1.848e-06
+   Cl-             1.848e-06   1.777e-06    -5.733    -5.750    -0.017     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.292   -42.292     0.000     (0)  
+K             2.000e-04
+   K+              2.000e-04   1.923e-04    -3.699    -3.716    -0.017     (0)  
+N(-3)         0.000e+00
+   NH4+            0.000e+00   0.000e+00   -54.419   -54.436    -0.017     (0)  
+   NH3             0.000e+00   0.000e+00   -56.677   -56.677     0.000     (0)  
+N(0)          6.133e-09
+   N2              3.066e-09   3.067e-09    -8.513    -8.513     0.000     (0)  
+N(3)          3.210e-14
+   NO2-            3.210e-14   3.087e-14   -13.494   -13.510    -0.017     (0)  
+N(5)          1.198e-03
+   NO3-            1.198e-03   1.152e-03    -2.921    -2.939    -0.017     (0)  
+Na            1.000e-03
+   Na+             1.000e-03   9.620e-04    -3.000    -3.017    -0.017     (0)  
+O(0)          3.196e-08
+   O2              1.598e-08   1.598e-08    -7.796    -7.796     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.14    -42.29   -3.15  H2
+  Halite          -10.35     -8.77    1.58  NaCl
+  N2(g)            -5.25     -8.51   -3.26  N2
+  NH3(g)          -58.45    -56.68    1.77  NH3
+  O2(g)            -4.90     -7.80   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Transport step  21.
+
+Transport step  21. Mixrun   1.
+
+Transport step  21. Mixrun   2.
+
+Transport step  21. Mixrun   3.
+
+Transport step  21. Mixrun   4.
+
+Transport step  22.
+
+Transport step  22. Mixrun   1.
+
+Transport step  22. Mixrun   2.
+
+Transport step  22. Mixrun   3.
+
+Transport step  22. Mixrun   4.
+
+Transport step  23.
+
+Transport step  23. Mixrun   1.
+
+Transport step  23. Mixrun   2.
+
+Transport step  23. Mixrun   3.
+
+Transport step  23. Mixrun   4.
+
+Transport step  24.
+
+Transport step  24. Mixrun   1.
+
+Transport step  24. Mixrun   2.
+
+Transport step  24. Mixrun   3.
+
+Transport step  24. Mixrun   4.
+
+Transport step  25.
+
+Transport step  25. Mixrun   1.
+
+Transport step  25. Mixrun   2.
+
+Transport step  25. Mixrun   3.
+
+Transport step  25. Mixrun   4.
+
+Transport step  26.
+
+Transport step  26. Mixrun   1.
+
+Transport step  26. Mixrun   2.
+
+Transport step  26. Mixrun   3.
+
+Transport step  26. Mixrun   4.
+
+Transport step  27.
+
+Transport step  27. Mixrun   1.
+
+Transport step  27. Mixrun   2.
+
+Transport step  27. Mixrun   3.
+
+Transport step  27. Mixrun   4.
+
+Transport step  28.
+
+Transport step  28. Mixrun   1.
+
+Transport step  28. Mixrun   2.
+
+Transport step  28. Mixrun   3.
+
+Transport step  28. Mixrun   4.
+
+Transport step  29.
+
+Transport step  29. Mixrun   1.
+
+Transport step  29. Mixrun   2.
+
+Transport step  29. Mixrun   3.
+
+Transport step  29. Mixrun   4.
+
+Transport step  30.
+
+Transport step  30. Mixrun   1.
+
+Transport step  30. Mixrun   2.
+
+Transport step  30. Mixrun   3.
+
+Transport step  30. Mixrun   4.
+
+Transport step  31.
+
+Transport step  31. Mixrun   1.
+
+Transport step  31. Mixrun   2.
+
+Transport step  31. Mixrun   3.
+
+Transport step  31. Mixrun   4.
+
+Transport step  32.
+
+Transport step  32. Mixrun   1.
+
+Transport step  32. Mixrun   2.
+
+Transport step  32. Mixrun   3.
+
+Transport step  32. Mixrun   4.
+
+Transport step  33.
+
+Transport step  33. Mixrun   1.
+
+Transport step  33. Mixrun   2.
+
+Transport step  33. Mixrun   3.
+
+Transport step  33. Mixrun   4.
+
+Transport step  34.
+
+Transport step  34. Mixrun   1.
+
+Transport step  34. Mixrun   2.
+
+Transport step  34. Mixrun   3.
+
+Transport step  34. Mixrun   4.
+
+Transport step  35.
+
+Transport step  35. Mixrun   1.
+
+Transport step  35. Mixrun   2.
+
+Transport step  35. Mixrun   3.
+
+Transport step  35. Mixrun   4.
+
+Transport step  36.
+
+Transport step  36. Mixrun   1.
+
+Transport step  36. Mixrun   2.
+
+Transport step  36. Mixrun   3.
+
+Transport step  36. Mixrun   4.
+
+Transport step  37.
+
+Transport step  37. Mixrun   1.
+
+Transport step  37. Mixrun   2.
+
+Transport step  37. Mixrun   3.
+
+Transport step  37. Mixrun   4.
+
+Transport step  38.
+
+Transport step  38. Mixrun   1.
+
+Transport step  38. Mixrun   2.
+
+Transport step  38. Mixrun   3.
+
+Transport step  38. Mixrun   4.
+
+Transport step  39.
+
+Transport step  39. Mixrun   1.
+
+Transport step  39. Mixrun   2.
+
+Transport step  39. Mixrun   3.
+
+Transport step  39. Mixrun   4.
+
+Transport step  40.
+
+Transport step  40. Mixrun   1.
+
+Transport step  40. Mixrun   2.
+
+Transport step  40. Mixrun   3.
+
+Transport step  40. Mixrun   4.
+
+Using mix 40.	
+Using exchange 40.	Exchange assemblage after simulation 2.
+
+Mixture 40.	
+
+	  2.625e-01 Solution 39	Solution after simulation 2.                           
+	  7.375e-01 Solution 40	Solution after simulation 2.                           
+	  0.000e+00 Solution 41	Solution after simulation 2.                           
+
+-----------------------------Exchange composition------------------------------
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	KX                5.509e-04   5.509e-04   5.008e-01     0.000
+	NaX               5.486e-04   5.486e-04   4.987e-01     0.000
+	HX                5.669e-07   5.669e-07   5.154e-04     0.000
+	NH4X              6.921e-55   6.921e-55   6.292e-52     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                6.801e-04   6.801e-04
+	K                 2.004e-04   2.004e-04
+	N                 5.199e-04   5.199e-04
+	Na                9.996e-04   9.996e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.003      Charge balance
+                                       pe  =  12.533      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.200e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.618e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -8.820e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   2
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550778e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.047e-07   1.007e-07    -6.980    -6.997    -0.017     (0)  
+   H+              1.031e-07   9.939e-08    -6.987    -7.003    -0.016      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Cl            6.801e-04
+   Cl-             6.801e-04   6.540e-04    -3.167    -3.184    -0.017     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.222   -42.222     0.000     (0)  
+K             2.004e-04
+   K+              2.004e-04   1.927e-04    -3.698    -3.715    -0.017     (0)  
+N(-3)         0.000e+00
+   NH4+            0.000e+00   0.000e+00   -54.499   -54.516    -0.017     (0)  
+   NH3             0.000e+00   0.000e+00   -56.758   -56.758     0.000     (0)  
+N(0)          2.601e-09
+   N2              1.300e-09   1.301e-09    -8.886    -8.886     0.000     (0)  
+N(3)          1.637e-14
+   NO2-            1.637e-14   1.575e-14   -13.786   -13.803    -0.017     (0)  
+N(5)          5.199e-04
+   NO3-            5.199e-04   4.999e-04    -3.284    -3.301    -0.017     (0)  
+Na            9.996e-04
+   Na+             9.996e-04   9.617e-04    -3.000    -3.017    -0.017     (0)  
+O(0)          2.313e-08
+   O2              1.157e-08   1.157e-08    -7.937    -7.937     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.07    -42.22   -3.15  H2
+  Halite           -7.78     -6.20    1.58  NaCl
+  N2(g)            -5.63     -8.89   -3.26  N2
+  NH3(g)          -58.53    -56.76    1.77  NH3
+  O2(g)            -5.04     -7.94   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Transport step  41.
+
+Transport step  41. Mixrun   1.
+
+Transport step  41. Mixrun   2.
+
+Transport step  41. Mixrun   3.
+
+Transport step  41. Mixrun   4.
+
+Transport step  42.
+
+Transport step  42. Mixrun   1.
+
+Transport step  42. Mixrun   2.
+
+Transport step  42. Mixrun   3.
+
+Transport step  42. Mixrun   4.
+
+Transport step  43.
+
+Transport step  43. Mixrun   1.
+
+Transport step  43. Mixrun   2.
+
+Transport step  43. Mixrun   3.
+
+Transport step  43. Mixrun   4.
+
+Transport step  44.
+
+Transport step  44. Mixrun   1.
+
+Transport step  44. Mixrun   2.
+
+Transport step  44. Mixrun   3.
+
+Transport step  44. Mixrun   4.
+
+Transport step  45.
+
+Transport step  45. Mixrun   1.
+
+Transport step  45. Mixrun   2.
+
+Transport step  45. Mixrun   3.
+
+Transport step  45. Mixrun   4.
+
+Transport step  46.
+
+Transport step  46. Mixrun   1.
+
+Transport step  46. Mixrun   2.
+
+Transport step  46. Mixrun   3.
+
+Transport step  46. Mixrun   4.
+
+Transport step  47.
+
+Transport step  47. Mixrun   1.
+
+Transport step  47. Mixrun   2.
+
+Transport step  47. Mixrun   3.
+
+Transport step  47. Mixrun   4.
+
+Transport step  48.
+
+Transport step  48. Mixrun   1.
+
+Transport step  48. Mixrun   2.
+
+Transport step  48. Mixrun   3.
+
+Transport step  48. Mixrun   4.
+
+Transport step  49.
+
+Transport step  49. Mixrun   1.
+
+Transport step  49. Mixrun   2.
+
+Transport step  49. Mixrun   3.
+
+Transport step  49. Mixrun   4.
+
+Transport step  50.
+
+Transport step  50. Mixrun   1.
+
+Transport step  50. Mixrun   2.
+
+Transport step  50. Mixrun   3.
+
+Transport step  50. Mixrun   4.
+
+Transport step  51.
+
+Transport step  51. Mixrun   1.
+
+Transport step  51. Mixrun   2.
+
+Transport step  51. Mixrun   3.
+
+Transport step  51. Mixrun   4.
+
+Transport step  52.
+
+Transport step  52. Mixrun   1.
+
+Transport step  52. Mixrun   2.
+
+Transport step  52. Mixrun   3.
+
+Transport step  52. Mixrun   4.
+
+Transport step  53.
+
+Transport step  53. Mixrun   1.
+
+Transport step  53. Mixrun   2.
+
+Transport step  53. Mixrun   3.
+
+Transport step  53. Mixrun   4.
+
+Transport step  54.
+
+Transport step  54. Mixrun   1.
+
+Transport step  54. Mixrun   2.
+
+Transport step  54. Mixrun   3.
+
+Transport step  54. Mixrun   4.
+
+Transport step  55.
+
+Transport step  55. Mixrun   1.
+
+Transport step  55. Mixrun   2.
+
+Transport step  55. Mixrun   3.
+
+Transport step  55. Mixrun   4.
+
+Transport step  56.
+
+Transport step  56. Mixrun   1.
+
+Transport step  56. Mixrun   2.
+
+Transport step  56. Mixrun   3.
+
+Transport step  56. Mixrun   4.
+
+Transport step  57.
+
+Transport step  57. Mixrun   1.
+
+Transport step  57. Mixrun   2.
+
+Transport step  57. Mixrun   3.
+
+Transport step  57. Mixrun   4.
+
+Transport step  58.
+
+Transport step  58. Mixrun   1.
+
+Transport step  58. Mixrun   2.
+
+Transport step  58. Mixrun   3.
+
+Transport step  58. Mixrun   4.
+
+Transport step  59.
+
+Transport step  59. Mixrun   1.
+
+Transport step  59. Mixrun   2.
+
+Transport step  59. Mixrun   3.
+
+Transport step  59. Mixrun   4.
+
+Transport step  60.
+
+Transport step  60. Mixrun   1.
+
+Transport step  60. Mixrun   2.
+
+Transport step  60. Mixrun   3.
+
+Transport step  60. Mixrun   4.
+
+Using mix 40.	
+Using exchange 40.	Exchange assemblage after simulation 2.
+
+Mixture 40.	
+
+	  2.625e-01 Solution 39	Solution after simulation 2.                           
+	  7.375e-01 Solution 40	Solution after simulation 2.                           
+	  0.000e+00 Solution 41	Solution after simulation 2.                           
+
+-----------------------------Exchange composition------------------------------
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	KX                9.445e-04   9.445e-04   8.587e-01     0.000
+	NaX               1.546e-04   1.546e-04   1.406e-01     0.000
+	HX                8.107e-07   8.107e-07   7.370e-04     0.000
+	CaX2              4.399e-20   8.799e-20   7.999e-17     0.000
+	NH4X              2.833e-55   2.833e-55   2.576e-52     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                2.023e-22   2.023e-22
+	Cl                1.171e-03   1.171e-03
+	K                 6.591e-04   6.591e-04
+	N                 2.918e-05   2.918e-05
+	Na                5.406e-04   5.406e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.564      Charge balance
+                                       pe  =  12.938      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.200e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -2.447e-07
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.289e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   2
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550630e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              2.829e-07   2.727e-07    -6.548    -6.564    -0.016      0.00
+   OH-             3.818e-08   3.671e-08    -7.418    -7.435    -0.017     (0)  
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Ca            2.023e-22
+   Ca+2            2.023e-22   1.735e-22   -21.694   -21.761    -0.067     (0)  
+   CaOH+           1.097e-28   1.056e-28   -27.960   -27.976    -0.017     (0)  
+Cl            1.171e-03
+   Cl-             1.171e-03   1.126e-03    -2.932    -2.948    -0.017     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.154   -42.154     0.000     (0)  
+K             6.591e-04
+   K+              6.591e-04   6.339e-04    -3.181    -3.198    -0.017     (0)  
+N(-3)         0.000e+00
+   NH4+            0.000e+00   0.000e+00   -54.604   -54.621    -0.017     (0)  
+   NH3             0.000e+00   0.000e+00   -57.301   -57.301     0.000     (0)  
+N(0)          1.339e-10
+   N2              6.693e-11   6.695e-11   -10.174   -10.174     0.000     (0)  
+N(3)          1.073e-15
+   NO2-            1.073e-15   1.032e-15   -14.969   -14.986    -0.017     (0)  
+N(5)          2.918e-05
+   NO3-            2.918e-05   2.805e-05    -4.535    -4.552    -0.017     (0)  
+Na            5.406e-04
+   Na+             5.406e-04   5.201e-04    -3.267    -3.284    -0.017     (0)  
+O(0)          1.696e-08
+   O2              8.481e-09   8.483e-09    -8.072    -8.071     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.00    -42.15   -3.15  H2
+  Halite           -7.81     -6.23    1.58  NaCl
+  N2(g)            -6.91    -10.17   -3.26  N2
+  NH3(g)          -59.07    -57.30    1.77  NH3
+  O2(g)            -5.18     -8.07   -2.89  O2
+  Portlandite     -31.43     -8.63   22.80  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Transport step  61.
+
+Transport step  61. Mixrun   1.
+
+Transport step  61. Mixrun   2.
+
+Transport step  61. Mixrun   3.
+
+Transport step  61. Mixrun   4.
+
+Transport step  62.
+
+Transport step  62. Mixrun   1.
+
+Transport step  62. Mixrun   2.
+
+Transport step  62. Mixrun   3.
+
+Transport step  62. Mixrun   4.
+
+Transport step  63.
+
+Transport step  63. Mixrun   1.
+
+Transport step  63. Mixrun   2.
+
+Transport step  63. Mixrun   3.
+
+Transport step  63. Mixrun   4.
+
+Transport step  64.
+
+Transport step  64. Mixrun   1.
+
+Transport step  64. Mixrun   2.
+
+Transport step  64. Mixrun   3.
+
+Transport step  64. Mixrun   4.
+
+Transport step  65.
+
+Transport step  65. Mixrun   1.
+
+Transport step  65. Mixrun   2.
+
+Transport step  65. Mixrun   3.
+
+Transport step  65. Mixrun   4.
+
+Transport step  66.
+
+Transport step  66. Mixrun   1.
+
+Transport step  66. Mixrun   2.
+
+Transport step  66. Mixrun   3.
+
+Transport step  66. Mixrun   4.
+
+Transport step  67.
+
+Transport step  67. Mixrun   1.
+
+Transport step  67. Mixrun   2.
+
+Transport step  67. Mixrun   3.
+
+Transport step  67. Mixrun   4.
+
+Transport step  68.
+
+Transport step  68. Mixrun   1.
+
+Transport step  68. Mixrun   2.
+
+Transport step  68. Mixrun   3.
+
+Transport step  68. Mixrun   4.
+
+Transport step  69.
+
+Transport step  69. Mixrun   1.
+
+Transport step  69. Mixrun   2.
+
+Transport step  69. Mixrun   3.
+
+Transport step  69. Mixrun   4.
+
+Transport step  70.
+
+Transport step  70. Mixrun   1.
+
+Transport step  70. Mixrun   2.
+
+Transport step  70. Mixrun   3.
+
+Transport step  70. Mixrun   4.
+
+Transport step  71.
+
+Transport step  71. Mixrun   1.
+
+Transport step  71. Mixrun   2.
+
+Transport step  71. Mixrun   3.
+
+Transport step  71. Mixrun   4.
+
+Transport step  72.
+
+Transport step  72. Mixrun   1.
+
+Transport step  72. Mixrun   2.
+
+Transport step  72. Mixrun   3.
+
+Transport step  72. Mixrun   4.
+
+Transport step  73.
+
+Transport step  73. Mixrun   1.
+
+Transport step  73. Mixrun   2.
+
+Transport step  73. Mixrun   3.
+
+Transport step  73. Mixrun   4.
+
+Transport step  74.
+
+Transport step  74. Mixrun   1.
+
+Transport step  74. Mixrun   2.
+
+Transport step  74. Mixrun   3.
+
+Transport step  74. Mixrun   4.
+
+Transport step  75.
+
+Transport step  75. Mixrun   1.
+
+Transport step  75. Mixrun   2.
+
+Transport step  75. Mixrun   3.
+
+Transport step  75. Mixrun   4.
+
+Transport step  76.
+
+Transport step  76. Mixrun   1.
+
+Transport step  76. Mixrun   2.
+
+Transport step  76. Mixrun   3.
+
+Transport step  76. Mixrun   4.
+
+Transport step  77.
+
+Transport step  77. Mixrun   1.
+
+Transport step  77. Mixrun   2.
+
+Transport step  77. Mixrun   3.
+
+Transport step  77. Mixrun   4.
+
+Transport step  78.
+
+Transport step  78. Mixrun   1.
+
+Transport step  78. Mixrun   2.
+
+Transport step  78. Mixrun   3.
+
+Transport step  78. Mixrun   4.
+
+Transport step  79.
+
+Transport step  79. Mixrun   1.
+
+Transport step  79. Mixrun   2.
+
+Transport step  79. Mixrun   3.
+
+Transport step  79. Mixrun   4.
+
+Transport step  80.
+
+Transport step  80. Mixrun   1.
+
+Transport step  80. Mixrun   2.
+
+Transport step  80. Mixrun   3.
+
+Transport step  80. Mixrun   4.
+
+Using mix 40.	
+Using exchange 40.	Exchange assemblage after simulation 2.
+
+Mixture 40.	
+
+	  2.625e-01 Solution 39	Solution after simulation 2.                           
+	  7.375e-01 Solution 40	Solution after simulation 2.                           
+	  0.000e+00 Solution 41	Solution after simulation 2.                           
+
+-----------------------------Exchange composition------------------------------
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	CaX2              5.426e-04   1.085e-03   9.866e-01     0.000
+	KX                1.445e-05   1.445e-05   1.313e-02     0.000
+	NaX               2.257e-07   2.257e-07   2.052e-04     0.000
+	HX                8.145e-08   8.145e-08   7.404e-05     0.000
+	NH4X              8.531e-58   8.531e-58   7.755e-55     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                5.218e-04   5.218e-04
+	Cl                1.199e-03   1.199e-03
+	K                 1.448e-04   1.448e-04
+	N                 5.912e-07   5.912e-07
+	Na                1.133e-05   1.133e-05
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.408      Charge balance
+                                       pe  =  13.092      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.722e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -3.808e-07
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.301e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   2
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              4.079e-07   3.905e-07    -6.389    -6.408    -0.019      0.00
+   OH-             2.685e-08   2.563e-08    -7.571    -7.591    -0.020     (0)  
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Ca            5.218e-04
+   Ca+2            5.218e-04   4.350e-04    -3.283    -3.361    -0.079     (0)  
+   CaOH+           1.934e-10   1.849e-10    -9.714    -9.733    -0.020     (0)  
+Cl            1.199e-03
+   Cl-             1.199e-03   1.145e-03    -2.921    -2.941    -0.020     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.150   -42.150     0.000     (0)  
+K             1.448e-04
+   K+              1.448e-04   1.382e-04    -3.839    -3.859    -0.020     (0)  
+N(-3)         0.000e+00
+   NH4+            0.000e+00   0.000e+00   -55.968   -55.988    -0.020     (0)  
+   NH3             0.000e+00   0.000e+00   -58.824   -58.824     0.000     (0)  
+N(0)          1.167e-13
+   N2              5.835e-14   5.838e-14   -13.234   -13.234     0.000     (0)  
+N(3)          2.195e-17
+   NO2-            2.195e-17   2.096e-17   -16.659   -16.679    -0.020     (0)  
+N(5)          5.912e-07
+   NO3-            5.912e-07   5.642e-07    -6.228    -6.249    -0.020     (0)  
+Na            1.133e-05
+   Na+             1.133e-05   1.082e-05    -4.946    -4.966    -0.020     (0)  
+O(0)          1.663e-08
+   O2              8.314e-09   8.317e-09    -8.080    -8.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.00    -42.15   -3.15  H2
+  Halite           -9.49     -7.91    1.58  NaCl
+  N2(g)            -9.97    -13.23   -3.26  N2
+  NH3(g)          -60.59    -58.82    1.77  NH3
+  O2(g)            -5.19     -8.08   -2.89  O2
+  Portlandite     -13.34      9.46   22.80  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Transport step  81.
+
+Transport step  81. Mixrun   1.
+
+Transport step  81. Mixrun   2.
+
+Transport step  81. Mixrun   3.
+
+Transport step  81. Mixrun   4.
+
+Transport step  82.
+
+Transport step  82. Mixrun   1.
+
+Transport step  82. Mixrun   2.
+
+Transport step  82. Mixrun   3.
+
+Transport step  82. Mixrun   4.
+
+Transport step  83.
+
+Transport step  83. Mixrun   1.
+
+Transport step  83. Mixrun   2.
+
+Transport step  83. Mixrun   3.
+
+Transport step  83. Mixrun   4.
+
+Transport step  84.
+
+Transport step  84. Mixrun   1.
+
+Transport step  84. Mixrun   2.
+
+Transport step  84. Mixrun   3.
+
+Transport step  84. Mixrun   4.
+
+Transport step  85.
+
+Transport step  85. Mixrun   1.
+
+Transport step  85. Mixrun   2.
+
+Transport step  85. Mixrun   3.
+
+Transport step  85. Mixrun   4.
+
+Transport step  86.
+
+Transport step  86. Mixrun   1.
+
+Transport step  86. Mixrun   2.
+
+Transport step  86. Mixrun   3.
+
+Transport step  86. Mixrun   4.
+
+Transport step  87.
+
+Transport step  87. Mixrun   1.
+
+Transport step  87. Mixrun   2.
+
+Transport step  87. Mixrun   3.
+
+Transport step  87. Mixrun   4.
+
+Transport step  88.
+
+Transport step  88. Mixrun   1.
+
+Transport step  88. Mixrun   2.
+
+Transport step  88. Mixrun   3.
+
+Transport step  88. Mixrun   4.
+
+Transport step  89.
+
+Transport step  89. Mixrun   1.
+
+Transport step  89. Mixrun   2.
+
+Transport step  89. Mixrun   3.
+
+Transport step  89. Mixrun   4.
+
+Transport step  90.
+
+Transport step  90. Mixrun   1.
+
+Transport step  90. Mixrun   2.
+
+Transport step  90. Mixrun   3.
+
+Transport step  90. Mixrun   4.
+
+Transport step  91.
+
+Transport step  91. Mixrun   1.
+
+Transport step  91. Mixrun   2.
+
+Transport step  91. Mixrun   3.
+
+Transport step  91. Mixrun   4.
+
+Transport step  92.
+
+Transport step  92. Mixrun   1.
+
+Transport step  92. Mixrun   2.
+
+Transport step  92. Mixrun   3.
+
+Transport step  92. Mixrun   4.
+
+Transport step  93.
+
+Transport step  93. Mixrun   1.
+
+Transport step  93. Mixrun   2.
+
+Transport step  93. Mixrun   3.
+
+Transport step  93. Mixrun   4.
+
+Transport step  94.
+
+Transport step  94. Mixrun   1.
+
+Transport step  94. Mixrun   2.
+
+Transport step  94. Mixrun   3.
+
+Transport step  94. Mixrun   4.
+
+Transport step  95.
+
+Transport step  95. Mixrun   1.
+
+Transport step  95. Mixrun   2.
+
+Transport step  95. Mixrun   3.
+
+Transport step  95. Mixrun   4.
+
+Transport step  96.
+
+Transport step  96. Mixrun   1.
+
+Transport step  96. Mixrun   2.
+
+Transport step  96. Mixrun   3.
+
+Transport step  96. Mixrun   4.
+
+Transport step  97.
+
+Transport step  97. Mixrun   1.
+
+Transport step  97. Mixrun   2.
+
+Transport step  97. Mixrun   3.
+
+Transport step  97. Mixrun   4.
+
+Transport step  98.
+
+Transport step  98. Mixrun   1.
+
+Transport step  98. Mixrun   2.
+
+Transport step  98. Mixrun   3.
+
+Transport step  98. Mixrun   4.
+
+Transport step  99.
+
+Transport step  99. Mixrun   1.
+
+Transport step  99. Mixrun   2.
+
+Transport step  99. Mixrun   3.
+
+Transport step  99. Mixrun   4.
+
+Transport step 100.
+
+Transport step 100. Mixrun   1.
+
+Transport step 100. Mixrun   2.
+
+Transport step 100. Mixrun   3.
+
+Transport step 100. Mixrun   4.
+
+Using mix 40.	
+Using exchange 40.	Exchange assemblage after simulation 2.
+
+Mixture 40.	
+
+	  2.625e-01 Solution 39	Solution after simulation 2.                           
+	  7.375e-01 Solution 40	Solution after simulation 2.                           
+	  0.000e+00 Solution 41	Solution after simulation 2.                           
+
+-----------------------------Exchange composition------------------------------
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	CaX2              5.499e-04   1.100e-03   9.998e-01     0.000
+	KX                1.486e-07   1.486e-07   1.351e-04     0.000
+	HX                2.001e-08   2.001e-08   1.819e-05     0.000
+	NaX               1.960e-09   1.960e-09   1.782e-06     0.000
+	NH4X              7.073e-61   7.073e-61   6.430e-58     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                5.992e-04   5.992e-04
+	Cl                1.200e-03   1.200e-03
+	K                 1.584e-06   1.584e-06
+	N                 7.648e-09   7.648e-09
+	Na                1.047e-07   1.047e-07
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   6.992      Charge balance
+                                       pe  =  12.508      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.799e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -2.780e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.315e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   2
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   H+              1.066e-07   1.020e-07    -6.972    -6.992    -0.019      0.00
+   OH-             1.030e-07   9.818e-08    -6.987    -7.008    -0.021     (0)  
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Ca            5.992e-04
+   Ca+2            5.992e-04   4.977e-04    -3.222    -3.303    -0.081     (0)  
+   CaOH+           8.481e-10   8.100e-10    -9.072    -9.092    -0.020     (0)  
+Cl            1.200e-03
+   Cl-             1.200e-03   1.144e-03    -2.921    -2.941    -0.021     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.150   -42.150     0.000     (0)  
+K             1.584e-06
+   K+              1.584e-06   1.511e-06    -5.800    -5.821    -0.021     (0)  
+N(-3)         0.000e+00
+   NH4+            0.000e+00   0.000e+00   -59.023   -59.043    -0.020     (0)  
+   NH3             0.000e+00   0.000e+00   -61.296   -61.296     0.000     (0)  
+N(0)          1.328e-18
+   N2              6.642e-19   6.645e-19   -18.178   -18.177     0.000     (0)  
+N(3)          2.840e-19
+   NO2-            2.840e-19   2.709e-19   -18.547   -18.567    -0.020     (0)  
+N(5)          7.648e-09
+   NO3-            7.648e-09   7.291e-09    -8.116    -8.137    -0.021     (0)  
+Na            1.047e-07
+   Na+             1.047e-07   9.986e-08    -6.980    -7.001    -0.020     (0)  
+O(0)          1.663e-08
+   O2              8.314e-09   8.317e-09    -8.080    -8.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.00    -42.15   -3.15  H2
+  Halite          -11.52     -9.94    1.58  NaCl
+  N2(g)           -14.92    -18.18   -3.26  N2
+  NH3(g)          -63.07    -61.30    1.77  NH3
+  O2(g)            -5.19     -8.08   -2.89  O2
+  Portlandite     -12.12     10.68   22.80  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Transport step 101.
+
+Transport step 101. Mixrun   1.
+
+Transport step 101. Mixrun   2.
+
+Transport step 101. Mixrun   3.
+
+Transport step 101. Mixrun   4.
+
+Transport step 102.
+
+Transport step 102. Mixrun   1.
+
+Transport step 102. Mixrun   2.
+
+Transport step 102. Mixrun   3.
+
+Transport step 102. Mixrun   4.
+
+Transport step 103.
+
+Transport step 103. Mixrun   1.
+
+Transport step 103. Mixrun   2.
+
+Transport step 103. Mixrun   3.
+
+Transport step 103. Mixrun   4.
+
+Transport step 104.
+
+Transport step 104. Mixrun   1.
+
+Transport step 104. Mixrun   2.
+
+Transport step 104. Mixrun   3.
+
+Transport step 104. Mixrun   4.
+
+Transport step 105.
+
+Transport step 105. Mixrun   1.
+
+Transport step 105. Mixrun   2.
+
+Transport step 105. Mixrun   3.
+
+Transport step 105. Mixrun   4.
+
+Transport step 106.
+
+Transport step 106. Mixrun   1.
+
+Transport step 106. Mixrun   2.
+
+Transport step 106. Mixrun   3.
+
+Transport step 106. Mixrun   4.
+
+Transport step 107.
+
+Transport step 107. Mixrun   1.
+
+Transport step 107. Mixrun   2.
+
+Transport step 107. Mixrun   3.
+
+Transport step 107. Mixrun   4.
+
+Transport step 108.
+
+Transport step 108. Mixrun   1.
+
+Transport step 108. Mixrun   2.
+
+Transport step 108. Mixrun   3.
+
+Transport step 108. Mixrun   4.
+
+Transport step 109.
+
+Transport step 109. Mixrun   1.
+
+Transport step 109. Mixrun   2.
+
+Transport step 109. Mixrun   3.
+
+Transport step 109. Mixrun   4.
+
+Transport step 110.
+
+Transport step 110. Mixrun   1.
+
+Transport step 110. Mixrun   2.
+
+Transport step 110. Mixrun   3.
+
+Transport step 110. Mixrun   4.
+
+Transport step 111.
+
+Transport step 111. Mixrun   1.
+
+Transport step 111. Mixrun   2.
+
+Transport step 111. Mixrun   3.
+
+Transport step 111. Mixrun   4.
+
+Transport step 112.
+
+Transport step 112. Mixrun   1.
+
+Transport step 112. Mixrun   2.
+
+Transport step 112. Mixrun   3.
+
+Transport step 112. Mixrun   4.
+
+Transport step 113.
+
+Transport step 113. Mixrun   1.
+
+Transport step 113. Mixrun   2.
+
+Transport step 113. Mixrun   3.
+
+Transport step 113. Mixrun   4.
+
+Transport step 114.
+
+Transport step 114. Mixrun   1.
+
+Transport step 114. Mixrun   2.
+
+Transport step 114. Mixrun   3.
+
+Transport step 114. Mixrun   4.
+
+Transport step 115.
+
+Transport step 115. Mixrun   1.
+
+Transport step 115. Mixrun   2.
+
+Transport step 115. Mixrun   3.
+
+Transport step 115. Mixrun   4.
+
+Transport step 116.
+
+Transport step 116. Mixrun   1.
+
+Transport step 116. Mixrun   2.
+
+Transport step 116. Mixrun   3.
+
+Transport step 116. Mixrun   4.
+
+Transport step 117.
+
+Transport step 117. Mixrun   1.
+
+Transport step 117. Mixrun   2.
+
+Transport step 117. Mixrun   3.
+
+Transport step 117. Mixrun   4.
+
+Transport step 118.
+
+Transport step 118. Mixrun   1.
+
+Transport step 118. Mixrun   2.
+
+Transport step 118. Mixrun   3.
+
+Transport step 118. Mixrun   4.
+
+Transport step 119.
+
+Transport step 119. Mixrun   1.
+
+Transport step 119. Mixrun   2.
+
+Transport step 119. Mixrun   3.
+
+Transport step 119. Mixrun   4.
+
+Transport step 120.
+
+Transport step 120. Mixrun   1.
+
+Transport step 120. Mixrun   2.
+
+Transport step 120. Mixrun   3.
+
+Transport step 120. Mixrun   4.
+
+Using mix 40.	
+Using exchange 40.	Exchange assemblage after simulation 2.
+
+Mixture 40.	
+
+	  2.625e-01 Solution 39	Solution after simulation 2.                           
+	  7.375e-01 Solution 40	Solution after simulation 2.                           
+	  0.000e+00 Solution 41	Solution after simulation 2.                           
+
+-----------------------------Exchange composition------------------------------
+
+X                1.100e-03 mol
+
+	                               Equiv-    Equivalent      Log 
+	Species             Moles      alents      Fraction     Gamma
+
+	CaX2              5.500e-04   1.100e-03   1.000e+00     0.000
+	HX                1.962e-08   1.962e-08   1.784e-05     0.000
+	KX                1.966e-09   1.966e-09   1.787e-06     0.000
+	NaX               1.860e-11   1.860e-11   1.691e-08     0.000
+	NH4X              7.027e-63   7.027e-63   6.388e-60     0.000
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Ca                6.000e-04   6.000e-04
+	Cl                1.200e-03   1.200e-03
+	K                 2.097e-08   2.097e-08
+	N                 7.901e-11   7.901e-11
+	Na                9.936e-10   9.936e-10
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  12.500      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.800e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.264e-09
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -1.315e-09
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   2
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.050e-07   1.001e-07    -6.979    -7.000    -0.021     (0)  
+   H+              1.046e-07   1.000e-07    -6.981    -7.000    -0.019      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Ca            6.000e-04
+   Ca+2            6.000e-04   4.983e-04    -3.222    -3.302    -0.081     (0)  
+   CaOH+           8.657e-10   8.268e-10    -9.063    -9.083    -0.020     (0)  
+Cl            1.200e-03
+   Cl-             1.200e-03   1.144e-03    -2.921    -2.941    -0.021     (0)  
+H(0)          0.000e+00
+   H2              0.000e+00   0.000e+00   -42.150   -42.150     0.000     (0)  
+K             2.097e-08
+   K+              2.097e-08   2.000e-08    -7.678    -7.699    -0.021     (0)  
+N(-3)         0.000e+00
+   NH4+            0.000e+00   0.000e+00   -61.025   -61.046    -0.020     (0)  
+   NH3             0.000e+00   0.000e+00   -63.290   -63.290     0.000     (0)  
+N(0)          1.364e-22
+   N2              6.822e-23   6.825e-23   -22.166   -22.166     0.000     (0)  
+N(3)          2.934e-21
+   NO2-            2.934e-21   2.798e-21   -20.533   -20.553    -0.020     (0)  
+N(5)          7.901e-11
+   NO3-            7.901e-11   7.532e-11   -10.102   -10.123    -0.021     (0)  
+Na            9.936e-10
+   Na+             9.936e-10   9.481e-10    -9.003    -9.023    -0.020     (0)  
+O(0)          1.663e-08
+   O2              8.314e-09   8.317e-09    -8.080    -8.080     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  H2(g)           -39.00    -42.15   -3.15  H2
+  Halite          -13.55    -11.96    1.58  NaCl
+  N2(g)           -18.91    -22.17   -3.26  N2
+  NH3(g)          -65.06    -63.29    1.77  NH3
+  O2(g)            -5.19     -8.08   -2.89  O2
+  Portlandite     -12.10     10.70   22.80  Ca(OH)2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 3.
+------------------------------------
+
+-------------------------------
+End of Run after 3.154 Seconds.
+-------------------------------
+

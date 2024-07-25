@@ -122,6 +122,7 @@ class Mup3d(object):
         self.sconc = None
         self.phinp = None
         self.components = None
+        self.fixed_components = None
         self.nlay = nlay
         self.nrow = nrow
         self.ncol = ncol
@@ -133,8 +134,11 @@ class Mup3d(object):
             self.solutions.ic = np.reshape([self.solutions.ic]*self.ncpl, (self.nlay, self.nrow, self.ncol))
         assert self.solutions.ic.shape == (self.nlay, self.nrow, self.ncol), f'Initial conditions array must be an array of the shape ({nlay}, {nrow}, {ncol}) not {self.solutions.ic.shape}'
 
+    def set_fixed_components(self, fixed_components):
+        self.fixed_components = fixed_components
+
     def set_initial_temp(self, temp):
-        assert isinstance(temp, (int, float)), 'temp must be an int or float'
+        assert isinstance(temp, (int, float, list)), 'temp must be an int or float'
         #TODO: for non-homogeneous fields allow 3D and 2D arrays
         self.init_temp = temp
 
@@ -256,7 +260,8 @@ class Mup3d(object):
                 self.solutions.data[key] = [value]
         # replace all values in self.solutinons.data that are 0.0 to a very small number
         for key, value in self.solutions.data.items():
-            self.solutions.data[key] = [1e-30 if val == 0.0 else val for val in value]
+            # self.solutions.data[key] = [1e-30 if val == 0.0 else val for val in value]
+            self.solutions.data[key] = [val  for val in value]
 
         # Get the number of solutions
         num_solutions = len(next(iter(self.solutions.data.values())))
@@ -353,6 +358,9 @@ class Mup3d(object):
 
         # Set concentration units
         status = self.phreeqc_rm.SetUnitsSolution(2) 
+        # status = self.phreeqc_rm.SetUnitsExchange(1)
+        # status = self.phreeqc_rm.SetUnitsSurface(1)
+        # status = self.phreeqc_rm.SetUnitsKinetics(1)
 
         # mf6 handles poro . set to 1          
         poro = np.full((self.ncpl), 1.)
@@ -494,7 +502,7 @@ class Mup3d(object):
         status = phreeqc_rm.SetTime(time)
         status = phreeqc_rm.SetTimeStep(time_step)
 
-        status = phreeqc_rm.RunCells()
+        # status = phreeqc_rm.RunCells()
         c_dbl_vect = phreeqc_rm.GetConcentrations()
         c_dbl_vect = concentration_l_to_m3(c_dbl_vect)
 
@@ -538,7 +546,7 @@ class Mup3d(object):
         dll = os.path.join(self.wd, 'libmf6')
 
         nlay, nrow, ncol = get_mf6_dis(sim)
-        nxyz = nlay*nrow*ncol
+        nxyz = self.ncpl
         
         modelnmes = ['Flow'] + [nme.capitalize() for nme in sim.model_names if nme != 'gwf'] #revise later
 
@@ -589,8 +597,15 @@ class Mup3d(object):
             stress_period = mf6.get_value(mf6.get_var_address("KPER", "TDIS"))[0]
             time_step = mf6.get_value(mf6.get_var_address("KSTP", "TDIS"))[0]
             
+            # if ctime == 0.0:
+            #     run_reactions(  self, mf6, ctime, time_step, sout_columns, dt)
+
             ### mf6 transport loop block
-            for sln in range(1, nsln+1):
+            for sln in range(1, nsln+1):                
+                if self.fixed_components is not None and modelnmes[sln-1] in self.fixed_components:
+                    print(f'not transporting {modelnmes[sln-1]}')
+                    continue
+
                 # max number of solution iterations
                 max_iter = mf6.get_value(mf6.get_var_address("MXITER", f"SLN_{sln}")) #FIXME: not sure to define this inside the loop
                 mf6.prepare_solve(sln)
@@ -629,12 +644,12 @@ class Mup3d(object):
                 #get arrays from mf6 and flatten for phreeqc
                 print(f'\nGetting concentration arrays --- time step: {time_step} --- elapsed time: {ctime}')
 
-                # status = phreeqc_rm.SetTemperature([20.0] * nxyz)
+                status = phreeqc_rm.SetTemperature([self.init_temp[0]] * nxyz)
                 # status = phreeqc_rm.SetPressure([2.0] * nxyz)
 
                 #update phreeqc time and time steps
                 status = phreeqc_rm.SetTime(ctime*86400)
-                
+
                 #allow phreeqc to print some info in the terminal
                 print_selected_output_on = True
                 print_chemistry_on = True
@@ -722,6 +737,61 @@ def get_mf6_dis(sim):
 # def get_mf6_disv(sim):
 #     #TODO: implement this function
 #     return icpl, nvert, vertices, cell2d, top, botm
+
+def run_reactions(self, mf6,ctime, time_step, sout_columns, dt):
+    phreeqc_rm = self.phreeqc_rm
+    #get arrays from mf6 and flatten for phreeqc
+    print(f'\nGetting concentration arrays --- time step: {time_step} --- elapsed time: {ctime}')
+
+    status = phreeqc_rm.SetTemperature([self.init_temp[0]] * self.ncpl)
+    # status = phreeqc_rm.SetPressure([2.0] * nxyz)
+
+    #update phreeqc time and time steps
+    status = phreeqc_rm.SetTime(ctime*86400)
+
+    #allow phreeqc to print some info in the terminal
+    print_selected_output_on = True
+    print_chemistry_on = True
+    status = phreeqc_rm.SetSelectedOutputOn(True)
+    status = phreeqc_rm.SetPrintChemistryOn(print_chemistry_on, True, True) 
+
+    #set concentrations for reactions
+    # status = phreeqc_rm.SetConcentrations(c_dbl_vect)  
+
+    #reactions loop
+    message = '\nBeginning reaction calculation               {} days\n'.format(ctime)
+    phreeqc_rm.LogMessage(message)
+    phreeqc_rm.ScreenMessage(message)
+    status = phreeqc_rm.RunCells()
+    if status < 0:
+        print('Error in RunCells: {0}'.format(status))	
+    #selected ouput
+    # sout = phreeqc_rm.GetSelectedOutput()
+    # sout = [sout[i:i + self.ncpl] for i in range(0, len(sout), self.ncpl)]
+
+    # #add time to selected ouput
+    # sout[0] = np.ones_like(sout[0])*(ctime+dt) #TODO: generalize
+
+    # df = pd.DataFrame(columns = sout_columns)
+    # for col, arr in zip(df.columns, sout):
+    #     df[col] = arr
+    # soutdf = pd.concat([soutdf.astype(df.dtypes), df]) #avoid pandas warning by passing dtypes to empty df
+
+    # Get concentrations from phreeqc 
+    c_dbl_vect = phreeqc_rm.GetConcentrations()
+    conc = [c_dbl_vect[i:i + self.ncpl] for i in range(0, len(c_dbl_vect), self.ncpl)] #reshape array
+
+    conc_dic = {} 
+    for e, c in enumerate(self.components):
+        conc_dic[c] = np.reshape(conc[e], (self.nlay, self.nrow, self.ncol))
+        conc_dic[c] = conc[e]
+    # Set concentrations in mf6
+        print(f'\nTransferring concentrations to mf6 for component: {c}')
+        if c.lower() == 'charge':
+            mf6.set_value(f'{c.upper()}/X', concentration_l_to_m3(conc_dic[c] ) + self.charge_offset)
+
+        else:
+            mf6.set_value(f'{c.upper()}/X', concentration_l_to_m3(conc_dic[c]))
 
 def mrbeaker():
     #docstrings

@@ -1,0 +1,4 @@
+OUTPUT_FILE_NAME    phreeqc_ex11.flo 
+OUTPUT_FILE_UNIT    333 
+OUTPUT_FILE_HEADER  standard 
+OUTPUT_FILE_FORMAT  unformatted 

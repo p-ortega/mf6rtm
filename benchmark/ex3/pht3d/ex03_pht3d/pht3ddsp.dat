@@ -1,0 +1,23 @@
+       100         1(5G14.0)                    -1  C1. Longitudinal dispersivity of layer  1
+          .005          .005          .005          .005          .005
+          .005          .005          .005          .005          .005
+          .005          .005          .005          .005          .005
+          .005          .005          .005          .005          .005
+          .005          .005          .005          .005          .005
+          .005          .005          .005          .005          .005
+          .005          .005          .005          .005          .005
+          .005          .005          .005          .005          .005
+          .005          .005          .005          .005          .005
+          .005          .005          .005          .005          .005
+          .005          .005          .005          .005          .005
+          .005          .005          .005          .005          .005
+          .005          .005          .005          .005          .005
+          .005          .005          .005          .005          .005
+          .005          .005          .005          .005          .005
+          .005          .005          .005          .005          .005
+       100         1(1G14.0)                    -1  C2. TRPT=(horizontal transverse dispersivity) / (Longitudinal dispersivity)
+           0.1
+       100         1(1G14.0)                    -1  C3. TRPV=(vertical transverse dispersivity) / (Longitudinal dispersivity)
+           0.1
+       100         1(1G14.0)                    -1  C4. effective molecular diffusion coefficient [L^2/T]
+             0

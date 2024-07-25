@@ -1,0 +1,45 @@
+SOLUTION 1 # [K,I,J] = 1,1,1
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.960000e+000  # comp 12
+	pe 1.670000e+000  # comp 13
+	C(4) 3.940000e-003  # comp 1
+	Ca 6.920000e-003  # comp 2
+	Cl 1.030000e-003 charge # comp 3
+	Mg 1.960000e-003  # comp 4
+	Na 1.300000e-003  # comp 5
+	K 6.650000e-005  # comp 6
+	Fe 5.392000e-005  # comp 7
+	Mn(2) 4.730000e-005  # comp 8
+	Al 1.270000e-007  # comp 9
+	Si 1.940000e-003  # comp 10
+	S(6) 7.480000e-003  # comp 11
+END
+EQUILIBRIUM_PHASES 1
+	Calcite 0.000000e+000 1.800000e-002 # comp 14
+	Siderite 0.000000e+000 5.188857e-003 # comp 15
+	Gypsum 0.000000e+000 0.000000e+000 # comp 16
+	SiO2(a) 0.000000e+000 4.070000e-001 # comp 17
+	Gibbsite 0.000000e+000 2.517714e-003 # comp 18
+	Fe(OH)3(a) 0.000000e+000 1.860000e-003 # comp 19
+END
+COPY solution 1 2-80
+COPY equilibrium_phases 1 2-80
+END
+PRINT
+	-reset false
+END
+# Start of contents postfix.phrq
+PRINT
+    -totals true
+SELECTED_OUTPUT
+    -file pht3d.sel
+    -reset false
+USER_PUNCH
+    -headings Fe2+ Fe3+
+    -start
+    10 PUNCH TOT("Fe(2)") TOT("Fe(3)")
+    -end
+END
+# End of contents postfix.phrq

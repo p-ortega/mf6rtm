@@ -53,7 +53,7 @@ def kinetics_df_to_dict(data, header = True):
     par_cols = [col for col in data.columns if col.startswith('par')]
     for key in data.index:
         parms = [item for item in data.loc[key, par_cols] if not pandas.isna(item)]
-        print(parms)
+        # print(parms)
         dic[key] = [item for item in data.loc[key] if item not in parms and not pandas.isna(item)]
         dic[key].append(parms)
     return dic
@@ -158,7 +158,7 @@ def kinetics_phases_csv_to_dict(csv_file, header = True):
         #skip header assuming first line is header
         if header:
             cols = next(reader)
-            print(cols)
+            # print(cols)
         data = {}
         for row in reader:
             if row[0].startswith('#'):
@@ -268,8 +268,9 @@ def generate_surface_block(surface_dict, i):
     for name, values in surface_dict.items():
         script += f"    {name}"
         script += f"    "  + ' '.join(f"{v}" for v in values)  +   "\n"
-        script += f"    -equilibrate {1}" #TODO: make equilibrate a parameter from eq_solutions
-    script += "\nEND\n"
+        script += f"    -equilibrate {1}\n" #TODO: make equilibrate a parameter from eq_solutions
+        # script += f"    -no_edl"
+    script += "END\n"
     return script
 
 def generate_kinetics_block(kinetics_dict, i):
@@ -337,10 +338,14 @@ def generate_solution_block(species_dict, i, temp = 25.0, water = 1.0):
     script : str
         The SOLUTION block as a string.
     """
+    if isinstance(temp, (int, float)):
+        t = f"{temp:.1f}"
+    elif isinstance(temp, list):
+        t = f"{temp[i]}"
     script = f"SOLUTION {i+1}\n"
     script += f'''   units mol/kgw
     water {water}
-    temp {temp}\n'''
+    temp {t}\n'''
     for species, concentration in species_dict.items():
         script += f"    {species} {concentration:.5e}\n"
     script += "\nEND\n"

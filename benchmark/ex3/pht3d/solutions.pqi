@@ -1,0 +1,86 @@
+Database C:/Users/portega/intera/dev/mf6rtm/benchmark/walter1994/walter1994_pht3d/\pht3d_datab.dat 
+Solution 1 
+ units mol/L 
+Al 1.27e-7
+C(+4) 3.94e-3
+Ca 6.92e-3
+Cl 1.03e-3
+Fe(+2) 5.39e-5
+Fe(+3) 2.32e-8
+K 6.65e-5
+Mg 1.96e-3
+Mn(+2) 4.73e-5
+Na 1.3e-3
+S(6) 7.48e-3
+Si 1.94e-3
+pH 6.955
+pe 1.67
+end 
+Solution 2 
+ units mol/L 
+Al 2.08e-3
+C(+4) 4.92e-4
+Ca 1.08e-2
+Cl 1.19e-4
+Fe(+2) 3.06e-2
+Fe(+3) 1.99e-7
+K 7.93e-4
+Mg 9.69e-4
+Mn(+2) 9.83e-6
+Na 1.39e-3
+S(6) 5e-2
+Si 2.08e-3
+pH 3.99
+pe 7.69
+end 
+Solution 3 
+ units mol/L 
+Al 0.0
+C(+4) 0.0
+Ca 0.0
+Cl 0.0
+Fe(+2) 0.0
+Fe(+3) 0.0
+K 0.0
+Mg 0.0
+Mn(+2) 0.0
+Na 0.0
+S(6) 0.0
+Si 0.0
+pH 0.0
+pe 0.0
+end 
+Solution 4 
+ units mol/L 
+Al 0.0
+C(+4) 0.0
+Ca 0.0
+Cl 0.0
+Fe(+2) 0.0
+Fe(+3) 0.0
+K 0.0
+Mg 0.0
+Mn(+2) 0.0
+Na 0.0
+S(6) 0.0
+Si 0.0
+pH 0.0
+pe 0.0
+end 
+Solution 5 
+ units mol/L 
+Al 0.0
+C(+4) 0.0
+Ca 0.0
+Cl 0.0
+Fe(+2) 0.0
+Fe(+3) 0.0
+K 0.0
+Mg 0.0
+Mn(+2) 0.0
+Na 0.0
+S(6) 0.0
+Si 0.0
+pH 0.0
+pe 0.0
+end 

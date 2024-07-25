@@ -1,0 +1,31 @@
+SELECTED_OUTPUT
+-reset         false
+-distance         false
+-file          out.dat
+
+USER_PUNCH
+
+-headings  time_d cell pH pe Ca Cl C4 Mg S6 S-2 Fe2 Fe3 Mn2 Na K Al Si Calcite Siderite Gibbsite Gypsum Fe(OH)3(a) SiO2(a)
+1   PUNCH sim_time/86400
+2   PUNCH cell_no
+4   PUNCH -LA("H+")
+6   PUNCH -LA("e-")
+7   PUNCH TOT("Ca")
+9   PUNCH TOT("Cl")
+10  PUNCH TOT("C(4)")
+13  PUNCH TOT("Mg")
+14  PUNCH TOT("S(6)")
+15  PUNCH TOT("S(-2)")
+16  PUNCH TOT("Fe(2)")
+17  PUNCH TOT("Fe(3)")
+18  PUNCH TOT("Mn(2)")
+19  PUNCH TOT("Na")
+20  PUNCH TOT("K")
+21  PUNCH TOT("Al")
+22  PUNCH TOT("Si")
+23  PUNCH EQUI("Calcite")
+24  PUNCH EQUI("Siderite")
+25  PUNCH EQUI("Gibbsite")
+26  PUNCH EQUI("Gypsum")
+27  PUNCH EQUI("Fe(OH)3(a)")
+28  PUNCH EQUI("SiO2(a)")

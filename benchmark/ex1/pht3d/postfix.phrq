@@ -1,0 +1,33 @@
+SOLUTION_SPECIES
+	H2O + 0.01e- = H2O-0.01
+	log_k  -9
+
+
+INCREMENTAL_REACTIONS True
+
+KNOBS
+	-convergence_tolerance 1e-8
+	-tolerance 1e-13
+	-step_size 1.25
+	-diagonal_scale true
+	-iterations 500
+
+SELECTED_OUTPUT
+-reset         false
+-distance         false
+-file          out.dat
+
+USER_PUNCH
+
+-headings  time_d cell pH H pe Ca Cl C4 Mg Calcite Dolomite
+1    PUNCH sim_time/86400
+2    PUNCH cell_no
+4    PUNCH -LA("H+")
+5	 PUNCH TOTMOLE("H")
+6    PUNCH -LA("e-")
+7   PUNCH TOT("Ca")
+9   PUNCH TOT("Cl")
+10   PUNCH TOT("C(4)")
+13   PUNCH TOT("Mg")
+30   PUNCH EQUI("Calcite")
+31   PUNCH EQUI("Dolomite")

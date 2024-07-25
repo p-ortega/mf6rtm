@@ -1,0 +1,11 @@
+PRINT
+    -totals true
+SELECTED_OUTPUT
+    -file pht3d.sel
+    -reset false
+USER_PUNCH
+    -headings Fe2+ Fe3+
+    -start
+    10 PUNCH TOT("Fe(2)") TOT("Fe(3)")
+    -end
+END

@@ -1,0 +1,9 @@
+LIST   2  walter1994.lst
+DIS  10  walter1994.dis
+BAS6  11  walter1994.bas6
+LPF  12  walter1994.lpf
+PCG  14  walter1994.pcg
+OC       26    walter1994.oc
+DATA(BINARY)     30        walter1994.head
+DATA(BINARY)     31        walter1994.budget
+LMT6     28    walter1994.lmt

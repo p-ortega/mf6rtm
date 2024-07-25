@@ -1,0 +1,10 @@
+Ca = load('PHT3D001.ACN');
+Cl = load('PHT3D002.ACN');
+K = load('PHT3D003.ACN');
+N_5 = load('PHT3D004.ACN');
+Na = load('PHT3D005.ACN');
+pH = load('PHT3D006.ACN');
+pe = load('PHT3D007.ACN');
+CaX2 = load('PHT3D008.ACN');
+KX = load('PHT3D009.ACN');
+NaX = load('PHT3D010.ACN');

@@ -1,0 +1,10 @@
+LIST   2  phreeqc_ex11.lst
+DIS  10  phreeqc_ex11.dis
+BAS6  11  phreeqc_ex11.bas6
+LPF  12  phreeqc_ex11.lpf
+PCG  14  phreeqc_ex11.pcg
+OC       26    phreeqc_ex11.oc
+DATA(BINARY)     30        phreeqc_ex11.head
+DATA(BINARY)     31        phreeqc_ex11.budget
+LMT6     28    phreeqc_ex11.lmt
+WEL     36     phreeqc_ex11.wel

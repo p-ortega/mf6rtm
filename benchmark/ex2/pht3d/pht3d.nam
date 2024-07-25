@@ -1,0 +1,8 @@
+LIST           7 pht3d.out
+BTN           31 pht3dbtn.dat
+ADV           32 pht3dadv.dat
+DSP           33 pht3ddsp.dat
+SSM           34 pht3dssm.dat
+GCG           35 pht3dgcg.dat
+PHC           64 pht3d_ph.dat
+FTL           66 mt3d.flo

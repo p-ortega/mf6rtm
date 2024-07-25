@@ -1,0 +1,51 @@
+Database C:/Users/portega/intera/dev/mf6rtm/benchmark/phreeqc_ex11/pht3d/\pht3d_datab.dat 
+Solution 1 
+ units mol/L 
+Ca 0.0
+Cl 0.0
+K 2e-4
+N(+5) 1.2e-3
+Na 1e-3
+pH 7
+pe 12.5
+end 
+Solution 2 
+ units mol/L 
+Ca 0.6e-3
+Cl 1.2e-3
+K 0.0
+N(+5) 0.0
+Na 0.0
+pH 7
+pe 12.5
+end 
+Solution 3 
+ units mol/L 
+Ca 0.0
+Cl 0.0
+K 0.0
+N(+5) 0.0
+Na 0.0
+pH 0.0
+pe 0.0
+end 
+Solution 4 
+ units mol/L 
+Ca 0.0
+Cl 0.0
+K 0.0
+N(+5) 0.0
+Na 0.0
+pH 0.0
+pe 0.0
+end 
+Solution 5 
+ units mol/L 
+Ca 0.0
+Cl 0.0
+K 0.0
+N(+5) 0.0
+Na 0.0
+pH 0.0
+pe 0.0
+end 

@@ -1,0 +1,13 @@
+SELECTED_OUTPUT
+-reset         false
+-distance         false
+-file          out.dat
+
+USER_PUNCH
+  -heading  time_d cell Na Ca K Cl
+  11   PUNCH sim_time/86400
+  21   PUNCH cell_no
+  31   PUNCH TOT("Na")
+  41   PUNCH TOT("Ca")
+  51   PUNCH TOT("K")
+  61   PUNCH TOT("Cl")
