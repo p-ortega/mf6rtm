@@ -251,7 +251,7 @@ def generate_exchange_block(exchange_dict, i, equilibrate_solutions = []):
     script += "\nEND\n"
     return script
 
-def generate_surface_block(surface_dict, i):
+def generate_surface_block(surface_dict, i, options = []):
     """Generate a SURFACE block for PHREEQC input script
     Parameters
     ----------
@@ -269,7 +269,11 @@ def generate_surface_block(surface_dict, i):
         script += f"    {name}"
         script += f"    "  + ' '.join(f"{v}" for v in values)  +   "\n"
         script += f"    -equilibrate {1}\n" #TODO: make equilibrate a parameter from eq_solutions
-        # script += f"    -no_edl"
+        if len(options) > 0:
+            for i in range(len(options)):
+                script += f"    -{options[i]}\n"
+            # script += f"    -{options[i]}\n"
+        # script += f"    -no_edl\n"
     script += "END\n"
     return script
 

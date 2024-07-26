@@ -39,6 +39,7 @@ class Block:
         self.names = [key for key in data.keys()]
         self.ic = ic #None means no initial condition (-1)
         self.eq_solutions = []
+        self.options = []
 
     def set_ic(self, ic):
         assert isinstance(ic, (int, float, np.ndarray)), 'ic must be an int, float or ndarray'
@@ -50,6 +51,9 @@ class Block:
         Array where index is the exchange phase number and value is the solution number to equilibrate with.
         '''
         self.eq_solutions = eq_solutions
+
+    def set_options(self, options):
+        self.options = options
 
 class GasPhase(Block):
     def __init__(self, data) -> None:
@@ -159,15 +163,6 @@ class Mup3d(object):
         
         # Dynamically set the phase attribute based on the class name
         setattr(self, f"{phase_class.__name__.lower().split('phases')[0]}_phases", phase)
-
-    # def set_kinetic_phases(self, kinetic_phases):
-    #     assert isinstance(kinetic_phases, KineticPhases), 'kinetic_phases must be an instance of the KineticPhases class'
-    #     if isinstance(kinetic_phases.ic, (int, float)):
-    #         kinetic_phases.ic = np.reshape([kinetic_phases.ic]*self.ncpl, (self.nlay, self.nrow, self.ncol))
-    #     #make sure keys in kinetic_phases start from 0
-    #     kinetic_phases.data = {i: kinetic_phases.data[key] for i, key in enumerate(kinetic_phases.data.keys())}
-    #     assert kinetic_phases.ic.shape == (self.nlay, self.nrow, self.ncol), f'Initial conditions array must be an array of the shape ({self.nlay}, {self.nrow}, {self.ncol}) not {kinetic_phases.ic.shape}'
-    #     self.kinetic_phases = kinetic_phases
     
     def set_exchange_phases(self, exchanger):
         assert isinstance(exchanger, ExchangePhases), 'exchanger must be an instance of the Exchange class'
@@ -239,6 +234,16 @@ class Mup3d(object):
         """
         assert os.path.exists(postfix), f'{postfix} not found'
         self.postfix = postfix
+    
+    def set_reaction_temp(self):
+        if isinstance(self.init_temp, (int, float)):
+            rx_temp =  [self.init_temp]*self.ncpl
+            print('Using temperatue of {} for all cells'.format(rx_temp[0]))
+        elif isinstance(self.init_temp, (list, np.ndarray)):
+            rx_temp =  [self.init_temp[0]]*self.ncpl
+            print('Using temperatue of {} from SOLUTION 1 for all cells'.format(rx_temp[0]))
+        self.reaction_temp = rx_temp
+        return rx_temp
     
     def generate_phreeqc_script(self):
         
@@ -320,7 +325,7 @@ class Mup3d(object):
                 # check if all surfaces are in the database
                 names = get_compound_names(self.database, 'SURFACE_MASTER_SPECIES')
                 assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
-                script += handle_block(phases, generate_surface_block, i)
+                script += handle_block(phases, generate_surface_block, i, options = self.surfaces_phases.options)
 
         # add end of line before postfix
         script += endmainblock
@@ -441,6 +446,8 @@ class Mup3d(object):
             if c.lower() == 'charge':
                 get_conc += self.charge_offset
             self.sconc[c] = get_conc
+
+        self.set_reaction_temp()
 
         print('Phreeqc initialized')
 
@@ -644,7 +651,7 @@ class Mup3d(object):
                 #get arrays from mf6 and flatten for phreeqc
                 print(f'\nGetting concentration arrays --- time step: {time_step} --- elapsed time: {ctime}')
 
-                status = phreeqc_rm.SetTemperature([self.init_temp[0]] * nxyz)
+                status = phreeqc_rm.SetTemperature(self.reaction_temp)
                 # status = phreeqc_rm.SetPressure([2.0] * nxyz)
 
                 #update phreeqc time and time steps
@@ -726,6 +733,8 @@ class Mup3d(object):
 
         return success
     
+
+
 def get_mf6_dis(sim):
     # extract dis from modflow6 sim object 
     dis = sim.get_model(sim.model_names[0]).dis
