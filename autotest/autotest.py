@@ -582,6 +582,159 @@ def test_04(prefix = 'test04'):
 
     return 
 
+
+def test_05(prefix = 'test05'):
+    '''Test 5: oxidation with pyrite 1D test
+    This tests equilibrum phases, scm, kinetics and exchange    
+    '''
+    # General
+    length_units = "meters"
+    time_units = "days"
+
+    # Model discretization
+    nlay = 1  # Number of layers
+    Lx = 0.053 #m
+    ncol = 16 # Number of columns
+    nrow = 1  # Number of rows
+    delr = Lx/ncol #10.0  # Column width ($m$)
+    delc = 1 # Row width ($m$)
+    top = 2.87433E-03  # Top of the model ($m$)
+    # botm = 0.0  # Layer bottom elevations ($m$)
+    zbotm = 0.
+    botm = np.linspace(top, zbotm, nlay + 1)[1:]
+
+    #tdis
+    nper = 2  # Number of periods
+    nstp = [64, 100]  # Number of time steps
+    # nstp = [i*10 for i in nstp]
+    perlen = [ 0.9333, 1.45833]  # Simulation time ($days$)#100.0
+    # dt0 = perlen / nstp
+    tsmult = [1.0, 1.0]  # Time step multiplier
+    tdis_rc = [(kper, kstep, ts) for kper, kstep, ts in zip(perlen, nstp, tsmult)]
+
+    #injection
+    q = 2.4e-4 #injection rate m3/d
+    wel_spd = {i: [[(0,0,0), q]] for i in range(0, len(perlen))}
+
+
+    #hydraulic properties
+    prsity = 0.376 # Porosity
+    k11 = 1.0  # Horizontal hydraulic conductivity ($m/d$)
+    k33 = k11  # Vertical hydraulic conductivity ($m/d$)
+    strt = np.ones((nlay, nrow, ncol), dtype=float)*1
+    # two chd one for tailings and conc and other one for hds 
+
+    # two chd one for tailings and conc and other one for hds 
+    r_hd = 1
+    strt = np.ones((nlay, nrow, ncol), dtype=float)
+
+    chdspd = [[(i, 0, ncol-1), r_hd] for i in range(nlay)] # Constant head boundary $m$
+
+
+    #transport
+    dispersivity = 0.00537 #7.5e-5 Longitudinal dispersivity ($m$)
+
+    icelltype = 1  # Cell conversion type
+
+    # Set solver parameter values (and related)
+    nouter, ninner = 300, 600
+    hclose, rclose, relax = 1e-6, 1e-6, 1.0
+
+    solutionsdf = pd.read_csv(os.path.join(dataws,f"{prefix}_solutions.csv"), comment = '#',  index_col = 0)
+
+    solutions = utils.solution_df_to_dict(solutionsdf)
+    solutions
+    # #assign solutions to grid
+    sol_ic = np.ones((nlay, nrow, ncol), dtype=float)
+    # sol_ic = 1
+    #add solutions to clss
+    solution = mf6rtm.Solutions(solutions)
+    solution.set_ic(sol_ic)
+
+    #exchange
+    excdf = pd.read_csv(os.path.join(dataws,f"{prefix}_exchange.csv"), comment = '#',  index_col = 0)
+    exchangerdic = utils.solution_df_to_dict(excdf)
+
+    exchanger = mf6rtm.ExchangePhases(exchangerdic)
+    exchanger_ic = np.ones((nlay, nrow, ncol), dtype=float)
+    exchanger_ic[0,0,:4] = 1
+    exchanger_ic[0,0,4:8] = 2
+    exchanger_ic[0,0,8:12] = 3
+    exchanger_ic[0,0,12:] = 4
+
+
+    exchanger.set_ic(exchanger_ic)
+    eq_solutions = [1,1,1,1]
+    exchanger.set_equilibrate_solutions(eq_solutions)
+
+    #kinetics
+    kinedic = utils.kinetics_phases_csv_to_dict(os.path.join(dataws,f"{prefix}_kinetic_phases.csv"))
+    orgsed_form = 'Orgc_sed -1.0 C 1.0' 
+    kinedic[1]['Orgc_sed'].append(orgsed_form)
+    kinetics = mf6rtm.KineticPhases(kinedic)
+    kinetics.set_ic(1)
+
+    #eq phases
+    equilibriums = utils.equilibrium_phases_csv_to_dict(os.path.join(dataws,f"{prefix}_equilibrium_phases.csv"))
+    equilibriums = mf6rtm.EquilibriumPhases(equilibriums)
+    equilibriums.set_ic(1)
+
+    #surfaces
+    surfdic = utils.surfaces_csv_to_dict(os.path.join(dataws,f"{prefix}_surfaces.csv"))
+    surfaces = mf6rtm.Surfaces(surfdic)
+    surfaces.set_ic(1)
+    # surfaces.set_options(['no_edl'])
+
+    #create model class
+    model = mf6rtm.Mup3d(prefix,solution, nlay, nrow, ncol)
+
+    # set model workspace
+    if not os.path.exists(prefix):
+        os.makedirs(prefix)
+
+    model.set_wd(os.path.join(f'{prefix}'))
+
+    # #set database
+    database = os.path.join(databasews, f'ex5.dat')
+    model.set_database(database)
+
+
+    model.set_initial_temp([7., 7., 7.])
+    # #get postfix file
+    postfix = os.path.join(dataws, f'{prefix}_postfix.phqr')
+    model.set_postfix(postfix)
+
+    model.set_exchange_phases(exchanger)
+    model.set_phases(kinetics)
+    model.set_phases(equilibriums)
+    model.set_phases(surfaces)
+
+    model.initialize()
+
+    wellchem = mf6rtm.ChemStress('wel')
+    sol_spd = [2,3]
+    sol_spd
+    wellchem.set_spd(sol_spd)
+    model.set_chem_stress(wellchem)
+
+
+    for key in wel_spd.keys():
+        for i in range(len(wel_spd[key])):
+            wel_spd[key][i].extend(model.wel.data[key])
+
+    mf6sim = build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
+                                        top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
+                                        strt, rclose, relax, nouter, ninner)
+    
+    run_test(prefix, model, mf6sim)
+
+    try:
+        cleanup(prefix)
+    except:
+        pass
+
+    return 
+
 def get_benchmark_results(prefix):
     '''Get benchmark results'''
     dataws = os.path.join("benchmark")
@@ -624,11 +777,12 @@ def cleanup(prefix):
     return
 
 # def run_autotest():
-#     test_01()
-#     test_02()
-#     test_04()
+    # test_01()
+    # test_02()
+    # test_04()
+    # test_05()
 
 # if __name__ == '__main__':
-#     run_autotest()
+    # run_autotest()
 
 

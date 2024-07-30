@@ -1,0 +1,23 @@
+SELECTED_OUTPUT
+    -reset         false
+    -distance         false
+    -file          out.dat
+
+USER_PUNCH
+    -headings time_d cell pH pe Alk Ca Mg Cl S(6) si_cc si_go Orgc_sed Calcite
+    -start
+    10 PUNCH TOTAL_TIME/86400
+    20 punch cell_no
+    30 punch -la("H+"), -la("e-"), alk, tot("Ca"), tot("Mg"), tot("Cl"), tot("S(6)")
+    40 punch si("Calcite"), si("Goethite")
+    50 punch tot("Orgc_sed") kin('Calcite')
+    -end
+END
+
+
+
+
+
+
+
+
