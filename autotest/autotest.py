@@ -732,7 +732,7 @@ def test03(prefix = 'test03'):
 
     #tdis
     nper = 1  # Number of periods
-    tstep = 1  # Time step ($days$)
+    tstep = 20  # Time step ($days$)
     perlen = 2000  # Simulation time ($days$)
     nstp = perlen/tstep #100.0
     dt0 = perlen / nstp
