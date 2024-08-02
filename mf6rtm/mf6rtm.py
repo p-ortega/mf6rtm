@@ -9,16 +9,15 @@ from PIL import Image
 
 import pandas as pd
 import numpy as np
-# import itertools
 import flopy
-# import pyemu
 import phreeqcrm
 import modflowapi
 
 from modflowapi.extensions import ApiSimulation
-from utils import*
 from datetime import datetime
 from time import sleep
+import utils
+# import mf6rtm
 
 #global variables
 DT_FMT = "%Y-%m-%d %H:%M:%S"
@@ -256,7 +255,7 @@ class Mup3d(object):
         assert os.path.exists(self.database), f'{self.database} not found'
 
         # Check if all compounds are in the database
-        names = get_compound_names(self.database)
+        names = utils.get_compound_names(self.database)
         assert all([key in names for key in self.solutions.data.keys() if key not in ["pH", "pe"]]), f'Not all compounds are in the database - check: {", ".join([key for key in self.solutions.data.keys() if key not in names and key not in ["pH", "pe"]])}'
 
         script = ""
@@ -278,7 +277,7 @@ class Mup3d(object):
         for i in range(num_solutions):
             # Get the current concentrations and phases
             concentrations = {species: values[i] for species, values in self.solutions.data.items()}
-            script += handle_block(concentrations, generate_solution_block, i, temp=self.init_temp, water =1)
+            script += utils.handle_block(concentrations, utils.generate_solution_block, i, temp=self.init_temp, water =1)
 
         #check if self.equilibrium_phases is not None
         if self.equilibrium_phases is not None:
@@ -286,25 +285,25 @@ class Mup3d(object):
                 # Get the current   phases
                 phases = self.equilibrium_phases.data[i]
                 # check if all equilibrium phases are in the database
-                names = get_compound_names(self.database, 'PHASES')
+                names = utils.get_compound_names(self.database, 'PHASES')
                 assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
 
                 # Handle the  EQUILIBRIUM_PHASES blocks
-                script += handle_block(phases, generate_phases_block, i)
+                script += utils.handle_block(phases, utils.generate_phases_block, i)
                 
         #check if self.exchange_phases is not None
         if self.exchange_phases is not None:
             # Get the current   phases
             phases = self.exchange_phases.data
             # check if all exchange phases are in the database
-            names = get_compound_names(self.database, 'EXCHANGE')
+            names = utils.get_compound_names(self.database, 'EXCHANGE')
             assert all([key in names for key in phases.keys()]), 'Following are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
             
             num_exch = len(next(iter(self.exchange_phases.data.values())))
             for i in range(num_exch):
                 # Get the current concentrations and phases
                 concentrations = {species: values[i] for species, values in self.exchange_phases.data.items()}
-                script += handle_block(concentrations, generate_exchange_block, i, equilibrate_solutions = self.exchange_phases.eq_solutions)
+                script += utils.handle_block(concentrations, utils.generate_exchange_block, i, equilibrate_solutions = self.exchange_phases.eq_solutions)
         
         #check if self.kinetic_phases is not None
         if self.kinetic_phases is not None:
@@ -314,23 +313,23 @@ class Mup3d(object):
                 # check if all kinetic phases are in the database
                 names = []
                 for blocknme in ['PHASES', 'SOLUTION_MASTER_SPECIES']:
-                    names += get_compound_names(self.database, blocknme)
+                    names += utils.get_compound_names(self.database, blocknme)
 
                 assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
                 
-                script += handle_block(phases, generate_kinetics_block, i)
+                script += utils.handle_block(phases, utils.generate_kinetics_block, i)
         
         if self.surfaces_phases is not None:
             for i in self.surfaces_phases.data.keys():
                 # Get the current   phases
                 phases = self.surfaces_phases.data[i]
                 # check if all surfaces are in the database
-                names = get_compound_names(self.database, 'SURFACE_MASTER_SPECIES')
+                names = utils.get_compound_names(self.database, 'SURFACE_MASTER_SPECIES')
                 assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
-                script += handle_block(phases, generate_surface_block, i, options = self.surfaces_phases.options)
+                script += utils.handle_block(phases, utils.generate_surface_block, i, options = self.surfaces_phases.options)
 
         # add end of line before postfix
-        script += endmainblock
+        script += utils.endmainblock
 
         # Append the postfix file to the script
         if self.postfix is not None and os.path.isfile(self.postfix):
