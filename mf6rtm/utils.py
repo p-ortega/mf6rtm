@@ -379,6 +379,8 @@ def rearrange_copy_blocks(script):
     return rearranged_script
 
 def prep_bins(dest_path, src_path=os.path.join('bin'),  get_only=[]):
+    """Copy executables from the source path to the destination path
+    """
 
     if "linux" in platform.platform().lower():
         bin_path = os.path.join(src_path, "linux")

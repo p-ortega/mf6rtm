@@ -9,9 +9,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 # import tempfile
 import shutil 
+import pytest
 
 #add mf6rtm path to the system
-sys.path.insert(0,os.path.join("..","mf6rtm"))
+# sys.path.insert(0,os.path.join("..","mf6rtm"))
 import flopy
 import mf6rtm
 import utils
@@ -590,10 +591,6 @@ def test01(prefix = 'test01'):
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
     run_test(prefix, model, mf6sim)
-    try:
-        cleanup(prefix)
-    except:
-        pass
 
     return 
 
@@ -1091,6 +1088,28 @@ def test05(prefix = 'test05'):
 
     return 
 
+# @pytest.mark.xfail
+# def test01_yaml(prefix = 'test01'):
+
+#     '''Test 1: Simple 1D injection test with equilibrium phases
+#         Running from files insted of python memory
+#     '''	
+#     wd = os.path.join(f'{prefix}_yaml')
+#     #copy files to prefix_yaml with shutil
+#     if not os.path.exists(wd):
+#         os.makedirs(wd)
+#     #copy files to prefix_yaml with shutil
+#     for file in os.listdir(os.path.join(prefix)):
+#         shutil.copy(os.path.join(prefix, file), wd)
+#     run_yaml(wd)
+
+#     try:
+#         cleanup(wd)
+#     except:
+#         pass
+
+#     return 
+
 def get_benchmark_results(prefix):
     '''Get benchmark results'''
     dataws = os.path.join("benchmark")
@@ -1118,6 +1137,13 @@ def compare_results(benchmarkdf, testdf, treshold = 0.01):
         perc = sum(checkerarr)/lenarr
         assert perc >= 0.99
         # assert all(i < treshold for i in np.abs(benchmarkdf.loc[:, col].values - testdf.loc[:, col].values))
+
+def run_yaml(prefix):
+    '''Run model from yaml file'''
+    wd = os.path.join(prefix)
+    #run the model
+    mf6rtm.solve(wd)
+    return
 
 def run_test(prefix, model, mf6sim, *args, **kwargs):
     #try to run the model if success print test passed
