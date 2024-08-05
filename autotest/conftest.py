@@ -1,5 +1,6 @@
 from pathlib import Path
 from subprocess import PIPE, Popen
+import os, stat
 
 def run_cmd(*args, verbose=False, **kwargs):
     """
@@ -24,3 +25,10 @@ def run_cmd(*args, verbose=False, **kwargs):
 
 def get_project_root_path() -> Path:
     return Path(__file__).parent.parent
+
+def make_dir_writable(function, path, exception):
+    """The path on Windows cannot be gracefully removed due to being read-only,
+    so we make the directory writable on a failure and retry the original function.
+    """
+    os.chmod(path, stat.S_IWRITE)
+    function(path)

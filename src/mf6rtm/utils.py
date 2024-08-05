@@ -1,14 +1,15 @@
 import platform
 import os
 import shutil
-import pandas 
+import pandas
 
-#global variables
-endmainblock  = '''\nPRINT
-	-reset false
+# global variables
+endmainblock = '''\nPRINT
+    -reset false
 END\n'''
 
-def solution_csv_to_dict(csv_file, header = True):
+
+def solution_csv_to_dict(csv_file, header=True):
     """Read a solution CSV file and convert it to a dictionary
     Parameters
     ----------
@@ -25,17 +26,19 @@ def solution_csv_to_dict(csv_file, header = True):
     import csv
     with open(csv_file, mode='r') as infile:
         reader = csv.reader(infile)
-        #skip header assuming first line is header
+        # skip header assuming first line is header
         if header:
             next(reader)
-        
-        data = {rows[0]: rows[1:] for rows in reader if rows[0].startswith('#') == False}
 
-        for key, value in data.items():
-            data[key] = [float(i) for i in value]
+        data = {rows[0]: [float(i) for i in rows[1:]] for rows in reader if not rows[0].startswith('#')}
+        # data = {rows[0]: rows[1:] for rows in reader if rows[0].startswith('#') == False}
+
+        # for key, value in data.items():
+        #     data[key] = [float(i) for i in value]
     return data
 
-def kinetics_df_to_dict(data, header = True):
+
+def kinetics_df_to_dict(data, header=True):
     """Read a kinetics CSV file and convert it to a dictionary
     Parameters
     ----------
@@ -58,7 +61,8 @@ def kinetics_df_to_dict(data, header = True):
         dic[key].append(parms)
     return dic
 
-def solution_df_to_dict(data, header = True):
+
+def solution_df_to_dict(data, header=True):
     """Convert a pandas DataFrame to a dictionary
     Parameters
     ----------
@@ -76,8 +80,9 @@ def solution_df_to_dict(data, header = True):
         data[key] = [float(i) for i in value]
     return data
 
-def equilibrium_phases_csv_to_dict(csv_file, header = True):
-    """Read an equilibrium phases CSV file and convert it to a dictionary	
+
+def equilibrium_phases_csv_to_dict(csv_file, header=True):
+    """Read an equilibrium phases CSV file and convert it to a dictionary
     Parameters
     ----------
     csv_file : str
@@ -92,7 +97,7 @@ def equilibrium_phases_csv_to_dict(csv_file, header = True):
     import csv
     with open(csv_file, mode='r') as infile:
         reader = csv.reader(infile)
-        #skip header assuming first line is header
+        # skip header assuming first line is header
         if header:
             next(reader)
         data = {}
@@ -107,8 +112,9 @@ def equilibrium_phases_csv_to_dict(csv_file, header = True):
                 data[int(row[-1])][row[0]] = [float(row[1]), float(row[2])]
     return data
 
-def surfaces_csv_to_dict(csv_file, header = True):
-    """Read an equilibrium phases CSV file and convert it to a dictionary	
+
+def surfaces_csv_to_dict(csv_file, header=True):
+    """Read an equilibrium phases CSV file and convert it to a dictionary
     Parameters
     ----------
     csv_file : str
@@ -123,7 +129,7 @@ def surfaces_csv_to_dict(csv_file, header = True):
     import csv
     with open(csv_file, mode='r') as infile:
         reader = csv.reader(infile)
-        #skip header assuming first line is header
+        # skip header assuming first line is header
         if header:
             next(reader)
         data = {}
@@ -139,8 +145,8 @@ def surfaces_csv_to_dict(csv_file, header = True):
     return data
 
 
-def kinetics_phases_csv_to_dict(csv_file, header = True):
-    """Read an equilibrium phases CSV file and convert it to a dictionary	
+def kinetics_phases_csv_to_dict(csv_file, header=True):
+    """Read an equilibrium phases CSV file and convert it to a dictionary
     Parameters
     ----------
     csv_file : str
@@ -155,7 +161,7 @@ def kinetics_phases_csv_to_dict(csv_file, header = True):
     import csv
     with open(csv_file, mode='r') as infile:
         reader = csv.reader(infile)
-        #skip header assuming first line is header
+        # skip header assuming first line is header
         if header:
             cols = next(reader)
             # print(cols)
@@ -173,6 +179,7 @@ def kinetics_phases_csv_to_dict(csv_file, header = True):
                 data[int(rowcleaned[-1])][rowcleaned[0]].append([float(i) for i in rowcleaned[2:-1]])
                 # [float(i) for i in rowcleaned[1:-1]]
     return data
+
 
 def handle_block(current_items, block_generator, i, *args, **kwargs):
     """Generate a block for a PHREEQC input script if the current items are not empty
@@ -196,8 +203,9 @@ def handle_block(current_items, block_generator, i, *args, **kwargs):
     script += block_generator(current_items, i, *args, **kwargs)
     return script
 
-def get_compound_names(database_file, block = 'SOLUTION_MASTER_SPECIES'):
-    """Get a list of compound names from a PHREEQC database file	
+
+def get_compound_names(database_file, block='SOLUTION_MASTER_SPECIES'):
+    """Get a list of compound names from a PHREEQC database file
     Parameters
     ----------
     database_file : str
@@ -222,13 +230,14 @@ def get_compound_names(database_file, block = 'SOLUTION_MASTER_SPECIES'):
                 if line.strip() and not line.startswith('#') and line.split()[0][0].isupper():  # Ignore empty lines and comments
                     species = line.split()[0]  # The species name is the first word on the line
                     species_names.append(species)
-                if line.strip() and not line.startswith('#') and line.split()[0][0].isupper() and block.startswith('EXCHANGE'):  # Ignore empty lines and comments
+                if line.strip() and not line.startswith('#') and line.split()[0][0].isupper() and block.startswith('EXCHANGE'):
+                    # Ignore empty lines and comments
                     species = line.split()[-1]  # The exchange species are the last word on the line
                     species_names.append(species)
     return species_names
 
 
-def generate_exchange_block(exchange_dict, i, equilibrate_solutions = []):
+def generate_exchange_block(exchange_dict, i, equilibrate_solutions=[]):
     """Generate an EXCHANGE block for PHREEQC input script
     Parameters
     ----------
@@ -251,7 +260,8 @@ def generate_exchange_block(exchange_dict, i, equilibrate_solutions = []):
     script += "\nEND\n"
     return script
 
-def generate_surface_block(surface_dict, i, options = []):
+
+def generate_surface_block(surface_dict, i, options=[]):
     """Generate a SURFACE block for PHREEQC input script
     Parameters
     ----------
@@ -267,8 +277,8 @@ def generate_surface_block(surface_dict, i, options = []):
     script = f"SURFACE {i+1}\n"
     for name, values in surface_dict.items():
         script += f"    {name}"
-        script += f"    "  + ' '.join(f"{v}" for v in values)  +   "\n"
-        script += f"    -equilibrate {1}\n" #TODO: make equilibrate a parameter from eq_solutions
+        script += "    "+' '.join(f"{v}" for v in values)+"\n"
+        script += f"    -equilibrate {1}\n"  # TODO: make equilibrate a parameter from eq_solutions
         if len(options) > 0:
             for i in range(len(options)):
                 script += f"    -{options[i]}\n"
@@ -276,6 +286,7 @@ def generate_surface_block(surface_dict, i, options = []):
         # script += f"    -no_edl\n"
     script += "END\n"
     return script
+
 
 def generate_kinetics_block(kinetics_dict, i):
     """Generate a KINETICS block for PHREEQC input script
@@ -296,13 +307,14 @@ def generate_kinetics_block(kinetics_dict, i):
         script += f"    {species}\n"
         for k in range(len(values)):
             if isinstance(values[k], list):
-                script += f"        -{options[k]} "  + ' '.join(f"{parm:.5e}" for parm in values[k])  +   "\n"
+                script += f"        -{options[k]} " + ' '.join(f"{parm:.5e}" for parm in values[k])+"\n"
             elif isinstance(values[k], str):
                 script += f"        -{options[k]} {values[k]}\n"
             else:
                 script += f"        -{options[k]} {values[k]:.5e}\n"
     script += "\nEND\n"
     return script
+
 
 def generate_phases_block(phases_dict, i):
     """Generate an EQUILIBRIUM_PHASES block for PHREEQC input script
@@ -325,11 +337,12 @@ def generate_phases_block(phases_dict, i):
     script += "\nEND\n"
     return script
 
-def generate_solution_block(species_dict, i, temp = 25.0, water = 1.0):
-    """Generate a SOLUTION block for PHREEQC input script	
-    Parameters	
+
+def generate_solution_block(species_dict, i, temp=25.0, water=1.0):
+    """Generate a SOLUTION block for PHREEQC input script
+    Parameters
     ----------
-    species_dict : dict	
+    species_dict : dict
         A dictionary with species names as keys and concentrations as values.
     i : int
         The solution number.
@@ -355,10 +368,12 @@ def generate_solution_block(species_dict, i, temp = 25.0, water = 1.0):
     script += "\nEND\n"
     return script
 
+
 def rearrange_copy_blocks(script):
+    # Split the script into lines
     lines = script.split('\n')
     copy_blocks = []
-    end_blocks = []
+    # end_blocks = []
     other_blocks = []
 
     # Separate the lines into COPY blocks, END blocks, and other blocks
@@ -378,6 +393,7 @@ def rearrange_copy_blocks(script):
 
     return rearranged_script
 
+
 def prep_bins(dest_path, src_path=os.path.join('bin'),  get_only=[]):
     """Copy executables from the source path to the destination path
     """
@@ -389,17 +405,14 @@ def prep_bins(dest_path, src_path=os.path.join('bin'),  get_only=[]):
     else:
         bin_path = os.path.join(src_path, "win")
     files = os.listdir(bin_path)
-    if len(get_only)>0:
+    if len(get_only) > 0:
         files = [f for f in files if f.split(".")[0] in get_only]
 
     for f in files:
-        if os.path.exists(os.path.join(dest_path,f)):
+        if os.path.exists(os.path.join(dest_path, f)):
             try:
-                os.remove(os.path.join(dest_path,f))
-            except:
+                os.remove(os.path.join(dest_path, f))
+            except IOError:
                 continue
-        shutil.copy2(os.path.join(bin_path,f),os.path.join(dest_path,f))
+        shutil.copy2(os.path.join(bin_path, f), os.path.join(dest_path, f))
     return
-
-
-

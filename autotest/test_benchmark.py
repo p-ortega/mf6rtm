@@ -12,13 +12,19 @@ import shutil
 import pytest
 
 import flopy
-import mf6rtm.mf6rtm as mf6rtm
-import mf6rtm.utils as utils
-# from mf6rtm import utils
+# from mf6rtm import *
+# from mf6rtm.mf6rtm import *
+# import mf6rtm
+# import src.mf6rtm.mf6rtm as mf6rtm
+# import mf6rtm.utils as utils
+from mf6rtm import utils
+from mf6rtm import mf6rtm
 
-
-dataws = os.path.join("data")
-databasews = os.path.join("database")
+from autotest.conftest import make_dir_writable
+cwd = os.path.abspath(os.path.dirname(__file__))
+dataws = os.path.join(cwd, "data")
+databasews = os.path.join(cwd, "database")
+src_path = os.path.join(cwd,'bin')
 
 def build_mf6_1d_injection_model(mup3d, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
                                  top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
@@ -255,7 +261,7 @@ def build_mf6_1d_injection_model(mup3d, nper, tdis_rc, length_units, time_units,
         )
 
     sim.write_simulation()
-    utils.prep_bins(sim_ws, src_path=os.path.join('..','bin'), get_only=['mf6', 'libmf6'])
+    utils.prep_bins(sim_ws, src_path=src_path, get_only=['mf6', 'libmf6'])
     
     return sim
 
@@ -497,7 +503,7 @@ def build_mf6_2d_model(mup3d, nper, tdis_rc, length_units, time_units, nlay, nro
         )
 
     sim.write_simulation()
-    utils.prep_bins(sim_ws, src_path=os.path.join('..','bin'), get_only=['mf6', 'libmf6'])
+    utils.prep_bins(sim_ws, src_path=src_path, get_only=['mf6', 'libmf6'])
     
     return sim
 
@@ -564,8 +570,10 @@ def test01(prefix = 'test01'):
     #create model class
     model = mf6rtm.Mup3d(prefix,solution, nlay, nrow, ncol)
 
-    #set model workspace
-    model.set_wd(os.path.join(f'{prefix}'))
+    # set model workspace
+    modelwd = os.path.join(cwd, f'{prefix}')
+    model.set_wd(os.path.join(modelwd))
+                 
     postfix = os.path.join(dataws, f'{prefix}_postfix.phqr')
     model.set_postfix(postfix)
 
@@ -672,8 +680,9 @@ def test02(prefix = 'test02'):
     #create model class
     model = mf6rtm.Mup3d(prefix,solution, nlay, nrow, ncol)
 
-    #set model workspace
-    model.set_wd(os.path.join(f'{prefix}'))
+    # set model workspace
+    modelwd = os.path.join(cwd, f'{prefix}')
+    model.set_wd(os.path.join(modelwd))
 
     #set database
     database = os.path.join(databasews, f'pht3d_datab_walter1994.dat')
@@ -785,10 +794,9 @@ def test03(prefix = 'test03'):
     #create model class
     model = mf6rtm.Mup3d(prefix,solution, nlay, nrow, ncol)
 
-    #set model workspace
-    if not os.path.exists(prefix):
-        os.makedirs(prefix)
-    model.set_wd(os.path.join(f'{prefix}'))
+    # set model workspace
+    modelwd = os.path.join(cwd, f'{prefix}')
+    model.set_wd(os.path.join(modelwd))
 
     #set database
     database = os.path.join(databasews, f'pht3d_datab_walter1994.dat')
@@ -896,12 +904,8 @@ def test04(prefix = 'test04'):
     model = mf6rtm.Mup3d(prefix,solution, nlay, nrow, ncol)
 
     # set model workspace
-    if not os.path.exists(prefix):
-        os.makedirs(prefix)
-    # temp_dir = tempfile.TemporaryDirectory()
-
-    model.set_wd(os.path.join(f'{prefix}'))
-    # model.set_wd(temp_dir.name)
+    modelwd = os.path.join(cwd, f'{prefix}')
+    model.set_wd(os.path.join(modelwd))
 
     #set database
     database = os.path.join(databasews, f'pht3d_datab.dat')
@@ -1041,10 +1045,8 @@ def test05(prefix = 'test05'):
     model = mf6rtm.Mup3d(prefix,solution, nlay, nrow, ncol)
 
     # set model workspace
-    if not os.path.exists(prefix):
-        os.makedirs(prefix)
-
-    model.set_wd(os.path.join(f'{prefix}'))
+    modelwd = os.path.join(cwd, f'{prefix}')
+    model.set_wd(os.path.join(modelwd))
 
     # #set database
     database = os.path.join(databasews, f'ex5.dat')
@@ -1111,8 +1113,8 @@ def test05(prefix = 'test05'):
 
 def get_benchmark_results(prefix):
     '''Get benchmark results'''
-    dataws = os.path.join("benchmark")
-    benchmarkdf = pd.read_csv(os.path.join(dataws,f"{prefix}_benchmark.csv"), index_col = 0)
+    benchwd = os.path.join(cwd, "benchmark")
+    benchmarkdf = pd.read_csv(os.path.join(benchwd,f"{prefix}_benchmark.csv"), index_col = 0)
     return benchmarkdf
 
 def get_test_results(model):
@@ -1160,7 +1162,7 @@ def run_test(prefix, model, mf6sim, *args, **kwargs):
 def cleanup(prefix):
     '''Cleanup test files'''
     if os.path.exists(prefix):
-        shutil.rmtree(prefix)
+        shutil.rmtree(prefix, onerror=make_dir_writable)
     return
 
 # def run_autotest():

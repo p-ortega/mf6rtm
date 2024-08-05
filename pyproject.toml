@@ -3,13 +3,15 @@ requires = ["setuptools>=42.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
-addopts = "--cov=mf6rtm"
+addopts = [
+    "--cov=mf6rtm",
+    ]
 testpaths = [
     "autotest",
 ]
 
 [tool.mypy]
-mypy_path = "mf6rtm"
+mypy_path = "src"
 check_untyped_defs = true
 disallow_any_generics = true
 ignore_missing_imports = true
