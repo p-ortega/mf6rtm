@@ -22,7 +22,6 @@ def run_cmd(*args, verbose=False, **kwargs):
         print(f"returncode: {returncode}")
     return stdout, stderr, returncode
 
-
 def get_project_root_path() -> Path:
     return Path(__file__).parent.parent
 
@@ -32,3 +31,9 @@ def make_dir_writable(function, path, exception):
     """
     os.chmod(path, stat.S_IWRITE)
     function(path)
+
+# def main():
+#     print(get_project_root_path())
+
+# if __name__ == "__main__":
+#     main()
