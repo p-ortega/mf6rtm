@@ -1,0 +1,67 @@
+Input summary for PHC (MT3DMS-PHREEQC) interface package
+--------------------------------------------------------
+Reading input from file Pht3d_ph.dat
+This is an input file for PHT3D version 1.47 or lower.
+--------------------------------------------------------
+Screen output will be suppressed.
+--------------------------------------------------------
+Concentration cutoff: 1.00e-014.
+--------------------------------------------------------
+Number of mobile equilibrium components: 11
+Number of equilibrium minerals: 1
+Number of sorbed cations: 7
+Number of surfaces: 1
+Number of mobile kinetic species: 1
+Number of kinetic minerals: 2
+Number of kinetic surfaces: 0
+Number of immobile kinetic species: 0
+---------- Mobile kinetic species ----------
+Component 1: Orgc_sed
+	Initial amount of kinetic reactant (m0) for Orgc_sed: 10.000000
+	Number of parameters needed for Orgc_sed: 4
+	Value of parm(1) for Orgc_sed: 9.5e-10
+	Value of parm(2) for Orgc_sed: 0.0
+	Value of parm(3) for Orgc_sed: 0.0
+	Value of parm(4) for Orgc_sed: 0.0
+	Stoichiometry associated with this reaction: -formula Orgc_sed -1.0 C 1.0
+---------- Mobile equilibrium species ----------
+Component 2: C(4)
+Component 3: C(-4)
+Component 4: Ca
+Component 5: Cl
+Component 6: Fe(2)
+Component 7: Fe(3)
+Component 8: Mg
+Component 9: S(-2)
+Component 10: S(6)
+Component 11: pH
+Component 12: pe
+---------- Immobile kinetic species ----------
+---------- Equilibrium minerals ----------
+Component 13: Goethite. SI to equilibrate with: 3.000000
+---------- Exchanger species ----------
+Component 14: X-
+Component 15: Ya-
+Component 16: Yb-
+Component 17: Yc-
+Component 18: Yd-
+Component 19: Ye-
+Component 20: Yf-
+---------- Surface species ----------
+Component 21: Hfo_w
+---------- Kinetic minerals ----------
+Component 22: Calcite
+	Number of parameters needed for Calcite: 4
+	Value of parm(1) for Calcite: 1.00000e+02
+	Value of parm(2) for Calcite: 6.00000e-01
+	Value of parm(3) for Calcite: 0.00000e+00
+	Value of parm(4) for Calcite: 0.00000e+00
+	Initial amount of kinetic mineral (m0) for Calcite will be read from BTN file.
+Component 23: Pyrite
+	Number of parameters needed for Pyrite: 4
+	Value of parm(1) for Pyrite: 3.42000e+00
+	Value of parm(2) for Pyrite: 0.00000e+00
+	Value of parm(3) for Pyrite: 5.00000e-01
+	Value of parm(4) for Pyrite: 0.00000e+00
+	Initial amount of kinetic mineral (m0) for Pyrite will be read from BTN file.
+---------- Kinetic surface species ----------

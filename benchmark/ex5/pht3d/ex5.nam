@@ -1,0 +1,10 @@
+LIST   2  ex5.lst
+DIS  10  ex5.dis
+BAS6  11  ex5.bas6
+LPF  12  ex5.lpf
+PCG  14  ex5.pcg
+OC       26    ex5.oc
+DATA(BINARY)     30        ex5.head
+DATA(BINARY)     31        ex5.budget
+LMT6     28    ex5.lmt
+WEL     36     ex5.wel

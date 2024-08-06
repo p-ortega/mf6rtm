@@ -1,0 +1,241 @@
+SOLUTION 1 # [K,I,J] = 1,1,1
+	units mol/kgw
+	water 1.0
+	temp 7.000000e+000
+	pH 9.104000e+000  # comp 11
+	pe -4.810000e+000  # comp 12
+	Orgc_sed 8.900000e-001 # comp 1
+	C(4) 5.860000e-004  # comp 2
+	C(-4) 0.000000e+000  # comp 3
+	Ca 3.860000e-004  # comp 4
+	Cl 2.007000e-002  # comp 5
+	Fe(2) 1.000000e-006  # comp 6
+	Fe(3) 0.000000e+000  # comp 7
+	Mg 1.000000e-002  # comp 8
+	S(-2) 0.000000e+000  # comp 9
+	S(6) 1.000000e-005  # comp 10
+END
+EQUILIBRIUM_PHASES 1
+	Goethite 3.000000e+000 2.699468e-002 # comp 13
+END
+KINETICS 1
+	Orgc_sed # 4
+	-parms 9.500000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Orgc_sed -1.0 C 1.0
+
+	Calcite # 25
+	-parms 1.000000e+002 6.000000e-001 0.000000e+000 0.000000e+000
+	-m0 4.000000e+000
+	Pyrite # 26
+	-parms 3.420000e+000 0.000000e+000 5.000000e-001 0.000000e+000
+	-m0 4.000000e-002
+END
+EXCHANGE 1
+	X- 8.700000e-002
+	Ya- 3.500000e-003
+	Yb- 3.500000e-003
+	Yc- 3.500000e-003
+	Yd- 3.500000e-003
+	Ye- 3.500000e-003
+	Yf- 3.500000e-003
+	-equilibrate 1
+END
+SURFACE 1
+	Hfo_w	Goethite equilibrium_phase	2.000000e-001	6.000000e+002
+	-equilibrate 1
+END
+COPY solution 1 2-4
+COPY equilibrium_phases 1 2-4
+COPY exchange 1 2-4
+COPY surface 1 2-4
+COPY kinetics 1 2-4
+END
+SOLUTION 5 # [K,I,J] = 1,1,5
+	units mol/kgw
+	water 1.0
+	temp 7.000000e+000
+	pH 9.104000e+000  # comp 11
+	pe -4.810000e+000  # comp 12
+	Orgc_sed 8.900000e-001 # comp 1
+	C(4) 5.860000e-004  # comp 2
+	C(-4) 0.000000e+000  # comp 3
+	Ca 3.860000e-004  # comp 4
+	Cl 2.007000e-002  # comp 5
+	Fe(2) 1.000000e-006  # comp 6
+	Fe(3) 0.000000e+000  # comp 7
+	Mg 1.000000e-002  # comp 8
+	S(-2) 0.000000e+000  # comp 9
+	S(6) 1.000000e-005  # comp 10
+END
+EQUILIBRIUM_PHASES 5
+	Goethite 3.000000e+000 2.699468e-002 # comp 13
+END
+KINETICS 5
+	Orgc_sed # 4
+	-parms 9.500000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Orgc_sed -1.0 C 1.0
+
+	Calcite # 25
+	-parms 1.000000e+002 6.000000e-001 0.000000e+000 0.000000e+000
+	-m0 4.000000e+000
+	Pyrite # 26
+	-parms 3.420000e+000 0.000000e+000 5.000000e-001 0.000000e+000
+	-m0 4.000000e-002
+END
+EXCHANGE 5
+	X- 7.900000e-002
+	Ya- 3.900000e-003
+	Yb- 3.900000e-003
+	Yc- 3.900000e-003
+	Yd- 3.900000e-003
+	Ye- 3.900000e-003
+	Yf- 3.900000e-003
+	-equilibrate 5
+END
+SURFACE 5
+	Hfo_w	Goethite equilibrium_phase	2.000000e-001	6.000000e+002
+	-equilibrate 5
+END
+COPY solution 5 6-8
+COPY equilibrium_phases 5 6-8
+COPY exchange 5 6-8
+COPY surface 5 6-8
+COPY kinetics 5 6-8
+END
+SOLUTION 9 # [K,I,J] = 1,1,9
+	units mol/kgw
+	water 1.0
+	temp 7.000000e+000
+	pH 9.104000e+000  # comp 11
+	pe -4.810000e+000  # comp 12
+	Orgc_sed 8.900000e-001 # comp 1
+	C(4) 5.860000e-004  # comp 2
+	C(-4) 0.000000e+000  # comp 3
+	Ca 3.860000e-004  # comp 4
+	Cl 2.007000e-002  # comp 5
+	Fe(2) 1.000000e-006  # comp 6
+	Fe(3) 0.000000e+000  # comp 7
+	Mg 1.000000e-002  # comp 8
+	S(-2) 0.000000e+000  # comp 9
+	S(6) 1.000000e-005  # comp 10
+END
+EQUILIBRIUM_PHASES 9
+	Goethite 3.000000e+000 2.699468e-002 # comp 13
+END
+KINETICS 9
+	Orgc_sed # 4
+	-parms 9.500000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Orgc_sed -1.0 C 1.0
+
+	Calcite # 25
+	-parms 1.000000e+002 6.000000e-001 0.000000e+000 0.000000e+000
+	-m0 4.000000e+000
+	Pyrite # 26
+	-parms 3.420000e+000 0.000000e+000 5.000000e-001 0.000000e+000
+	-m0 4.000000e-002
+END
+EXCHANGE 9
+	X- 1.080000e-001
+	Ya- 8.100000e-003
+	Yb- 8.100000e-003
+	Yc- 8.100000e-003
+	Yd- 8.100000e-003
+	Ye- 8.100000e-003
+	Yf- 8.100000e-003
+	-equilibrate 9
+END
+SURFACE 9
+	Hfo_w	Goethite equilibrium_phase	2.000000e-001	6.000000e+002
+	-equilibrate 9
+END
+COPY solution 9 10-12
+COPY equilibrium_phases 9 10-12
+COPY exchange 9 10-12
+COPY surface 9 10-12
+COPY kinetics 9 10-12
+END
+SOLUTION 13 # [K,I,J] = 1,1,13
+	units mol/kgw
+	water 1.0
+	temp 7.000000e+000
+	pH 9.104000e+000  # comp 11
+	pe -4.810000e+000  # comp 12
+	Orgc_sed 8.900000e-001 # comp 1
+	C(4) 5.860000e-004  # comp 2
+	C(-4) 0.000000e+000  # comp 3
+	Ca 3.860000e-004  # comp 4
+	Cl 2.007000e-002  # comp 5
+	Fe(2) 1.000000e-006  # comp 6
+	Fe(3) 0.000000e+000  # comp 7
+	Mg 1.000000e-002  # comp 8
+	S(-2) 0.000000e+000  # comp 9
+	S(6) 1.000000e-005  # comp 10
+END
+EQUILIBRIUM_PHASES 13
+	Goethite 3.000000e+000 2.699468e-002 # comp 13
+END
+KINETICS 13
+	Orgc_sed # 4
+	-parms 9.500000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Orgc_sed -1.0 C 1.0
+
+	Calcite # 25
+	-parms 1.000000e+002 6.000000e-001 0.000000e+000 0.000000e+000
+	-m0 4.000000e+000
+	Pyrite # 26
+	-parms 3.420000e+000 0.000000e+000 5.000000e-001 0.000000e+000
+	-m0 4.000000e-002
+END
+EXCHANGE 13
+	X- 1.210000e-001
+	Ya- 9.800000e-003
+	Yb- 9.800000e-003
+	Yc- 9.800000e-003
+	Yd- 9.800000e-003
+	Ye- 9.800000e-003
+	Yf- 9.800000e-003
+	-equilibrate 13
+END
+SURFACE 13
+	Hfo_w	Goethite equilibrium_phase	2.000000e-001	6.000000e+002
+	-equilibrate 13
+END
+COPY solution 13 14-16
+COPY equilibrium_phases 13 14-16
+COPY exchange 13 14-16
+COPY surface 13 14-16
+COPY kinetics 13 14-16
+END
+PRINT
+	-reset false
+END
+# Start of contents postfix.phrq
+SELECTED_OUTPUT
+-reset         false
+-distance         false
+-file          out.dat
+
+USER_PUNCH
+    -headings time_d cell pH pe Alk Ca Mg Cl S(6) si_cc si_go Orgc_sed Calcite
+    -start
+    10 PUNCH TOTAL_TIME/86400
+    20 punch cell_no
+    30 punch -la("H+"), -la("e-"), alk, tot("Ca"), tot("Mg"), tot("Cl"), tot("S(6)")
+    40 punch si("Calcite"), si("Goethite")
+    50 punch tot("Orgc_sed") kin('Calcite')
+    -end
+END
+
+
+
+
+
+
+
+
+
+# End of contents postfix.phrq

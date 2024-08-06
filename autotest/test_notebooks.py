@@ -27,8 +27,8 @@ def test_get_notebooks():
     # + get_notebooks(pattern="ex"),
 )
 def test_notebooks(notebook):
-    # "--from", "ipynb", "--to", "py",
-    args = ["jupytext",  "--execute", notebook]
+    # 
+    args = ["jupytext", "--from", "ipynb", "--to", "py", "--execute", notebook]
     stdout, stderr, returncode = run_cmd(*args, verbose=True)
 
     if returncode != 0:

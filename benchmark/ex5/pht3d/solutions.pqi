@@ -1,0 +1,113 @@
+Database C:/Users/portega/intera/dev/mf6rtm/benchmark/ex5/pht3d_all/\pht3d_datab.dat 
+Solution 1 
+ units mol/L 
+C(+4) 5.86e-4
+C(-4) 0
+Ca 3.86e-4
+Cl 2.007e-2
+Fe(+2) 1e-6
+Fe(+3) 0.0
+Mg 1e-2
+S(-2) 0.0
+S(6) 1e-5
+pH 9.104
+pe -4.812
+end 
+Solution 2 
+ units mol/L 
+C(+4) 1e-6
+C(-4) 0.0
+Ca 1e-6
+Cl 5.301e-3
+Fe(+2) 1e-8
+Fe(+3) 0.0
+Mg 2.65e-3
+S(-2) 0.0
+S(6) 1e-8
+pH 7
+pe 15.8715
+end 
+Solution 3 
+ units mol/L 
+C(+4) 1e-7
+C(-4) 0.0
+Ca 1e-7
+Cl 1.02e-2
+Fe(+2) 2e-7
+Fe(+3) 0.0
+Mg 5.1e-3
+S(-2) 0.0
+S(6) 2.0e-7
+pH 7
+pe 14.5
+end 
+Solution 4 
+ units mol/L 
+C(+4) 0.0
+C(-4) 0.0
+Ca 0.0
+Cl 0.0
+Fe(+2) 0.0
+Fe(+3) 0.0
+Mg 0.0
+S(-2) 0.0
+S(6) 0.0
+pH 0.0
+pe 0.0
+end 
+Solution 5 
+ units mol/L 
+C(+4) 0.0
+C(-4) 0.0
+Ca 0.0
+Cl 0.0
+Fe(+2) 0.0
+Fe(+3) 0.0
+Mg 0.0
+S(-2) 0.0
+S(6) 0.0
+pH 0.0
+pe 0.0
+end 
+Solution 6 
+ units mol/L 
+C(+4) 0.0
+C(-4) 0.0
+Ca 0.0
+Cl 0.0
+Fe(+2) 0.0
+Fe(+3) 0.0
+Mg 0.0
+S(-2) 0.0
+S(6) 0.0
+pH 0.0
+pe 0.0
+end 
+Solution 7 
+ units mol/L 
+C(+4) 0.0
+C(-4) 0.0
+Ca 0.0
+Cl 0.0
+Fe(+2) 0.0
+Fe(+3) 0.0
+Mg 0.0
+S(-2) 0.0
+S(6) 0.0
+pH 0.0
+pe 0.0
+end 
+Solution 8 
+ units mol/L 
+C(+4) 0.0
+C(-4) 0.0
+Ca 0.0
+Cl 0.0
+Fe(+2) 0.0
+Fe(+3) 0.0
+Mg 0.0
+S(-2) 0.0
+S(6) 0.0
+pH 0.0
+pe 0.0
+end 

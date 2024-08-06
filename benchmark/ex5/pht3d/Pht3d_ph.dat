@@ -1,0 +1,45 @@
+         2         1         0       7.0         0     1e-10     0.001      4000
+         0
+       11
+        1         0
+        7         0
+        1
+        1         2         0         0
+        0         0
+Orgc_sed    4 
+ 9.5e-10 
+0.0 
+0.0 
+0.0 
+-formula Orgc_sed -1.0 C 1.0
+C(4)
+C(-4)
+Ca
+Cl
+Fe(2)
+Fe(3)
+Mg
+S(-2)
+S(6)
+pH
+pe
+Goethite  3 
+ X- -1 
+ Ya- -1 
+ Yb- -1 
+ Yc- -1 
+ Yd- -1 
+ Ye- -1 
+ Yf- -1 
+Hfo_w 600 0.0 Goethite equilibrium_phase 
+
+Calcite    4 
+ 1.00000e+02 
+6.00000e-01 
+0.00000e+00 
+0.00000e+00 
+Pyrite    4 
+ 3.42000e+00 
+0.00000e+00 
+5.00000e-01 
+0.00000e+00 
