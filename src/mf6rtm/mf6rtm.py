@@ -853,6 +853,7 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         '''Prepare phreeqc bmi for reaction calculations
         '''
         self.SetScreenOn(True)
+        self.set_scalar("NthSelectedOutput", 0)
         sout_columns = self.GetSelectedOutputHeadings()
         soutdf = pd.DataFrame(columns=sout_columns)
         # self.nxyz = self.get_value("GridCellCount")[0]
@@ -863,6 +864,19 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
     def _set_ctime(self, ctime):
         # self.ctime = self.SetTime(ctime*86400)
         self.ctime = ctime*86000
+    
+    def set_scalar(self, var_name, value):
+        itemsize = self.get_var_itemsize(var_name)
+        nbytes = self.get_var_nbytes(var_name)
+        dim = nbytes // itemsize
+
+        if dim != 1:
+            raise ValueError(f"{var_name} is not a scalar")
+
+        vtype = self.get_var_type(var_name)
+        dest = np.empty(1, dtype=vtype)
+        dest[0] = value
+        x = self.set_value(var_name, dest)
 
     def _solve_phreeqcrm(self, dt):
         print(f'\nGetting concentration arrays --- time step: {dt} --- elapsed time: {self.ctime}')
@@ -876,7 +890,6 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         print_chemistry_on = True
         status = self.SetSelectedOutputOn(print_selected_output_on)
         status = self.SetPrintChemistryOn(print_chemistry_on, True, True)
-
         # reactions loop
         message = '\nBeginning reaction calculation               {} days\n'.format(self.ctime)
         self.LogMessage(message)
@@ -1026,11 +1039,12 @@ class Mf6RTM(object):
 
     def _update_selected_output(self):
           # selected ouput
+        self.phreeqcbmi.set_scalar("NthSelectedOutput", 0)
         sout = self.phreeqcbmi.GetSelectedOutput()
         sout = [sout[i:i + self.nxyz] for i in range(0, len(sout), self.nxyz)]
 
         # add time to selected ouput
-        sout[0] = np.ones_like(sout[0])*(self.ctime)
+        sout[0] = np.ones_like(sout[0])*(self.ctime+self.time_step)  # TODO: generalize
 
         df = pd.DataFrame(columns=self.phreeqcbmi.soutdf.columns)
         for col, arr in zip(df.columns, sout):

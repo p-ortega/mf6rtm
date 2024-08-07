@@ -1100,7 +1100,7 @@ def test01_yaml(prefix = 'test01'):
     benchmarkdf = get_benchmark_results(prefix)
     testdf = pd.read_csv(os.path.join(cwd, wd,f"sout.csv"), index_col = 0)
 
-    # compare_results(benchmarkdf, testdf)
+    compare_results(benchmarkdf, testdf)
 
     try:
         cleanup(wd)
