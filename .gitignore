@@ -9,7 +9,6 @@ __pycache__/
 
 # C extensions
 # *.so
-*.ipynb linguist-vendored
 # Distribution / packaging
 .Python
 build/
