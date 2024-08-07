@@ -1,5 +1,6 @@
 # MF6RTM: Reactive Transport Model via the MODFLOW 6 and PHREEQCRM APIs
-![Tests](https://github.com/p-ortega/mf6rtm/actions/workflows/tests.yml/badge.svg)
+![Tests](https://github.com/p-ortega/mf6rtm/actions/workflows/tests_main.yml/badge.svg)
+![Tests](https://github.com/p-ortega/mf6rtm/actions/workflows/tests_macos.yml/badge.svg)
 
 ## Benchmarks
 Benchmark comparing model results against PHT3d are in `benchmark/`. Each folder contains a Jupyter notebook to write and execute an MF6RTM model via the MUP3D class. Additionally, PHT3D files are provided in the corresponding `pht3d` directory.
