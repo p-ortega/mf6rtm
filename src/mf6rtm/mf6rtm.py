@@ -13,6 +13,16 @@ import modflowapi
 from datetime import datetime
 # from time import sleep
 from . import utils
+from phreeqcrm import yamlphreeqcrm
+import yaml
+import csv
+
+# add representer to yaml to write np.array as list
+def ndarray_representer(dumper: yaml.Dumper, array: np.ndarray) -> yaml.Node:
+    return dumper.represent_list(array.tolist())
+
+yaml.add_representer(np.ndarray, ndarray_representer)
+
 
 # global variables
 DT_FMT = "%Y-%m-%d %H:%M:%S"
@@ -539,8 +549,9 @@ class Mup3d(object):
 
     def _write_phreeqc_init_file(self, filename='mf6rtm.yaml'):
         fdir = os.path.join(self.wd, filename)
-        phreeqcrm_yaml = phreeqcrm.YAMLPhreeqcRM()
-
+        phreeqcrm_yaml = yamlphreeqcrm.YAMLPhreeqcRM()
+        phreeqcrm_yaml.YAMLSetGridCellCount(self.ncpl)
+        phreeqcrm_yaml.YAMLThreadCount(1)
         status = phreeqcrm_yaml.YAMLSetComponentH2O(False)
         status = phreeqcrm_yaml.YAMLUseSolutionDensityVolume(False)
 
@@ -562,10 +573,12 @@ class Mup3d(object):
         poro = [1.0]*self.ncpl
         status = phreeqcrm_yaml.YAMLSetPorosity(list(poro))
 
-        print_chemistry_mask = [1.0]*self.ncpl
+        print_chemistry_mask = [1]*self.ncpl
+        assert all(isinstance(i, int) for i in print_chemistry_mask), 'print_chemistry_mask length must be equal to the number of grid cells'
         status = phreeqcrm_yaml.YAMLSetPrintChemistryMask(print_chemistry_mask)
         status = phreeqcrm_yaml.YAMLSetPrintChemistryOn(False, True, False)  # workers, initial_phreeqc, utility
-
+        # rv = [1] * self.ncpl
+        # phreeqcrm_yaml.YAMLSetRepresentativeVolume(rv)
         # Load database
         status = phreeqcrm_yaml.YAMLLoadDatabase(self.database)
         status = phreeqcrm_yaml.YAMLRunFile(True, True, True, self.phinp)
@@ -574,19 +587,16 @@ class Mup3d(object):
         input = "DELETE; -all"
         status = phreeqcrm_yaml.YAMLRunString(True, False, True, input)
         status = phreeqcrm_yaml.YAMLFindComponents()
-
-        # Initial equilibration of cells
-        time = 0.0
-        time_step = 0.0
-        status = phreeqcrm_yaml.YAMLSetTime(time)
-        status = phreeqcrm_yaml.YAMLSetTimeStep(time_step)
-        status = phreeqcrm_yaml.YAMLSetGridCellCount(self.nchem)
-
         # convert ic1 to a list
         ic1_flatten = self.ic1_flatten
-        # assert isinstance(ic1_flatten, list), 'ic1_flatten is not a list'
+
         status = phreeqcrm_yaml.YAMLInitialPhreeqc2Module(ic1_flatten)
         status = phreeqcrm_yaml.YAMLRunCells()
+        # Initial equilibration of cells
+        time = 0.0
+        time_step = 0.0 # TODO: set time step from mf6 and convert to seconds
+        status = phreeqcrm_yaml.YAMLSetTime(time)
+        status = phreeqcrm_yaml.YAMLSetTimeStep(time_step)
         status = phreeqcrm_yaml.WriteYAMLDoc(fdir)
 
         # create new attribute for phreeqc yaml file
@@ -784,14 +794,11 @@ class Mup3d(object):
         except:
             print('\nMR BEAKER IMPORTANT MESSAGE: SOMETHING WENT WRONG. BUMMER\n')
             pass
-        # status = phreeqc_rm.CloseFiles()
-        # status = phreeqc_rm.MpiWorkerBreak()
-        # mf6.finalize()
-
         return success
 
-
 def prep_to_run(wd):
+    '''Prepares the model to run by checking if the model directory contains the necessary files
+    and returns the path to the yaml file (phreeqcrm) and the dll file (mf6 api)'''
     # check if wd exists
     assert os.path.exists(wd), f'{wd} not found'
 
@@ -804,144 +811,16 @@ def prep_to_run(wd):
 
     return yamlfile, dll
 
-
-def initialize_phreeqcrm_yaml(yamlfile, nxyz):
-
-    # initialize phreeqc from yaml file
-    phreeqc_rm = phreeqcrm.PhreeqcRM(nxyz, 1)
-    # phreeqc_rm = phreeqcrm.BMIPhreeqcRM(yamlfile)
-    status = phreeqc_rm.InitializeYAML(yamlfile)  # FIXME: phreeqcrm initialize yaml failing
-    status = phreeqc_rm.SetScreenOn(True)
-    sout_columns = phreeqc_rm.GetSelectedOutputHeadings()
-
-    soutdf = pd.DataFrame(columns=sout_columns)
-    return phreeqc_rm, soutdf, sout_columns
-
-
-def initialize_gwt(dll, wd):
-    # load simulation
-    sim = flopy.mf6.MFSimulation.load(sim_ws=wd)
-    modelnmes = ['Flow'] + [nme.capitalize() for nme in sim.model_names if nme != 'gwf']
-    components = [nme.capitalize() for nme in sim.model_names[1:]]
-
-    mf6 = modflowapi.ModflowApi(dll, working_directory=wd)
-    mf6.initialize()
-
-    return modelnmes, components, mf6, sim
-
-
 def solve(wd, reaction=True):
-    success = False  # initialize success flag
+    mf6rtm = initialize_interfaces(wd)
+    mf6rtm._solve()
+
+def initialize_interfaces(wd):
     yamlfile, dll = prep_to_run(wd)
-    modelnmes, components, mf6, sim = initialize_gwt(dll, wd)
-    ncpl = calc_nxyz_from_dis(sim)
-    phreeqc_rm, soutdf, sout_columns = initialize_phreeqcrm_yaml(yamlfile, ncpl)
-    ncomps = len(components)
-
-    nsln = mf6.get_subcomponent_count()
-    sim_start = datetime.now()
-    # get the current sim time
-    ctime = mf6.get_current_time()
-    ctimes = [0.0]
-    # get the ending sim time
-    etime = mf6.get_end_time()
-
-    num_fails = 0
-    print(f"Transporting the following components: {', '.join([nme for nme in modelnmes])}")
-
-    print("Starting transport solution at {0}".format(sim_start.strftime(DT_FMT)))
-
-    while ctime < etime:
-        # length of the current solve time
-        dt = mf6.get_time_step()
-        mf6.prepare_time_step(dt)
-
-        c_dbl_vect = solve_gwt(mf6, dt, components, phreeqc_rm, modelnmes, nsln, num_fails, ncpl, ncomps)
-
-        conc_dic = solve_reactions(mf6, ctime, dt, sout_columns, soutdf, reaction)
-
-        mf6.finalize_time_step()
-        ctime = mf6.get_current_time()  # update the current time tracking
-
-    sim_end = datetime.now()
-    td = (sim_end - sim_start).total_seconds() / 60.0
-    if num_fails > 0:
-        print("\nFailed to converge {0} times".format(num_fails))
-    print("\n")
-
-    # save selected ouput to csv
-    soutdf.to_csv(os.path.join(wd, 'sout.csv'), index=False)
-
-    print("\nReactive transport solution finished at {0} --- it took: {1:10.5G} mins".format(sim_end.strftime(DT_FMT), td))
-
-    # Clean up and close api objs
-    try:
-        status = phreeqc_rm.CloseFiles()
-        status = phreeqc_rm.MpiWorkerBreak()
-        mf6.finalize()
-        success = True
-        print(mrbeaker())
-        print('\nMR BEAKER IMPORTANT MESSAGE: MODEL RUN FINISHED BUT CHECK THE RESULTS .. THEY ARE PROLY RUBBISH\n')
-    except:
-        print('\nMR BEAKER IMPORTANT MESSAGE: SOMETHING WENT WRONG. BUMMER\n')
-        pass
-    return success
-
-
-def solve_gwt(mf6, dt, components, phreeqc_rm, modelnmes, nsln, num_fails, ncpl, ncomps):
-
-    sol_start = datetime.now()
-    status = phreeqc_rm.SetTimeStep(dt*86400)  # FIXME: generalize	with time_units_dic and mf6.sim.time_units
-    kiter = 0
-
-    # prep to solve
-    for sln in range(1, nsln+1):
-        mf6.prepare_solve(sln)
-
-    # the one-based stress period number
-    stress_period = mf6.get_value(mf6.get_var_address("KPER", "TDIS"))[0]
-    time_step = mf6.get_value(mf6.get_var_address("KSTP", "TDIS"))[0]
-
-    # mf6 transport loop block
-    for sln in range(1, nsln+1):
-        # if self.fixed_components is not None and modelnmes[sln-1] in self.fixed_components:
-        #     print(f'not transporting {modelnmes[sln-1]}')
-        #     continue
-
-        # max number of solution iterations
-        max_iter = mf6.get_value(mf6.get_var_address("MXITER", f"SLN_{sln}"))  # FIXME: not sure to define this inside the loop
-        mf6.prepare_solve(sln)
-
-        print(f'\nSolving solution {sln} - Solving {modelnmes[sln-1]}')
-        while kiter < max_iter:
-            convg = mf6.solve(sln)
-            if convg:
-                td = (datetime.now() - sol_start).total_seconds() / 60.0
-                print("Transport stress period: {0} --- time step: {1} --- converged with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter, td))
-                break
-            kiter += 1
-
-        if not convg:
-            td = (datetime.now() - sol_start).total_seconds() / 60.0
-            print("Transport stress period: {0} --- time step: {1} --- did not converge with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter, td))
-            num_fails += 1
-        try:
-            mf6.finalize_solve(sln)
-            print(f'\nSolution {sln} finalized')
-        except:
-            pass
-
-    mf6_conc_array = []
-    for c in components:
-        if c.lower() == 'charge':
-            mf6_conc_array.append(concentration_m3_to_l(mf6.get_value(mf6.get_var_address("X", f'{c.upper()}')) - 0.0))  # TODO: code charge offset here
-
-        else:
-            mf6_conc_array.append(concentration_m3_to_l(mf6.get_value(mf6.get_var_address("X", f'{c.upper()}'))))
-
-    c_dbl_vect = np.reshape(mf6_conc_array, ncpl*ncomps)  # flatten array
-    return c_dbl_vect
-
+    mf6api = Mf6API(wd, dll)
+    phreeqcrm = PhreeqcBMI(yamlfile)
+    mf6rtm = Mf6RTM(wd, mf6api, phreeqcrm)
+    return mf6rtm
 
 def get_mf6_dis(sim):
     '''Function to extract dis from modflow6 sim object
@@ -964,63 +843,252 @@ def calc_nxyz_from_dis(sim):
 #     return icpl, nvert, vertices, cell2d, top, botm
 
 
-def solve_reactions(self, mf6, ctime, time_step, sout_columns, soutdf, dt):
+class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
 
-    phreeqc_rm = self.phreeqc_rm
-    # get arrays from mf6 and flatten for phreeqc
-    print(f'\nGetting concentration arrays --- time step: {time_step} --- elapsed time: {ctime}')
+    def __init__(self, yaml="mf6rtm.yaml"):
+        phreeqcrm.BMIPhreeqcRM.__init__(self)
+        self.initialize(yaml)
 
-    status = phreeqc_rm.SetTemperature([self.init_temp[0]] * self.ncpl)
-    # status = phreeqc_rm.SetPressure([2.0] * nxyz)
+    def _prepare_phreeqcrm_bmi(self):
+        '''Prepare phreeqc bmi for reaction calculations
+        '''
+        self.SetScreenOn(True)
+        sout_columns = self.GetSelectedOutputHeadings()
+        soutdf = pd.DataFrame(columns=sout_columns)
+        # self.nxyz = self.get_value("GridCellCount")[0]
+        self.components = self.get_value_ptr("Components")
+        self.ncomps = len(self.components)
+        self.soutdf = soutdf
 
-    # update phreeqc time and time steps
-    status = phreeqc_rm.SetTime(ctime*86400)
+    def _set_ctime(self, ctime):
+        # self.ctime = self.SetTime(ctime*86400)
+        self.ctime = ctime*86000
 
-    # allow phreeqc to print some info in the terminal
-    print_selected_output_on = True
-    print_chemistry_on = True
-    status = phreeqc_rm.SetSelectedOutputOn(print_selected_output_on)
-    status = phreeqc_rm.SetPrintChemistryOn(print_chemistry_on, True, True)
+    def _solve_phreeqcrm(self, dt):
+        print(f'\nGetting concentration arrays --- time step: {dt} --- elapsed time: {self.ctime}')
 
-    # set concentrations for reactions
-    # status = phreeqc_rm.SetConcentrations(c_dbl_vect)
+        # status = phreeqc_rm.SetTemperature([self.init_temp[0]] * self.ncpl)
+        # status = phreeqc_rm.SetPressure([2.0] * nxyz)
+        self.SetTimeStep(dt*86400)
 
-    # reactions loop
-    message = '\nBeginning reaction calculation               {} days\n'.format(ctime)
-    phreeqc_rm.LogMessage(message)
-    phreeqc_rm.ScreenMessage(message)
-    status = phreeqc_rm.RunCells()
-    if status < 0:
-        print('Error in RunCells: {0}'.format(status))
-    # selected ouput
-    sout = phreeqc_rm.GetSelectedOutput()
-    sout = [sout[i:i + self.ncpl] for i in range(0, len(sout), self.ncpl)]
+        # allow phreeqc to print some info in the terminal
+        print_selected_output_on = True
+        print_chemistry_on = True
+        status = self.SetSelectedOutputOn(print_selected_output_on)
+        status = self.SetPrintChemistryOn(print_chemistry_on, True, True)
 
-    # add time to selected ouput
-    sout[0] = np.ones_like(sout[0])*(ctime+dt)  # TODO: generalize
+        # reactions loop
+        message = '\nBeginning reaction calculation               {} days\n'.format(self.ctime)
+        self.LogMessage(message)
+        self.ScreenMessage(message)
+        # status = self.RunCells()
+        # if status < 0:
+        #     print('Error in RunCells: {0}'.format(status))
+        self.update()
+        # self._display_results()
 
-    df = pd.DataFrame(columns=sout_columns)
-    for col, arr in zip(df.columns, sout):
-        df[col] = arr
-    soutdf = pd.concat([soutdf.astype(df.dtypes), df])  # avoid pandas warning by passing dtypes to empty df
+class Mf6API(modflowapi.ModflowApi):
+    def __init__(self, wd, dll):
+        modflowapi.ModflowApi.__init__(self, dll, working_directory=wd)
+        self.initialize()
+        self.sim = flopy.mf6.MFSimulation.load(sim_ws=wd)
+        # self.nxyz = calc_nxyz_from_dis(self.sim)
 
-    # Get concentrations from phreeqc
-    c_dbl_vect = phreeqc_rm.GetConcentrations()
-    conc = [c_dbl_vect[i:i + self.ncpl] for i in range(0, len(c_dbl_vect), self.ncpl)]  # reshape array
+    def _prepare_mf6(self):
+        '''Prepare mf6 bmi for transport calculations
+        '''
+        self.modelnmes = ['Flow'] + [nme.capitalize() for nme in self.sim.model_names if nme != 'gwf']
+        self.components = [nme.capitalize() for nme in self.sim.model_names[1:]]
+        self.nsln = self.get_subcomponent_count()
+        self.sim_start = datetime.now()
+        # self.ctime = self.get_current_time()
+        self.ctimes = [0.0]
+        # self.etime = self.get_end_time()
+        self.num_fails = 0
 
-    conc_dic = {}
-    for e, c in enumerate(self.components):
-        conc_dic[c] = np.reshape(conc[e], (self.nlay, self.nrow, self.ncol))
-        conc_dic[c] = conc[e]
-    # Set concentrations in mf6
-        print(f'\nTransferring concentrations to mf6 for component: {c}')
-        if c.lower() == 'charge':
-            mf6.set_value(f'{c.upper()}/X', concentration_l_to_m3(conc_dic[c]) + self.charge_offset)
+    def _solve_gwt(self):
+        # prep to solve
+        for sln in range(1, self.nsln+1):
+            self.prepare_solve(sln)
+        # the one-based stress period number
+        stress_period = self.get_value(self.get_var_address("KPER", "TDIS"))[0]
+        time_step = self.get_value(self.get_var_address("KSTP", "TDIS"))[0]
 
+        # mf6 transport loop block
+        for sln in range(1, self.nsln+1):
+            # if self.fixed_components is not None and modelnmes[sln-1] in self.fixed_components:
+            #     print(f'not transporting {modelnmes[sln-1]}')
+            #     continue
+
+            # set iteration counter
+            kiter = 0
+            # max number of solution iterations
+            max_iter = self.get_value(self.get_var_address("MXITER", f"SLN_{sln}"))  # FIXME: not sure to define this inside the loop
+            self.prepare_solve(sln)
+
+            print(f'\nSolving solution {sln} - Solving the following component: {self.modelnmes[sln-1]}')
+            sol_start = datetime.now()
+            while kiter < max_iter:
+                convg = self.solve(sln)
+                if convg:
+                    td = (datetime.now() - sol_start).total_seconds() / 60.0
+                    print("Transport stress period: {0} --- time step: {1} --- converged with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter, td))
+                    break
+                kiter += 1
+            if not convg:
+                td = (datetime.now() - sol_start).total_seconds() / 60.0
+                print("Transport stress period: {0} --- time step: {1} --- did not converge with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter, td))
+                self.num_fails += 1
+            try:
+                self.finalize_solve(sln)
+                print(f'\nSolution {sln} finalized for component: {self.modelnmes[sln-1]}')
+            except:
+                pass
+
+    def _check_num_fails(self):
+        if self.num_fails > 0:
+            print("\nTransport failed to converge {0} times \n".format(self.num_fails))
+            # print("\n")
         else:
-            mf6.set_value(f'{c.upper()}/X', concentration_l_to_m3(conc_dic[c]))
-    return conc_dic
+            print("\nTransport converged successfully without any fails\n")
 
+class Mf6RTM(object):
+    def __init__(self, wd, mf6api, phreeqcbmi):
+        assert isinstance(mf6api, Mf6API), 'MF6API must be an instance of Mf6API'
+        assert isinstance(phreeqcbmi, PhreeqcBMI), 'PhreeqcBMI must be an instance of PhreeqcBMI'
+        self.mf6api = mf6api
+        self.phreeqcbmi = phreeqcbmi
+        self.nlay, self.nrow, self.ncol = get_mf6_dis(self.mf6api.sim)
+        self.nxyz = calc_nxyz_from_dis(self.mf6api.sim)
+        self.charge_offset = 0.0
+        self.wd = wd
+
+    def _prepare_to_solve(self):
+        '''Prepare the model to solve
+        '''
+        self.mf6api._prepare_mf6()
+        self.phreeqcbmi._prepare_phreeqcrm_bmi()
+
+    def _set_ctime(self):
+        self.ctime = self.mf6api.get_current_time()
+        self.phreeqcbmi._set_ctime(self.ctime)
+        return self.ctime
+
+    def _set_etime(self):
+        self.etime = self.mf6api.get_end_time()
+        return self.etime
+
+    def _set_time_step(self):
+        self.time_step = self.mf6api.get_time_step()
+        return self.time_step
+
+    def _finalize(self):
+        self._finalize_mf6api()
+        self._finalize_phreeqcrm()
+        return
+
+    def _finalize_mf6api(self):
+        self.mf6api.finalize()
+
+    def _finalize_phreeqcrm(self):
+        self.phreeqcbmi.finalize()
+
+    def _get_cdlbl_vect(self):
+        c_dbl_vect = self.phreeqcbmi.GetConcentrations()
+        conc = [c_dbl_vect[i:i + self.nxyz] for i in range(0, len(c_dbl_vect), self.nxyz)]  # reshape array
+        self.c_ph_ctime = conc
+        return conc
+
+    def _transfer_array_from_phreeqcrm(self):
+        conc = self._get_cdlbl_vect()
+        conc_dic = {}
+        for e, c in enumerate(self.phreeqcbmi.components):
+            conc_dic[c] = np.reshape(conc[e], (self.nlay, self.nrow, self.ncol))
+            conc_dic[c] = conc[e]
+        # Set concentrations in mf6
+            print(f'\nTransferring concentrations to mf6 for component: {c}')
+            if c.lower() == 'charge':
+                self.mf6api.set_value(f'{c.upper()}/X', concentration_l_to_m3(conc_dic[c]) + self.charge_offset)
+            else:
+                self.mf6api.set_value(f'{c.upper()}/X', concentration_l_to_m3(conc_dic[c]))
+
+    def _transfer_array_to_phreeqcrm(self):
+        mf6_conc_array = []
+        for c in self.phreeqcbmi.components:
+            if c.lower() == 'charge':
+                mf6_conc_array.append(concentration_m3_to_l(self.mf6api.get_value(self.mf6api.get_var_address("X", f'{c.upper()}')) - self.charge_offset))
+
+            else:
+                mf6_conc_array.append(concentration_m3_to_l(self.mf6api.get_value(self.mf6api.get_var_address("X", f'{c.upper()}'))))
+
+        c_dbl_vect = np.reshape(mf6_conc_array, self.nxyz*self.phreeqcbmi.ncomps)
+        self.phreeqcbmi.SetConcentrations(c_dbl_vect)
+
+    def _update_selected_output(self):
+          # selected ouput
+        sout = self.phreeqcbmi.GetSelectedOutput()
+        sout = [sout[i:i + self.nxyz] for i in range(0, len(sout), self.nxyz)]
+
+        # add time to selected ouput
+        sout[0] = np.ones_like(sout[0])*(self.ctime)
+
+        df = pd.DataFrame(columns=self.phreeqcbmi.soutdf.columns)
+        for col, arr in zip(df.columns, sout):
+            df[col] = arr
+        updf = pd.concat([self.phreeqcbmi.soutdf.astype(df.dtypes), df])
+        self._update_soutdf(updf)
+
+    def _update_soutdf(self, df):
+        self.phreeqcbmi.soutdf = df
+
+    def _export_soutdf(self):
+        self.phreeqcbmi.soutdf.to_csv(os.path.join(self.wd, 'sout.csv'), index=False)
+
+    def _solve(self):
+        '''Solve the model
+        '''
+        success = False  # initialize success flag
+        sim_start = datetime.now()
+        self._prepare_to_solve()
+
+        print(f"Solving the following components: {', '.join([nme for nme in self.mf6api.modelnmes])}")
+        print("Starting transport solution at {0}".format(sim_start.strftime(DT_FMT)))
+        ctime = self._set_ctime()
+        etime = self._set_etime()
+        while ctime < etime:
+            # length of the current solve time
+            dt = self._set_time_step()
+            self.mf6api.prepare_time_step(dt)
+            self.mf6api._solve_gwt()
+
+            # reaction block
+            self._transfer_array_to_phreeqcrm()
+            self.phreeqcbmi._solve_phreeqcrm(dt)
+            self._update_selected_output()
+            self._transfer_array_from_phreeqcrm()
+
+            self.mf6api.finalize_time_step()
+            ctime = self._set_ctime()  # update the current time tracking
+
+        sim_end = datetime.now()
+        td = (sim_end - sim_start).total_seconds() / 60.0
+
+        self.mf6api._check_num_fails()
+        # save selected ouput to csv
+        self._export_soutdf()
+
+        print("\nReactive transport solution finished at {0} --- it took: {1:10.5G} mins".format(sim_end.strftime(DT_FMT), td))
+
+        # Clean up and close api objs
+        try:
+            self._finalize()
+            success = True
+            print(mrbeaker())
+            print('\nMR BEAKER IMPORTANT MESSAGE: MODEL RUN FINISHED BUT CHECK THE RESULTS .. THEY ARE PROLY RUBBISH\n')
+        except:
+            print('\nMR BEAKER IMPORTANT MESSAGE: SOMETHING WENT WRONG. BUMMER\n')
+            pass
+        return success
 
 def mrbeaker():
     '''ASCII art of Mr. Beaker

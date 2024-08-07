@@ -12,15 +12,10 @@ import shutil
 import pytest
 
 import flopy
-# from mf6rtm import *
-# from mf6rtm.mf6rtm import *
-# import mf6rtm
-# import src.mf6rtm.mf6rtm as mf6rtm
-# import mf6rtm.utils as utils
 from mf6rtm import utils
 from mf6rtm import mf6rtm
-
 from autotest.conftest import make_dir_writable
+
 cwd = os.path.abspath(os.path.dirname(__file__))
 dataws = os.path.join(cwd, "data")
 databasews = os.path.join(cwd, "database")
@@ -1089,27 +1084,30 @@ def test05(prefix = 'test05'):
 
     return 
 
-# @pytest.mark.xfail
-# def test01_yaml(prefix = 'test01'):
+# @pytest.mark.skip
+def test01_yaml(prefix = 'test01'):
 
-#     '''Test 1: Simple 1D injection test with equilibrium phases
-#         Running from files insted of python memory
-#     '''	
-#     wd = os.path.join(f'{prefix}_yaml')
-#     #copy files to prefix_yaml with shutil
-#     if not os.path.exists(wd):
-#         os.makedirs(wd)
-#     #copy files to prefix_yaml with shutil
-#     for file in os.listdir(os.path.join(prefix)):
-#         shutil.copy(os.path.join(prefix, file), wd)
-#     run_yaml(wd)
+    '''Test 1: Simple 1D injection test with equilibrium phases
+        Running from files insted of python memory
+    '''	
+    wd = os.path.join(cwd, f'{prefix}_yaml')
+    #copy files to prefix_yaml with shutil
+    if not os.path.exists(wd):
+        os.makedirs(wd)
+    for file in os.listdir(os.path.join(cwd, prefix)):
+        shutil.copy(os.path.join(cwd, prefix, file), wd)
+    run_yaml(wd)
+    benchmarkdf = get_benchmark_results(prefix)
+    testdf = pd.read_csv(os.path.join(cwd, wd,f"sout.csv"), index_col = 0)
 
-#     try:
-#         cleanup(wd)
-#     except:
-#         pass
+    # compare_results(benchmarkdf, testdf)
 
-#     return 
+    try:
+        cleanup(wd)
+    except:
+        pass
+
+    return 
 
 def get_benchmark_results(prefix):
     '''Get benchmark results'''
@@ -1172,6 +1170,7 @@ def cleanup(prefix):
     # test_05()
 
 # if __name__ == '__main__':
-    # run_autotest()
+#     test01()
+#     test01_yaml()
 
 
