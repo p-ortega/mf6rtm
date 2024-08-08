@@ -811,6 +811,7 @@ def prep_to_run(wd):
     return yamlfile, dll
 
 def solve(wd, reaction=True):
+    # TODO: assert wd is a model directory find yaml, ddl and .nam
     mf6rtm = initialize_interfaces(wd)
     mf6rtm._solve()
 
@@ -864,7 +865,7 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
 
     def _set_ctime(self, ctime):
         # self.ctime = self.SetTime(ctime*86400)
-        self.ctime = ctime*86000
+        self.ctime = ctime
 
     def set_scalar(self, var_name, value):
         itemsize = self.get_var_itemsize(var_name)
@@ -881,7 +882,7 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
 
     def _solve_phreeqcrm(self, dt):
 
-        print(f'\nGetting concentration arrays --- time step: {dt} --- elapsed time: {self.ctime}')
+        # print(f'Getting concentration arrays --- time step: {dt} --- elapsed time: {self.ctime:.2f}')
         # status = phreeqc_rm.SetTemperature([self.init_temp[0]] * self.ncpl)
         # status = phreeqc_rm.SetPressure([2.0] * nxyz)
         self.SetTimeStep(dt*86400)
@@ -890,22 +891,27 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         print_selected_output_on = True
         print_chemistry_on = True
         status = self.SetSelectedOutputOn(print_selected_output_on)
-        status = self.SetPrintChemistryOn(print_chemistry_on, True, True)
+        status = self.SetPrintChemistryOn(print_chemistry_on, False, True)
         # reactions loop
-        message = '\nBeginning reaction calculation               {} days\n'.format(self.ctime)
+        sol_start = datetime.now()
+        message = f'Reaction calculation started at             {sol_start.strftime(DT_FMT)}\n'
         self.LogMessage(message)
         self.ScreenMessage(message)
         # status = self.RunCells()
         # if status < 0:
         #     print('Error in RunCells: {0}'.format(status))
         self.update()
+        td = (datetime.now() - sol_start).total_seconds() / 60.0
+        message = f'Reaction calculation finished in             {td:2.2f} min\n'
+        self.LogMessage(message)
+        self.ScreenMessage(message)
         # self._display_results()
 
 class Mf6API(modflowapi.ModflowApi):
     def __init__(self, wd, dll):
         modflowapi.ModflowApi.__init__(self, dll, working_directory=wd)
         self.initialize()
-        self.sim = flopy.mf6.MFSimulation.load(sim_ws=wd)
+        self.sim = flopy.mf6.MFSimulation.load(sim_ws=wd, verbosity_level=0)
         # self.nxyz = calc_nxyz_from_dis(self.sim)
 
     def _prepare_mf6(self):
@@ -927,7 +933,7 @@ class Mf6API(modflowapi.ModflowApi):
         # the one-based stress period number
         stress_period = self.get_value(self.get_var_address("KPER", "TDIS"))[0]
         time_step = self.get_value(self.get_var_address("KSTP", "TDIS"))[0]
-
+        print(f'\nTransport started    |  stress period: {stress_period}   |   time step: {time_step}')
         # mf6 transport loop block
         for sln in range(1, self.nsln+1):
             # if self.fixed_components is not None and modelnmes[sln-1] in self.fixed_components:
@@ -940,31 +946,34 @@ class Mf6API(modflowapi.ModflowApi):
             max_iter = self.get_value(self.get_var_address("MXITER", f"SLN_{sln}"))  # FIXME: not sure to define this inside the loop
             self.prepare_solve(sln)
 
-            print(f'\nSolving solution {sln} - Solving the following component: {self.modelnmes[sln-1]}')
+            # print(f'\nSolving solution {sln} - Solving the following component: {self.modelnmes[sln-1]}')
             sol_start = datetime.now()
             while kiter < max_iter:
                 convg = self.solve(sln)
                 if convg:
                     td = (datetime.now() - sol_start).total_seconds() / 60.0
-                    print("Transport stress period: {0} --- time step: {1} --- converged with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter, td))
+                    # print("Transport stress period: {0} --- time step: {1} --- converged with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter, td))
                     break
                 kiter += 1
             if not convg:
                 td = (datetime.now() - sol_start).total_seconds() / 60.0
-                print("Transport stress period: {0} --- time step: {1} --- did not converge with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter, td))
+                print("\nTransport stress period: {0} --- time step: {1} --- did not converge with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter, td))
                 self.num_fails += 1
             try:
                 self.finalize_solve(sln)
-                print(f'\nSolution {sln} finalized for component: {self.modelnmes[sln-1]}')
+                # print(f'Solution {sln} finalized for component: {self.modelnmes[sln-1]}')
             except:
                 pass
+        td = (datetime.now() - sol_start).total_seconds() / 60.0
+        # print("Transport stress period: {0} --- time step: {1} --- converged with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter, td))
+        print(f"Transport completed    |  stress period: {stress_period}   |   time step: {time_step}    |   {td:2.2f} mins")
 
     def _check_num_fails(self):
         if self.num_fails > 0:
             print("\nTransport failed to converge {0} times \n".format(self.num_fails))
             # print("\n")
         else:
-            print("\nTransport converged successfully without any fails\n")
+            print("\nTransport converged successfully without any fails")
 
 class Mf6RTM(object):
     def __init__(self, wd, mf6api, phreeqcbmi):
@@ -1028,7 +1037,7 @@ class Mf6RTM(object):
             conc_dic[c] = np.reshape(conc[e], (self.nlay, self.nrow, self.ncol))
             conc_dic[c] = conc[e]
         # Set concentrations in mf6
-            print(f'\nTransferring concentrations to mf6 for component: {c}')
+            # print(f'\nTransferring concentrations to mf6 for component: {c}')
             if c.lower() == 'charge':
                 self.mf6api.set_value(f'{c.upper()}/X', concentration_l_to_m3(conc_dic[c]) + self.charge_offset)
             else:
@@ -1104,8 +1113,8 @@ class Mf6RTM(object):
         # check sout was created
         assert self._check_sout_exist(), f'{self.sout_fname} not found'
 
-        print(f"Solving the following components: {', '.join([nme for nme in self.mf6api.modelnmes])}")
         print("Starting transport solution at {0}".format(sim_start.strftime(DT_FMT)))
+        print(f"Solving the following components: {', '.join([nme for nme in self.mf6api.modelnmes])}")
         ctime = self._set_ctime()
         etime = self._set_etime()
         while ctime < etime:
