@@ -15,7 +15,6 @@ from datetime import datetime
 from . import utils
 from phreeqcrm import yamlphreeqcrm
 import yaml
-import csv
 
 # add representer to yaml to write np.array as list
 def ndarray_representer(dumper: yaml.Dumper, array: np.ndarray) -> yaml.Node:
@@ -746,7 +745,7 @@ class Mup3d(object):
                 sout = [sout[i:i + nxyz] for i in range(0, len(sout), nxyz)]
 
                 # add time to selected ouput
-                sout[0] = np.ones_like(sout[0])*(ctime+dt)  # TODO: generalize
+                sout[0] = np.ones_like(sout[0])*(ctime+dt)
 
                 df = pd.DataFrame(columns=sout_columns)
                 for col, arr in zip(df.columns, sout):
@@ -854,12 +853,20 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         '''
         self.SetScreenOn(True)
         self.set_scalar("NthSelectedOutput", 0)
-        sout_columns = self.GetSelectedOutputHeadings()
-        soutdf = pd.DataFrame(columns=sout_columns)
-        # self.nxyz = self.get_value("GridCellCount")[0]
+        sout_headers = self.GetSelectedOutputHeadings()
+        soutdf = pd.DataFrame(columns=sout_headers)
+
+        # set attributes
         self.components = self.get_value_ptr("Components")
         self.ncomps = len(self.components)
         self.soutdf = soutdf
+        self.sout_headers = sout_headers
+
+    # def _write_sout_headers(self):
+    #     '''Write selected output headers to a file
+    #     '''
+    #     with open('sout.csv', 'w') as f:
+    #         f.write(','.join(self.sout_headers))
 
     def _set_ctime(self, ctime):
         # self.ctime = self.SetTime(ctime*86400)
@@ -879,8 +886,8 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         x = self.set_value(var_name, dest)
 
     def _solve_phreeqcrm(self, dt):
-        print(f'\nGetting concentration arrays --- time step: {dt} --- elapsed time: {self.ctime}')
 
+        print(f'\nGetting concentration arrays --- time step: {dt} --- elapsed time: {self.ctime}')
         # status = phreeqc_rm.SetTemperature([self.init_temp[0]] * self.ncpl)
         # status = phreeqc_rm.SetPressure([2.0] * nxyz)
         self.SetTimeStep(dt*86400)
@@ -979,8 +986,15 @@ class Mf6RTM(object):
     def _prepare_to_solve(self):
         '''Prepare the model to solve
         '''
+        # check if sout.csv exists
+        if self._check_sout_exist():
+            self._rm_sout_file()
+
         self.mf6api._prepare_mf6()
         self.phreeqcbmi._prepare_phreeqcrm_bmi()
+
+        # get and write sout headers
+        self._write_sout_headers()
 
     def _set_ctime(self):
         self.ctime = self.mf6api.get_current_time()
@@ -1038,22 +1052,49 @@ class Mf6RTM(object):
         self.phreeqcbmi.SetConcentrations(c_dbl_vect)
 
     def _update_selected_output(self):
-          # selected ouput
+        self._get_selected_output()
+        updf = pd.concat([self.phreeqcbmi.soutdf.astype(self._current_sout.dtypes), self._current_sout])
+        self._update_soutdf(updf)
+
+    def _get_selected_output(self):
+        # selected ouput
         self.phreeqcbmi.set_scalar("NthSelectedOutput", 0)
         sout = self.phreeqcbmi.GetSelectedOutput()
         sout = [sout[i:i + self.nxyz] for i in range(0, len(sout), self.nxyz)]
 
         # add time to selected ouput
-        sout[0] = np.ones_like(sout[0])*(self.ctime+self.time_step)  # TODO: generalize
-
+        sout[0] = np.ones_like(sout[0])*(self.ctime+self.time_step)
         df = pd.DataFrame(columns=self.phreeqcbmi.soutdf.columns)
         for col, arr in zip(df.columns, sout):
             df[col] = arr
-        updf = pd.concat([self.phreeqcbmi.soutdf.astype(df.dtypes), df])
-        self._update_soutdf(updf)
+        self._current_sout = df
 
     def _update_soutdf(self, df):
         self.phreeqcbmi.soutdf = df
+
+    def _check_sout_exist(self):
+        if os.path.exists(os.path.join(self.wd, 'sout.csv')):
+            return True
+        else :
+            return False
+
+    def _write_sout_headers(self):
+        '''Write selected output headers to a file
+        '''
+        with open(os.path.join(self.wd,'sout.csv'), 'w') as f:
+            f.write(','.join(self.phreeqcbmi.sout_headers))
+            f.write('\n')
+
+    def _rm_sout_file(self):
+        try:
+            os.remove(os.path.join(self.wd, 'sout.csv'))
+        except:
+            pass
+
+    def _append_to_soutdf_file(self):
+        assert not self._current_sout.empty, 'current sout is empty'
+        self._current_sout.to_csv(os.path.join(self.wd,'sout.csv'), mode='a', index=False, header=False)
+
 
     def _export_soutdf(self):
         self.phreeqcbmi.soutdf.to_csv(os.path.join(self.wd, 'sout.csv'), index=False)
@@ -1065,6 +1106,9 @@ class Mf6RTM(object):
         sim_start = datetime.now()
         self._prepare_to_solve()
 
+        # check sout was created
+        assert self._check_sout_exist(), 'sout.csv not found'
+
         print(f"Solving the following components: {', '.join([nme for nme in self.mf6api.modelnmes])}")
         print("Starting transport solution at {0}".format(sim_start.strftime(DT_FMT)))
         ctime = self._set_ctime()
@@ -1074,11 +1118,14 @@ class Mf6RTM(object):
             dt = self._set_time_step()
             self.mf6api.prepare_time_step(dt)
             self.mf6api._solve_gwt()
-
+            # TODO: add and if to run transport only
             # reaction block
             self._transfer_array_to_phreeqcrm()
             self.phreeqcbmi._solve_phreeqcrm(dt)
+            # get sout and update df
             self._update_selected_output()
+            # append current sout rows to file
+            self._append_to_soutdf_file()
             self._transfer_array_from_phreeqcrm()
 
             self.mf6api.finalize_time_step()
@@ -1088,8 +1135,6 @@ class Mf6RTM(object):
         td = (sim_end - sim_start).total_seconds() / 60.0
 
         self.mf6api._check_num_fails()
-        # save selected ouput to csv
-        self._export_soutdf()
 
         print("\nReactive transport solution finished at {0} --- it took: {1:10.5G} mins".format(sim_end.strftime(DT_FMT), td))
 
@@ -1097,10 +1142,12 @@ class Mf6RTM(object):
         try:
             self._finalize()
             success = True
+            # save selected ouput to csv
+            # self._export_soutdf()
             print(mrbeaker())
             print('\nMR BEAKER IMPORTANT MESSAGE: MODEL RUN FINISHED BUT CHECK THE RESULTS .. THEY ARE PROLY RUBBISH\n')
         except:
-            print('\nMR BEAKER IMPORTANT MESSAGE: SOMETHING WENT WRONG. BUMMER\n')
+            print('MR BEAKER IMPORTANT MESSAGE: SOMETHING WENT WRONG. BUMMER\n')
             pass
         return success
 

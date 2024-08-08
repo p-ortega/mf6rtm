@@ -1084,7 +1084,37 @@ def test05(prefix = 'test05'):
 
     return 
 
-# @pytest.mark.skip
+def get_test_dirs():
+    '''Get test directories'''
+    testdirs = [f for f in os.listdir(cwd) if os.path.isdir(os.path.join(cwd, f)) and f.startswith('test') and not f.endswith('yaml')]
+    # assert len(testdirs) > 0
+    # assert testdirs[0] == 'test01'
+    return testdirs
+
+@pytest.mark.parametrize(
+    'prefix',
+    get_test_dirs()
+)
+def test_yaml(prefix):
+    '''tests running form yaml files
+    '''	
+    wd = os.path.join(cwd, f'{prefix}_yaml')
+    #copy files to prefix_yaml with shutil
+    if not os.path.exists(wd):
+        os.makedirs(wd)
+    for file in os.listdir(os.path.join(cwd, prefix)):
+        shutil.copy(os.path.join(cwd, prefix, file), wd)
+    run_yaml(wd)
+    benchmarkdf = get_benchmark_results(prefix)
+    testdf = pd.read_csv(os.path.join(cwd, wd,f"sout.csv"), index_col = 0)
+    compare_results(benchmarkdf, testdf)
+    try:
+        cleanup(wd)
+    except:
+        pass
+    return
+
+@pytest.mark.skip
 def test01_yaml(prefix = 'test01'):
 
     '''Test 1: Simple 1D injection test with equilibrium phases
@@ -1099,14 +1129,11 @@ def test01_yaml(prefix = 'test01'):
     run_yaml(wd)
     benchmarkdf = get_benchmark_results(prefix)
     testdf = pd.read_csv(os.path.join(cwd, wd,f"sout.csv"), index_col = 0)
-
     compare_results(benchmarkdf, testdf)
-
     try:
         cleanup(wd)
     except:
         pass
-
     return 
 
 def get_benchmark_results(prefix):
