@@ -864,7 +864,7 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
     def _set_ctime(self, ctime):
         # self.ctime = self.SetTime(ctime*86400)
         self.ctime = ctime*86000
-    
+
     def set_scalar(self, var_name, value):
         itemsize = self.get_var_itemsize(var_name)
         nbytes = self.get_var_nbytes(var_name)
