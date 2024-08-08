@@ -862,12 +862,6 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         self.soutdf = soutdf
         self.sout_headers = sout_headers
 
-    # def _write_sout_headers(self):
-    #     '''Write selected output headers to a file
-    #     '''
-    #     with open('sout.csv', 'w') as f:
-    #         f.write(','.join(self.sout_headers))
-
     def _set_ctime(self, ctime):
         # self.ctime = self.SetTime(ctime*86400)
         self.ctime = ctime*86000
@@ -982,11 +976,12 @@ class Mf6RTM(object):
         self.nxyz = calc_nxyz_from_dis(self.mf6api.sim)
         self.charge_offset = 0.0
         self.wd = wd
+        self.sout_fname = 'sout.csv'
 
     def _prepare_to_solve(self):
         '''Prepare the model to solve
         '''
-        # check if sout.csv exists
+        # check if sout fname exists
         if self._check_sout_exist():
             self._rm_sout_file()
 
@@ -1073,7 +1068,7 @@ class Mf6RTM(object):
         self.phreeqcbmi.soutdf = df
 
     def _check_sout_exist(self):
-        if os.path.exists(os.path.join(self.wd, 'sout.csv')):
+        if os.path.exists(os.path.join(self.wd, self.sout_fname)):
             return True
         else :
             return False
@@ -1081,23 +1076,23 @@ class Mf6RTM(object):
     def _write_sout_headers(self):
         '''Write selected output headers to a file
         '''
-        with open(os.path.join(self.wd,'sout.csv'), 'w') as f:
+        with open(os.path.join(self.wd,self.sout_fname), 'w') as f:
             f.write(','.join(self.phreeqcbmi.sout_headers))
             f.write('\n')
 
     def _rm_sout_file(self):
         try:
-            os.remove(os.path.join(self.wd, 'sout.csv'))
+            os.remove(os.path.join(self.wd, self.sout_fname))
         except:
             pass
 
     def _append_to_soutdf_file(self):
         assert not self._current_sout.empty, 'current sout is empty'
-        self._current_sout.to_csv(os.path.join(self.wd,'sout.csv'), mode='a', index=False, header=False)
+        self._current_sout.to_csv(os.path.join(self.wd, self.sout_fname), mode='a', index=False, header=False)
 
 
     def _export_soutdf(self):
-        self.phreeqcbmi.soutdf.to_csv(os.path.join(self.wd, 'sout.csv'), index=False)
+        self.phreeqcbmi.soutdf.to_csv(os.path.join(self.wd, self.sout_fname), index=False)
 
     def _solve(self):
         '''Solve the model
@@ -1107,7 +1102,7 @@ class Mf6RTM(object):
         self._prepare_to_solve()
 
         # check sout was created
-        assert self._check_sout_exist(), 'sout.csv not found'
+        assert self._check_sout_exist(), f'{self.sout_fname} not found'
 
         print(f"Solving the following components: {', '.join([nme for nme in self.mf6api.modelnmes])}")
         print("Starting transport solution at {0}".format(sim_start.strftime(DT_FMT)))
