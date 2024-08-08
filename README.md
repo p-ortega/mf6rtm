@@ -31,7 +31,7 @@ conda env create -f env.yml
 Otherwise, the package can be installed through pip as:
 
 ```commandline
-pip install -e git+https://github.com/p-ortega/mf6rtm.git#egg=mf6rtm
+pip install git+https://github.com/p-ortega/mf6rtm.git#egg=mf6rtm
 ```
 
 ## Funding
