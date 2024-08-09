@@ -907,7 +907,7 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         self.LogMessage(message)
         self.ScreenMessage(message)
         # self._display_results()
-    
+
     def _get_kper_kstp_from_mf6api(self, mf6api):
         assert isinstance(mf6api, Mf6API), 'mf6api must be an instance of Mf6API'
         self.kper = mf6api.kper
@@ -978,7 +978,7 @@ class Mf6API(modflowapi.ModflowApi):
         td = (datetime.now() - sol_start).total_seconds() / 60.0
         # print("Transport stress period: {0} --- time step: {1} --- converged with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter, td))
         print(f"{'Transport loop':<25} | {'Stress period:':<15} {stress_period:<5} | {'Time step:':<15} {time_step:<10} | {'Completed in :':<10}  {td//60:.0f} min {td%60:.4f} sec")
-    
+
     def _check_num_fails(self):
         if self.num_fails > 0:
             print("\nTransport failed to converge {0} times \n".format(self.num_fails))
@@ -1065,7 +1065,7 @@ class Mf6RTM(object):
 
         c_dbl_vect = np.reshape(mf6_conc_array, self.nxyz*self.phreeqcbmi.ncomps)
         self.phreeqcbmi.SetConcentrations(c_dbl_vect)
-        
+
         #set the kper and kstp
         self.phreeqcbmi._get_kper_kstp_from_mf6api(self.mf6api)
 
