@@ -19,10 +19,12 @@ On the PHREEQC side, the following have been included:
 Most options for each phreeqc block can be passed by adding list with options. However, not all options had been tested, so please create an issue if any option is not working or crashing the model.
 
 ## Software requirements
-All dependencies and executables are included in this repo. The package is still not published in PyPi but it can be installed through pip by cloning the repository. 
+All dependencies and executables are included in this repo. This package extensively uses [modflowapi](https://github.com/MODFLOW-USGS/modflowapi) and [phreeqcrm](https://github.com/usgs-coupled/phreeqcrm)
 
 ## Installation
-This is already included in the `env.yml` in this repository. Thus, if this repository is already cloned in your local machine, please just type the following in your conda prompt:
+The package is still not published in PyPi but it can be installed through pip by cloning the repository. 
+
+Once the repository is already cloned in your local machine, please just type the following in your conda prompt:
 
 ```commandline
 conda env create -f env.yml
