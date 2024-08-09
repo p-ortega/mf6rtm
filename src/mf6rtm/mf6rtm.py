@@ -894,7 +894,8 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         status = self.SetPrintChemistryOn(print_chemistry_on, False, True)
         # reactions loop
         sol_start = datetime.now()
-        message = f'Reaction calculation started at             {sol_start.strftime(DT_FMT)}\n'
+        # message = f'Reaction calculation started at             {sol_start.strftime(DT_FMT)}\n'
+        message = f"{'Reaction loop':<25} | {'Stress period:':<15} {self.kper:<5} | {'Time step:':<15} {self.kstp:<10} | {'Running ...':<10}\n"
         self.LogMessage(message)
         self.ScreenMessage(message)
         # status = self.RunCells()
@@ -902,10 +903,16 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         #     print('Error in RunCells: {0}'.format(status))
         self.update()
         td = (datetime.now() - sol_start).total_seconds() / 60.0
-        message = f'Reaction calculation finished in             {td:2.2f} min\n'
+        message = f"{'Reaction loop':<25} | {'Stress period:':<15} {self.kper:<5} | {'Time step:':<15} {self.kstp:<10} | {'Completed in :':<10} {td//60:.0f} min {td%60:.4f} sec\n\n"
         self.LogMessage(message)
         self.ScreenMessage(message)
         # self._display_results()
+    
+    def _get_kper_kstp_from_mf6api(self, mf6api):
+        assert isinstance(mf6api, Mf6API), 'mf6api must be an instance of Mf6API'
+        self.kper = mf6api.kper
+        self.kstp = mf6api.kstp
+        return
 
 class Mf6API(modflowapi.ModflowApi):
     def __init__(self, wd, dll):
@@ -933,7 +940,11 @@ class Mf6API(modflowapi.ModflowApi):
         # the one-based stress period number
         stress_period = self.get_value(self.get_var_address("KPER", "TDIS"))[0]
         time_step = self.get_value(self.get_var_address("KSTP", "TDIS"))[0]
-        print(f'\nTransport started    |  stress period: {stress_period}   |   time step: {time_step}')
+
+        self.kper = stress_period
+        self.kstp = time_step
+        # print(f'\nTransport started    |  stress period: {stress_period}   |   time step: {time_step}')
+        print(f"{'Transport loop':<25} | {'Stress period:':<15} {stress_period:<5} | {'Time step:':<15} {time_step:<10} | {'Running ...':<10}")
         # mf6 transport loop block
         for sln in range(1, self.nsln+1):
             # if self.fixed_components is not None and modelnmes[sln-1] in self.fixed_components:
@@ -966,8 +977,8 @@ class Mf6API(modflowapi.ModflowApi):
                 pass
         td = (datetime.now() - sol_start).total_seconds() / 60.0
         # print("Transport stress period: {0} --- time step: {1} --- converged with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter, td))
-        print(f"Transport completed    |  stress period: {stress_period}   |   time step: {time_step}    |   {td:2.2f} mins")
-
+        print(f"{'Transport loop':<25} | {'Stress period:':<15} {stress_period:<5} | {'Time step:':<15} {time_step:<10} | {'Completed in :':<10}  {td//60:.0f} min {td%60:.4f} sec")
+    
     def _check_num_fails(self):
         if self.num_fails > 0:
             print("\nTransport failed to converge {0} times \n".format(self.num_fails))
@@ -1054,6 +1065,9 @@ class Mf6RTM(object):
 
         c_dbl_vect = np.reshape(mf6_conc_array, self.nxyz*self.phreeqcbmi.ncomps)
         self.phreeqcbmi.SetConcentrations(c_dbl_vect)
+        
+        #set the kper and kstp
+        self.phreeqcbmi._get_kper_kstp_from_mf6api(self.mf6api)
 
     def _update_selected_output(self):
         self._get_selected_output()
@@ -1118,6 +1132,8 @@ class Mf6RTM(object):
         ctime = self._set_ctime()
         etime = self._set_etime()
         while ctime < etime:
+            temp_time = datetime.now()
+            print(f"Starting solution at {temp_time.strftime(DT_FMT)}")
             # length of the current solve time
             dt = self._set_time_step()
             self.mf6api.prepare_time_step(dt)
@@ -1163,7 +1179,7 @@ def mrbeaker():
     mr_beaker_image = Image.open(whereismrbeaker)
 
     # Resize the image to fit the terminal width
-    terminal_width = 80  # Adjust this based on your terminal width
+    terminal_width = 50  # Adjust this based on your terminal width
     aspect_ratio = mr_beaker_image.width / mr_beaker_image.height
     terminal_height = int(terminal_width / aspect_ratio*0.5)
     mr_beaker_image = mr_beaker_image.resize((terminal_width, terminal_height))
@@ -1176,6 +1192,7 @@ def mrbeaker():
 
     mrbeaker = ""
     for y in range(int(mr_beaker_image.height)):
+        mrbeaker += "\n"
         for x in range(int(mr_beaker_image.width)):
             pixel_value = mr_beaker_image.getpixel((x, y))
             mrbeaker += ascii_chars[pixel_value // 64]
