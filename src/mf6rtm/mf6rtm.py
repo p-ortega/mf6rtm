@@ -111,7 +111,7 @@ class ChemStress():
 
 phase_types = {
     'KineticPhases': KineticPhases,
-    # 'ExchangePhases': ExchangePhases,
+    'ExchangePhases': ExchangePhases,
     'EquilibriumPhases': EquilibriumPhases,
     'Surfaces': Surfaces,
 }
@@ -758,7 +758,7 @@ class Mup3d(object):
 
                 conc_dic = {}
                 for e, c in enumerate(components):
-                    conc_dic[c] = np.reshape(conc[e], (nlay, nrow, ncol))
+                    # conc_dic[c] = np.reshape(conc[e], (nlay, nrow, ncol))
                     conc_dic[c] = conc[e]
                 # Set concentrations in mf6
                     print(f'\nTransferring concentrations to mf6 for component: {c}')
@@ -800,27 +800,41 @@ def prep_to_run(wd):
     and returns the path to the yaml file (phreeqcrm) and the dll file (mf6 api)'''
     # check if wd exists
     assert os.path.exists(wd), f'{wd} not found'
-
     # check if file starting with libmf6 exists
     dll = [f for f in os.listdir(wd) if f.startswith('libmf6.')]
     assert len(dll) == 1, 'libmf6 dll not found in model directory'
     assert os.path.exists(os.path.join(wd, 'mf6rtm.yaml')), 'mf6rtm.yaml not found in model directory'
+
+    nam = [f for f in os.listdir(wd) if f.endswith('.nam')]
+    assert 'mfsim.nam' in nam, 'mfsim.nam file not found in model directory'
+    assert 'gwf.nam' in nam, 'gwf.nam file not found in model directory'
     dll = os.path.join(wd, 'libmf6')
     yamlfile = os.path.join(wd, 'mf6rtm.yaml')
 
     return yamlfile, dll
 
-def solve(wd, reaction=True):
-    # TODO: assert wd is a model directory find yaml, ddl and .nam
+def solve(wd, reactive=True):
+    # success = check_model_files(wd)
+    # if success:
+    #     pass
+    # else:
+    #     raise Exception('Model files not found')
     mf6rtm = initialize_interfaces(wd)
+    if not reactive:
+        mf6rtm._set_reactive(reactive)
     mf6rtm._solve()
+    print('done')
 
 def initialize_interfaces(wd):
+    '''Function to initialize the interfaces for modflowapi and phreeqcrm and returns the mf6rtm object
+    '''
     yamlfile, dll = prep_to_run(wd)
+    print(yamlfile, dll)
     mf6api = Mf6API(wd, dll)
     phreeqcrm = PhreeqcBMI(yamlfile)
     mf6rtm = Mf6RTM(wd, mf6api, phreeqcrm)
     return mf6rtm
+
 
 def get_mf6_dis(sim):
     '''Function to extract dis from modflow6 sim object
@@ -838,16 +852,28 @@ def calc_nxyz_from_dis(sim):
     nlay, nrow, ncol = get_mf6_dis(sim)
     return nlay*nrow*ncol
 
-# def get_mf6_disv(sim):
-#     #TODO: implement this function
-#     return icpl, nvert, vertices, cell2d, top, botm
+def get_mf6_disv(sim):
+    #TODO: implement this function
+    ...
 
+def determine_grid_type(sim):
+    '''Function to determine the grid type of the model
+    '''
+    # get the grid type
+    mf6 = sim.get_model(sim.model_names[0])
+    distype = mf6.get_grid_type().name
+    return distype
 
 class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
 
     def __init__(self, yaml="mf6rtm.yaml"):
         phreeqcrm.BMIPhreeqcRM.__init__(self)
         self.initialize(yaml)
+
+    def get_grid_to_map(self):
+        '''Function to get grid to map
+        '''
+        return self.GetGridToMap()
 
     def _prepare_phreeqcrm_bmi(self):
         '''Prepare phreeqc bmi for reaction calculations
@@ -880,12 +906,25 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         dest[0] = value
         x = self.set_value(var_name, dest)
 
-    def _solve_phreeqcrm(self, dt):
+    def _solve_phreeqcrm(self, dt, diffmask):
+        '''Function to solve phreeqc bmi
+        '''
 
-        # print(f'Getting concentration arrays --- time step: {dt} --- elapsed time: {self.ctime:.2f}')
         # status = phreeqc_rm.SetTemperature([self.init_temp[0]] * self.ncpl)
         # status = phreeqc_rm.SetPressure([2.0] * nxyz)
         self.SetTimeStep(dt*86400)
+
+        # update which cells to run depending on conc change between tsteps
+        sat = [1]*self.GetGridCellCount()
+        self.SetSaturation(sat)
+        if diffmask is not None:
+            # get idx where diffmask is 0
+            inact = get_indices(0, diffmask)
+            if len(inact) > 0:
+                for i in inact:
+                    sat[i] = 0
+            print(f"{'Cells sent to reactions':<25} | {self.GetGridCellCount()-len(inact):<0}/{self.GetGridCellCount():<15}")
+            self.SetSaturation(sat)
 
         # allow phreeqc to print some info in the terminal
         print_selected_output_on = True
@@ -894,10 +933,11 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         status = self.SetPrintChemistryOn(print_chemistry_on, False, True)
         # reactions loop
         sol_start = datetime.now()
-        # message = f'Reaction calculation started at             {sol_start.strftime(DT_FMT)}\n'
-        message = f"{'Reaction loop':<25} | {'Stress period:':<15} {self.kper:<5} | {'Time step:':<15} {self.kstp:<10} | {'Running ...':<10}\n"
-        self.LogMessage(message)
-        self.ScreenMessage(message)
+
+        message = f"{'Reaction loop':<25} | {'Stress period:':<15} {self.kper:<5} | {'Time step:':<15} {self.kstp:<10} | {'Running ...':<10}"
+        self.LogMessage(message+'\n')	# log message
+        print(message)
+        # self.ScreenMessage(message)
         # status = self.RunCells()
         # if status < 0:
         #     print('Error in RunCells: {0}'.format(status))
@@ -905,8 +945,9 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         td = (datetime.now() - sol_start).total_seconds() / 60.0
         message = f"{'Reaction loop':<25} | {'Stress period:':<15} {self.kper:<5} | {'Time step:':<15} {self.kstp:<10} | {'Completed in :':<10} {td//60:.0f} min {td%60:.4f} sec\n\n"
         self.LogMessage(message)
-        self.ScreenMessage(message)
-        # self._display_results()
+        print(message)
+        # self.ScreenMessage(message)
+
 
     def _get_kper_kstp_from_mf6api(self, mf6api):
         assert isinstance(mf6api, Mf6API), 'mf6api must be an instance of Mf6API'
@@ -914,12 +955,12 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         self.kstp = mf6api.kstp
         return
 
+
 class Mf6API(modflowapi.ModflowApi):
     def __init__(self, wd, dll):
         modflowapi.ModflowApi.__init__(self, dll, working_directory=wd)
         self.initialize()
         self.sim = flopy.mf6.MFSimulation.load(sim_ws=wd, verbosity_level=0)
-        # self.nxyz = calc_nxyz_from_dis(self.sim)
 
     def _prepare_mf6(self):
         '''Prepare mf6 bmi for transport calculations
@@ -928,9 +969,7 @@ class Mf6API(modflowapi.ModflowApi):
         self.components = [nme.capitalize() for nme in self.sim.model_names[1:]]
         self.nsln = self.get_subcomponent_count()
         self.sim_start = datetime.now()
-        # self.ctime = self.get_current_time()
         self.ctimes = [0.0]
-        # self.etime = self.get_end_time()
         self.num_fails = 0
 
     def _solve_gwt(self):
@@ -943,8 +982,8 @@ class Mf6API(modflowapi.ModflowApi):
 
         self.kper = stress_period
         self.kstp = time_step
-        # print(f'\nTransport started    |  stress period: {stress_period}   |   time step: {time_step}')
-        print(f"{'Transport loop':<25} | {'Stress period:':<15} {stress_period:<5} | {'Time step:':<15} {time_step:<10} | {'Running ...':<10}")
+        msg = f"{'Transport loop':<25} | {'Stress period:':<15} {stress_period:<5} | {'Time step:':<15} {time_step:<10} | {'Running ...':<10}"
+        print(msg)
         # mf6 transport loop block
         for sln in range(1, self.nsln+1):
             # if self.fixed_components is not None and modelnmes[sln-1] in self.fixed_components:
@@ -957,13 +996,11 @@ class Mf6API(modflowapi.ModflowApi):
             max_iter = self.get_value(self.get_var_address("MXITER", f"SLN_{sln}"))  # FIXME: not sure to define this inside the loop
             self.prepare_solve(sln)
 
-            # print(f'\nSolving solution {sln} - Solving the following component: {self.modelnmes[sln-1]}')
             sol_start = datetime.now()
             while kiter < max_iter:
                 convg = self.solve(sln)
                 if convg:
                     td = (datetime.now() - sol_start).total_seconds() / 60.0
-                    # print("Transport stress period: {0} --- time step: {1} --- converged with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter, td))
                     break
                 kiter += 1
             if not convg:
@@ -972,17 +1009,14 @@ class Mf6API(modflowapi.ModflowApi):
                 self.num_fails += 1
             try:
                 self.finalize_solve(sln)
-                # print(f'Solution {sln} finalized for component: {self.modelnmes[sln-1]}')
             except:
                 pass
         td = (datetime.now() - sol_start).total_seconds() / 60.0
-        # print("Transport stress period: {0} --- time step: {1} --- converged with {2} iters --- took {3:10.5G} mins".format(stress_period, time_step, kiter, td))
         print(f"{'Transport loop':<25} | {'Stress period:':<15} {stress_period:<5} | {'Time step:':<15} {time_step:<10} | {'Completed in :':<10}  {td//60:.0f} min {td%60:.4f} sec")
 
     def _check_num_fails(self):
         if self.num_fails > 0:
             print("\nTransport failed to converge {0} times \n".format(self.num_fails))
-            # print("\n")
         else:
             print("\nTransport converged successfully without any fails")
 
@@ -992,11 +1026,27 @@ class Mf6RTM(object):
         assert isinstance(phreeqcbmi, PhreeqcBMI), 'PhreeqcBMI must be an instance of PhreeqcBMI'
         self.mf6api = mf6api
         self.phreeqcbmi = phreeqcbmi
-        self.nlay, self.nrow, self.ncol = get_mf6_dis(self.mf6api.sim)
-        self.nxyz = calc_nxyz_from_dis(self.mf6api.sim)
         self.charge_offset = 0.0
         self.wd = wd
         self.sout_fname = 'sout.csv'
+        self.reactive = True
+        self.epsaqu = 0.0
+
+        #set discretization
+        self._set_dis()
+
+    def _set_reactive(self, reactive):
+        self.reactive = reactive
+
+    def _set_dis(self):
+        '''Set the model grid dimensions according to mf6 grid type
+        '''
+        if determine_grid_type(self.mf6api.sim) == 'DIS':
+            self.nlay, self.nrow, self.ncol = get_mf6_dis(self.mf6api.sim)
+            self.nxyz = calc_nxyz_from_dis(self.mf6api.sim)
+        elif determine_grid_type(self.mf6api.sim) == 'DISV':
+            self.nlay = self.mf6api.sim.nlay
+            self.ncpl = self.mf6api.sim.ncpl
 
     def _prepare_to_solve(self):
         '''Prepare the model to solve
@@ -1037,22 +1087,66 @@ class Mf6RTM(object):
 
     def _get_cdlbl_vect(self):
         c_dbl_vect = self.phreeqcbmi.GetConcentrations()
+
         conc = [c_dbl_vect[i:i + self.nxyz] for i in range(0, len(c_dbl_vect), self.nxyz)]  # reshape array
-        self.c_ph_ctime = conc
         return conc
 
-    def _transfer_array_from_phreeqcrm(self):
-        conc = self._get_cdlbl_vect()
+    def _set_conc_at_current_kstep(self, c_dbl_vect):
+        self.current_iteration_conc = np.reshape(c_dbl_vect, (self.phreeqcbmi.ncomps, self.nxyz))
+
+    def _set_conc_at_previous_kstep(self, c_dbl_vect):
+        self.previous_iteration_conc = np.reshape(c_dbl_vect, (self.phreeqcbmi.ncomps, self.nxyz))
+
+    def _transfer_array_to_mf6(self):
+        '''Transfer the concentration array to mf6
+        '''
+        c_dbl_vect = self._get_cdlbl_vect()
+
+        # if self._check_previous_conc_exists() and self._check_inactive_cells_exist(c_dbl_vect):
+        #     c_dbl_vect = self._replace_inactive_cells(c_dbl_vect)
+        # else:
+        #     pass
         conc_dic = {}
         for e, c in enumerate(self.phreeqcbmi.components):
-            conc_dic[c] = np.reshape(conc[e], (self.nlay, self.nrow, self.ncol))
-            conc_dic[c] = conc[e]
+            # conc_dic[c] = np.reshape(c_dbl_vect[e], (self.nlay, self.nrow, self.ncol))
+            conc_dic[c] = c_dbl_vect[e]
         # Set concentrations in mf6
-            # print(f'\nTransferring concentrations to mf6 for component: {c}')
             if c.lower() == 'charge':
                 self.mf6api.set_value(f'{c.upper()}/X', concentration_l_to_m3(conc_dic[c]) + self.charge_offset)
             else:
                 self.mf6api.set_value(f'{c.upper()}/X', concentration_l_to_m3(conc_dic[c]))
+        return c_dbl_vect
+
+    def _check_previous_conc_exists(self):
+        '''Function to replace inactive cells in the concentration array
+        '''
+        # check if self.previous_iteration_conc is a property
+        if not hasattr(self, 'previous_iteration_conc'):
+            return False
+        else:
+            return True
+
+    def _check_inactive_cells_exist(self, c_dbl_vect):
+        '''Function to check if inactive cells exist in the concentration array
+        '''
+        c_dbl_vect = np.reshape(c_dbl_vect, (self.phreeqcbmi.ncomps, self.nxyz))
+        inactive_idx = get_inactive_idx(c_dbl_vect)
+        if len(inactive_idx) > 0:
+            return True
+        else:
+            return False
+
+    def _replace_inactive_cells(self, c_dbl_vect):
+        '''Function to replace inactive cells in the concentration array
+        '''
+        c_dbl_vect = np.reshape(c_dbl_vect, (self.phreeqcbmi.ncomps, self.nxyz))
+        # get inactive cells
+        inactive_idx = [get_inactive_idx(c_dbl_vect[k]) for k in range(self.phreeqcbmi.ncomps)]
+        # replace inactive cells with previous conc
+        c_dbl_vect[:, inactive_idx] = self.previous_iteration_conc[:, inactive_idx]
+        c_dbl_vect = c_dbl_vect.flatten()
+        conc = [c_dbl_vect[i:i + self.nxyz] for i in range(0, len(c_dbl_vect), self.nxyz)]
+        return conc
 
     def _transfer_array_to_phreeqcrm(self):
         mf6_conc_array = []
@@ -1067,7 +1161,9 @@ class Mf6RTM(object):
         self.phreeqcbmi.SetConcentrations(c_dbl_vect)
 
         #set the kper and kstp
-        self.phreeqcbmi._get_kper_kstp_from_mf6api(self.mf6api)
+        self.phreeqcbmi._get_kper_kstp_from_mf6api(self.mf6api) # FIXME: calling this func here is not ideal
+
+        return c_dbl_vect
 
     def _update_selected_output(self):
         self._get_selected_output()
@@ -1104,17 +1200,22 @@ class Mf6RTM(object):
             f.write('\n')
 
     def _rm_sout_file(self):
+        '''Remove the selected output file
+        '''
         try:
             os.remove(os.path.join(self.wd, self.sout_fname))
         except:
             pass
 
     def _append_to_soutdf_file(self):
+        '''Append the current selected output to the selected output file
+        '''
         assert not self._current_sout.empty, 'current sout is empty'
         self._current_sout.to_csv(os.path.join(self.wd, self.sout_fname), mode='a', index=False, header=False)
 
-
     def _export_soutdf(self):
+        '''Export the selected output dataframe to a csv file
+        '''
         self.phreeqcbmi.soutdf.to_csv(os.path.join(self.wd, self.sout_fname), index=False)
 
     def _solve(self):
@@ -1138,15 +1239,26 @@ class Mf6RTM(object):
             dt = self._set_time_step()
             self.mf6api.prepare_time_step(dt)
             self.mf6api._solve_gwt()
-            # TODO: add and if to run transport only
-            # reaction block
-            self._transfer_array_to_phreeqcrm()
-            self.phreeqcbmi._solve_phreeqcrm(dt)
-            # get sout and update df
-            self._update_selected_output()
-            # append current sout rows to file
-            self._append_to_soutdf_file()
-            self._transfer_array_from_phreeqcrm()
+
+            if self.reactive:
+                # reaction block
+                c_dbl_vect = self._transfer_array_to_phreeqcrm()
+                self._set_conc_at_current_kstep(c_dbl_vect)
+                if ctime > 0.0:
+                    diffmask = get_conc_change_mask(self.current_iteration_conc,
+                                                    self.previous_iteration_conc,
+                                                    self.phreeqcbmi.ncomps, self.nxyz,
+                                                    treshold=self.epsaqu)
+                else:
+                    diffmask = None
+                # solve reactions
+                self.phreeqcbmi._solve_phreeqcrm(dt, diffmask = diffmask)
+                # get sout and update df
+                self._update_selected_output()
+                # append current sout rows to file
+                self._append_to_soutdf_file()
+                c_dbl_vect = self._transfer_array_to_mf6()
+                self._set_conc_at_previous_kstep(c_dbl_vect)
 
             self.mf6api.finalize_time_step()
             ctime = self._set_ctime()  # update the current time tracking
@@ -1171,6 +1283,39 @@ class Mf6RTM(object):
             pass
         return success
 
+def get_indices(element, lst):
+    return [i for i, x in enumerate(lst) if x == element]
+
+def get_less_than_zero_idx(arr):
+    '''Function to get the index of all occurrences of <0 in an array
+    '''
+    idx = np.where(arr < 0)
+    return idx
+
+def get_inactive_idx(arr, val = 1e30):
+    '''Function to get the index of all occurrences of <0 in an array
+    '''
+    idx = list(np.where(arr >= val)[0])
+    return idx
+
+def get_conc_change_mask(ci, ck, ncomp, nxyz, treshold=1e-5):
+    '''Function to get the active-inactive cell mask for concentration change to inform phreeqc which cells to update
+    '''
+    # reshape arrays to 2D (nxyz, ncomp)
+    ci = ci.reshape(nxyz, ncomp)
+    ck = ck.reshape(nxyz, ncomp)+1e-30
+
+    # get the difference between the two arrays and divide by ci
+    diff = np.abs((ci - ck.reshape(-1*nxyz, ncomp))/ci) < treshold
+    # print(diff)
+    diff = np.where(diff, 0, 1)
+
+    diff = diff.sum(axis=1)
+
+    # where values <0 put -1 else 1
+    diff = np.where(diff == 0, 0, 1)
+    return diff
+
 def mrbeaker():
     '''ASCII art of Mr. Beaker
     '''
@@ -1179,7 +1324,7 @@ def mrbeaker():
     mr_beaker_image = Image.open(whereismrbeaker)
 
     # Resize the image to fit the terminal width
-    terminal_width = 50  # Adjust this based on your terminal width
+    terminal_width = 80  # Adjust this based on your terminal width
     aspect_ratio = mr_beaker_image.width / mr_beaker_image.height
     terminal_height = int(terminal_width / aspect_ratio*0.5)
     mr_beaker_image = mr_beaker_image.resize((terminal_width, terminal_height))

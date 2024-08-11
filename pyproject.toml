@@ -25,3 +25,6 @@ warn_return_any = true
 warn_unreachable = true
 warn_unused_configs = true
 no_implicit_reexport = true
+
+[tool.scripts]
+mf6rtm = "mf6rtm:run_cmd"
