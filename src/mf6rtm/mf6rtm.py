@@ -1193,7 +1193,7 @@ class Mf6RTM(object):
         sout = [sout[i:i + self.nxyz] for i in range(0, len(sout), self.nxyz)]
         sout = np.array(sout)
         if self._check_inactive_cells_exist(self.diffmask) and hasattr(self, '_sout_k'):
-            # print('Replacing inactive cells in selected output')	
+
             sout = self.__replace_inactive_cells_in_sout(sout, self.diffmask)
         self._sout_k = sout #save sout to a private attribute
         # add time to selected ouput
