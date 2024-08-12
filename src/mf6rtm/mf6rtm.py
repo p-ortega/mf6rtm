@@ -1105,10 +1105,13 @@ class Mf6RTM(object):
         '''
         c_dbl_vect = self._get_cdlbl_vect()
 
-        # if self._check_previous_conc_exists() and self._check_inactive_cells_exist(c_dbl_vect):
-        #     c_dbl_vect = self._replace_inactive_cells(c_dbl_vect)
-        # else:
-        #     pass
+        if self._check_previous_conc_exists() and self._check_inactive_cells_exist(self.diffmask):
+            c_dbl_vect = self._replace_inactive_cells(c_dbl_vect, self.diffmask)
+            # update array in phreeqcrm
+            # self.phreeqcbmi.SetConcentrations(np.array(c_dbl_vect).flatten()
+        else:
+            pass
+
         conc_dic = {}
         for e, c in enumerate(self.phreeqcbmi.components):
             # conc_dic[c] = np.reshape(c_dbl_vect[e], (self.nlay, self.nrow, self.ncol))
@@ -1129,23 +1132,21 @@ class Mf6RTM(object):
         else:
             return True
 
-    def _check_inactive_cells_exist(self, c_dbl_vect):
+    def _check_inactive_cells_exist(self, diffmask):
         '''Function to check if inactive cells exist in the concentration array
         '''
-        c_dbl_vect = np.reshape(c_dbl_vect, (self.phreeqcbmi.ncomps, self.nxyz))
-        inactive_idx = get_inactive_idx(c_dbl_vect)
-        if len(inactive_idx) > 0:
+        inact = get_indices(0, diffmask)
+        if len(inact) > 0:
             return True
         else:
             return False
 
-    def _replace_inactive_cells(self, c_dbl_vect):
+    def _replace_inactive_cells(self, c_dbl_vect, diffmask):
         '''Function to replace inactive cells in the concentration array
         '''
         c_dbl_vect = np.reshape(c_dbl_vect, (self.phreeqcbmi.ncomps, self.nxyz))
         # get inactive cells
-        inactive_idx = [get_inactive_idx(c_dbl_vect[k]) for k in range(self.phreeqcbmi.ncomps)]
-        # replace inactive cells with previous conc
+        inactive_idx = [get_indices(0, diffmask) for k in range(self.phreeqcbmi.ncomps)]
         c_dbl_vect[:, inactive_idx] = self.previous_iteration_conc[:, inactive_idx]
         c_dbl_vect = c_dbl_vect.flatten()
         conc = [c_dbl_vect[i:i + self.nxyz] for i in range(0, len(c_dbl_vect), self.nxyz)]
@@ -1170,21 +1171,37 @@ class Mf6RTM(object):
 
     def _update_selected_output(self):
         self._get_selected_output()
-        updf = pd.concat([self.phreeqcbmi.soutdf.astype(self._current_sout.dtypes), self._current_sout])
+        updf = pd.concat([self.phreeqcbmi.soutdf.astype(self._current_soutdf.dtypes), self._current_soutdf])
         self._update_soutdf(updf)
+
+    def __replace_inactive_cells_in_sout(self, sout, diffmask):
+        '''Function to replace inactive cells in the selected output dataframe
+        '''
+        components = self.mf6api.modelnmes[1:]
+        headers = self.phreeqcbmi.sout_headers
+        # match headers in components closest string
+
+        inactive_idx = get_indices(0, diffmask)
+
+        sout[:, inactive_idx] = self._sout_k[:, inactive_idx]
+        return sout
 
     def _get_selected_output(self):
         # selected ouput
         self.phreeqcbmi.set_scalar("NthSelectedOutput", 0)
         sout = self.phreeqcbmi.GetSelectedOutput()
         sout = [sout[i:i + self.nxyz] for i in range(0, len(sout), self.nxyz)]
-
+        sout = np.array(sout)
+        if self._check_inactive_cells_exist(self.diffmask) and hasattr(self, '_sout_k'):
+            # print('Replacing inactive cells in selected output')	
+            sout = self.__replace_inactive_cells_in_sout(sout, self.diffmask)
+        self._sout_k = sout #save sout to a private attribute
         # add time to selected ouput
         sout[0] = np.ones_like(sout[0])*(self.ctime+self.time_step)
         df = pd.DataFrame(columns=self.phreeqcbmi.soutdf.columns)
         for col, arr in zip(df.columns, sout):
             df[col] = arr
-        self._current_sout = df
+        self._current_soutdf = df
 
     def _update_soutdf(self, df):
         self.phreeqcbmi.soutdf = df
@@ -1213,8 +1230,8 @@ class Mf6RTM(object):
     def _append_to_soutdf_file(self):
         '''Append the current selected output to the selected output file
         '''
-        assert not self._current_sout.empty, 'current sout is empty'
-        self._current_sout.to_csv(os.path.join(self.wd, self.sout_fname), mode='a', index=False, header=False)
+        assert not self._current_soutdf.empty, 'current sout is empty'
+        self._current_soutdf.to_csv(os.path.join(self.wd, self.sout_fname), mode='a', index=False, header=False)
 
     def _export_soutdf(self):
         '''Export the selected output dataframe to a csv file
@@ -1247,20 +1264,21 @@ class Mf6RTM(object):
                 # reaction block
                 c_dbl_vect = self._transfer_array_to_phreeqcrm()
                 self._set_conc_at_current_kstep(c_dbl_vect)
-                if ctime > 0.0:
-                    diffmask = get_conc_change_mask(self.current_iteration_conc,
-                                                    self.previous_iteration_conc,
-                                                    self.phreeqcbmi.ncomps, self.nxyz,
-                                                    treshold=self.epsaqu)
+                if ctime == 0.0:
+                    self.diffmask = np.ones(self.nxyz)
                 else:
-                    diffmask = None
+                    diffmask = get_conc_change_mask(self.current_iteration_conc,
+                                self.previous_iteration_conc,
+                                self.phreeqcbmi.ncomps, self.nxyz,
+                                treshold=self.epsaqu)
+                    self.diffmask = diffmask
                 # solve reactions
-                self.phreeqcbmi._solve_phreeqcrm(dt, diffmask = diffmask)
+                self.phreeqcbmi._solve_phreeqcrm(dt, diffmask = self.diffmask)
+                c_dbl_vect = self._transfer_array_to_mf6()
                 # get sout and update df
                 self._update_selected_output()
                 # append current sout rows to file
                 self._append_to_soutdf_file()
-                c_dbl_vect = self._transfer_array_to_mf6()
                 self._set_conc_at_previous_kstep(c_dbl_vect)
 
             self.mf6api.finalize_time_step()
@@ -1301,7 +1319,7 @@ def get_inactive_idx(arr, val = 1e30):
     idx = list(np.where(arr >= val)[0])
     return idx
 
-def get_conc_change_mask(ci, ck, ncomp, nxyz, treshold=1e-5):
+def get_conc_change_mask(ci, ck, ncomp, nxyz, treshold=1e-10):
     '''Function to get the active-inactive cell mask for concentration change to inform phreeqc which cells to update
     '''
     # reshape arrays to 2D (nxyz, ncomp)
@@ -1310,9 +1328,7 @@ def get_conc_change_mask(ci, ck, ncomp, nxyz, treshold=1e-5):
 
     # get the difference between the two arrays and divide by ci
     diff = np.abs((ci - ck.reshape(-1*nxyz, ncomp))/ci) < treshold
-    # print(diff)
     diff = np.where(diff, 0, 1)
-
     diff = diff.sum(axis=1)
 
     # where values <0 put -1 else 1
