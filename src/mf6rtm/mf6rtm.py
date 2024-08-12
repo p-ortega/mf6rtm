@@ -213,10 +213,12 @@ class Mup3d(object):
         """
         Sets the working directory for the MF6RTM model.
         """
+        # get absolute path of the working directory
+        wd = Path(os.path.abspath(wd))
         # joint current directory with wd, check if exist, create if not
-        self.wd = Path(wd)
-        if not self.wd.exists():
-            self.wd.mkdir(parents=True, exist_ok=True)
+        if not wd.exists():
+            wd.mkdir(parents=True, exist_ok=True)
+        self.wd = wd
 
     def set_database(self, database):
         """
@@ -229,6 +231,8 @@ class Mup3d(object):
         None
         """
         assert os.path.exists(database), f'{database} not found'
+        # get absolute path of the database
+        database = os.path.abspath(database)
         self.database = database
 
     def set_postfix(self, postfix):
@@ -823,7 +827,6 @@ def solve(wd, reactive=True):
     if not reactive:
         mf6rtm._set_reactive(reactive)
     mf6rtm._solve()
-    print('done')
 
 def initialize_interfaces(wd):
     '''Function to initialize the interfaces for modflowapi and phreeqcrm and returns the mf6rtm object
