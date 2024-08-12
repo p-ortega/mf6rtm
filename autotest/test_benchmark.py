@@ -12,8 +12,7 @@ import shutil
 import pytest
 
 import flopy
-from mf6rtm import utils
-from mf6rtm import mf6rtm
+from mf6rtm import utils, mf6rtm, mup3d
 from autotest.conftest import make_dir_writable
 
 cwd = os.path.abspath(os.path.dirname(__file__))
@@ -556,14 +555,14 @@ def test01(prefix = 'test01'):
 
     sol_ic = 1
     #add solutions to clss
-    solution = mf6rtm.Solutions(solutions)
+    solution = mup3d.Solutions(solutions)
     solution.set_ic(sol_ic)
     #create equilibrium phases class
-    equilibrium_phases = mf6rtm.EquilibriumPhases(equilibrium_phases)
+    equilibrium_phases = mup3d.EquilibriumPhases(equilibrium_phases)
     equilibrium_phases.set_ic(1)
 
     #create model class
-    model = mf6rtm.Mup3d(prefix,solution, nlay, nrow, ncol)
+    model = mup3d.Mup3d(prefix,solution, nlay, nrow, ncol)
 
     # set model workspace
     modelwd = os.path.join(cwd, f'{prefix}')
@@ -581,7 +580,7 @@ def test01(prefix = 'test01'):
 
     model.initialize()
 
-    wellchem = mf6rtm.ChemStress('wel')
+    wellchem = mup3d.ChemStress('wel')
     sol_spd = [2]
     wellchem.set_spd(sol_spd)
     model.set_chem_stress(wellchem)
@@ -663,17 +662,17 @@ def test02(prefix = 'test02'):
     sol_ic = np.ones((nlay, nrow, ncol), dtype=float)
 
     #add solutions to clss
-    solution = mf6rtm.Solutions(solutions)
+    solution = mup3d.Solutions(solutions)
     solution.set_ic(sol_ic)
 
     #create equilibrium phases class
-    equilibrium_phases = mf6rtm.EquilibriumPhases(equilibrium_phases)
+    equilibrium_phases = mup3d.EquilibriumPhases(equilibrium_phases)
     eqp_ic = 1
     # eqp_ic[3:,:,0]= -1 #boundary condation in layer 0 of no eq phases
     equilibrium_phases.set_ic(eqp_ic)
 
     #create model class
-    model = mf6rtm.Mup3d(prefix,solution, nlay, nrow, ncol)
+    model = mup3d.Mup3d(prefix,solution, nlay, nrow, ncol)
 
     # set model workspace
     modelwd = os.path.join(cwd, f'{prefix}')
@@ -691,7 +690,7 @@ def test02(prefix = 'test02'):
 
     model.initialize()
 
-    wellchem = mf6rtm.ChemStress('wel')
+    wellchem = mup3d.ChemStress('wel')
     sol_spd = [2]
 
     wellchem.set_spd(sol_spd)
@@ -705,11 +704,6 @@ def test02(prefix = 'test02'):
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
     run_test(prefix, model, mf6sim)
-    try:
-        cleanup(prefix)
-    except:
-        pass
-    return
 
 def test03(prefix = 'test03'):
     length_units = "meters"
@@ -777,17 +771,17 @@ def test03(prefix = 'test03'):
     sol_ic = np.ones((nlay, nrow, ncol), dtype=int)
 
     #add solutions to clss
-    solution = mf6rtm.Solutions(solutions)
+    solution = mup3d.Solutions(solutions)
     solution.set_ic(sol_ic)
 
     #create equilibrium phases class
-    equilibrium_phases = mf6rtm.EquilibriumPhases(equilibrium_phases)
+    equilibrium_phases = mup3d.EquilibriumPhases(equilibrium_phases)
     eqp_ic = np.ones((nlay, nrow, ncol), dtype=int)*1
     eqp_ic[3:,:,0]= -1 #boundary condation in layer 0 of no eq phases
     equilibrium_phases.set_ic(eqp_ic)
 
     #create model class
-    model = mf6rtm.Mup3d(prefix,solution, nlay, nrow, ncol)
+    model = mup3d.Mup3d(prefix,solution, nlay, nrow, ncol)
 
     # set model workspace
     modelwd = os.path.join(cwd, f'{prefix}')
@@ -804,7 +798,7 @@ def test03(prefix = 'test03'):
     model.set_postfix(postfix)
     model.initialize()
 
-    wellchem = mf6rtm.ChemStress('chdtail')
+    wellchem = mup3d.ChemStress('chdtail')
     sol_spd = [2]
     wellchem.set_spd(sol_spd)
     model.set_chem_stress(wellchem)
@@ -821,11 +815,6 @@ def test03(prefix = 'test03'):
     
     run_test(prefix, model, mf6sim)
 
-    try:
-        cleanup(prefix)
-    except:
-        pass
-    return 
 
 def test04(prefix = 'test04'):
     '''Test 4: Test 1: Simple 1D injection test with cation exchange from phreeqc'''
@@ -886,17 +875,17 @@ def test04(prefix = 'test04'):
     #assign solutions to grid
     sol_ic = np.ones((nlay, nrow, ncol), dtype=float)
     #add solutions to clss
-    solution = mf6rtm.Solutions(solutions)
+    solution = mup3d.Solutions(solutions)
     solution.set_ic(sol_ic)
 
     excdf = pd.read_csv(os.path.join(dataws,f"{prefix}_exchange.csv"), comment = '#',  index_col = 0)
     exchangerdic = utils.solution_df_to_dict(excdf)
 
-    exchanger = mf6rtm.ExchangePhases(exchangerdic)
+    exchanger = mup3d.ExchangePhases(exchangerdic)
     exchanger.set_ic(np.ones((nlay, nrow, ncol), dtype=float))
 
     #create model class
-    model = mf6rtm.Mup3d(prefix,solution, nlay, nrow, ncol)
+    model = mup3d.Mup3d(prefix,solution, nlay, nrow, ncol)
 
     # set model workspace
     modelwd = os.path.join(cwd, f'{prefix}')
@@ -912,7 +901,7 @@ def test04(prefix = 'test04'):
 
     model.initialize()
 
-    wellchem = mf6rtm.ChemStress('wel')
+    wellchem = mup3d.ChemStress('wel')
     sol_spd = [2]
     wellchem.set_spd(sol_spd)
     model.set_chem_stress(wellchem)
@@ -926,12 +915,6 @@ def test04(prefix = 'test04'):
     
     run_test(prefix, model, mf6sim)
 
-    try:
-        cleanup(prefix)
-    except:
-        pass
-
-    return 
 
 
 def test05(prefix = 'test05'):
@@ -999,14 +982,14 @@ def test05(prefix = 'test05'):
     sol_ic = np.ones((nlay, nrow, ncol), dtype=float)
     # sol_ic = 1
     #add solutions to clss
-    solution = mf6rtm.Solutions(solutions)
+    solution = mup3d.Solutions(solutions)
     solution.set_ic(sol_ic)
 
     #exchange
     excdf = pd.read_csv(os.path.join(dataws,f"{prefix}_exchange.csv"), comment = '#',  index_col = 0)
     exchangerdic = utils.solution_df_to_dict(excdf)
 
-    exchanger = mf6rtm.ExchangePhases(exchangerdic)
+    exchanger = mup3d.ExchangePhases(exchangerdic)
     exchanger_ic = np.ones((nlay, nrow, ncol), dtype=float)
     exchanger_ic[0,0,:4] = 1
     exchanger_ic[0,0,4:8] = 2
@@ -1022,22 +1005,22 @@ def test05(prefix = 'test05'):
     kinedic = utils.kinetics_phases_csv_to_dict(os.path.join(dataws,f"{prefix}_kinetic_phases.csv"))
     orgsed_form = 'Orgc_sed -1.0 C 1.0' 
     kinedic[1]['Orgc_sed'].append(orgsed_form)
-    kinetics = mf6rtm.KineticPhases(kinedic)
+    kinetics = mup3d.KineticPhases(kinedic)
     kinetics.set_ic(1)
 
     #eq phases
     equilibriums = utils.equilibrium_phases_csv_to_dict(os.path.join(dataws,f"{prefix}_equilibrium_phases.csv"))
-    equilibriums = mf6rtm.EquilibriumPhases(equilibriums)
+    equilibriums = mup3d.EquilibriumPhases(equilibriums)
     equilibriums.set_ic(1)
 
     #surfaces
     surfdic = utils.surfaces_csv_to_dict(os.path.join(dataws,f"{prefix}_surfaces.csv"))
-    surfaces = mf6rtm.Surfaces(surfdic)
+    surfaces = mup3d.Surfaces(surfdic)
     surfaces.set_ic(1)
     # surfaces.set_options(['no_edl'])
 
     #create model class
-    model = mf6rtm.Mup3d(prefix,solution, nlay, nrow, ncol)
+    model = mup3d.Mup3d(prefix,solution, nlay, nrow, ncol)
 
     # set model workspace
     modelwd = os.path.join(cwd, f'{prefix}')
@@ -1060,7 +1043,7 @@ def test05(prefix = 'test05'):
 
     model.initialize()
 
-    wellchem = mf6rtm.ChemStress('wel')
+    wellchem = mup3d.ChemStress('wel')
     sol_spd = [2,3]
     sol_spd
     wellchem.set_spd(sol_spd)
@@ -1077,12 +1060,6 @@ def test05(prefix = 'test05'):
     
     run_test(prefix, model, mf6sim, treshold = 0.02)
 
-    try:
-        cleanup(prefix)
-    except:
-        pass
-
-    return 
 
 def get_test_dirs():
     '''Get test directories'''
@@ -1108,11 +1085,7 @@ def test_yaml(prefix):
     benchmarkdf = get_benchmark_results(prefix)
     testdf = pd.read_csv(os.path.join(cwd, wd,f"sout.csv"), index_col = 0)
     compare_results(benchmarkdf, testdf)
-    try:
-        cleanup(wd)
-    except:
-        pass
-    return
+
 
 @pytest.mark.skip
 def test01_yaml(prefix = 'test01'):
@@ -1130,11 +1103,7 @@ def test01_yaml(prefix = 'test01'):
     benchmarkdf = get_benchmark_results(prefix)
     testdf = pd.read_csv(os.path.join(cwd, wd,f"sout.csv"), index_col = 0)
     compare_results(benchmarkdf, testdf)
-    try:
-        cleanup(wd)
-    except:
-        pass
-    return 
+
 
 def get_benchmark_results(prefix):
     '''Get benchmark results'''
@@ -1173,7 +1142,7 @@ def run_yaml(prefix):
 
 def run_test(prefix, model, mf6sim, *args, **kwargs):
     #try to run the model if success print test passed
-    success = model.run_mup3d(mf6sim, reaction=True)
+    success = model.run(reactive=True)
     assert success
 
     # treshold = args.get('treshold', 0.01)
@@ -1184,17 +1153,21 @@ def run_test(prefix, model, mf6sim, *args, **kwargs):
 
     return
 
-def cleanup(prefix):
-    '''Cleanup test files'''
-    if os.path.exists(prefix):
-        shutil.rmtree(prefix, onerror=make_dir_writable)
-    return
+# @pytest.fixture
+# def cleanup():
+#     '''Cleanup test files'''
+#     #get all folders that start with 'test_'
+#     testdirs = [f for f in os.listdir(cwd) if os.path.isdir(os.path.join(cwd, f)) and f.startswith('test')]
+#     # delete all test folders
+#     for folder in testdirs:
+#         shutil.rmtree(os.path.join(cwd, folder))
 
-# def run_autotest():
-    # test_01()
-    # test_02()
-    # test_04()
-    # test_05()
+
+    # if os.path.exists(prefix):
+    #     pass
+    #     # shutil.rmtree(prefix, onerror=make_dir_writable)
+    # return
+
 
 # if __name__ == '__main__':
 #     test01()
