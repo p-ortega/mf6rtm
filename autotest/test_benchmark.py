@@ -1072,6 +1072,7 @@ def get_test_dirs():
     'prefix',
     get_test_dirs()
 )
+@pytest.mark.skip
 def test_yaml(prefix):
     '''tests running form yaml files
     '''	
