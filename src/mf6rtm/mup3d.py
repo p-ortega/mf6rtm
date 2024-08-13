@@ -12,10 +12,10 @@ from phreeqcrm import yamlphreeqcrm
 import yaml
 
 # add representer to yaml to write np.array as list
-def ndarray_representer(dumper: yaml.Dumper, array: np.ndarray) -> yaml.Node:
-    return dumper.represent_list(array.tolist())
+# def ndarray_representer(dumper: yaml.Dumper, array: np.ndarray) -> yaml.Node:
+#     return dumper.represent_list(array.tolist())
 
-yaml.add_representer(np.ndarray, ndarray_representer)
+# yaml.add_representer(np.ndarray, ndarray_representer)
 
 # global variables
 DT_FMT = "%Y-%m-%d %H:%M:%S"

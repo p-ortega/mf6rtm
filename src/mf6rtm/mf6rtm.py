@@ -53,14 +53,12 @@ def solve(wd, reactive=True):
     if not reactive:
         mf6rtm._set_reactive(reactive)
     success = mf6rtm._solve()
-    print(success)
     return success
 
 def initialize_interfaces(wd):
     '''Function to initialize the interfaces for modflowapi and phreeqcrm and returns the mf6rtm object
     '''
     yamlfile, dll = prep_to_run(wd)
-    print(yamlfile, dll)
     mf6api = Mf6API(wd, dll)
     phreeqcrm = PhreeqcBMI(yamlfile)
     mf6rtm = Mf6RTM(wd, mf6api, phreeqcrm)
