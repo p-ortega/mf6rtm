@@ -4,8 +4,8 @@
 
 [![GitHub tag](https://img.shields.io/github/tag/mf6rtm/mf6rtm.svg)](https://github.com/p-ortega/mf6rtm/releases/tag/latest)
 [![PyPI License](https://img.shields.io/pypi/l/mf6rtm)](https://pypi.python.org/pypi/mf6rtm)
-<!-- [![PyPI Status](https://img.shields.io/pypi/status/modflowapi.png)](https://pypi.python.org/pypi/mf6rtm) -->
-<!-- [![PyPI Format](https://img.shields.io/pypi/format/modflowapi)](https://pypi.python.org/pypi/mf6rtm) -->
+<!-- [![PyPI Status](https://img.shields.io/pypi/status/mf6rtm.png)](https://pypi.python.org/pypi/mf6rtm) -->
+<!-- [![PyPI Format](https://img.shields.io/pypi/format/mf6rtm)](https://pypi.python.org/pypi/mf6rtm) -->
 [![PyPI Version](https://img.shields.io/pypi/v/mf6rtm.png)](https://pypi.python.org/pypi/mf6rtm)
 [![PyPI Versions](https://img.shields.io/pypi/pyversions/mf6rtm.png)](https://pypi.python.org/pypi/mf6rtm)
 
