@@ -1,7 +1,7 @@
 flake8==7.1.1
 tox==4.16.0
 pytest==8.3.2
-mypy == 1.11.1
+#mypy == 1.11.1
 pytest-cov == 5.0.0
 flaky == 3.8.1
 jupytext == 1.16.4

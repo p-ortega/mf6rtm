@@ -36,7 +36,7 @@ def prep_to_run(wd):
     # check if wd exists
     assert os.path.exists(wd), f'{wd} not found'
     # check if file starting with libmf6 exists
-    dll = [f for f in os.listdir(wd) if f.startswith('libmf6.')]
+    dll = [f for f in os.listdir(wd) if f.startswith('libmf6')]
     assert len(dll) == 1, 'libmf6 dll not found in model directory'
     assert os.path.exists(os.path.join(wd, 'mf6rtm.yaml')), 'mf6rtm.yaml not found in model directory'
 
@@ -49,18 +49,18 @@ def prep_to_run(wd):
     return yamlfile, dll
 
 def solve(wd, reactive=True):
+    '''Wrapper to prepare and call solve functions
+    '''
     mf6rtm = initialize_interfaces(wd)
     if not reactive:
         mf6rtm._set_reactive(reactive)
     success = mf6rtm._solve()
-    print(success)
     return success
 
 def initialize_interfaces(wd):
     '''Function to initialize the interfaces for modflowapi and phreeqcrm and returns the mf6rtm object
     '''
     yamlfile, dll = prep_to_run(wd)
-    print(yamlfile, dll)
     mf6api = Mf6API(wd, dll)
     phreeqcrm = PhreeqcBMI(yamlfile)
     mf6rtm = Mf6RTM(wd, mf6api, phreeqcrm)
@@ -121,6 +121,8 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         self.sout_headers = sout_headers
 
     def _set_ctime(self, ctime):
+        '''Set the current time in phreeqc bmi
+        '''
         # self.ctime = self.SetTime(ctime*86400)
         self.ctime = ctime
 
@@ -181,6 +183,8 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
 
 
     def _get_kper_kstp_from_mf6api(self, mf6api):
+        '''Function to get the kper and kstp from mf6api
+        '''
         assert isinstance(mf6api, Mf6API), 'mf6api must be an instance of Mf6API'
         self.kper = mf6api.kper
         self.kstp = mf6api.kstp
@@ -204,6 +208,8 @@ class Mf6API(modflowapi.ModflowApi):
         self.num_fails = 0
 
     def _solve_gwt(self):
+        '''Function to solve the transport loop
+        '''
         # prep to solve
         for sln in range(1, self.nsln+1):
             self.prepare_solve(sln)
@@ -262,11 +268,16 @@ class Mf6RTM(object):
         self.sout_fname = 'sout.csv'
         self.reactive = True
         self.epsaqu = 0.0
+        self.fixed_components = None
 
         #set discretization
         self._set_dis()
 
+    def _set_fixed_components(self, fixed_components):
+        ...
     def _set_reactive(self, reactive):
+        '''Set the model to run only transport or transport and reactions
+        '''
         self.reactive = reactive
 
     def _set_dis(self):
@@ -294,11 +305,15 @@ class Mf6RTM(object):
         self._write_sout_headers()
 
     def _set_ctime(self):
+        '''Set the current time of the simulation from mf6api
+        '''
         self.ctime = self.mf6api.get_current_time()
         self.phreeqcbmi._set_ctime(self.ctime)
         return self.ctime
 
     def _set_etime(self):
+        '''Set the end time of the simulation from mf6api
+        '''
         self.etime = self.mf6api.get_end_time()
         return self.etime
 
@@ -307,26 +322,38 @@ class Mf6RTM(object):
         return self.time_step
 
     def _finalize(self):
+        '''Finalize the APIs
+        '''
         self._finalize_mf6api()
         self._finalize_phreeqcrm()
         return
 
     def _finalize_mf6api(self):
+        '''Finalize the mf6api
+        '''
         self.mf6api.finalize()
 
     def _finalize_phreeqcrm(self):
+        '''Finalize the phreeqcrm api
+        '''
         self.phreeqcbmi.finalize()
 
     def _get_cdlbl_vect(self):
+        '''Get the concentration array from phreeqc bmi reshape to (ncomps, nxyz)
+        '''
         c_dbl_vect = self.phreeqcbmi.GetConcentrations()
 
         conc = [c_dbl_vect[i:i + self.nxyz] for i in range(0, len(c_dbl_vect), self.nxyz)]  # reshape array
         return conc
 
     def _set_conc_at_current_kstep(self, c_dbl_vect):
+        '''Saves the current concentration array to the object
+        '''
         self.current_iteration_conc = np.reshape(c_dbl_vect, (self.phreeqcbmi.ncomps, self.nxyz))
 
     def _set_conc_at_previous_kstep(self, c_dbl_vect):
+        '''Saves the current concentration array to the object
+        '''
         self.previous_iteration_conc = np.reshape(c_dbl_vect, (self.phreeqcbmi.ncomps, self.nxyz))
 
     def _transfer_array_to_mf6(self):
@@ -334,10 +361,9 @@ class Mf6RTM(object):
         '''
         c_dbl_vect = self._get_cdlbl_vect()
 
+        # check if reactive cells were skipped due to small changes from transport and replace with previous conc
         if self._check_previous_conc_exists() and self._check_inactive_cells_exist(self.diffmask):
             c_dbl_vect = self._replace_inactive_cells(c_dbl_vect, self.diffmask)
-            # update array in phreeqcrm
-            # self.phreeqcbmi.SetConcentrations(np.array(c_dbl_vect).flatten()
         else:
             pass
 
@@ -382,6 +408,8 @@ class Mf6RTM(object):
         return conc
 
     def _transfer_array_to_phreeqcrm(self):
+        '''Transfer the concentration array to phreeqc bmi
+        '''
         mf6_conc_array = []
         for c in self.phreeqcbmi.components:
             if c.lower() == 'charge':
@@ -399,6 +427,8 @@ class Mf6RTM(object):
         return c_dbl_vect
 
     def _update_selected_output(self):
+        '''Update the selected output dataframe and save to attribute
+        '''
         self._get_selected_output()
         updf = pd.concat([self.phreeqcbmi.soutdf.astype(self._current_soutdf.dtypes), self._current_soutdf])
         self._update_soutdf(updf)
@@ -416,6 +446,8 @@ class Mf6RTM(object):
         return sout
 
     def _get_selected_output(self):
+        '''Get the selected output from phreeqc bmi and replace skipped reactive cells with previous conc
+        '''
         # selected ouput
         self.phreeqcbmi.set_scalar("NthSelectedOutput", 0)
         sout = self.phreeqcbmi.GetSelectedOutput()
@@ -433,9 +465,13 @@ class Mf6RTM(object):
         self._current_soutdf = df
 
     def _update_soutdf(self, df):
+        '''Update the selected output dataframe to phreeqcrm object
+        '''
         self.phreeqcbmi.soutdf = df
 
     def _check_sout_exist(self):
+        '''Check if selected output file exists
+        '''
         if os.path.exists(os.path.join(self.wd, self.sout_fname)):
             return True
         else :
@@ -524,8 +560,6 @@ class Mf6RTM(object):
         try:
             self._finalize()
             success = True
-            # save selected ouput to csv
-            # self._export_soutdf()
             print(mrbeaker())
             print('\nMR BEAKER IMPORTANT MESSAGE: MODEL RUN FINISHED BUT CHECK THE RESULTS .. THEY ARE PROLY RUBBISH\n')
         except:
@@ -594,6 +628,8 @@ def mrbeaker():
 
 
 def flatten_list(xss):
+    '''Flatten a list of lists
+    '''
     return [x for xs in xss for x in xs]
 
 
