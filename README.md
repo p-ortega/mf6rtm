@@ -2,7 +2,7 @@
 ![Tests](https://github.com/p-ortega/mf6rtm/actions/workflows/tests_main.yml/badge.svg)
 ![Tests](https://github.com/p-ortega/mf6rtm/actions/workflows/tests_macos.yml/badge.svg)
 
-[![GitHub tag](https://img.shields.io/github/tag/mf6rtm/mf6rtm.svg)](https://github.com/p-ortega/mf6rtm/releases/tag/latest)
+<!-- [![GitHub tag](https://img.shields.io/github/tag/mf6rtm/mf6rtm.svg)](https://github.com/p-ortega/mf6rtm/releases/tag/latest) -->
 [![PyPI License](https://img.shields.io/pypi/l/mf6rtm)](https://pypi.python.org/pypi/mf6rtm)
 <!-- [![PyPI Status](https://img.shields.io/pypi/status/modflowapi.png)](https://pypi.python.org/pypi/mf6rtm) -->
 <!-- [![PyPI Format](https://img.shields.io/pypi/format/modflowapi)](https://pypi.python.org/pypi/mf6rtm) -->
