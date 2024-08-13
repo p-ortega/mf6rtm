@@ -11,12 +11,6 @@ from . import utils
 from phreeqcrm import yamlphreeqcrm
 import yaml
 
-# add representer to yaml to write np.array as list
-# def ndarray_representer(dumper: yaml.Dumper, array: np.ndarray) -> yaml.Node:
-#     return dumper.represent_list(array.tolist())
-
-# yaml.add_representer(np.ndarray, ndarray_representer)
-
 # global variables
 DT_FMT = "%Y-%m-%d %H:%M:%S"
 
@@ -105,7 +99,7 @@ class ChemStress():
 
 phase_types = {
     'KineticPhases': KineticPhases,
-    'ExchangePhases': ExchangePhases,
+    'ExchangePhases': ExchangePhases, # TODO: Exchange has to be abstracted to be used with this methods
     'EquilibriumPhases': EquilibriumPhases,
     'Surfaces': Surfaces,
 }
@@ -143,6 +137,9 @@ class Mup3d(object):
         assert self.solutions.ic.shape == (self.nlay, self.nrow, self.ncol), f'Initial conditions array must be an array of the shape ({nlay}, {nrow}, {ncol}) not {self.solutions.ic.shape}'
 
     def set_fixed_components(self, fixed_components):
+        '''Set the fixed components for the MF6RTM model. These are the components that are not transported during the simulation.
+        '''
+        # FIXME: implemented but commented in main coupling loop
         self.fixed_components = fixed_components
 
     def set_initial_temp(self, temp):
@@ -151,6 +148,8 @@ class Mup3d(object):
         self.init_temp = temp
 
     def set_phases(self, phase):
+        '''Sets the phases for the MF6RTM model.
+        '''
         # Dynamically get the class of the phase object
         phase_class = phase.__class__
 
@@ -168,6 +167,8 @@ class Mup3d(object):
         setattr(self, f"{phase_class.__name__.lower().split('phases')[0]}_phases", phase)
 
     def set_exchange_phases(self, exchanger):
+        '''Sets the exchange phases for the MF6RTM model.
+        '''
         assert isinstance(exchanger, ExchangePhases), 'exchanger must be an instance of the Exchange class'
         # exchanger.data = {i: exchanger.data[key] for i, key in enumerate(exchanger.data.keys())}
         if isinstance(exchanger.ic, (int, float)):
@@ -538,6 +539,7 @@ class Mup3d(object):
         return sconc
 
     def _initialize_phreeqc_from_file(self, yamlfile):
+        '''Initialize phreeqc from a yaml file'''
         yamlfile = self.phreeqcyaml_file
         phreeqcrm_from_yaml = phreeqcrm.InitializeYAML(yamlfile)
         if self.phreeqc_rm is None:
@@ -545,6 +547,7 @@ class Mup3d(object):
         return
 
     def _write_phreeqc_init_file(self, filename='mf6rtm.yaml'):
+        '''Write the phreeqc init yaml file'''
         fdir = os.path.join(self.wd, filename)
         phreeqcrm_yaml = yamlphreeqcrm.YAMLPhreeqcRM()
         phreeqcrm_yaml.YAMLSetGridCellCount(self.ncpl)
@@ -602,4 +605,5 @@ class Mup3d(object):
         return
 
     def run(self, reactive = True):
+        '''Wrapper function to run the MF6RTM model'''
         return solve(self.wd, reactive=reactive)
