@@ -36,7 +36,7 @@ def prep_to_run(wd):
     # check if wd exists
     assert os.path.exists(wd), f'{wd} not found'
     # check if file starting with libmf6 exists
-    dll = [f for f in os.listdir(wd) if f.startswith('libmf6.')]
+    dll = [f for f in os.listdir(wd) if f.startswith('libmf6')]
     assert len(dll) == 1, 'libmf6 dll not found in model directory'
     assert os.path.exists(os.path.join(wd, 'mf6rtm.yaml')), 'mf6rtm.yaml not found in model directory'
 
