@@ -276,7 +276,7 @@ class Mf6RTM(object):
     def _set_fixed_components(self, fixed_components):
         ...
     def _set_reactive(self, reactive):
-        '''Set the model to run only transport or transport and reactions	
+        '''Set the model to run only transport or transport and reactions
         '''
         self.reactive = reactive
 
