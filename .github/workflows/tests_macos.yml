@@ -1,4 +1,4 @@
-name: tests macOS
+name: mf6rtm continuous integration - macOS
 
 on:
   - push

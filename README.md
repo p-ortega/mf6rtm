@@ -1,6 +1,13 @@
 # MF6RTM: Reactive Transport Model via the MODFLOW 6 and PHREEQCRM APIs
 ![Tests](https://github.com/p-ortega/mf6rtm/actions/workflows/tests_main.yml/badge.svg)
 ![Tests](https://github.com/p-ortega/mf6rtm/actions/workflows/tests_macos.yml/badge.svg)
+[![GitHub tag](https://img.shields.io/github/tag/MODFLOW-USGS/modflowapi.svg)](https://github.com/p-ortega/mf6rtm/tags/latest)
+
+[![PyPI License](https://img.shields.io/pypi/l/modflowapi)](https://pypi.python.org/pypi/mf6rtm)
+<!-- [![PyPI Status](https://img.shields.io/pypi/status/modflowapi.png)](https://pypi.python.org/pypi/mf6rtm) -->
+<!-- [![PyPI Format](https://img.shields.io/pypi/format/modflowapi)](https://pypi.python.org/pypi/mf6rtm) -->
+[![PyPI Version](https://img.shields.io/pypi/v/modflowapi.png)](https://pypi.python.org/pypi/mf6rtm)
+[![PyPI Versions](https://img.shields.io/pypi/pyversions/modflowapi.png)](https://pypi.python.org/pypi/mf6rtm)
 
 ## Benchmarks
 Benchmark comparing model results against PHT3D are in `benchmark/`. Each folder contains a Jupyter notebook to write and execute an MF6RTM model via the MUP3D class. Additionally, PHT3D files are provided in the corresponding `pht3d` directory for each example.
