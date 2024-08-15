@@ -574,7 +574,6 @@ class Mup3d(object):
         phreeqcrm_yaml.YAMLSetUnitsKinetics(1)           # 0, mol/L cell; 1, mol/L water; 2 mol/L rock
 
         # mf6 handles poro . set to 1
-        # poro = np.full((self.ncpl), 1.)
         poro = [1.0]*self.ncpl
         status = phreeqcrm_yaml.YAMLSetPorosity(list(poro))
 
@@ -583,8 +582,8 @@ class Mup3d(object):
         status = phreeqcrm_yaml.YAMLSetPrintChemistryMask(print_chemistry_mask)
         status = phreeqcrm_yaml.YAMLSetPrintChemistryOn(False, True, False)  # workers, initial_phreeqc, utility
 
-        # rv = [1] * self.ncpl
-        # phreeqcrm_yaml.YAMLSetRepresentativeVolume(rv)
+        rv = [1] * self.ncpl
+        phreeqcrm_yaml.YAMLSetRepresentativeVolume(rv)
 
         # Load database
         status = phreeqcrm_yaml.YAMLLoadDatabase(self.database)
@@ -603,7 +602,6 @@ class Mup3d(object):
         status = phreeqcrm_yaml.YAMLRunCells()
         # Initial equilibration of cells
         time = 0.0
-        time_step = 0.0 # TODO: set time step from mf6 and convert to seconds
         status = phreeqcrm_yaml.YAMLSetTime(time)
         # status = phreeqcrm_yaml.YAMLSetTimeStep(time_step)
         status = phreeqcrm_yaml.WriteYAMLDoc(fdir)
@@ -613,6 +611,6 @@ class Mup3d(object):
         self.phreeqcrm_yaml = phreeqcrm_yaml
         return
 
-    def run(self, reactive = True):
+    def run(self, reactive = True, nthread=1):
         '''Wrapper function to run the MF6RTM model'''
-        return solve(self.wd, reactive=reactive)
+        return solve(self.wd, reactive=reactive, nthread=nthread)

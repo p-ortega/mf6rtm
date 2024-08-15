@@ -45,24 +45,41 @@ def prep_to_run(wd):
 
     return yamlfile, dll
 
-def solve(wd, reactive=True):
+def solve(wd, reactive=True, nthread=1):
     '''Wrapper to prepare and call solve functions
     '''
-    mf6rtm = initialize_interfaces(wd)
+
+    mf6rtm = initialize_interfaces(wd, nthread=nthread)
     if not reactive:
         mf6rtm._set_reactive(reactive)
     success = mf6rtm._solve()
     return success
 
-def initialize_interfaces(wd):
+def initialize_interfaces(wd, nthread=1):
     '''Function to initialize the interfaces for modflowapi and phreeqcrm and returns the mf6rtm object
     '''
+
     yamlfile, dll = prep_to_run(wd)
+    if nthread > 1:
+        # set nthreds to nthread
+        set_nthread_yaml(yamlfile, nthread=nthread)
+    # initialize the interfaces
     mf6api = Mf6API(wd, dll)
     phreeqcrm = PhreeqcBMI(yamlfile)
     mf6rtm = Mf6RTM(wd, mf6api, phreeqcrm)
     return mf6rtm
 
+def set_nthread_yaml(yamlfile, nthread=1):
+    '''Function to set the number of threads in the yaml file
+    '''
+    with open(yamlfile, 'r') as f:
+        lines = f.readlines()
+    for i, line in enumerate(lines):
+        if 'nthreads' in line:
+            lines[i] = f'  nthreads: {nthread}\n'
+    with open(yamlfile, 'w') as f:
+        f.writelines(lines)
+    return
 
 def get_mf6_dis(sim):
     '''Function to extract dis from modflow6 sim object
@@ -307,6 +324,7 @@ class Mf6RTM(object):
         '''
         # check if sout fname exists
         if self._check_sout_exist():
+            # if found remove it
             self._rm_sout_file()
 
         self.mf6api._prepare_mf6()
