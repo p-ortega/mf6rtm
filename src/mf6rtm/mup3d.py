@@ -15,13 +15,12 @@ import yaml
 DT_FMT = "%Y-%m-%d %H:%M:%S"
 
 time_units_dic = {
-    'second': 1,
-    'minute': 60,
-    'hour': 3600,
-    'day': 86400,
-    'week': 604800,
-    'month': 2628000,
-    'year': 31536000
+    'seconds': 1,
+    'minutes': 60,
+    'hours': 3600,
+    'days': 86400,
+    'years': 31536000,
+    'unknown': 1 # if unknown assume seconds
 }
 
 
@@ -556,17 +555,23 @@ class Mup3d(object):
         status = phreeqcrm_yaml.YAMLUseSolutionDensityVolume(False)
 
         # Open files for phreeqcrm logging
-        # status = phreeqcrm_yaml.YAMLSetGridCellCount(self.ncpl)
         status = phreeqcrm_yaml.YAMLSetFilePrefix(os.path.join(self.wd, '_phreeqc'))
         status = phreeqcrm_yaml.YAMLOpenFiles()
 
         # set some properties
-        # phreeqcrm_yaml.YAMLSetErrorHandlerMode(1)
-        # phreeqcrm_yaml.YAMLSetRebalanceFraction(0.5)
-        # phreeqcrm_yaml.YAMLSetRebalanceByCell(True)
-        # phreeqcrm_yaml.YAMLSetPartitionUZSolids(False)
+        phreeqcrm_yaml.YAMLSetErrorHandlerMode(1)
+        phreeqcrm_yaml.YAMLSetRebalanceFraction(0.5) # Needed for multithreading
+        phreeqcrm_yaml.YAMLSetRebalanceByCell(True) # Needed for multithreading
+        phreeqcrm_yaml.YAMLSetPartitionUZSolids(False) # TODO: implement when UZF is turned on
+
         # Set concentration units
-        status = phreeqcrm_yaml.YAMLSetUnitsSolution(2)
+        phreeqcrm_yaml.YAMLSetUnitsSolution(2)           # 1, mg/L; 2, mol/L; 3, kg/kgs
+        phreeqcrm_yaml.YAMLSetUnitsPPassemblage(1)       # 0, mol/L cell; 1, mol/L water; 2 mol/L rock
+        phreeqcrm_yaml.YAMLSetUnitsExchange(1)           # 0, mol/L cell; 1, mol/L water; 2 mol/L rock
+        phreeqcrm_yaml.YAMLSetUnitsSurface(1)            # 0, mol/L cell; 1, mol/L water; 2 mol/L rock
+        phreeqcrm_yaml.YAMLSetUnitsGasPhase(1)           # 0, mol/L cell; 1, mol/L water; 2 mol/L rock
+        phreeqcrm_yaml.YAMLSetUnitsSSassemblage(1)       # 0, mol/L cell; 1, mol/L water; 2 mol/L rock
+        phreeqcrm_yaml.YAMLSetUnitsKinetics(1)           # 0, mol/L cell; 1, mol/L water; 2 mol/L rock
 
         # mf6 handles poro . set to 1
         # poro = np.full((self.ncpl), 1.)
@@ -577,8 +582,10 @@ class Mup3d(object):
         assert all(isinstance(i, int) for i in print_chemistry_mask), 'print_chemistry_mask length must be equal to the number of grid cells'
         status = phreeqcrm_yaml.YAMLSetPrintChemistryMask(print_chemistry_mask)
         status = phreeqcrm_yaml.YAMLSetPrintChemistryOn(False, True, False)  # workers, initial_phreeqc, utility
+
         # rv = [1] * self.ncpl
         # phreeqcrm_yaml.YAMLSetRepresentativeVolume(rv)
+
         # Load database
         status = phreeqcrm_yaml.YAMLLoadDatabase(self.database)
         status = phreeqcrm_yaml.YAMLRunFile(True, True, True, self.phinp)
@@ -586,6 +593,8 @@ class Mup3d(object):
         # Clear contents of workers and utility
         input = "DELETE; -all"
         status = phreeqcrm_yaml.YAMLRunString(True, False, True, input)
+        phreeqcrm_yaml.YAMLAddOutputVars("AddOutputVars", "true")
+
         status = phreeqcrm_yaml.YAMLFindComponents()
         # convert ic1 to a list
         ic1_flatten = self.ic1_flatten
@@ -596,7 +605,7 @@ class Mup3d(object):
         time = 0.0
         time_step = 0.0 # TODO: set time step from mf6 and convert to seconds
         status = phreeqcrm_yaml.YAMLSetTime(time)
-        status = phreeqcrm_yaml.YAMLSetTimeStep(time_step)
+        # status = phreeqcrm_yaml.YAMLSetTimeStep(time_step)
         status = phreeqcrm_yaml.WriteYAMLDoc(fdir)
 
         # create new attribute for phreeqc yaml file

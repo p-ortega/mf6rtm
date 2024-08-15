@@ -19,16 +19,13 @@ from . import utils
 DT_FMT = "%Y-%m-%d %H:%M:%S"
 
 time_units_dic = {
-    'second': 1,
-    'minute': 60,
-    'hour': 3600,
-    'day': 86400,
-    'week': 604800,
-    'month': 2628000,
-    'year': 31536000
+    'seconds': 1,
+    'minutes': 60,
+    'hours': 3600,
+    'days': 86400,
+    'years': 31536000,
+    'unknown': 1 # if unknown assume seconds
 }
-
-
 
 def prep_to_run(wd):
     '''Prepares the model to run by checking if the model directory contains the necessary files
@@ -145,7 +142,7 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
 
         # status = phreeqc_rm.SetTemperature([self.init_temp[0]] * self.ncpl)
         # status = phreeqc_rm.SetPressure([2.0] * nxyz)
-        self.SetTimeStep(dt*86400)
+        self.SetTimeStep(dt*1.0/self.GetTimeConversion())
 
         # update which cells to run depending on conc change between tsteps
         sat = [1]*self.GetGridCellCount()
@@ -159,11 +156,10 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
             print(f"{'Cells sent to reactions':<25} | {self.GetGridCellCount()-len(inact):<0}/{self.GetGridCellCount():<15}")
             self.SetSaturation(sat)
 
-        # allow phreeqc to print some info in the terminal
         print_selected_output_on = True
-        print_chemistry_on = True
+        # print_chemistry_on = False
         status = self.SetSelectedOutputOn(print_selected_output_on)
-        status = self.SetPrintChemistryOn(print_chemistry_on, False, True)
+        status = self.SetPrintChemistryOn(False, False, False)
         # reactions loop
         sol_start = datetime.now()
 
@@ -269,9 +265,24 @@ class Mf6RTM(object):
         self.reactive = True
         self.epsaqu = 0.0
         self.fixed_components = None
+        self.get_selected_output_on = True
 
-        #set discretization
+        # set discretization
         self._set_dis()
+        # set time conversion factor
+        self.set_time_conversion()
+
+    def get_time_units_from_mf6(self):
+        '''Function to get the time units from mf6
+        '''
+        return self.mf6api.sim.tdis.time_units.get_data()
+
+    def set_time_conversion(self):
+        '''Function to set the time conversion factor
+        '''
+        time_units = self.get_time_units_from_mf6()
+        self.time_conversion = 1.0 / time_units_dic[time_units]
+        self.phreeqcbmi.SetTimeConversion(self.time_conversion)
 
     def _set_fixed_components(self, fixed_components):
         ...
@@ -540,10 +551,11 @@ class Mf6RTM(object):
                 # solve reactions
                 self.phreeqcbmi._solve_phreeqcrm(dt, diffmask = self.diffmask)
                 c_dbl_vect = self._transfer_array_to_mf6()
-                # get sout and update df
-                self._update_selected_output()
-                # append current sout rows to file
-                self._append_to_soutdf_file()
+                if self.get_selected_output_on:
+                    # get sout and update df
+                    self._update_selected_output()
+                    # append current sout rows to file
+                    self._append_to_soutdf_file()
                 self._set_conc_at_previous_kstep(c_dbl_vect)
 
             self.mf6api.finalize_time_step()
