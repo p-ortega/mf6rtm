@@ -60,9 +60,11 @@ def initialize_interfaces(wd, nthread=1):
     '''
 
     yamlfile, dll = prep_to_run(wd)
+
     if nthread > 1:
         # set nthreds to nthread
         set_nthread_yaml(yamlfile, nthread=nthread)
+
     # initialize the interfaces
     mf6api = Mf6API(wd, dll)
     phreeqcrm = PhreeqcBMI(yamlfile)
