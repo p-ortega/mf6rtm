@@ -1142,15 +1142,16 @@ def run_yaml(prefix):
     return
 
 def run_test(prefix, model, mf6sim, *args, **kwargs):
-    #try to run the model if success print test passed
-    success = model.run(reactive=True)
-    assert success
+    for nthread in [1, 8]:
+        #try to run the model if success print test passed
+        success = model.run(reactive=True, nthread=nthread)
+        assert success
 
-    # treshold = args.get('treshold', 0.01)
-    benchmarkdf = get_benchmark_results(prefix)
-    testdf = get_test_results(model)
+        # treshold = args.get('treshold', 0.01)
+        benchmarkdf = get_benchmark_results(prefix)
+        testdf = get_test_results(model)
 
-    compare_results(benchmarkdf, testdf, *args, **kwargs)
+        compare_results(benchmarkdf, testdf, *args, **kwargs)
 
     return
 
