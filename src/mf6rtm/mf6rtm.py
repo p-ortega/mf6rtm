@@ -211,16 +211,28 @@ class Mf6API(modflowapi.ModflowApi):
         modflowapi.ModflowApi.__init__(self, dll, working_directory=wd)
         self.initialize()
         self.sim = flopy.mf6.MFSimulation.load(sim_ws=wd, verbosity_level=0)
+        self.fmi = False
 
     def _prepare_mf6(self):
         '''Prepare mf6 bmi for transport calculations
         '''
-        self.modelnmes = ['Flow'] + [nme.capitalize() for nme in self.sim.model_names if nme != 'gwf']
+        self.modelnmes = [nme.capitalize() for nme in self.sim.model_names]
         self.components = [nme.capitalize() for nme in self.sim.model_names[1:]]
         self.nsln = self.get_subcomponent_count()
         self.sim_start = datetime.now()
         self.ctimes = [0.0]
         self.num_fails = 0
+
+    def _check_fmi(self):
+        '''Check if fmi is in the nam file
+        '''
+        ...
+        return
+    
+    def _set_simtype_gwt(self):
+        '''Set the gwt sim type as sequential or flow interface
+        '''
+        ...
 
     def _solve_gwt(self):
         '''Function to solve the transport loop
@@ -467,8 +479,6 @@ class Mf6RTM(object):
     def __replace_inactive_cells_in_sout(self, sout, diffmask):
         '''Function to replace inactive cells in the selected output dataframe
         '''
-        components = self.mf6api.modelnmes[1:]
-        headers = self.phreeqcbmi.sout_headers
         # match headers in components closest string
 
         inactive_idx = get_indices(0, diffmask)
@@ -545,7 +555,7 @@ class Mf6RTM(object):
         assert self._check_sout_exist(), f'{self.sout_fname} not found'
 
         print("Starting transport solution at {0}".format(sim_start.strftime(DT_FMT)))
-        print(f"Solving the following components: {', '.join([nme for nme in self.mf6api.modelnmes])}")
+        # print(f"Solving the following components: {', '.join([nme for nme in self.mf6api.modelnmes])}")
         ctime = self._set_ctime()
         etime = self._set_etime()
         while ctime < etime:
