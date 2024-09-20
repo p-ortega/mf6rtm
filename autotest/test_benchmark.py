@@ -1088,7 +1088,7 @@ def test_yaml(prefix):
     compare_results(benchmarkdf, testdf)
 
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test01_yaml(prefix = 'test01'):
 
     '''Test 1: Simple 1D injection test with equilibrium phases
