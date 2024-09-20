@@ -1087,7 +1087,6 @@ def test_yaml(prefix):
     testdf = pd.read_csv(os.path.join(cwd, wd,f"sout.csv"), index_col = 0)
     compare_results(benchmarkdf, testdf)
 
-
 # @pytest.mark.skip
 def test01_yaml(prefix = 'test01'):
 
