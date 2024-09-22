@@ -4,8 +4,8 @@
 
 <!-- [![GitHub tag](https://img.shields.io/github/tag/mf6rtm/mf6rtm.svg)](https://github.com/p-ortega/mf6rtm/releases/tag/latest) -->
 [![PyPI License](https://img.shields.io/pypi/l/mf6rtm)](https://pypi.python.org/pypi/mf6rtm)
-<!-- [![PyPI Status](https://img.shields.io/pypi/status/modflowapi.png)](https://pypi.python.org/pypi/mf6rtm) -->
-<!-- [![PyPI Format](https://img.shields.io/pypi/format/modflowapi)](https://pypi.python.org/pypi/mf6rtm) -->
+<!-- [![PyPI Status](https://img.shields.io/pypi/status/mf6rtm.png)](https://pypi.python.org/pypi/mf6rtm) -->
+<!-- [![PyPI Format](https://img.shields.io/pypi/format/mf6rtm)](https://pypi.python.org/pypi/mf6rtm) -->
 [![PyPI Version](https://img.shields.io/pypi/v/mf6rtm.png)](https://pypi.python.org/pypi/mf6rtm)
 [![PyPI Versions](https://img.shields.io/pypi/pyversions/mf6rtm.png)](https://pypi.python.org/pypi/mf6rtm)
 
@@ -29,18 +29,16 @@ Most options for each phreeqc block can be passed by adding list with options. H
 All dependencies and executables are included in this repo. This package extensively uses [modflowapi](https://github.com/MODFLOW-USGS/modflowapi) and [phreeqcrm](https://github.com/usgs-coupled/phreeqcrm)
 
 ## Installation
-The package is still not published in PyPi but it can be installed through pip by cloning the repository. 
+The package can be installed through pip as:
 
-Once the repository is already cloned in your local machine, please just type the following in your conda prompt:
+```commandline
+pip install mf6rtm
+```
+## Developing
+We recommend forking and cloning a local version of this repo. A development Conda environment is provided in the `env.yml` file, which should install all required dependencies to run tests and modify the package on the fly. To install the environment, use the following command:
 
 ```commandline
 conda env create -f env.yml
-```
-
-Otherwise, the package can be installed through pip as:
-
-```commandline
-pip install git+https://github.com/p-ortega/mf6rtm.git#egg=mf6rtm
 ```
 
 ## Funding

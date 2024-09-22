@@ -1087,7 +1087,6 @@ def test_yaml(prefix):
     testdf = pd.read_csv(os.path.join(cwd, wd,f"sout.csv"), index_col = 0)
     compare_results(benchmarkdf, testdf)
 
-
 @pytest.mark.skip
 def test01_yaml(prefix = 'test01'):
 
@@ -1142,15 +1141,16 @@ def run_yaml(prefix):
     return
 
 def run_test(prefix, model, mf6sim, *args, **kwargs):
-    #try to run the model if success print test passed
-    success = model.run(reactive=True)
-    assert success
+    for nthread in [1, 8]:
+        #try to run the model if success print test passed
+        success = model.run(reactive=True, nthread=nthread)
+        assert success
 
-    # treshold = args.get('treshold', 0.01)
-    benchmarkdf = get_benchmark_results(prefix)
-    testdf = get_test_results(model)
+        # treshold = args.get('treshold', 0.01)
+        benchmarkdf = get_benchmark_results(prefix)
+        testdf = get_test_results(model)
 
-    compare_results(benchmarkdf, testdf, *args, **kwargs)
+        compare_results(benchmarkdf, testdf, *args, **kwargs)
 
     return
 

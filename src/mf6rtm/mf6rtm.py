@@ -19,16 +19,13 @@ from . import utils
 DT_FMT = "%Y-%m-%d %H:%M:%S"
 
 time_units_dic = {
-    'second': 1,
-    'minute': 60,
-    'hour': 3600,
-    'day': 86400,
-    'week': 604800,
-    'month': 2628000,
-    'year': 31536000
+    'seconds': 1,
+    'minutes': 60,
+    'hours': 3600,
+    'days': 86400,
+    'years': 31536000,
+    'unknown': 1 # if unknown assume seconds
 }
-
-
 
 def prep_to_run(wd):
     '''Prepares the model to run by checking if the model directory contains the necessary files
@@ -48,24 +45,43 @@ def prep_to_run(wd):
 
     return yamlfile, dll
 
-def solve(wd, reactive=True):
+def solve(wd, reactive=True, nthread=1):
     '''Wrapper to prepare and call solve functions
     '''
-    mf6rtm = initialize_interfaces(wd)
+
+    mf6rtm = initialize_interfaces(wd, nthread=nthread)
     if not reactive:
         mf6rtm._set_reactive(reactive)
     success = mf6rtm._solve()
     return success
 
-def initialize_interfaces(wd):
+def initialize_interfaces(wd, nthread=1):
     '''Function to initialize the interfaces for modflowapi and phreeqcrm and returns the mf6rtm object
     '''
+
     yamlfile, dll = prep_to_run(wd)
+
+    if nthread > 1:
+        # set nthreds to nthread
+        set_nthread_yaml(yamlfile, nthread=nthread)
+
+    # initialize the interfaces
     mf6api = Mf6API(wd, dll)
     phreeqcrm = PhreeqcBMI(yamlfile)
     mf6rtm = Mf6RTM(wd, mf6api, phreeqcrm)
     return mf6rtm
 
+def set_nthread_yaml(yamlfile, nthread=1):
+    '''Function to set the number of threads in the yaml file
+    '''
+    with open(yamlfile, 'r') as f:
+        lines = f.readlines()
+    for i, line in enumerate(lines):
+        if 'nthreads' in line:
+            lines[i] = f'  nthreads: {nthread}\n'
+    with open(yamlfile, 'w') as f:
+        f.writelines(lines)
+    return
 
 def get_mf6_dis(sim):
     '''Function to extract dis from modflow6 sim object
@@ -100,6 +116,7 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
     def __init__(self, yaml="mf6rtm.yaml"):
         phreeqcrm.BMIPhreeqcRM.__init__(self)
         self.initialize(yaml)
+        self.sat_now = None
 
     def get_grid_to_map(self):
         '''Function to get grid to map
@@ -142,14 +159,18 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
     def _solve_phreeqcrm(self, dt, diffmask):
         '''Function to solve phreeqc bmi
         '''
-
         # status = phreeqc_rm.SetTemperature([self.init_temp[0]] * self.ncpl)
         # status = phreeqc_rm.SetPressure([2.0] * nxyz)
-        self.SetTimeStep(dt*86400)
+        self.SetTimeStep(dt*1.0/self.GetTimeConversion())
+
+        if self.sat_now is not None:
+            sat = self.sat_now
+        else:
+            sat = [1]*self.GetGridCellCount()
+
+        self.SetSaturation(sat)
 
         # update which cells to run depending on conc change between tsteps
-        sat = [1]*self.GetGridCellCount()
-        self.SetSaturation(sat)
         if diffmask is not None:
             # get idx where diffmask is 0
             inact = get_indices(0, diffmask)
@@ -159,11 +180,10 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
             print(f"{'Cells sent to reactions':<25} | {self.GetGridCellCount()-len(inact):<0}/{self.GetGridCellCount():<15}")
             self.SetSaturation(sat)
 
-        # allow phreeqc to print some info in the terminal
         print_selected_output_on = True
-        print_chemistry_on = True
+        # print_chemistry_on = False
         status = self.SetSelectedOutputOn(print_selected_output_on)
-        status = self.SetPrintChemistryOn(print_chemistry_on, False, True)
+        status = self.SetPrintChemistryOn(False, False, False)
         # reactions loop
         sol_start = datetime.now()
 
@@ -196,16 +216,28 @@ class Mf6API(modflowapi.ModflowApi):
         modflowapi.ModflowApi.__init__(self, dll, working_directory=wd)
         self.initialize()
         self.sim = flopy.mf6.MFSimulation.load(sim_ws=wd, verbosity_level=0)
+        self.fmi = False
 
     def _prepare_mf6(self):
         '''Prepare mf6 bmi for transport calculations
         '''
-        self.modelnmes = ['Flow'] + [nme.capitalize() for nme in self.sim.model_names if nme != 'gwf']
+        self.modelnmes = [nme.capitalize() for nme in self.sim.model_names]
         self.components = [nme.capitalize() for nme in self.sim.model_names[1:]]
         self.nsln = self.get_subcomponent_count()
         self.sim_start = datetime.now()
         self.ctimes = [0.0]
         self.num_fails = 0
+
+    def _check_fmi(self):
+        '''Check if fmi is in the nam file
+        '''
+        ...
+        return
+
+    def _set_simtype_gwt(self):
+        '''Set the gwt sim type as sequential or flow interface
+        '''
+        ...
 
     def _solve_gwt(self):
         '''Function to solve the transport loop
@@ -269,9 +301,44 @@ class Mf6RTM(object):
         self.reactive = True
         self.epsaqu = 0.0
         self.fixed_components = None
+        self.get_selected_output_on = True
 
-        #set discretization
+        # set discretization
         self._set_dis()
+        # set time conversion factor
+        self.set_time_conversion()
+
+    def get_saturation_from_mf6(self):
+        """
+        Get the saturation
+
+        Parameters
+        ----------
+        mf6 (modflowapi): the modflow api object
+
+        Returns
+        -------
+        array: the saturation
+        """
+        sat = {component: self.mf6api.get_value(
+            self.mf6api.get_var_address("FMI/GWFSAT", f'{component}')
+            ) for component in self.phreeqcbmi.components}
+        # select the first component to get the length of the array
+        sat = sat[self.phreeqcbmi.components[0]] # saturation is the same for all components
+        self.phreeqcbmi.sat_now = sat # set phreeqcmbi saturation
+        return sat
+
+    def get_time_units_from_mf6(self):
+        '''Function to get the time units from mf6
+        '''
+        return self.mf6api.sim.tdis.time_units.get_data()
+
+    def set_time_conversion(self):
+        '''Function to set the time conversion factor
+        '''
+        time_units = self.get_time_units_from_mf6()
+        self.time_conversion = 1.0 / time_units_dic[time_units]
+        self.phreeqcbmi.SetTimeConversion(self.time_conversion)
 
     def _set_fixed_components(self, fixed_components):
         ...
@@ -296,6 +363,7 @@ class Mf6RTM(object):
         '''
         # check if sout fname exists
         if self._check_sout_exist():
+            # if found remove it
             self._rm_sout_file()
 
         self.mf6api._prepare_mf6()
@@ -436,8 +504,6 @@ class Mf6RTM(object):
     def __replace_inactive_cells_in_sout(self, sout, diffmask):
         '''Function to replace inactive cells in the selected output dataframe
         '''
-        components = self.mf6api.modelnmes[1:]
-        headers = self.phreeqcbmi.sout_headers
         # match headers in components closest string
 
         inactive_idx = get_indices(0, diffmask)
@@ -514,7 +580,7 @@ class Mf6RTM(object):
         assert self._check_sout_exist(), f'{self.sout_fname} not found'
 
         print("Starting transport solution at {0}".format(sim_start.strftime(DT_FMT)))
-        print(f"Solving the following components: {', '.join([nme for nme in self.mf6api.modelnmes])}")
+        # print(f"Solving the following components: {', '.join([nme for nme in self.mf6api.modelnmes])}")
         ctime = self._set_ctime()
         etime = self._set_etime()
         while ctime < etime:
@@ -524,6 +590,9 @@ class Mf6RTM(object):
             dt = self._set_time_step()
             self.mf6api.prepare_time_step(dt)
             self.mf6api._solve_gwt()
+
+            # get saturation
+            self.get_saturation_from_mf6()
 
             if self.reactive:
                 # reaction block
@@ -540,10 +609,11 @@ class Mf6RTM(object):
                 # solve reactions
                 self.phreeqcbmi._solve_phreeqcrm(dt, diffmask = self.diffmask)
                 c_dbl_vect = self._transfer_array_to_mf6()
-                # get sout and update df
-                self._update_selected_output()
-                # append current sout rows to file
-                self._append_to_soutdf_file()
+                if self.get_selected_output_on:
+                    # get sout and update df
+                    self._update_selected_output()
+                    # append current sout rows to file
+                    self._append_to_soutdf_file()
                 self._set_conc_at_previous_kstep(c_dbl_vect)
 
             self.mf6api.finalize_time_step()
