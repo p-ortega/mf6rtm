@@ -23,10 +23,8 @@ authors:
 affiliations:
  - name: Intera Geosciences, Perth, Australia
    index: 1
-affiliations:
  - name: Limnotech, Oakdale, MN, USA
    index: 2
-affiliations:
  - name: Intera Incorporated, Fort Collins, CO, USA
    index: 3
 date: 01 December 2025
