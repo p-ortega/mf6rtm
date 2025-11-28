@@ -72,7 +72,7 @@ MF6RTM
 # Benchmark 
 Six benchmarks are currently included in the codebase. Five of them correspond to models that apply different hydraulic fields and geochemical reaction networks, with results compared against PHT3D and PHREEQC. The sixth example is the same as Example 4 but uses the MODFLOW-6 discretization-by-vertices (DISV) package.
 Here we present the following benchmark (Example 5 in codebase) to demonstrate usage and verify that the implementation is correct.
-This benchmark models a 1D column oxidation experiment in marine sediments containing pyrite, originally described by Appelo et al. (1998). The hydrochemical system includes multiple coupled processes:
+This benchmark models a 1D column oxidation experiment in marine sediments containing pyrite, originally described by Appelo et al. [@Appelo1998]. The hydrochemical system includes multiple coupled processes:
 
 - **Pyrite oxidation**, the primary driver of hydrochemical evolution  
 - **Secondary reactions**, including calcite dissolution, CO₂ sorption, and cation exchange  
@@ -87,7 +87,7 @@ The experiment consists of three sequential phases:
 
 Figure \autoref{fig:ex5} compares the MF6RTM simulation results with those from PHT3D and with the experimental data. The good agreement with PHT3D and the experimental data shows that MF6RTM accurately reproduces the benchmark behavior.
 
-![Comparison between simulated values from MF6RTM against PHT3D \label{fig:ex5}](ex5.png){width=20%}
+![Comparison between simulated values from MF6RTM against PHT3D \label{fig:ex5}](ex5.png){width=80%}
 
 # Acknowledgements
 The software MF6RTM was supported by INTERA INC., and its Research and Development initiative. We also thank Henning Prommer for his insights and discussions during the benchmarking of MF6RTM.
