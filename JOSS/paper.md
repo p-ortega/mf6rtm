@@ -85,9 +85,9 @@ The experiment consists of three sequential phases:
 2. **Dilute flushing phase:** The column was flushed with a more dilute MgCl₂ solution, providing data used to characterise non-reactive transport.  
 3. **Oxidation phase:** The column was flushed for four pore volumes with an oxidising H₂O₂ solution at the same flow rate. 
 
-Figure \autoref{fig:ex5} compares the MF6RTM simulation results with those from PHT3D and with the experimental data. The good agreement with PHT3D and the experimental data shows that MF6RTM accurately reproduces the benchmark behavior.
+\autoref{fig:ex5} compares the MF6RTM simulation results with those from PHT3D and with the experimental data. The good agreement with PHT3D and the experimental data shows that MF6RTM accurately reproduces the benchmark behavior.
 
-![Comparison between simulated values from MF6RTM against PHT3D \label{fig:ex5}](ex5.png){width=80%}
+![Comparison between simulated values from MF6RTM against PHT3D \label{fig:ex5}](ex5.png){width=100%}
 
 # Acknowledgements
 The software MF6RTM was supported by INTERA INC., and its Research and Development initiative. We also thank Henning Prommer for his insights and discussions during the benchmarking of MF6RTM.
