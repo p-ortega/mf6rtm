@@ -21,7 +21,7 @@ authors:
     affiliation: "3"
     email: jwhite@intera.com
 affiliations:
- - name: Intera Geosciences, Perth, Australia
+ - name: Intera Geosciences, Perth, WA, Australia
    index: 1
  - name: Limnotech, Oakdale, MN, USA
    index: 2
