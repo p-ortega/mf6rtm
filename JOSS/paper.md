@@ -87,7 +87,7 @@ The experiment consists of three sequential phases:
 
 Figure \autoref{fig:ex5} compares the MF6RTM simulation results with those from PHT3D and with the experimental data. The good agreement with PHT3D and the experimental data shows that MF6RTM accurately reproduces the benchmark behavior.
 
-![Comparison between simulated values from MF6RTM against PHT3D \label{fig:ex5}](ex5.png){width=5%}
+![Comparison between simulated values from MF6RTM against PHT3D \label{fig:ex5}](ex5.png){width=20%}
 
 # Acknowledgements
 The software MF6RTM was supported by INTERA INC., and its Research and Development initiative. We also thank Henning Prommer for his insights and discussions during the benchmarking of MF6RTM.
