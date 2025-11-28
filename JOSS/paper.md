@@ -32,8 +32,33 @@ mf6rtm addresses this need by providing a fully open, API-based integration betw
 
 # State of the Field
 
+# Codebase
+The codebase is organized into five modules, of which two, simulation and mup3d, serve as the core components.
+The simulation module manages everything related to initializing, solving, and coordinating the interaction between MODFLOW-6 and PHREEQCRM.
+The mup3d module (Model Utility Preprocessor 3D) focuses on providing users with a Python interface to help generating model input files, particularly those required for the geochemical components. Its role is similar to that of FloPy for MODFLOW(ref here).
+The remaining modules provide supporting functionality: the io submodule handles reading and writing model files, while the utils and config modules assist in generating configuration files and managing the overall modeling workflow.
+
+```
+mf6rtm 0.2.1
+├── mup3d
+│   └── base.py
+│
+├── simulation
+│   ├── solver.py
+│   ├── mf6api.py
+│   ├── phreeqcbmi.py
+│   └── discretization.py
+│
+└── io
+    └── externalio.py
+
+└── config/utils
+    ├── config.py
+    ├── utils.py
+    └── yaml_reader.py
+```
+
 
 # Acknowledgements
-
 
 # References
