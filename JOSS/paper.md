@@ -12,12 +12,10 @@ authors:
     orcid: 0000-0003-4091-4221
     affiliation: "1"
     email: portega@intera.com
-authors:
   - name: Anthony Aufdenkampe
     orcid: 0000-0002-5811-6458
     affiliation: "2"
     email: aaufdenkampe@limno.com
-authors:
   - name: Jeremy White
     orcid: 0000-0002-4950-1469
     affiliation: "3"
