@@ -70,7 +70,8 @@ MF6RTM
     └── yaml_reader.py
 ```
 # Benchmark 
-Six benchmarks are currently included in the codebase. Five of them correspond to models that apply different hydraulic fields and geochemical reaction networks, with results compared against PHT3D and PHREEQC. The sixth example is the same as Example 4 but uses the MODFLOW-6 discretization-by-vertices (DISV) package.
+Six benchmarks are currently included in the codebase. Five of them correspond to models that apply different hydraulic fields and geochemical reaction networks, with results compared against PHT3D and in a few cases against PHREEQC. The sixth example is the same as Example 4 but uses the MODFLOW-6 discretization-by-vertices (DISV) package.
+
 Here we present the following benchmark (Example 5 in codebase) to demonstrate usage and verify that the implementation is correct.
 This benchmark models a 1D column oxidation experiment in marine sediments containing pyrite, originally described by Appelo et al. [@Appelo1998]. The hydrochemical system includes multiple coupled processes:
 
@@ -78,12 +79,11 @@ This benchmark models a 1D column oxidation experiment in marine sediments conta
 - **Secondary reactions**, including calcite dissolution, CO₂ sorption, and cation exchange  
 - **Oxidation of organic matter**, which competes for the available oxidising capacity  
 
-The experiment consists of three sequential phases:
+The model simulation consists of three sequential phases:
 
-
-1. **Equilibration phase:** The sediment was saturated with a 280 mmol MgCl₂ solution, filling the pore space and loading the exchange sites with Mg.  
-2. **Dilute flushing phase:** The column was flushed with a more dilute MgCl₂ solution, providing data used to characterise non-reactive transport.  
-3. **Oxidation phase:** The column was flushed for four pore volumes with an oxidising H₂O₂ solution at the same flow rate. 
+1. **Equilibration phase:** The sediment was saturated with a 280 mmol MgCl<sub>2</sub>  solution, filling the pore space and loading the exchange sites with Mg.  
+2. **Dilute flushing phase:** The column was flushed with a more dilute MgCl<sub>2</sub> solution, providing data used to characterise non-reactive transport.  
+3. **Oxidation phase:** The column was flushed for four pore volumes with an oxidising H<sub>2</sub>O<sub>2</sub> solution at the same flow rate. 
 
 \autoref{fig:ex5} compares the MF6RTM simulation results with those from PHT3D and with the experimental data. The good agreement with PHT3D and the experimental data shows that MF6RTM accurately reproduces the benchmark behavior.
 
