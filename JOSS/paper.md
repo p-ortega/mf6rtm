@@ -16,6 +16,22 @@ authors:
     orcid: 0000-0002-5811-6458
     affiliation: "2"
     email: aaufdenkampe@limno.com
+  - name: Andres Prieto-Estrada
+    orcid: 0000-0002-8984-1177
+    affiliation: "5"
+    email: aestrada@intera.com
+  - name: Allan Foster
+    orcid: 
+    affiliation: "4"
+    email: afoster@intera.com
+  - name: Paul Tomasula
+    orcid: 0009-0004-8120-5936
+    affiliation: "2"
+    email: ptomasula@limno.com
+  - name: Lauren Mancewicz
+    orcid: 
+    affiliation: "6"
+    email: lauren.k.mancewicz@usace.army.mil
   - name: Jeremy White
     orcid: 0000-0002-4950-1469
     affiliation: "3"
@@ -27,7 +43,13 @@ affiliations:
    index: 2
  - name: Intera Incorporated, Fort Collins, CO, USA
    index: 3
-date: 01 December 2025
+ - name: Intera Incorporated, Denver, CO, USA
+   index: 4
+ - name: Intera Incorporated, Houston, TX, USA
+   index: 5
+ - name: US Army Corps of Engineers, USA
+   index: 6
+date: 25 December 2025
 bibliography: paper.bib
 ---
 
