@@ -79,9 +79,9 @@ MF6RTM addresses this need by providing a fully open, API-based integration betw
 
 The codebase is organized into five modules, of which two, simulation and mup3d, serve as the core components.
 
-The simulation module manages everything related to initializing, solving, and coordinating the interaction between MODFLOW-6 and PHREEQCRM. The mup3d module (Model Utility Preprocessor 3D) focuses on providing users with a Python interface to help generating model input files, particularly those required for the geochemical components. Its role is similar to that of FloPy for MODFLOW (ref here).
+The `simulation` module manages everything related to initializing, solving, and coordinating the interaction between MODFLOW-6 and PHREEQC3. The `mup3d` module (Model Utility Preprocessor 3D) focuses on providing users with a Python interface to help generating model input files, particularly those required for the geochemical components. Its role is similar to that of FloPy for MODFLOW (ref here).
 
-The remaining modules provide supporting functionality: the io submodule handles reading and writing model files, while the utils and config modules assist in generating configuration files and managing the overall modeling workflow.
+The remaining modules provide supporting functionality: the `io` submodule handles reading and writing model files, while the `utils` and `config` modules assist in generating configuration files and managing the overall modeling workflow.
 
 ```
 MF6RTM
@@ -106,7 +106,7 @@ MF6RTM
 
 # Benchmark 
 
-Six benchmarks are currently included in the codebase. Five of them correspond to models that apply different hydraulic fields and geochemical reaction networks, with results compared against PHT3D and in a few cases against PHREEQC. The sixth example is the same as Example 4 but uses the MODFLOW-6 discretization-by-vertices (DISV) package.
+Six benchmark test cases are currently included in the codebase. Each represents a well-known reactive transport scenario to confirm the accuracy of results for different combinations of processes. Five of them correspond to models that apply different hydraulic fields and geochemical reaction networks, with results compared against PHT3D and in a few cases against PHREEQC. The sixth example is the same as Example 4 but uses the MODFLOW-6 discretization-by-vertices (DISV) package.
 
 Here we present the following benchmark (Example 5 in codebase) to demonstrate usage and verify that the implementation is correct.
 This benchmark models a 1D column oxidation experiment in marine sediments containing pyrite, originally described by Appelo et al. [@Appelo1998]. The hydrochemical system includes multiple coupled processes:
@@ -125,7 +125,10 @@ The model simulation consists of three sequential phases:
 
 ![Comparison between simulated values from MF6RTM against PHT3D \label{fig:ex5}](ex5.png){width=100%}
 
+
 # Acknowledgements
+
 The software MF6RTM was supported by INTERA INC., and its Research and Development initiative. We also thank Henning Prommer for his insights and discussions during the benchmarking of MF6RTM.
+
 
 # References
