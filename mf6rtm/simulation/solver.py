@@ -97,6 +97,8 @@ def solve(wd:os.PathLike, reactive: Union[bool, None] = None, nthread: int = 1) 
                 f"{'reactive' if reactive else 'non-reactive'}\n"
             )
         mf6rtm._set_reactive(reactive)
+        # let mf6 manage this for conservative runs
+        mf6rtm.selected_output.get_selected_output_on = False
     mf6rtm.print_warning_user_active()
     success = mf6rtm._solve()
     return success
@@ -566,7 +568,6 @@ class Mf6RTM(object):
             self.get_saturation_from_mf6()
             # check_reactive_kstp()
             if self.is_reactive_tstep():
-
                 c_dbl_vect = self._transfer_array_to_phreeqcrm()
                 self._set_conc_at_current_kstep(c_dbl_vect)
 

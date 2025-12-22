@@ -1,0 +1,116 @@
+Input summary for PHC (MT3DMS-PHREEQC) interface package
+--------------------------------------------------------
+Reading input from file Pht3d_ph.dat
+This is an input file for PHT3D version 1.47 or lower.
+--------------------------------------------------------
+Screen output will be suppressed.
+--------------------------------------------------------
+Charge imbalance transport option will be included. Charge balance offset:  0.05.
+--------------------------------------------------------
+Concentration cutoff: 1.00e-014.
+--------------------------------------------------------
+Number of mobile equilibrium components: 18
+Number of equilibrium minerals: 3
+Number of sorbed cations: 0
+Number of surfaces: 0
+Number of mobile kinetic species: 4
+Number of kinetic minerals: 0
+Number of kinetic surfaces: 0
+Number of immobile kinetic species: 4
+---------- Mobile kinetic species ----------
+Component 1: Benz
+	Initial amount of kinetic reactant (m0) for Benz: 10.000000
+	Number of parameters needed for Benz: 4
+	Value of parm(1) for Benz: 1E-08
+	Value of parm(2) for Benz: 0.0
+	Value of parm(3) for Benz: 0.0
+	Value of parm(4) for Benz: 0.0
+	Stoichiometry associated with this reaction: -formula Benz -1.0 C6H6 1.0
+Component 2: Tolu
+	Initial amount of kinetic reactant (m0) for Tolu: 10.000000
+	Number of parameters needed for Tolu: 4
+	Value of parm(1) for Tolu: 0.0000002
+	Value of parm(2) for Tolu: 0.0
+	Value of parm(3) for Tolu: 0.0
+	Value of parm(4) for Tolu: 0.0
+	Stoichiometry associated with this reaction: -formula Tolu -1.0 C7H8 1.0
+Component 3: Ethy
+	Initial amount of kinetic reactant (m0) for Ethy: 10.000000
+	Number of parameters needed for Ethy: 4
+	Value of parm(1) for Ethy: 2E-10
+	Value of parm(2) for Ethy: 0.0
+	Value of parm(3) for Ethy: 0.0
+	Value of parm(4) for Ethy: 0.0
+	Stoichiometry associated with this reaction: -formula Ethy -1.0 C8H10 1.0
+Component 4: Xyl
+	Initial amount of kinetic reactant (m0) for Xyl: 10.000000
+	Number of parameters needed for Xyl: 4
+	Value of parm(1) for Xyl: 2E-10
+	Value of parm(2) for Xyl: 0.0
+	Value of parm(3) for Xyl: 0.0
+	Value of parm(4) for Xyl: 0.0
+	Stoichiometry associated with this reaction: -formula Xyl -1.0 C8H10 1.0
+---------- Mobile equilibrium species ----------
+Component 5: O(0)
+Component 6: Ca
+Component 7: Mg
+Component 8: Na
+Component 9: K
+Component 10: Fe(2)
+Component 11: Fe(3)
+Component 12: Al
+Component 13: Cl
+Component 14: C(4)
+Component 15: C(-4)
+Component 16: S(6)
+Component 17: S(-2)
+Component 18: N(5)
+Component 19: N(3)
+Component 20: N(0)
+Component 21: pH
+Component 22: pe
+---------- Immobile kinetic species ----------
+Component 23: Benznapl
+	Initial amount of kinetic reactant (m0) for Benznapl: 10.000000
+	Number of parameters needed for Benznapl: 4
+	Value of parm(1) for Benznapl: 0.0000001
+	Value of parm(2) for Benznapl: 0.0
+	Value of parm(3) for Benznapl: 0.0
+	Value of parm(4) for Benznapl: 0.0
+	Stoichiometry associated with this reaction: -formula Benznapl -1.0 Benz   1.0
+ 
+Component 24: Tolunapl
+	Initial amount of kinetic reactant (m0) for Tolunapl: 10.000000
+	Number of parameters needed for Tolunapl: 4
+	Value of parm(1) for Tolunapl: 0.0000001
+	Value of parm(2) for Tolunapl: 0.0
+	Value of parm(3) for Tolunapl: 0.0
+	Value of parm(4) for Tolunapl: 0.0
+	Stoichiometry associated with this reaction: -formula Tolunapl -1.0 Tolu   1.0
+ 
+Component 25: Ethynapl
+	Initial amount of kinetic reactant (m0) for Ethynapl: 10.000000
+	Number of parameters needed for Ethynapl: 4
+	Value of parm(1) for Ethynapl: 0.0000001
+	Value of parm(2) for Ethynapl: 0.0
+	Value of parm(3) for Ethynapl: 0.0
+	Value of parm(4) for Ethynapl: 0.0
+	Stoichiometry associated with this reaction: -formula Ethynapl -1.0  Ethy   1.0
+ 
+Component 26: Xylnapl
+	Initial amount of kinetic reactant (m0) for Xylnapl: 10.000000
+	Number of parameters needed for Xylnapl: 4
+	Value of parm(1) for Xylnapl: 0.0000001
+	Value of parm(2) for Xylnapl: 0.0
+	Value of parm(3) for Xylnapl: 0.0
+	Value of parm(4) for Xylnapl: 0.0
+	Stoichiometry associated with this reaction: -formula Xylnapl  -1.0  Xyl    1.0
+ 
+---------- Equilibrium minerals ----------
+Component 27: Calcite. SI to equilibrate with: 0.000000
+Component 28: Goethite. SI to equilibrate with: 0.000000
+Component 29: Pyrite. SI to equilibrate with: 0.000000
+---------- Exchanger species ----------
+---------- Surface species ----------
+---------- Kinetic minerals ----------
+---------- Kinetic surface species ----------

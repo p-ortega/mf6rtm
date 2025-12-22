@@ -1,0 +1,77 @@
+         2         1         0        25         0     1e-10     0.001      4000
+      0.05
+       18
+        3         0
+        0         0
+        0
+        4         0         0         4
+        0         0
+Benz    4 
+ 1E-08 
+0.0 
+0.0 
+0.0 
+-formula Benz -1.0 C6H6 1.0
+Tolu    4 
+ 0.0000002 
+0.0 
+0.0 
+0.0 
+-formula Tolu -1.0 C7H8 1.0
+Ethy    4 
+ 2E-10 
+0.0 
+0.0 
+0.0 
+-formula Ethy -1.0 C8H10 1.0
+Xyl    4 
+ 2E-10 
+0.0 
+0.0 
+0.0 
+-formula Xyl -1.0 C8H10 1.0
+O(0)
+Ca
+Mg
+Na
+K
+Fe(2)
+Fe(3)
+Al
+Cl
+C(4)
+C(-4)
+S(6)
+S(-2)
+N(5)
+N(3)
+N(0)
+pH
+pe
+Benznapl    4 
+ 0.0000001 
+0.0 
+0.0 
+0.0 
+-formula Benznapl -1.0 Benz   1.0
+Tolunapl    4 
+ 0.0000001 
+0.0 
+0.0 
+0.0 
+-formula Tolunapl -1.0 Tolu   1.0
+Ethynapl    4 
+ 0.0000001 
+0.0 
+0.0 
+0.0 
+-formula Ethynapl -1.0  Ethy   1.0
+Xylnapl    4 
+ 0.0000001 
+0.0 
+0.0 
+0.0 
+-formula Xylnapl  -1.0  Xyl    1.0
+Calcite  0.0 
+Goethite  0.0 
+Pyrite  0.0 

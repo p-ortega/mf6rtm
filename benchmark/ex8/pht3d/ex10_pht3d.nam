@@ -1,0 +1,9 @@
+LIST   2  ex10_pht3d.lst
+DIS  10  ex10_pht3d.dis
+BAS6  11  ex10_pht3d.bas6
+LPF  12  ex10_pht3d.lpf
+PCG  14  ex10_pht3d.pcg
+OC       26    ex10_pht3d.oc
+DATA(BINARY)     30        ex10_pht3d.head
+DATA(BINARY)     31        ex10_pht3d.budget
+LMT6     28    ex10_pht3d.lmt

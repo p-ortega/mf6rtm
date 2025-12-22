@@ -1,0 +1,41 @@
+Database C:/Users/asus/Downloads/PHT3D_manual_examples_ORTi3D(1)/ex09_pht3d/\pht3d_datab.dat 
+Solution 1 
+ units mol/L 
+Na 1e-3
+Cl 1e-3
+Hy_carb 0.0
+pH 7
+pe 14
+end 
+Solution 2 
+ units mol/L 
+Na 0.0
+Cl 0.0
+Hy_carb 1.087e-2
+pH 7
+pe 4
+end 
+Solution 3 
+ units mol/L 
+Na 0.0
+Cl 0.0
+Hy_carb 0.0
+pH 0.0
+pe 0.0
+end 
+Solution 4 
+ units mol/L 
+Na 0.0
+Cl 0.0
+Hy_carb 0.0
+pH 0.0
+pe 0.0
+end 
+Solution 5 
+ units mol/L 
+Na 0.0
+Cl 0.0
+Hy_carb 0.0
+pH 0.0
+pe 0.0
+end 

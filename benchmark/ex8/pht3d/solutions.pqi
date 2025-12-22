@@ -1,0 +1,106 @@
+Database C:/Users/asus/Downloads/PHT3D_manual_examples_ORTi3D(1)/ex10_pht3d/\pht3d_datab.dat 
+Solution 1 
+ units mol/L 
+O(0) 5e-4
+Ca 0.004209
+Mg 0.002648
+Na 0.00461
+K 0.000463
+Fe(+2) 1.99E-22 
+Fe(+3) 6.97E-14
+Al 1.27E-07
+Cl 5.412E-03
+C(+4) 0.009592
+C(-4) 0.0
+S(6) 0.0030336
+S(-2) 0.0
+N(+5) 4.308E-06
+N(+3) 0.0
+N(0) 0.0
+pH 6.77
+pe 13.85
+end 
+Solution 2 
+ units mol/L 
+O(0) 5e-4
+Ca 0.004209
+Mg 0.002648
+Na 0.00461
+K 0.000463
+Fe(+2) 1.99E-22 
+Fe(+3) 6.97E-14
+Al 1.27E-07
+Cl 5.412E-03
+C(+4) 0.009592
+C(-4) 0.0
+S(6) 0.0030336
+S(-2) 0.0
+N(+5) 4.308E-06
+N(+3) 0.0
+N(0) 0.0
+pH 6.77
+pe 13.85
+end 
+Solution 3 
+ units mol/L 
+O(0) 0.0
+Ca 0.0
+Mg 0.0
+Na 0.0
+K 0.0
+Fe(+2) 0.0
+Fe(+3) 0.0
+Al 0.0
+Cl 0.0
+C(+4) 0.0
+C(-4) 0.0
+S(6) 0.0
+S(-2) 0.0
+N(+5) 0.0
+N(+3) 0.0
+N(0) 0.0
+pH 0.0
+pe 0.0
+end 
+Solution 4 
+ units mol/L 
+O(0) 0.0
+Ca 0.0
+Mg 0.0
+Na 0.0
+K 0.0
+Fe(+2) 0.0
+Fe(+3) 0.0
+Al 0.0
+Cl 0.0
+C(+4) 0.0
+C(-4) 0.0
+S(6) 0.0
+S(-2) 0.0
+N(+5) 0.0
+N(+3) 0.0
+N(0) 0.0
+pH 0.0
+pe 0.0
+end 
+Solution 5 
+ units mol/L 
+O(0) 0.0
+Ca 0.0
+Mg 0.0
+Na 0.0
+K 0.0
+Fe(+2) 0.0
+Fe(+3) 0.0
+Al 0.0
+Cl 0.0
+C(+4) 0.0
+C(-4) 0.0
+S(6) 0.0
+S(-2) 0.0
+N(+5) 0.0
+N(+3) 0.0
+N(0) 0.0
+pH 0.0
+pe 0.0
+end 

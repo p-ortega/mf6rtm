@@ -1,0 +1,28 @@
+         2         1         0        25         0     1e-10     0.001      4000
+      0.02
+        5
+        0         0
+        0         0
+        0
+        5         0         0         0
+        0         0
+O(0)    1 
+ 0.1 
+-formula O2 -1.0  Hy_carb  -0.11111111
+N(5)    1 
+ 0.008 
+-formula NO3- -1.0  Hy_carb  -0.13888889
+Fe(2)    1 
+ 0.0005 
+-formula Fe+2     1.0  Hy_carb  -0.027777778
+S(6)    1 
+ 0.00025 
+-formula S(6)     1.0  Hy_carb  -0.22222222
+Meth    1 
+ 0.0001 
+-formula Meth     1.0  Hy_carb  -0.22222222
+Na
+Cl
+Hy_carb
+pH
+pe

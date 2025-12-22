@@ -1,0 +1,14 @@
+SELECTED_OUTPUT
+-reset         false
+-distance         false
+-file          out.dat
+
+USER_PUNCH
+-headings day cell NO3 O0 O2 Fe2
+1	PUNCH TOTAL_TIME/86400
+2	PUNCH CELL_NO
+3	PUNCH TOT("N(5)")
+4	PUNCH TOT("O(0)")
+5	PUNCH TOT("O(2)")
+6	PUNCH TOT("Fe(2)")
+

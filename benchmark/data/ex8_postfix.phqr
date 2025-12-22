@@ -1,0 +1,32 @@
+SOLUTION_SPECIES
+    H2O + 0.01e- = H2O-0.01
+    log_k -9.0
+
+KNOBS
+    iterations 500
+
+SELECTED_OUTPUT
+-reset         false
+-distance         false
+-file          out.dat
+
+USER_PUNCH
+-headings day cell O2 dic C_4 Ca NO3 S_2 SO4 pH pe Calcite tot_Pyrite kin_Pyrite eq_Pyrite tot_Goethite kin_Goethite eq_Goethite
+1	PUNCH TOTAL_TIME/86400
+2	PUNCH CELL_NO
+3	PUNCH TOT("O(0)")
+4	PUNCH TOT("C(4)")
+5	PUNCH TOT("C(-4)")
+6	PUNCH TOT("Ca")
+7	PUNCH TOT("N(5)")
+8	PUNCH TOT("S(-2)")
+9	PUNCH TOT("S(6)")
+10	PUNCH -LA("H+")
+11	PUNCH -LA("e-")
+12	PUNCH EQUI("Calcite")
+13	PUNCH TOT("Pyrite")
+15  PUNCH KIN("Pyrite")
+16  PUNCH EQUI("Pyrite")
+17  PUNCH TOT("Goethite")
+18  PUNCH KIN("Goethite")
+19  PUNCH EQUI("Goethite")

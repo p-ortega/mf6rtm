@@ -1,0 +1,3525 @@
+SOLUTION 1 # [K,I,J] = 1,1,1
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1 2-1046
+COPY equilibrium_phases 1 2-1046
+COPY kinetics 1 2-1046
+END
+SOLUTION 1047 # [K,I,J] = 1,14,7
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1047
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1047
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+SOLUTION 1048 # [K,I,J] = 1,14,8
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1048
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1048
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1048 1049-1126
+COPY equilibrium_phases 1048 1049-1126
+COPY kinetics 1048 1049-1126
+END
+SOLUTION 1127 # [K,I,J] = 1,15,7
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1127
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1127
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1127 1128-1130
+COPY equilibrium_phases 1127 1128-1130
+COPY kinetics 1127 1128-1130
+END
+SOLUTION 1131 # [K,I,J] = 1,15,11
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1131
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1131
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1131 1132-1206
+COPY equilibrium_phases 1131 1132-1206
+COPY kinetics 1131 1132-1206
+END
+SOLUTION 1207 # [K,I,J] = 1,16,7
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1207
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1207
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1207 1208-1210
+COPY equilibrium_phases 1207 1208-1210
+COPY kinetics 1207 1208-1210
+END
+SOLUTION 1211 # [K,I,J] = 1,16,11
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1211
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1211
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1211 1212-1286
+COPY equilibrium_phases 1211 1212-1286
+COPY kinetics 1211 1212-1286
+END
+SOLUTION 1287 # [K,I,J] = 1,17,7
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1287
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1287
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1287 1288-1290
+COPY equilibrium_phases 1287 1288-1290
+COPY kinetics 1287 1288-1290
+END
+SOLUTION 1291 # [K,I,J] = 1,17,11
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1291
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1291
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1291 1292-1292
+COPY equilibrium_phases 1291 1292-1292
+COPY kinetics 1291 1292-1292
+END
+SOLUTION 1293 # [K,I,J] = 1,17,13
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1293
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1293
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1293 1294-1294
+COPY equilibrium_phases 1293 1294-1294
+COPY kinetics 1293 1294-1294
+END
+SOLUTION 1295 # [K,I,J] = 1,17,15
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1295
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1295
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1295 1296-1366
+COPY equilibrium_phases 1295 1296-1366
+COPY kinetics 1295 1296-1366
+END
+SOLUTION 1367 # [K,I,J] = 1,18,7
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1367
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1367
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1367 1368-1370
+COPY equilibrium_phases 1367 1368-1370
+COPY kinetics 1367 1368-1370
+END
+SOLUTION 1371 # [K,I,J] = 1,18,11
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1371
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1371
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1371 1372-1372
+COPY equilibrium_phases 1371 1372-1372
+COPY kinetics 1371 1372-1372
+END
+SOLUTION 1373 # [K,I,J] = 1,18,13
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1373
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1373
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1373 1374-1374
+COPY equilibrium_phases 1373 1374-1374
+COPY kinetics 1373 1374-1374
+END
+SOLUTION 1375 # [K,I,J] = 1,18,15
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1375
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1375
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1375 1376-1446
+COPY equilibrium_phases 1375 1376-1446
+COPY kinetics 1375 1376-1446
+END
+SOLUTION 1447 # [K,I,J] = 1,19,7
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1447
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1447
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1447 1448-1456
+COPY equilibrium_phases 1447 1448-1456
+COPY kinetics 1447 1448-1456
+END
+SOLUTION 1457 # [K,I,J] = 1,19,17
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1457
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1457
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1457 1458-1526
+COPY equilibrium_phases 1457 1458-1526
+COPY kinetics 1457 1458-1526
+END
+SOLUTION 1527 # [K,I,J] = 1,20,7
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1527
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1527
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1527 1528-1536
+COPY equilibrium_phases 1527 1528-1536
+COPY kinetics 1527 1528-1536
+END
+SOLUTION 1537 # [K,I,J] = 1,20,17
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1537
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1537
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1537 1538-1608
+COPY equilibrium_phases 1537 1538-1608
+COPY kinetics 1537 1538-1608
+END
+SOLUTION 1609 # [K,I,J] = 1,21,9
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1609
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1609
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1609 1610-1616
+COPY equilibrium_phases 1609 1610-1616
+COPY kinetics 1609 1610-1616
+END
+SOLUTION 1617 # [K,I,J] = 1,21,17
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1617
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1617
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1617 1618-1688
+COPY equilibrium_phases 1617 1618-1688
+COPY kinetics 1617 1618-1688
+END
+SOLUTION 1689 # [K,I,J] = 1,22,9
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1689
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1689
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1689 1690-1696
+COPY equilibrium_phases 1689 1690-1696
+COPY kinetics 1689 1690-1696
+END
+SOLUTION 1697 # [K,I,J] = 1,22,17
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1697
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1697
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1697 1698-1768
+COPY equilibrium_phases 1697 1698-1768
+COPY kinetics 1697 1698-1768
+END
+SOLUTION 1769 # [K,I,J] = 1,23,9
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1769
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1769
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1769 1770-1778
+COPY equilibrium_phases 1769 1770-1778
+COPY kinetics 1769 1770-1778
+END
+SOLUTION 1779 # [K,I,J] = 1,23,19
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1779
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1779
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1779 1780-1848
+COPY equilibrium_phases 1779 1780-1848
+COPY kinetics 1779 1780-1848
+END
+SOLUTION 1849 # [K,I,J] = 1,24,9
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1849
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1849
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1849 1850-1858
+COPY equilibrium_phases 1849 1850-1858
+COPY kinetics 1849 1850-1858
+END
+SOLUTION 1859 # [K,I,J] = 1,24,19
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1859
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1859
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1859 1860-1928
+COPY equilibrium_phases 1859 1860-1928
+COPY kinetics 1859 1860-1928
+END
+SOLUTION 1929 # [K,I,J] = 1,25,9
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1929
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1929
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1929 1930-1930
+COPY equilibrium_phases 1929 1930-1930
+COPY kinetics 1929 1930-1930
+END
+SOLUTION 1931 # [K,I,J] = 1,25,11
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1931
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1931
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1931 1932-1932
+COPY equilibrium_phases 1931 1932-1932
+COPY kinetics 1931 1932-1932
+END
+SOLUTION 1933 # [K,I,J] = 1,25,13
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1933
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1933
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1933 1934-1938
+COPY equilibrium_phases 1933 1934-1938
+COPY kinetics 1933 1934-1938
+END
+SOLUTION 1939 # [K,I,J] = 1,25,19
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 1939
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 1939
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 1939 1940-2008
+COPY equilibrium_phases 1939 1940-2008
+COPY kinetics 1939 1940-2008
+END
+SOLUTION 2009 # [K,I,J] = 1,26,9
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 2009
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 2009
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 2009 2010-2010
+COPY equilibrium_phases 2009 2010-2010
+COPY kinetics 2009 2010-2010
+END
+SOLUTION 2011 # [K,I,J] = 1,26,11
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 2011
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 2011
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 2011 2012-2012
+COPY equilibrium_phases 2011 2012-2012
+COPY kinetics 2011 2012-2012
+END
+SOLUTION 2013 # [K,I,J] = 1,26,13
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 2013
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 2013
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 2013 2014-2018
+COPY equilibrium_phases 2013 2014-2018
+COPY kinetics 2013 2014-2018
+END
+SOLUTION 2019 # [K,I,J] = 1,26,19
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 2019
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 2019
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 2019 2020-2088
+COPY equilibrium_phases 2019 2020-2088
+COPY kinetics 2019 2020-2088
+END
+SOLUTION 2089 # [K,I,J] = 1,27,9
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 2089
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 2089
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 2089 2090-2090
+COPY equilibrium_phases 2089 2090-2090
+COPY kinetics 2089 2090-2090
+END
+SOLUTION 2091 # [K,I,J] = 1,27,11
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 2091
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 2091
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 2091 2092-2092
+COPY equilibrium_phases 2091 2092-2092
+COPY kinetics 2091 2092-2092
+END
+SOLUTION 2093 # [K,I,J] = 1,27,13
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 2093
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 2093
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 2093 2094-2096
+COPY equilibrium_phases 2093 2094-2096
+COPY kinetics 2093 2094-2096
+END
+SOLUTION 2097 # [K,I,J] = 1,27,17
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 2097
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 2097
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 2097 2098-2168
+COPY equilibrium_phases 2097 2098-2168
+COPY kinetics 2097 2098-2168
+END
+SOLUTION 2169 # [K,I,J] = 1,28,9
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 2169
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 2169
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 2169 2170-2170
+COPY equilibrium_phases 2169 2170-2170
+COPY kinetics 2169 2170-2170
+END
+SOLUTION 2171 # [K,I,J] = 1,28,11
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 2171
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 2171
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 2171 2172-2172
+COPY equilibrium_phases 2171 2172-2172
+COPY kinetics 2171 2172-2172
+END
+SOLUTION 2173 # [K,I,J] = 1,28,13
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 2.000000e-001 # comp 23 (imob)
+	Tolunapl 2.000000e-001 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 2173
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 2173
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 2173 2174-2176
+COPY equilibrium_phases 2173 2174-2176
+COPY kinetics 2173 2174-2176
+END
+SOLUTION 2177 # [K,I,J] = 1,28,17
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 6.770000e+000  # comp 21
+	pe 1.385000e+001  # comp 22
+	Benz 0.000000e+000 # comp 1
+	Tolu 0.000000e+000 # comp 2
+	Ethy 0.000000e+000 # comp 3
+	Xyl 0.000000e+000 # comp 4
+	O(0) 5.000000e-004  # comp 5
+	Ca 4.209000e-003  # comp 6
+	Mg 2.648000e-003  # comp 7
+	Na 4.610000e-003  # comp 8
+	K 4.630000e-004  # comp 9
+	Fe(2) 1.990000e-022  # comp 10
+	Fe(3) 6.970000e-014  # comp 11
+	Al 1.270000e-007  # comp 12
+	Cl 5.412000e-003  # comp 13
+	C(4) 9.592000e-003  # comp 14
+	C(-4) 0.000000e+000  # comp 15
+	S(6) 3.034000e-003  # comp 16
+	S(-2) 0.000000e+000  # comp 17
+	N(5) 4.308000e-006  # comp 18
+	N(3) 0.000000e+000  # comp 19
+	N(0) 0.000000e+000  # comp 20
+	Benznapl 0.000000e+000 # comp 23 (imob)
+	Tolunapl 0.000000e+000 # comp 24 (imob)
+	Ethynapl 0.000000e+000 # comp 25 (imob)
+	Xylnapl 0.000000e+000 # comp 26 (imob)
+END
+EQUILIBRIUM_PHASES 2177
+	Calcite 0.000000e+000 3.333333e+000 # comp 27
+	Goethite 0.000000e+000 3.333333e-003 # comp 28
+	Pyrite 0.000000e+000 0.000000e+000 # comp 29
+END
+KINETICS 2177
+	Benz # 4
+	-parms 1.000000e-008 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benz -1.0 C6H6 1.0
+
+	Tolu # 5
+	-parms 2.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolu -1.0 C7H8 1.0
+
+	Ethy # 6
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethy -1.0 C8H10 1.0
+
+	Xyl # 7
+	-parms 2.000000e-010 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xyl -1.0 C8H10 1.0
+
+	Benznapl # 26
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Benznapl -1.0 Benz   1.0
+
+	Tolunapl # 27
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Tolunapl -1.0 Tolu   1.0
+
+	Ethynapl # 28
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Ethynapl -1.0  Ethy   1.0
+
+	Xylnapl # 29
+	-parms 1.000000e-007 0.000000e+000 0.000000e+000 0.000000e+000
+	-m0 1.000000e+001
+	-formula Xylnapl  -1.0  Xyl    1.0
+
+END
+COPY solution 2177 2178-3200
+COPY equilibrium_phases 2177 2178-3200
+COPY kinetics 2177 2178-3200
+END
+PRINT
+	-reset false
+END

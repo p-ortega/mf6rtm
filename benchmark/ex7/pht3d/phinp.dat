@@ -1,0 +1,48 @@
+SOLUTION 1 # [K,I,J] = 1,1,1
+	units mol/kgw
+	water 1.0
+	temp 2.500000e+001
+	pH 7.000000e+000  # comp 9
+	pe 1.400000e+001  # comp 10
+	O(0) 2.500000e-004 # comp 1
+	N(5) 3.226000e-004 # comp 2
+	Fe(2) 0.000000e+000 # comp 3
+	S(6) 1.041000e-004 # comp 4
+	Meth 0.000000e+000 # comp 5
+	Na 1.000000e-003  # comp 6
+	Cl 1.000000e-003  # comp 7
+	Hy_carb 0.000000e+000  # comp 8
+END
+KINETICS 1
+	O(0) # 4
+	-parms 1.000000e-001
+	-m0 1.000000e+001
+	-formula O2 -1.0  Hy_carb  -0.11111111
+
+	N(5) # 5
+	-parms 8.000000e-003
+	-m0 1.000000e+001
+	-formula NO3- -1.0  Hy_carb  -0.13888889
+
+	Fe(2) # 6
+	-parms 5.000000e-004
+	-m0 1.000000e+001
+	-formula Fe+2     1.0  Hy_carb  -0.027777778
+
+	S(6) # 7
+	-parms 2.500000e-004
+	-m0 1.000000e+001
+	-formula S(6)     1.0  Hy_carb  -0.22222222
+
+	Meth # 8
+	-parms 1.000000e-004
+	-m0 1.000000e+001
+	-formula Meth     1.0  Hy_carb  -0.22222222
+
+END
+COPY solution 1 2-1581
+COPY kinetics 1 2-1581
+END
+PRINT
+	-reset false
+END

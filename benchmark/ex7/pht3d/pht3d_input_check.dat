@@ -1,0 +1,57 @@
+Input summary for PHC (MT3DMS-PHREEQC) interface package
+--------------------------------------------------------
+Reading input from file Pht3d_ph.dat
+This is an input file for PHT3D version 1.47 or lower.
+--------------------------------------------------------
+Screen output will be suppressed.
+--------------------------------------------------------
+Charge imbalance transport option will be included. Charge balance offset:  0.02.
+--------------------------------------------------------
+Concentration cutoff: 1.00e-014.
+--------------------------------------------------------
+Number of mobile equilibrium components: 5
+Number of equilibrium minerals: 0
+Number of sorbed cations: 0
+Number of surfaces: 0
+Number of mobile kinetic species: 5
+Number of kinetic minerals: 0
+Number of kinetic surfaces: 0
+Number of immobile kinetic species: 0
+---------- Mobile kinetic species ----------
+Component 1: O(0)
+	Initial amount of kinetic reactant (m0) for O(0): 10.000000
+	Number of parameters needed for O(0): 1
+	Value of parm(1) for O(0): 0.1
+	Stoichiometry associated with this reaction: -formula O2 -1.0  Hy_carb  -0.11111111
+Component 2: N(5)
+	Initial amount of kinetic reactant (m0) for N(5): 10.000000
+	Number of parameters needed for N(5): 1
+	Value of parm(1) for N(5): 0.008
+	Stoichiometry associated with this reaction: -formula NO3- -1.0  Hy_carb  -0.13888889
+Component 3: Fe(2)
+	Initial amount of kinetic reactant (m0) for Fe(2): 10.000000
+	Number of parameters needed for Fe(2): 1
+	Value of parm(1) for Fe(2): 0.0005
+	Stoichiometry associated with this reaction: -formula Fe+2     1.0  Hy_carb  -0.027777778
+Component 4: S(6)
+	Initial amount of kinetic reactant (m0) for S(6): 10.000000
+	Number of parameters needed for S(6): 1
+	Value of parm(1) for S(6): 0.00025
+	Stoichiometry associated with this reaction: -formula S(6)     1.0  Hy_carb  -0.22222222
+Component 5: Meth
+	Initial amount of kinetic reactant (m0) for Meth: 10.000000
+	Number of parameters needed for Meth: 1
+	Value of parm(1) for Meth: 0.0001
+	Stoichiometry associated with this reaction: -formula Meth     1.0  Hy_carb  -0.22222222
+---------- Mobile equilibrium species ----------
+Component 6: Na
+Component 7: Cl
+Component 8: Hy_carb
+Component 9: pH
+Component 10: pe
+---------- Immobile kinetic species ----------
+---------- Equilibrium minerals ----------
+---------- Exchanger species ----------
+---------- Surface species ----------
+---------- Kinetic minerals ----------
+---------- Kinetic surface species ----------

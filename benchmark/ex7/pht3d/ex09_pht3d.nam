@@ -1,0 +1,10 @@
+LIST   2  ex09_pht3d.lst
+DIS  10  ex09_pht3d.dis
+BAS6  11  ex09_pht3d.bas6
+LPF  12  ex09_pht3d.lpf
+PCG  14  ex09_pht3d.pcg
+OC       26    ex09_pht3d.oc
+DATA(BINARY)     30        ex09_pht3d.head
+DATA(BINARY)     31        ex09_pht3d.budget
+LMT6     28    ex09_pht3d.lmt
+WEL     36     ex09_pht3d.wel

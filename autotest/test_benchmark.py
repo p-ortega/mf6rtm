@@ -1150,6 +1150,7 @@ def run_yaml(prefix):
 def run_test(prefix, model, mf6sim, *args, **kwargs):
     for nthread in [1, 8]:
         #try to run the model if success print test passed
+        model.run(reactive=False)
         success = model.run(reactive=True, nthread=nthread)
         assert success
 

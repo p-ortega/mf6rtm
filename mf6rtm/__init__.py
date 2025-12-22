@@ -4,7 +4,7 @@ for reactive transport modeling via the MODFLOW 6 and PhreeqcRM APIs.
 """
 
 __author__ = "Pablo Ortega"
-__version__ = "0.1.11+externalio.dev"  # head of `feature/externalio` branch
+__version__ = "0.2.1+develop"  #
 
 from . import mup3d
 from . import simulation
