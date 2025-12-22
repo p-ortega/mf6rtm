@@ -32,17 +32,11 @@ authors:
     orcid: 0009-0002-9622-5636 
     affiliation: "6"
     email: lauren.k.mancewicz@usace.army.mil
-  - name: Jeremy White
-    orcid: 0000-0002-4950-1469
-    affiliation: "3"
-    email: jwhite@intera.com
 affiliations:
  - name: Intera Geosciences, Perth, WA, Australia
    index: 1
  - name: Limnotech, Oakdale, MN, USA
    index: 2
- - name: Intera Incorporated, Fort Collins, CO, USA
-   index: 3
  - name: Intera Incorporated, Denver, CO, USA
    index: 4
  - name: Intera Incorporated, Houston, TX, USA
