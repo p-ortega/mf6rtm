@@ -126,7 +126,7 @@ Thanks to its integration with uncertainty analysis, MF6RTM has been incorporate
 
 
 # AI Usage Disclosure
-Generative AI tools were used in a limited and supportive capacity during the development of MF6RTM and the preparation of this manuscript. Specifically, AI assistance was used to draft and refine code docstrings, explore potential causes of software bugs, and suggest optimizations for selected sections of the code. No AI was used for the design of the code. AI tools were use to improve grammar, clarity, and writing quality of the manuscript.
+AI tools were used in a limited and supportive capacity during the development of MF6RTM and the preparation of this manuscript.  No AI was used for the design of the code. Specifically, AI assistance was used to draft and refine docstrings, explore potential causes of software bugs, and suggest optimizations for selected sections of the code. AI tools were use to improve grammar, clarity, and writing quality of the manuscript.
 
 # Acknowledgements
 
