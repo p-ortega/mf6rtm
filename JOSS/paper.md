@@ -99,7 +99,7 @@ MF6RTM
 
 # Benchmarks
 
-Eight benchmark test cases are currently included in the codebase. Each represents a well-known reactive transport scenario to confirm the accuracy of results for different combinations of processes. Seven of them correspond to models that apply different hydraulic fields and geochemical reaction networks, with results compared against PHT3D and in a few cases against PHREEQC. The Example 6 correspond to the same as Example 4 but uses the MODFLOW 6 discretization-by-vertices (DISV) package to illustrate the use of an unstructured grid.
+Eight benchmark test cases are currently included in the codebase. Each represents a well-known reactive transport scenario to confirm the accuracy of results for different combinations of processes. Seven of them correspond to models that apply different hydraulic fields and geochemical reaction networks, with results compared against PHT3D and in a few cases against PHREEQC. The Example 6 correspond to the same as Example 4 but uses the MODFLOW 6 discretization-by-vertices (DISV) package to illustrate the use of an unstructured grid. Additionaly, a fully 3D benchmark can also be found in the following repository [Dizon36](https://github.com/p-ortega/dizon36).
 
 Here we present the following benchmark (Example 5 in codebase) to demonstrate usage and verify that the implementation is correct.
 
@@ -122,7 +122,7 @@ The model simulation consists of three sequential phases:
 # Research Impact Statement 
 MF6RTM has demonstrated relevance for both academic and applied hydrogeologic modeling. The code includes eight benchmark test cases representing well-known reactive transport scenarios, covering a range of coupled flow, transport, and geochemical processes. Simulations from MF6RTM show excellent agreement with both experimental data and established MODFLOW-based reactive transport tools such as PHT3D, confirming the reliability of the implementation.
 
-Thanks to its integration with uncertainty analysis, MF6RTM has been incorporated into the Groundwater Modeling Decision Support Initiative ([GMDSI](https://www.gmdsi.org)). A fully 3D tutorial using an unstructured grid is currently in preparation and is expected to be released soon ([rtm-gmdsi](https://github.com/p-ortega/rtm-tutorial)), providing researchers and practitioners with a practical, hands-on guide to applying MF6RTM in complex hydrogeologic settings.
+Thanks to its integration with uncertainty analysis, MF6RTM has been incorporated into the Groundwater Modeling Decision Support Initiative ([GMDSI](https://www.gmdsi.org)). A fully 3D tutorial using an unstructured grid is currently in preparation and is expected to be released soon ([rtm-gmdsi](https://github.com/p-ortega/rtm-tutorial)), providing researchers and practitioners with a practical, hands-on guide to applying MF6RTM in complex hydrogeologic settings. In addition, MF6RTM is being currently applied to real-world Aquifer Storage and Recovery (ASR), and example of this implementation can be found in [ASR - DISV Example](https://github.com/LimnoTech/mf6rtm-asr-example).
 
 
 # AI Usage Disclosure
