@@ -474,7 +474,7 @@ class Mup3d(object):
         if isinstance(phase.ic, (int, float)):
             phase.ic = np.reshape([phase.ic]*self.nxyz, self.grid_shape)
         phase.data = {i: phase.data[key] for i, key in enumerate(phase.data.keys())}
-        assert phase.ic.shape == self.grid_shape, f'Initial conditions array must be an array of the shape ({self.nlay}, {self.nrow}, {self.ncol}) not {phase.ic.shape}'
+        assert phase.ic.shape == self.grid_shape, f'Initial conditions array must be an array of the shape {self.grid_shape} not {phase.ic.shape}'
 
         # Dynamically set the phase attribute based on the class name
         setattr(self, f"{phase_class.__name__.lower().split('phases')[0]}_phases", phase)
@@ -494,7 +494,7 @@ class Mup3d(object):
         # exchanger.data = {i: exchanger.data[key] for i, key in enumerate(exchanger.data.keys())}
         if isinstance(exchanger.ic, (int, float)):
             exchanger.ic = np.reshape([exchanger.ic]*self.nxyz, self.grid_shape)
-        assert exchanger.ic.shape == self.grid_shape, f'Initial conditions array must be an array of the shape ({self.nlay}, {self.nrow}, {self.ncol}) not {exchanger.ic.shape}'
+        assert exchanger.ic.shape == self.grid_shape, f'Initial conditions array must be an array of the shape {self.grid_shape} not {exchanger.ic.shape}'
         self.exchange_phases = exchanger
 
     def set_equilibrium_phases(self, eq_phases):
@@ -514,7 +514,7 @@ class Mup3d(object):
         self.equilibrium_phases = eq_phases
         if isinstance(self.equilibrium_phases.ic, (int, float)):
             self.equilibrium_phases.ic = np.reshape([self.equilibrium_phases.ic]*self.nxyz, self.grid_shape)
-        assert self.equilibrium_phases.ic.shape == self.grid_shape, f'Initial conditions array must be an array of the shape ({self.nlay}, {self.nrow}, {self.ncol}) not {self.equilibrium_phases.ic.shape}'
+        assert self.equilibrium_phases.ic.shape == self.grid_shape, f'Initial conditions array must be an array of the shape ({self.grid_shape}) not {self.equilibrium_phases.ic.shape}'
 
     def set_charge_offset(self, charge_offset):
         """
@@ -938,7 +938,7 @@ class Mup3d(object):
         None
         """
         self._write_phreeqc_init_file()
-        if self.config.reactive_externalio:
+        if self.config.reactive['externalio']:
             self.write_internal_parameters()
             self.write_external_files_layered()
         self.save_config()

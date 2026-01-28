@@ -38,6 +38,9 @@ def check_config_file(wd: os.PathLike) -> tuple[os.PathLike, os.PathLike]:
         ), "mf6rtm.toml not found in model directory"
     config_file= os.path.join(wd, "mf6rtm.toml")
     config = MF6RTMConfig.from_toml_file(config_file)
+
+    # validate config values like timing and tsteps
+    config._validate_config()
     return config
 
 def check_nam_files(wd:os.PathLike) -> tuple[os.PathLike,os.PathLike]:
@@ -203,7 +206,7 @@ class Mf6RTM(object):
         self.set_time_conversion()
 
         self.config = MF6RTMConfig.from_toml_file(self.wd/"mf6rtm.toml")
-        self.reactive = self.config.reactive_enabled
+        self.reactive = self.config.reactive['enabled']
         self.set_emulator_training()
 
     def set_emulator_training(self) -> None:
@@ -258,9 +261,9 @@ class Mf6RTM(object):
         """
         Prints a warning if reaction timing is set to 'user'.
         """
-        if self.config.reactive_timing == 'user':
+        if self.config.reactive['timing'] == 'user':
             print(f"WARNING: Running reaction only in the following periods and time steps:")
-            for period, timestep in self.config.reactive_tsteps:
+            for period, timestep in self.config.reactive['tsteps']:
                 print(f"  Period {period}, Time step {timestep}")
         else:
             return
@@ -530,14 +533,15 @@ class Mf6RTM(object):
         current_tstep = [self.mf6api.kper, self.mf6api.kstp]
 
         # Check strategy
-        if self.config.reactive_timing == 'all':
+        if self.config.reactive['timing'] == 'all':
             return True
-        elif self.config.reactive_timing == 'user':
-            return current_tstep in self.config.reactive_tsteps
+        elif self.config.reactive['timing'] == 'user':
+            return current_tstep in self.config.reactive['tsteps']
         else:
             # Handle unknown strategy
-            print(f"Warning: Unknown strategy '{self.config.reactive_timing}'. Defaulting to reactive.")
+            print(f"Warning: Unknown strategy '{self.config.reactive['timing']}'. Defaulting to reactive.")
             return True
+
     def set_kiter(self) -> int:
         if hasattr(self, "kiter"):
             self.kiter += 1

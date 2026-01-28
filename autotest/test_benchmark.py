@@ -686,7 +686,11 @@ def test02(prefix = 'test02'):
 
     postfix = os.path.join(dataws, f'{prefix}_postfix.phqr')
     model.set_postfix(postfix)
-    model.set_config(reactive_externalio=True)
+    model.set_config(
+        reactive={
+            "externalio": True
+        }
+    )
     model.initialize()
 
     wellchem = mup3d.ChemStress('wel')

@@ -274,6 +274,8 @@ class Regenerator:
         Read the external files required for regeneration using numpy.
         Returns a dictionary with the loaded arrays organized by key, name, and layer.
         """
+        grid_type = ...
+
         file_data = {}
         # Read phase files following the same logic as validate_external_files
         for key, value in self.config.items():
@@ -313,16 +315,16 @@ class Regenerator:
                                 merged_array = np.stack(valid_arrays, axis=0)
 
                                 # Reshape to grid dimensions
-                                nlay, nrow, ncol = self.grid_shape
-                                reshaped_array = merged_array.reshape(nlay, nrow, ncol)
+                                reshaped_array = merged_array.reshape(self.grid_shape)
 
                                 file_data[key][nme] = reshaped_array
                             else:
                                 file_data[key][nme] = None
                                 print(f"Warning: No valid arrays found for {nme}")
                         except Exception as e:
-                            print(f"Warning: Could not merge/reshape arrays for {nme}: {e}")
-                            file_data[key][nme] = None
+                            raise RuntimeError(
+                                f"Could not merge/reshape arrays for {nme}"
+                            ) from e
                     else:
                         file_data[key][nme] = None
                         print(f"Warning: No arrays loaded for {nme}")

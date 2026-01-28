@@ -6,6 +6,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.DS_Store
+*.vtk
 
 # C extensions
 # *.so

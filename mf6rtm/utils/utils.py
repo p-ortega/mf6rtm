@@ -453,7 +453,6 @@ def map_species_property_to_grid(data_dict, ic_array, species, property_key):
     output = np.zeros_like(ic_array, dtype=float)
 
     for zone_idx, species_dict in data_dict.items():
-        print(zone_idx, species_dict)
         if species not in species_dict:
             raise KeyError(f"Species '{species}' not found in block id {zone_idx}")
         if property_key not in species_dict[species]:
