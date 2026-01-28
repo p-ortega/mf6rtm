@@ -43,13 +43,13 @@ affiliations:
    index: 5
  - name: Coastal and Hydraulics Lab, Engineer Research and Developement Center, Vicksburg, MS, USA
    index: 6
-date: 25 December 2025
+date: 28 January 2026
 bibliography: paper.bib
 ---
 
 # Summary
 
-Reactive transport modeling plays a central role in characterizing and predicting the coupled behavior of groundwater flow, solute transport, and geochemical reactions in subsurface systems [@Prommer2019]. This paper presents MF6RTM (MODFLOW 6 Reactive Transport Module), a Python package that tightly couples MODFLOW 6 [@Langevin2024], the current generation of the MODFLOW groundwater flow and transport code family, with PHREEQC [@Appelo2010], a widely used geochemical modeling engine. The coupling is achieved through the MODFLOWAPI [@Hughes2022] and PHREEQCRM [@Parkhurst2015] APIs, which use the Basic Model Interface (BMI) version 2.0 [@Hutton2020] to enable efficient and consistent data exchange between hydraulic, transport, and geochemical components during simulation.
+Reactive transport modeling (RTM) plays a central role in characterizing and predicting the coupled behavior of groundwater flow, solute transport, and geochemical reactions in subsurface systems [@Prommer2019]. This paper presents MF6RTM (MODFLOW 6 Reactive Transport Module), a Python package that tightly couples MODFLOW 6 [@Langevin2024], the current generation of the MODFLOW groundwater flow and transport code family, with PHREEQC [@Appelo2010], a widely used geochemical modeling engine. The coupling is achieved through the MODFLOWAPI [@Hughes2022] and PHREEQCRM [@Parkhurst2015] APIs, which use the Basic Model Interface (BMI) version 2.0 [@Hutton2020] to enable efficient and consistent data exchange between hydraulic, transport, and geochemical components during simulation.
 
 The software provides a unified computational environment for simulating a wide range of reactive transport processes, including contaminant migration, mineral dissolution and precipitation, and redox transformations. It also supports the core features of both MODFLOW 6 and PHREEQC modeling software packages, allowing users to represent complex hydrogeological conditions and geochemical systems.
 
@@ -57,25 +57,25 @@ In addition, MF6RTM includes an improved input and output system that can extern
 
 Together, these features make MF6RTM a versatile and robust framework for predictive reactive transport modeling in hydrogeological and environmental applications.
 
+# State of the Field
 
-# Statement of Need
+Several tools for reactive transport modeling exist that have coupled groundwater flow and solute transport simulators with geochemical engines or implemented fully integrated reactive transport solutions. A few actively developed open-source and standalone (implicitly coupled) reactive transport software systems are noteworthy, including CrunchFlow [@Steefel2014], PFLOTRAN [@Hammond2022], and OpenGeoSys [@Kolditz2012]. Other open-source software has explicitly coupled transport and reaction models, including PHAST [@Parkhurst2010], PHT3D [@Prommer2003], and eSTOMP [@Nieplocha2006]. For a more comprehensive overview, see the review by Steefel [@Steefel2015].
 
-Several tools have coupled flow-and-transport simulators with geochemical engines or implemented fully integrated reactive transport solutions. A few actively developed open-source and standalone (implicitly coupled) reactive transport software systems are noteworthy, including CrunchFlow [@Steefel2014], PFLOTRAN [@Hammond2022], and OpenGeoSys [@Kolditz2012]. Other open-source software has explicitly coupled transport and reaction models, including PHAST [@Parkhurst2010], PHT3D [@Prommer2003], and eSTOMP [@Nieplocha2006]. For a more comprehensive overview, see the review by Steefel [@Steefel2015].
+Despite this rich ecosystem, no open-source software has ever coupled the current major versions of MODFLOW (v6 released in 2017) and PHREEQC (v3 released 2013). This gap is significant because the MODFLOW family remains the dominant platform for groundwater flow and transport modeling in regulatory, consulting, and applied research contexts. Existing integrated RTM codes generally require users to rebuild models in alternative frameworks, limiting their adoption for large, legacy MODFLOW-based workflows.
 
-No open software system, however, has ever coupled the current major versions of MODFLOW (v6 released in 2017) and PHREEQC (v3 released 2013). The MODFLOW family of codes remains one of the most widely used platforms for simulating flow and transport in real-world hydrogeologic applications for exploratory and predictive purposes among researchers and practitioners. Given the number of models and workflows built around MODFLOW, having a robust and modern reactive transport coupling is essential.
+Previous PHREEQC couplings within the MODFLOW ecosystem include PHT3D for MODFLOW-2005 [@Prommer2003] and PHT-USG for MODFLOW-USG [@Panday2013]. PHT3D has seen extensive use in both academia and practice [@Appelo2010], while PHT-USG has gained traction more recently, particularly between practioners working with MODFLOW-USG. A key limitation of both approaches is that they require modification of the underlying source code to enable the coupling. This imposes a heavy maintenance burden and has effectively freezed these coupled systems to older software versions. Indeed, both PHT3D and PHT-USG still rely on PHREEQC-2 and updating to the latest PHREEQC version 3 [@Parkhurst2013] through the PHREEQCRM library would require substantial refactoring. As MODFLOW 6 and PHREEQC continue to expand in capability and adoption, there is a clear need for a modern, open-source coupling that preserves transparency, extensibility, and computational efficiency. MF6RTM addresses this need by providing a fully open, API-based integration between MODFLOW 6 and PHREEQC. This design eliminates custom file-based workflows, reduces opportunities for error, and enables users to construct complex reactive transport simulations directly in Python. 
 
-Previous couplings with PHREEQC have been developed for MODFLOW-2005/MT3DMS, known as PHT3D [@Prommer2003], and for MODFLOW-USG [@Panday2013], known as PHT-USG. PHT3D has seen extensive use in both academia and practice [@Appelo2010], while PHT-USG has gained traction more recently, particularly between practioners working with MODFLOW-USG. A key limitation of both approaches is that they require modification of the underlying source code to enable the coupling. This imposes a heavy maintenance burden and increases the risk of the code falling out of date. Indeed, both PHT3D and PHT-USG still rely on PHREEQC-2 and updating to the latest PHREEQC version 3 [@Parkhurst2013] through the PHREEQCRM library would require substantial refactoring. As MODFLOW 6 and PHREEQC continue to expand in capability and adoption, there is a clear need for a modern, open-source coupling that preserves transparency, extensibility, and computational efficiency.
-
-MF6RTM addresses this need by providing a fully open, API-based integration between MODFLOW 6 and PHREEQC. This design eliminates custom file-based workflows, reduces opportunities for error, and enables users to construct complex reactive transport simulations directly in Python. With built-in compatibility with PEST++ and PyEMU, the tool also supports rigorous uncertainty analysis and multi-objective optimization. MF6RTM fills an important gap in the hydrogeologic modeling ecosystem by providing researchers and practitioners with an accessible, reliable, and high-performance MODFLOW-based framework for reactive transport modeling that can be fully scripted.
+Moreover, there is a growing expectation that groundwater models, both reactive and non-reactive, explicitly represent uncertainty and support automated history-matching and optimization. Historically, most reactive transport workflows have relied on manual or ad hoc modification of input files to perform sensitivity analyses or history-matching, creating a substantial burden for modelers and limiting reproducibility. By enabling array-style input and output files, MF6RTM streamlines compatibility with uncertainty and optimization tools, and supports rigorous uncertainty analysis and multi-objective optimization. MF6RTM therefore fills an important gap in the hydrogeologic modeling ecosystem, providing researchers and practitioners with an accessible, reliable, and high-performance MODFLOW-based framework for fully scripted reactive transport modeling.
 
 
-# Codebase
+# Software Design
 
-The codebase is organized into five modules, of which two, simulation and mup3d, serve as the core components.
+MF6RTM was developed iteratively, beginning with a proof-of-concept implementation to demonstrate that MODFLOW 6 and PHREEQC could be successfully coupled through their respective APIs. Early benchmark tests were used to confirm numerical consistency and establish confidence in the coupling approach. Following this initial phase, the design focus shifted toward usability, extensibility, and integration with modern uncertainty and optimization workflows.
 
-The `simulation` module manages everything related to initializing, solving, and coordinating the interaction between MODFLOW 6 and PHREEQC3. The `mup3d` module (Model Utility Preprocessor 3D) focuses on providing users with a Python interface to help generating model input files, particularly those required for the geochemical components. Its role is similar to that of FloPy for MODFLOW [@Bakker2023].
+Several key design requirements guided the architecture. First, MF6RTM needed to reproduce established reactive transport benchmarks and agree with results from existing MODFLOW-based tools such as PHT3D. Second, the code had to support programmatic model construction, recognizing that MODFLOW workflows increasingly rely on scripting tools, as in FloPY [@Bakker2023], rather than graphical interfaces. Third, seamless integration with model-independent calibration and uncertainty analysis frameworks such as PEST++ and its Python interface PyEMU was essential. Finally, the codebase needed to be modular, with clear separation of responsibilities to reduce fragility and simplify future development.
 
-The remaining modules provide supporting functionality: the `io` submodule handles reading and writing model files, while the `utils` and `config` modules assist in generating configuration files and managing the overall modeling workflow.
+To meet these goals, MF6RTM was organized into a small number of focused modules. The `simulation` module coordinates initialization, time stepping, and data exchange between MODFLOW 6 and PHREEQC via their APIs. The `mup3d` module provides a Python-based preprocessor for constructing geochemical inputs, analogous to FloPy’s role for MODFLOW. Supporting modules handle configuration management and array-based input/output (`config` and `io`), enabling flexible external file handling and efficient coupling to uncertainty-driven workflows. The code structure is graphicaly presented below:
+
 
 ```
 MF6RTM
@@ -97,10 +97,9 @@ MF6RTM
     └── yaml_reader.py
 ```
 
+# Benchmarks
 
-# Benchmark 
-
-Six benchmark test cases are currently included in the codebase. Each represents a well-known reactive transport scenario to confirm the accuracy of results for different combinations of processes. Five of them correspond to models that apply different hydraulic fields and geochemical reaction networks, with results compared against PHT3D and in a few cases against PHREEQC. The sixth example is the same as Example 4 but uses the MODFLOW 6 discretization-by-vertices (DISV) package.
+Eight benchmark test cases are currently included in the codebase. Each represents a well-known reactive transport scenario to confirm the accuracy of results for different combinations of processes. Five of them correspond to models that apply different hydraulic fields and geochemical reaction networks, with results compared against PHT3D and in a few cases against PHREEQC. The sixth example is the same as Example 4 but uses the MODFLOW 6 discretization-by-vertices (DISV) package.
 
 Here we present the following benchmark (Example 5 in codebase) to demonstrate usage and verify that the implementation is correct.
 This benchmark models a 1D column oxidation experiment in marine sediments containing pyrite, originally described by Appelo et al. [@Appelo1998]. The hydrochemical system includes multiple coupled processes:
@@ -119,6 +118,14 @@ The model simulation consists of three sequential phases:
 
 ![Comparison between simulated values from MF6RTM against PHT3D \label{fig:ex5}](ex5.png){width=100%}
 
+# Research Impact Statement 
+MF6RTM has demonstrated relevance for both academic and applied hydrogeologic modeling. The code includes eight benchmark test cases representing well-known reactive transport scenarios, covering a range of coupled flow, transport, and geochemical processes. Simulations from MF6RTM show excellent agreement with both experimental data and established MODFLOW-based reactive transport tools such as PHT3D, confirming the reliability of the implementation.
+
+Thanks to its integration with uncertainty analysis, MF6RTM has been incorporated into the Groundwater Modeling Decision Support Initiative ([GMDSI](https://www.gmdsi.org)). A fully 3D tutorial using an unstructured grid is currently in preparation and is expected to be released soon ([rtm-gmdsi](https://github.com/p-ortega/rtm-tutorial)), providing researchers and practitioners with a practical, hands-on guide to applying MF6RTM in complex hydrogeologic settings.
+
+
+# AI Usage Disclosure
+Generative AI tools were used in a limited and supportive capacity during the development of MF6RTM and the preparation of this manuscript. Specifically, AI assistance was used to draft and refine code docstrings, explore potential causes of software bugs, and suggest optimizations for selected sections of the code. No AI was used for the design of the code. AI tools were use to improve grammar, clarity, and writing quality of the manuscript.
 
 # Acknowledgements
 
