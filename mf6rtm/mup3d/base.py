@@ -1394,7 +1394,7 @@ class Mup3d(object):
         self.phreeqcrm_yaml = phreeqcrm_yaml
         return
 
-    def run(self, reactive = None, nthread=1):
+    def run(self, reactive = None, nthread=1, libname=None) -> bool:
         """Wrapper function to run the MF6RTM model
 
         Parameters
@@ -1411,7 +1411,7 @@ class Mup3d(object):
         """
         with working_dir(self.wd):
             print("Running mf6rtm", flush=True)
-            success = solve(self.wd, reactive=reactive, nthread=nthread)
+            success = solve(self.wd, reactive=reactive, nthread=nthread, libname=libname)
             return success
 
 @contextmanager

@@ -4,7 +4,7 @@ for reactive transport modeling via the MODFLOW 6 and PhreeqcRM APIs.
 """
 
 __author__ = "Pablo Ortega"
-__version__ = "0.3.0+develop"
+__version__ = "0.3.1+develop"
 
 from . import mup3d
 from . import simulation

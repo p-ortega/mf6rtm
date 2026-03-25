@@ -1,22 +1,35 @@
-from pathlib import Path
 import os
-
-import pandas as pd
-
-import numpy as np
 import shutil 
 import pytest
-
+import platform
 import flopy
-from mf6rtm.simulation import solver
+import pandas as pd
+import numpy as np
 from mf6rtm import utils, mup3d
-
-from autotest.conftest import make_dir_writable
+from pathlib import Path
 
 cwd = os.path.abspath(os.path.dirname(__file__))
 dataws = os.path.join(cwd, "data")
 databasews = os.path.join(cwd, "database")
-src_path = os.path.join(cwd,'bin')
+
+bin_path = "bin"
+exe_ext = ""
+env_path = Path(os.environ.get("CONDA_PREFIX", None))
+assert env_path is not None, (
+    "autotest script must be run from the mf6rt environment"
+)
+
+if "linux" in platform.platform().lower():
+    lib_ext = ".so"
+elif "darwin" in platform.platform().lower() or "macos" in platform.platform().lower():
+    lib_ext = ".dylib"
+else:
+    bin_path = "Scripts"
+    lib_ext = ".dll"
+    exe_ext = ".exe"
+
+lib_name = env_path / f"{bin_path}/libmf6{lib_ext}"
+src_path = env_path / f"{bin_path}"
 
 def build_mf6_1d_injection_model(mup3d, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
                                  top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
@@ -253,7 +266,7 @@ def build_mf6_1d_injection_model(mup3d, nper, tdis_rc, length_units, time_units,
         )
 
     sim.write_simulation()
-    utils.prep_bins(sim_ws, src_path=src_path, get_only=['mf6', 'libmf6'])
+    # utils.prep_bins(sim_ws, src_path=src_path, get_only=['mf6', 'libmf6'], add_platform=False)
     
     return sim
 
@@ -495,7 +508,7 @@ def build_mf6_2d_model(mup3d, nper, tdis_rc, length_units, time_units, nlay, nro
         )
 
     sim.write_simulation()
-    utils.prep_bins(sim_ws, src_path=src_path, get_only=['mf6', 'libmf6'])
+    # utils.prep_bins(sim_ws, src_path=src_path, get_only=['mf6', 'libmf6'], add_platform=False)
     
     return sim
 
@@ -590,7 +603,7 @@ def test01(prefix = 'test01'):
     mf6sim = build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
-    run_test(prefix, model, mf6sim)
+    run_test(prefix, model, libname=lib_name)
 
     return 
 
@@ -706,7 +719,7 @@ def test02(prefix = 'test02'):
     mf6sim = build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
-    run_test(prefix, model, mf6sim)
+    run_test(prefix, model, libname=lib_name)
 
 def test03(prefix = 'test03'):
     length_units = "meters"
@@ -815,7 +828,7 @@ def test03(prefix = 'test03'):
                                  top, botm, chdspd, prsity, k11, k33, dispersivity, disp_tr_vert,icelltype, hclose,
                                  strt, rclose, relax, nouter, ninner)
     
-    run_test(prefix, model, mf6sim)
+    run_test(prefix, model, libname=lib_name)
 
 
 def test04(prefix = 'test04'):
@@ -915,7 +928,7 @@ def test04(prefix = 'test04'):
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
     
-    run_test(prefix, model, mf6sim)
+    run_test(prefix, model, libname=lib_name)
 
 
 
@@ -1069,8 +1082,19 @@ def test05(prefix = 'test05'):
                                         top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                         strt, rclose, relax, nouter, ninner)
     
-    run_test(prefix, model, mf6sim, treshold = 0.02)
+    run_test(prefix, model, test_cli=True, libname=lib_name, treshold = 0.02)
 
+def test_mf6_bin():
+    '''Test that mf6 binary is available'''
+    import subprocess as sp
+    try:
+        result = sp.run(['mf6', '--version'], capture_output=True, text=True, check=True)
+        print("MODFLOW 6 binary is available.")
+        print("Version info:", result.stdout)
+    except FileNotFoundError:
+        pytest.skip("MODFLOW 6 binary 'mf6' not found. Skipping test.")
+    except sp.CalledProcessError as e:
+        pytest.fail(f"Error occurred while checking MODFLOW 6 binary: {e}")
 
 def get_test_dirs():
     '''Get test directories'''
@@ -1151,18 +1175,29 @@ def run_yaml(prefix):
     mup3d.solve(wd)
     return
 
-def run_test(prefix, model, mf6sim, *args, **kwargs):
-    for nthread in [1, 8]:
+def run_test(prefix, model, test_cli = False, libname = None, *args, **kwargs):
+    # for nthread in [1]:
         #try to run the model if success print test passed
-        model.run(reactive=False)
-        success = model.run(reactive=True, nthread=nthread)
+    nthread = 1
+    if test_cli:
+        #run from cli
+        bwd = os.getcwd()
+        os.chdir(model.wd)
+        #copy from env
+        shutil.copy2(lib_name, f"./libmf6{lib_ext}")
+        import subprocess as sp
+        sp.run(['mf6rtm'])
+        os.chdir(bwd)
+    else:
+        model.run(reactive=False, libname=libname)
+        success = model.run(reactive=True, nthread=nthread, libname=libname)
         assert success
 
-        # treshold = args.get('treshold', 0.01)
-        benchmarkdf = get_benchmark_results(prefix)
-        testdf = get_test_results(model)
+    # treshold = args.get('treshold', 0.01)
+    benchmarkdf = get_benchmark_results(prefix)
+    testdf = get_test_results(model)
 
-        compare_results(benchmarkdf, testdf, *args, **kwargs)
+    compare_results(benchmarkdf, testdf, *args, **kwargs)
 
     return
 

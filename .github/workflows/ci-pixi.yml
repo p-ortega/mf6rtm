@@ -1,0 +1,70 @@
+name: mf6rtm continuous integration
+
+on:
+  schedule:
+    - cron: '0 8 * * *' # run at 8 AM UTC (12 am PST)
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches: [main, develop, feature/**]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        python-version: ['310', '311', '312', '313']
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.9.3
+      with:
+        pixi-version: v0.41.4
+        cache: true
+        environments: py${{ matrix.python-version }}
+
+    - name: Run tests
+      run: pixi run -e py${{ matrix.python-version }} test
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.9.3
+      with:
+        pixi-version: v0.41.4
+        cache: true
+
+    - name: Run linting
+      run: pixi run lint
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0.9.3
+      with:
+        pixi-version: v0.41.4
+        cache: true
+        environments: py310
+
+    - name: Run tests with coverage
+      run: pixi run -e py310 test-cov
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload to Coveralls
+      run: pixi run -e py310 coveralls
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}

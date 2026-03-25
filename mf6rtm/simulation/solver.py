@@ -6,7 +6,7 @@ import os
 import numpy as np
 
 from datetime import datetime
-from typing import Any, Union
+from typing import Any, Union, Optional
 from pathlib import Path
 
 from PIL import Image
@@ -50,7 +50,7 @@ def check_nam_files(wd:os.PathLike) -> tuple[os.PathLike,os.PathLike]:
     # assert "gwf.nam" in nam, "gwf.nam file not found in model directory"
     return os.path.join(wd, "mfsim.nam") #, os.path.join(wd, "gwf.nam")
 
-def prep_to_run(wd:os.PathLike) -> tuple[os.PathLike,os.PathLike]:
+def prep_to_run(wd:os.PathLike, libname: Path | None = None) -> tuple[os.PathLike,os.PathLike]:
     """
     Prepares the model to run by checking if the model directory (wd) contains the necessary files
     and returns the path to the yaml file (phreeqcrm) and the dll file (mf6 api)
@@ -66,10 +66,33 @@ def prep_to_run(wd:os.PathLike) -> tuple[os.PathLike,os.PathLike]:
     """
     # check if wd exists
     assert os.path.exists(wd), f"Path {wd} not found"
+
     # check if file starting with libmf6 exists
-    dll = [f for f in os.listdir(wd) if f.startswith("libmf6")]
-    assert len(dll) == 1, "libmf6 dll not found in model directory"
-    dll = os.path.join(wd, "libmf6")
+    dll_files = [f for f in os.listdir(wd) if f.startswith("libmf6")]
+    if len(dll_files) == 0:
+        # no libmf6 in directory
+        print("Libname", libname)
+        if libname is None:
+            # fallback to system PATH
+            print("libmf6 not found in model directory, assuming it is available in PATH/env")
+            dll = "libmf6"
+        else:
+            # use provided Path or string
+            lib_path = Path(libname)
+            print("Using provided libmf6 path:", lib_path)
+            if lib_path.exists():
+                dll = str(lib_path)
+            else:
+                raise FileNotFoundError(f"Provided libmf6 path does not exist: {libname}")
+    elif len(dll_files) == 1:
+        print(f"Using libmf6 found in model directory: {dll_files[0]}")
+        dll = str(Path(wd) / dll_files[0])
+    else:
+        # multiple DLLs found
+        raise AssertionError(
+            f"Multiple libmf6 files found in model directory: {dll_files}. "
+            "Please keep only one version."
+        )
 
     config = check_config_file(wd)
     check_nam_files(wd)
@@ -89,10 +112,10 @@ def prep_to_run(wd:os.PathLike) -> tuple[os.PathLike,os.PathLike]:
     ), f"{yamlfile} not found in model directory {wd}"
     return yamlfile, dll
 
-def solve(wd:os.PathLike, reactive: Union[bool, None] = None, nthread: int = 1) -> bool:
+def solve(wd:os.PathLike, reactive: Union[bool, None] = None, nthread: int = 1, libname: str = None) -> bool:
     """Wrapper to prepare and call solve functions"""
 
-    mf6rtm = initialize_interfaces(wd, nthread=nthread)
+    mf6rtm = initialize_interfaces(wd, nthread=nthread, libname=libname)
     if reactive is not None and isinstance(reactive, bool) and reactive != mf6rtm.reactive:
         print(
                 f"Mode changed from "
@@ -108,10 +131,10 @@ def solve(wd:os.PathLike, reactive: Union[bool, None] = None, nthread: int = 1) 
 
 
 # TODO: we should maybe move this into the Mf6API as an alternative constructor
-def initialize_interfaces(wd:os.PathLike, nthread: int = 1) -> Mf6API:
+def initialize_interfaces(wd:os.PathLike, nthread: int = 1, libname: str = None) -> Mf6API:
     """Function to initialize the interfaces for modflowapi and phreeqcrm and returns the mf6rtm object"""
 
-    yamlfile, dll = prep_to_run(wd)
+    yamlfile, dll = prep_to_run(wd, libname=libname)
 
     if nthread > 1:
         # set nthreds to nthread
@@ -733,8 +756,15 @@ def mrbeaker() -> str:
 
     return mrbeaker
 
-def run_cmd():
-    # get the current directory
-    cwd = os.getcwd()
+def run_cmd(cwd: Optional[os.PathLike] = None) -> None:
+    """Console entrypoint compatibility wrapper.
+
+    When used as a console script the entrypoint calls `mf6rtm:run_cmd`
+    with no arguments. Allow `cwd` to be optional and default to the
+    current working directory.
+    """
+    if cwd is None:
+        cwd = os.getcwd()
+
     # run the solve function
     solve(cwd)

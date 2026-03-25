@@ -191,8 +191,7 @@ pyrightconfig.json
 /benchmark/*.png
 
 #Python pixi environments 
-pixi.lock
-pixi.toml
+.pixi/
 
 #Test output files
 /autotest/test01/*

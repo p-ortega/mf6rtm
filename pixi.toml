@@ -1,0 +1,59 @@
+[workspace]
+name = "mf6rtm"
+description = "MODFLOW 6 reactive transport module"
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
+
+[dependencies]
+#\python = ">=3.10,<3.14"
+pandas = "*"
+geopandas = "*"
+numpy = "*"
+matplotlib = "*"
+pytest = "*"
+pytest-cov = "*"
+modflow-devtools = "*"
+pip = "*"
+flaky = "*"
+coverage = "*"
+coveralls = "*"
+flake8 = "*"
+jupytext = "*"
+nbconvert = "*"
+nbformat = "*"
+ipykernel = "*"
+phreeqcrm = "*"
+flopy = "*"
+modflowapi = "*"
+toml = "*"
+
+# MODFLOW feature placeholder
+[feature.modflow.dependencies]
+# MODFLOW binaries installed via tasks
+
+[feature.py310.dependencies]
+python = "3.10.*"
+
+[feature.py311.dependencies]
+python = "3.11.*"
+
+[feature.py312.dependencies]
+python = "3.12.*"
+
+[feature.py313.dependencies]
+python = "3.13.*"
+
+[environments]
+py310 = { features = ["py310", "modflow"], solve-group = "py310" }
+py311 = { features = ["py311", "modflow"], solve-group = "py311" }
+py312 = { features = ["py312", "modflow"], solve-group = "py312" }
+py313 = { features = ["py313", "modflow"], solve-group = "py313" }
+
+[tasks]
+install-package = { cmd = "pip install -e ." }
+install-modflow = { cmd = "get-modflow --repo modflow6-nightly-build :python" }
+test = { cmd = "pytest -v", depends-on = ["install-modflow", "install-package"] }
+test-cov = { cmd = "pytest -v --cov=mf6rtm --cov-report=term-missing", depends-on = ["install-modflow", "install-package"] }
+coveralls = { cmd = "coveralls --service=github", depends-on = ["test-cov"] }
+lint = { cmd = "flake8 mf6rtm" }
+clean = { cmd = "rm -rf .pixi/tmp .pytest_cache .coverage htmlcov" }
