@@ -460,7 +460,7 @@ class SelectedOutput:
         if self.mf6rtm._check_inactive_cells_exist(self.mf6rtm.diffmask) and hasattr(self, "_sout_k"):
             sout = self.__replace_inactive_cells_in_sout(sout, self.mf6rtm.diffmask)
         self._sout_k = sout  # save sout to a private attribute
-        t = self.mf6rtm.ctime + self.mf6rtm.time_step
+        t = self.mf6rtm.ctime
         headers = list(self.phreeqcbmi.sout_headers)
         time_row = next((i for i, h in enumerate(headers) if "time" in h.lower()), None)
         if time_row is not None:

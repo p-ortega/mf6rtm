@@ -512,7 +512,7 @@ def build_mf6_2d_model(mup3d, nper, tdis_rc, length_units, time_units, nlay, nro
     
     return sim
 
-def test01(prefix = 'test01'):
+def test01(request, prefix = 'test01'):
 
     '''Test 1: Simple 1D injection test with equilibrium phases'''	
     ### Model params and setup
@@ -603,11 +603,11 @@ def test01(prefix = 'test01'):
     mf6sim = build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
-    run_test(prefix, model, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name)
 
     return 
 
-def test02(prefix = 'test02'):
+def test02(request, prefix = 'test02'):
     # General
     length_units = "meters"
     time_units = "days"
@@ -719,9 +719,9 @@ def test02(prefix = 'test02'):
     mf6sim = build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
-    run_test(prefix, model, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name)
 
-def test03(prefix = 'test03'):
+def test03(request, prefix = 'test03'):
     length_units = "meters"
     time_units = "days"
 
@@ -828,10 +828,10 @@ def test03(prefix = 'test03'):
                                  top, botm, chdspd, prsity, k11, k33, dispersivity, disp_tr_vert,icelltype, hclose,
                                  strt, rclose, relax, nouter, ninner)
     
-    run_test(prefix, model, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name)
 
 
-def test04(prefix = 'test04'):
+def test04(request, prefix = 'test04'):
     '''Test 4: Test 1: Simple 1D injection test with cation exchange from phreeqc'''
     # General
     length_units = "meters"
@@ -928,11 +928,11 @@ def test04(prefix = 'test04'):
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
     
-    run_test(prefix, model, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name)
 
 
 
-def test05(prefix = 'test05'):
+def test05(request, prefix = 'test05'):
     '''Test 5: oxidation with pyrite 1D test
     This tests equilibrum phases, scm, kinetics and exchange    
     '''
@@ -1082,7 +1082,7 @@ def test05(prefix = 'test05'):
                                         top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                         strt, rclose, relax, nouter, ninner)
     
-    run_test(prefix, model, test_cli=True, libname=lib_name, treshold = 0.02)
+    run_test(prefix, model, request=request, test_cli=True, libname=lib_name, treshold = 0.02)
 
 def test_mf6_bin():
     '''Test that mf6 binary is available'''
@@ -1146,6 +1146,9 @@ def get_benchmark_results(prefix):
     benchmarkdf = pd.read_csv(os.path.join(benchwd,f"{prefix}_benchmark.csv"), index_col = 0)
     return benchmarkdf
 
+def get_benchmark_path(prefix):
+    return Path(cwd) / "benchmark" / f"{prefix}_benchmark.csv"
+
 def get_test_results(model):
     '''Get test results'''
     testdf = pd.read_csv(os.path.join(model.wd,f"sout.csv"), index_col = 0)
@@ -1164,8 +1167,8 @@ def compare_results(benchmarkdf, testdf, treshold = 0.01):
     assert benchmarkdf.shape == testdf.shape
     # assert both dataframes have the same columns
     assert benchmarkdf.columns.tolist() == testdf.columns.tolist()
-    # assert both dataframes have the same indices
-    assert benchmarkdf.index.tolist() == testdf.index.tolist()
+    # assert both dataframes have the same indices (allow float64 platform differences)
+    assert np.allclose(benchmarkdf.index.tolist(), testdf.index.tolist(), rtol=1e-10, atol=0)
     # iterate each column and each index and assert an absolute difference less than 0.01
     # skip spatial metadata columns
     spatial_cols = {"cell", "layer", "row", "col", "cell2d"}
@@ -1184,7 +1187,7 @@ def run_yaml(prefix):
     mup3d.solve(wd)
     return
 
-def run_test(prefix, model, test_cli = False, libname = None, *args, **kwargs):
+def run_test(prefix, model, request=None, test_cli = False, libname = None, *args, **kwargs):
     # for nthread in [1]:
         #try to run the model if success print test passed
     nthread = 1
@@ -1202,10 +1205,13 @@ def run_test(prefix, model, test_cli = False, libname = None, *args, **kwargs):
         success = model.run(reactive=True, nthread=nthread, libname=libname)
         assert success
 
-    # treshold = args.get('treshold', 0.01)
-    benchmarkdf = get_benchmark_results(prefix)
     testdf = get_test_results(model)
 
+    if request is not None and request.config.getoption("--update-benchmarks"):
+        testdf.to_csv(get_benchmark_path(prefix))
+        return
+
+    benchmarkdf = get_benchmark_results(prefix)
     compare_results(benchmarkdf, testdf, *args, **kwargs)
 
     return

@@ -585,6 +585,7 @@ class Mf6RTM(object):
         else:
             self.kiter = 0
         return self.kiter
+
     def solve(self) -> bool:
         """Solve the model"""
         success = False  # initialize success flag
@@ -643,6 +644,7 @@ class Mf6RTM(object):
 
             self.mf6api.finalize_time_step()
             ctime = self._set_ctime()  # update the current time tracking
+            etime = self._set_etime()
             if self.selected_output.get_selected_output_on:
                 # get sout and update df
                 self.selected_output._update_selected_output()

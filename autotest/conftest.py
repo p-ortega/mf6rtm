@@ -2,6 +2,16 @@ from pathlib import Path
 from subprocess import PIPE, Popen
 import os, stat
 
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--update-benchmarks",
+        action="store_true",
+        default=False,
+        help="Overwrite benchmark CSVs with current model output instead of comparing.",
+    )
+
+
 def run_cmd(*args, verbose=False, **kwargs):
     """
     Run any command, return tuple (stdout, stderr, returncode).
