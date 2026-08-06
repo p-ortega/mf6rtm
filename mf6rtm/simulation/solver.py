@@ -355,7 +355,6 @@ class Mf6RTM(object):
         nr = self.config.solver.get('no_react_cells', None)
         if nr is not None:
             self.no_react_idx = np.array(nr, dtype=int)
-        self.set_emulator_training()
 
         # output settings: constructor param overrides config file value
         out_cfg = getattr(self.config, 'output', {})
@@ -364,6 +363,7 @@ class Mf6RTM(object):
             _output_format = "hdf5"
         _sout_fname = "sout.h5" if _output_format == "hdf5" else "sout.csv"
         self.selected_output = SelectedOutput(self, sout_fname=_sout_fname, output_format=_output_format)
+        self.set_emulator_training()
 
     def set_emulator_training(self) -> None:
         """
