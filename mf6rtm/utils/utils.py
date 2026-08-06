@@ -14,6 +14,37 @@ endmainblock = """\nPRINT
     -reset false
 END\n"""
 
+
+def check_phreeqcrm_status(rm, status, op):
+    """Raise a RuntimeError if a PhreeqcRM call returned an error status.
+
+    PhreeqcRM methods return IRM_RESULT ints (0 = OK, negative = error). A
+    negative status otherwise passes silently, so a ``RunFile`` that aborts
+    partway (e.g. an EQUILIBRIUM_PHASES/EXCHANGE/KINETICS block referencing an
+    entity missing from the database) never surfaces and only shows up later as
+    an opaque "initial condition ... not found". Surface it here instead.
+
+    Parameters
+    ----------
+    rm : phreeqcrm.PhreeqcRM
+        The PhreeqcRM instance the call was made on (queried for its error
+        string when the status is bad).
+    status : int or None
+        The status returned by the PhreeqcRM call.
+    op : str
+        Name of the operation, used in the error message (e.g. ``"RunFile"``).
+
+    Raises
+    ------
+    RuntimeError
+        If ``status`` is negative.
+    """
+    if status is not None and status < 0:
+        raise RuntimeError(
+            f"PhreeqcRM {op} failed (status {status}):\n{rm.GetErrorString()}"
+        )
+
+
 def flatten_list(xss):
     """Flatten a list of lists into a single list.
 
@@ -586,7 +617,7 @@ def generate_exchange_block(phases_dict, i, equilibrate_solutions=1):
     script += "END\n"
     return script
 
-def generate_surface_block(surface_dict, i, options=[]):
+def generate_surface_block(surface_dict, i, equilibrate_solutions=1, options=[]):
     """Generate a SURFACE block for PHREEQC input script
     Parameters
     ----------
@@ -594,6 +625,8 @@ def generate_surface_block(surface_dict, i, options=[]):
         A dictionary with surface names as keys and lists of site densities and site densities as values.
     i : int
         The block number.
+    equilibrate_solutions : int, optional
+        Solution number this surface is equilibrated with. Default is 1.
     Returns
     -------
     script : str
@@ -603,7 +636,7 @@ def generate_surface_block(surface_dict, i, options=[]):
     for name, values in surface_dict.items():
         script += f"    {name}"
         script += "    " + " ".join(f"{v}" for v in values) + "\n"
-        script += f"    -equilibrate {1}\n"  # TODO: make equilibrate a parameter from eq_solutions
+        script += f"    -equilibrate {equilibrate_solutions}\n"
         if len(options) > 0:
             for i in range(len(options)):
                 script += f"    -{options[i]}\n"

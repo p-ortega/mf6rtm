@@ -1,6 +1,7 @@
 import pytest
 import numpy as np
 import pandas as pd
+from unittest.mock import MagicMock
 from mf6rtm.utils import utils
 
 
@@ -116,7 +117,43 @@ class TestPhreeqcScriptGeneration:
 
         assert 'SURFACE 1' in script
         assert 'Hfo' in script
+        assert '-equilibrate 1' in script  # default equilibrate target
         assert 'END' in script
+
+    def test_generate_surface_block_equilibrate_target(self):
+        """SURFACE block equilibrates with the given solution number."""
+        surface_dict = {'Hfo': [0.1, 600]}
+        script = utils.generate_surface_block(surface_dict, 0, equilibrate_solutions=5)
+
+        assert '-equilibrate 5' in script
+        assert '-equilibrate 1' not in script
+
+
+class TestCheckPhreeqcrmStatus:
+    """Test suite for the PhreeqcRM status guard."""
+
+    def test_negative_status_raises_with_error_string(self):
+        """A negative status raises RuntimeError surfacing GetErrorString()."""
+        rm = MagicMock()
+        rm.GetErrorString.return_value = "EQUILIBRIUM_PHASES 1 not found."
+        with pytest.raises(RuntimeError) as exc:
+            utils.check_phreeqcrm_status(rm, -3, "RunFile")
+
+        assert "RunFile" in str(exc.value)
+        assert "EQUILIBRIUM_PHASES 1 not found." in str(exc.value)
+
+    def test_ok_status_does_not_raise(self):
+        """A zero/positive status is a no-op."""
+        rm = MagicMock()
+        utils.check_phreeqcrm_status(rm, 0, "RunFile")
+        utils.check_phreeqcrm_status(rm, 12, "FindComponents")  # component count
+        rm.GetErrorString.assert_not_called()
+
+    def test_none_status_does_not_raise(self):
+        """A None status (call returned nothing) is tolerated."""
+        rm = MagicMock()
+        utils.check_phreeqcrm_status(rm, None, "RunFile")
+        rm.GetErrorString.assert_not_called()
 
 
 class TestAddChargeFlag:

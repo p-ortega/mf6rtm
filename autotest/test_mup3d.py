@@ -879,6 +879,30 @@ class TestFromMf6:
                                   filename='gwf-gwt.gwfgwt')
         return sim
 
+    def test_tracer_component_name_collision_raises(self, tmp_path):
+        """A tracer GWT named after a PHREEQC component fails loudly.
+
+        from_mf6() clones the tracer into one GWT per component; if the tracer
+        name is also a component name the clone collides and flopy fails with an
+        opaque solutiongroup error. The guard turns that into a clear ValueError.
+        No MF6 run or database required — the guard fires before any sim access.
+        """
+        sim_ws = tmp_path / 'collision'
+        sim_ws.mkdir()
+        sim = self._build_minimal_sim(sim_ws)
+
+        solutions = Solutions({'Ca': [1e-4, 1e-3], 'Cl': [2e-4, 2e-3]})
+        solutions.set_ic(1)
+
+        model = Mup3d.from_mf6(sim, solutions, name='test', gwt_name='gwt')
+        # Force the collision: the tracer GWT is named 'gwt', which is also a
+        # (pretend) PHREEQC component. Normally self.components is set by
+        # initialize(); set it directly to isolate the guard.
+        model.components = ['gwt', 'Ca', 'Cl']
+
+        with pytest.raises(ValueError, match="collides with a"):
+            model._build_reactive_gwt_models()
+
     def test_aux_and_cnc_file_structure(self, tmp_path, benchmark_database):
         """write_simulation writes per-component CNC files and removes tracer GWT."""
         sim_ws = tmp_path / 'conservative'
@@ -917,6 +941,46 @@ class TestFromMf6:
             assert f'{c}.ims' in written, f'Missing IMS for {c}'
             assert f'{c}.cncout.cnc' in written, f'Missing CNC file for {c}'
             assert f'{c}.gwfgwt' in written, f'Missing exchange for {c}'
+
+    def test_dsp_options_and_mst_override(self, tmp_path, benchmark_database):
+        """xt3d_off survives the clone and set_mst_override reaches the generated MST.
+
+        Regression for two silent from_mf6 defects: the DSP OPTIONS block was
+        dropped, so every component fell back to XT3D (the MF6 default) even when
+        the reference model set xt3d_off; and the MST was cloned verbatim from the
+        tracer template, so per-component sorption was lost.
+        """
+        import flopy
+        sim_ws = tmp_path / 'dsp_mst'
+        sim_ws.mkdir()
+        sim = self._build_minimal_sim(sim_ws)
+        # xt3d_off is an OPTIONS keyword, not griddata — the clone must carry it
+        gwt_ref = sim.get_model('gwt')
+        flopy.mf6.ModflowGwtdsp(gwt_ref, xt3d_off=True, alh=1.0, ath1=0.1,
+                                filename='gwt.dsp')
+
+        solutions = Solutions({'Ca': [1e-4, 1e-3], 'Cl': [2e-4, 2e-3]})
+        solutions.set_ic(1)
+
+        model = Mup3d.from_mf6(sim, solutions, name='test', gwt_name='gwt')
+        model.set_database(benchmark_database)
+        model.initialize()
+
+        assert 'Ca' in model.components
+        model.set_diffusion_coeff({c: 0.0 for c in model.components})
+        model.set_mst_override({'Ca': {'sorption': 'linear',
+                                       'bulk_density': 1850.0,
+                                       'distcoef': 2.1141e-4}})
+        model.write_simulation()
+
+        for c in model.components:
+            dsp = (Path(model.wd) / f'{c}.dsp').read_text().upper()
+            assert 'XT3D_OFF' in dsp, f'XT3D_OFF dropped for {c}'
+            mst = (Path(model.wd) / f'{c}.mst').read_text().upper()
+            if c == 'Ca':
+                assert 'SORPTION' in mst, 'MST override did not reach Ca.mst'
+            else:
+                assert 'SORPTION' not in mst, f'sorption leaked into {c}.mst'
 
     def test_aux_per_period_switches_solution(self, tmp_path, benchmark_database):
         """type='aux' with a per-period dict writes distinct aux columns per period.

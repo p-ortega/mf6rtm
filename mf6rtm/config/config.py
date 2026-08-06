@@ -39,13 +39,36 @@ class MF6RTMConfig:
     tsteps : List[Tuple[int, int]]
         List of time steps for reaction calculations.
     """
+    # Config sections whose kwargs use the flat convention folded
+    _SECTION_PREFIXES = ("reactive_", "emulator_", "output_", "solver_")
+
     def __init__(self, **kwargs):
         """Basic initialization."""
         # Minimal initialization
         for key, value in kwargs.items():
-            setattr(self, key, value)
+            self._ingest_kwarg(key, value)
         # Apply defaults for any missing attributes
         self._apply_defaults()
+
+    def _ingest_kwarg(self, key, value):
+        """Store a configuration kwarg.
+
+        A ``<section>_<key>`` kwarg (e.g. ``reactive_externalio``) is folded into
+        the nested section dict (``self.reactive['externalio']``) so the flat form
+        accepted by ``set_config`` and the nested dicts the runtime reads never
+        diverge.
+        """
+        for prefix in self._SECTION_PREFIXES:
+            if key.startswith(prefix):
+                section = prefix.rstrip("_")
+                subkey = key[len(prefix):]
+                sec = getattr(self, section, None)
+                if not isinstance(sec, dict):
+                    sec = {}
+                    setattr(self, section, sec)
+                sec[subkey] = value
+                return
+        setattr(self, key, value)
 
     def _validate_config(self):
         self._validate_reaction_timing()
@@ -113,7 +136,7 @@ class MF6RTMConfig:
             Configuration parameters to set as attributes on the instance.
         """
         for key, value in kwargs.items():
-            setattr(self, key, value)
+            self._ingest_kwarg(key, value)
         # Update internal schema if needed
         self._update_schema_for_new_attrs(kwargs.keys())
 
@@ -215,21 +238,9 @@ class MF6RTMConfig:
         """
 
         result = {}
-        category_prefixes = ['reactive_', 'emulator_']  # generalized prefixes
-        category_groups = {prefix.rstrip('_'): {} for prefix in category_prefixes}
 
         for attr_name, value in self.__dict__.items():
             if attr_name.startswith('_'):
-                continue
-            # Handle category prefixes
-            handled = False
-            for prefix in category_prefixes:
-                if attr_name.startswith(prefix):
-                    key = attr_name[len(prefix):]
-                    category_groups[prefix.rstrip('_')][key] = value
-                    handled = True
-                    break
-            if handled:
                 continue
 
             # Handle nested phase attributes
@@ -250,27 +261,21 @@ class MF6RTMConfig:
                         result[main_group] = {}
                     result[main_group]['names'] = value
                 else:
-                    print(attr_name, value)
                     result[attr_name] = value
             else:
                 if isinstance(value, dict):
-                    # TOML has no null type — omit None-valued keys
+                    # TOML has no null type - omit None-valued keys
                     filtered = {k: v for k, v in value.items() if v is not None}
                     if filtered:
                         result[attr_name] = filtered
                 else:
                     result[attr_name] = value
 
-        # Add category groups to result if not empty
-        for category, group_dict in category_groups.items():
-            if group_dict:
-                result[category] = group_dict
-
-        # Build sorted_result: categories first, then phase groups, then remaining keys
+        # Build sorted_result: sections first, then phase groups, then remaining keys
         sorted_result = {}
 
-        # Add categories in order of category_prefixes
-        for category in [p.rstrip('_') for p in category_prefixes]:
+        # Emit the config sections in a stable order first
+        for category in ['reactive', 'emulator']:
             if category in result:
                 sorted_result[category] = result[category]
 
@@ -389,6 +394,9 @@ class MF6RTMConfig:
                 'min_concentration': solver_config.get('min_concentration', None),
                 'no_react_cells': solver_config.get('no_react_cells', None),
             }
+            # carry the diffmask threshold through the round-trip when set
+            if 'threshold' in solver_config:
+                kwargs['solver']['threshold'] = solver_config['threshold']
 
         # Flatten everything *except* known sections
         remaining_dict = {k: v for k, v in config_dict.items() if k not in ['reactive', 'solver', 'output',

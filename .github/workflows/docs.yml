@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    name: Execute notebooks and build docs
+    name: Execute tutorials and build docs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,25 +23,5 @@ jobs:
           cache: true
           environments: docs
 
-      - name: Build docs (executes tutorial notebooks)
+      - name: Build docs (re-executes tutorial notebooks as a smoke test)
         run: pixi run -e docs build-docs
-
-      - name: Upload executed notebooks for Read the Docs
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        uses: actions/upload-artifact@v4
-        with:
-          name: notebooks-for-${{ github.sha }}
-          path: docs/tutorials/*.ipynb
-
-  rtd:
-    name: Trigger Read the Docs build
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    steps:
-      - name: Trigger RTD build
-        uses: dfm/rtds-action@v1
-        with:
-          webhook_url: ${{ secrets.RTDS_WEBHOOK_URL }}
-          webhook_token: ${{ secrets.RTDS_WEBHOOK_TOKEN }}
-          commit_ref: ${{ github.ref }}
