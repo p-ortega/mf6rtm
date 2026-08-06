@@ -2,10 +2,14 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-mf6rtm
-======
+.. meta::
+   :description: Open-source Python package for reactive transport modeling — MODFLOW 6 coupled with PHREEQC (PhreeqcRM). A scriptable, benchmarked alternative to PHT3D.
+   :keywords: reactive transport, MODFLOW 6, PHREEQC, PhreeqcRM, Python, groundwater modeling, geochemistry, PHT3D
 
-**Reactive transport modeling in Python — MODFLOW 6 coupled with PHREEQCRM.**
+mf6rtm — Reactive Transport Modeling with MODFLOW 6 and PHREEQC
+===============================================================
+
+Reactive transport modeling in Python — **MODFLOW 6** coupled with **PHREEQC** through the PhreeqcRM API.
 
 mf6rtm couples MODFLOW 6 (groundwater flow and transport) with PHREEQC
 (geochemistry) through the ``modflowapi`` and ``phreeqcrm`` APIs, providing a

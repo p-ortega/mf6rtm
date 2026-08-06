@@ -32,22 +32,16 @@ extensions = [
     "sphinx_autodoc_typehints",        # types from function annotations
     "myst_nb",                         # Markdown + notebook support
     "sphinx.ext.autosummary",
+    "sphinxext.opengraph",             # OpenGraph meta tags (SEO / social cards)
 ]
+
+# -- OpenGraph ----------------------------------------------------------
+ogp_site_url = "https://mf6rtm.readthedocs.io/en/stable/"
+ogp_description_length = 200
 
 # Auto-generate summary tables for modules
 autosummary_generate = True
-
 nb_execution_mode = "off"
-
-# On Read the Docs, pull the CI-executed tutorial notebooks via rtds-action.
-on_rtd = os.environ.get("READTHEDOCS") == "True"
-if on_rtd:
-    extensions.append("rtds_action")
-    rtds_action_github_repo = "p-ortega/mf6rtm"
-    rtds_action_path = "tutorials"
-    rtds_action_artifact_prefix = "notebooks-for-"
-    rtds_action_github_token = os.environ.get("GITHUB_TOKEN", None)
-    rtds_action_error_if_missing = False
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
@@ -55,7 +49,7 @@ if on_rtd:
 html_theme = "furo"
 html_static_path = ["_static"]
 html_logo = "../mf6rtm/assets/mf6rtm.png"
-html_title = "mf6rtm"
+html_title = "mf6rtm — Reactive Transport Modeling with MODFLOW 6 and PHREEQC"
 
 html_theme_options = {
     "navigation_with_keys": True,      # navigate with keyboard

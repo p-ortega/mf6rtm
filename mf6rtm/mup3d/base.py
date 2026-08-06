@@ -414,6 +414,7 @@ class Mup3d(object):
         self._gwt_sim = None
         self._gwt_name = None
         self._diffusion_coeff = {}
+        self._mst_overrides = {}
 
         # Set grid parameters for DIS
         if all(param is not None for param in [nlay, nrow, ncol]):
@@ -814,7 +815,10 @@ class Mup3d(object):
                 # check if all surfaces are in the database
                 names = utils.get_compound_names(self.database, 'SURFACE_MASTER_SPECIES')
                 assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
-                script += utils.handle_block(phases, utils.generate_surface_block, i, options=self.surfaces_phases.options)
+                # Equilibrate each surface with its zone's solution (mirrors the
+                # exchange path); fall back to solution 1 if no targets were set.
+                eq_sol = 1 if self.surfaces_phases.eq_solutions is None else self.surfaces_phases.eq_solutions[i]
+                script += utils.handle_block(phases, utils.generate_surface_block, i, equilibrate_solutions=eq_sol, options=self.surfaces_phases.options)
 
         # add end of line before postfix
         script += utils.endmainblock
@@ -921,14 +925,18 @@ class Mup3d(object):
 
         # Load database
         status = self.phreeqc_rm.LoadDatabase(self.database)
+        utils.check_phreeqcrm_status(self.phreeqc_rm, status, "LoadDatabase")
         status = self.phreeqc_rm.RunFile(True, True, True, self.phinp)
+        utils.check_phreeqcrm_status(self.phreeqc_rm, status, "RunFile")
 
         # Clear contents of workers and utility
         input = "DELETE; -all"
         status = self.phreeqc_rm.RunString(True, False, True, input)
+        utils.check_phreeqcrm_status(self.phreeqc_rm, status, "RunString")
 
         # Get component information - these two functions need to be invoked to find comps
         ncomps = self.phreeqc_rm.FindComponents()
+        utils.check_phreeqcrm_status(self.phreeqc_rm, ncomps, "FindComponents")
         components = list(self.phreeqc_rm.GetComponents())
         self.ncomps = ncomps
 
@@ -965,9 +973,11 @@ class Mup3d(object):
 
         # initialize ic1 phreeqc to module with phrreeqcrm
         status = self.phreeqc_rm.InitialPhreeqc2Module(ic1_flatten)
+        utils.check_phreeqcrm_status(self.phreeqc_rm, status, "InitialPhreeqc2Module")
 
         # get initial concentrations from running phreeqc
         status = self.phreeqc_rm.RunCells()
+        utils.check_phreeqcrm_status(self.phreeqc_rm, status, "RunCells")
         c_dbl_vect = self.phreeqc_rm.GetConcentrations()
         self.init_conc_array_phreeqc = c_dbl_vect
 
@@ -1157,6 +1167,14 @@ class Mup3d(object):
         component-specific IC (from self.sconc) and SSM (from ChemStress).
         The conservative tracer GWT is removed via sim.remove_model().
         """
+        # Guard against a tracer/component name collision.
+        if self.components is not None and self._gwt_name in self.components:
+            raise ValueError(
+                f"Conservative tracer GWT model name '{self._gwt_name}' collides with a "
+                f"PHREEQC component of the same name. from_mf6() clones the tracer into one "
+                f"GWT model per component, so the tracer name must not be a component name. "
+                f"Rename the tracer GWT (gwt_name=...) to a non-component name such as 'tracer'."
+            )
         gwt_ref = self._gwt_sim.get_model(self._gwt_name)
         gwf_name = next(
             n for n in self._gwt_sim.model_names
@@ -1266,7 +1284,8 @@ class Mup3d(object):
                     )
                     diffc = 0.0
                 dsp_kwargs = dict(diffc=diffc)
-                for attr in ('alh', 'ath1', 'ath2', 'atv'):
+                # xt3d_off/xt3d_rhs are OPTIONS to be carried otherwise get turned on
+                for attr in ('alh', 'ath1', 'ath2', 'atv', 'xt3d_off', 'xt3d_rhs'):
                     pkg_attr = getattr(gwt_ref.dsp, attr, None)
                     if pkg_attr is not None:
                         try:
@@ -1283,13 +1302,16 @@ class Mup3d(object):
                 mst_ref = gwt_ref.mst
                 mst_kwargs = {}
                 for attr in ('porosity', 'decay', 'decay_sorbed', 'bulk_density',
-                             'distcoef', 'sp2', 'first_order_decay', 'zero_order_decay'):
+                             'distcoef', 'sp2', 'first_order_decay', 'zero_order_decay',
+                             'sorption'):
                     pkg_attr = getattr(mst_ref, attr, None)
                     if pkg_attr is not None:
                         try:
                             mst_kwargs[attr] = pkg_attr.get_data()
                         except Exception:
                             pass
+                # sorption is often per-component but the template has one MST; see set_mst_override()
+                mst_kwargs.update(self._mst_overrides.get(component, {}))
                 flopy.mf6.ModflowGwtmst(gwt, filename=f"{component}.mst", **mst_kwargs)
 
             # SSM — rebuilt from aux-type ChemStress objects only
@@ -1499,16 +1521,21 @@ class Mup3d(object):
             status = phreeqc_rm.SetPrintChemistryMask(np.full((nxyz_spd), 1))
             status = phreeqc_rm.SetPrintChemistryOn(False, True, False)
             status = phreeqc_rm.LoadDatabase(self.database)
+            utils.check_phreeqcrm_status(phreeqc_rm, status, "LoadDatabase")
             status = phreeqc_rm.RunFile(True, True, True, self.phinp)
+            utils.check_phreeqcrm_status(phreeqc_rm, status, "RunFile")
             input = "DELETE; -all"
             status = phreeqc_rm.RunString(True, False, True, input)
+            utils.check_phreeqcrm_status(phreeqc_rm, status, "RunString")
             ncomps = phreeqc_rm.FindComponents()
+            utils.check_phreeqcrm_status(phreeqc_rm, ncomps, "FindComponents")
             components = list(phreeqc_rm.GetComponents())
 
             ic1 = [-1] * nxyz_spd * 7
             for e, sol in enumerate(unique_sols):
                 ic1[e] = sol
             status = phreeqc_rm.InitialPhreeqc2Module(ic1)
+            utils.check_phreeqcrm_status(phreeqc_rm, status, "InitialPhreeqc2Module")
             status = phreeqc_rm.SetTime(0.0)
             status = phreeqc_rm.SetTimeStep(0.0)
 
@@ -1545,16 +1572,21 @@ class Mup3d(object):
             status = phreeqc_rm.SetPrintChemistryMask(np.full((nxyz_spd), 1))
             status = phreeqc_rm.SetPrintChemistryOn(False, True, False)
             status = phreeqc_rm.LoadDatabase(self.database)
+            utils.check_phreeqcrm_status(phreeqc_rm, status, "LoadDatabase")
             status = phreeqc_rm.RunFile(True, True, True, self.phinp)
+            utils.check_phreeqcrm_status(phreeqc_rm, status, "RunFile")
             input = "DELETE; -all"
             status = phreeqc_rm.RunString(True, False, True, input)
+            utils.check_phreeqcrm_status(phreeqc_rm, status, "RunString")
             ncomps = phreeqc_rm.FindComponents()
+            utils.check_phreeqcrm_status(phreeqc_rm, ncomps, "FindComponents")
             components = list(phreeqc_rm.GetComponents())
 
             ic1 = [-1] * nxyz_spd * 7
             for e, i in enumerate(sol_spd):
                 ic1[e] = i
             status = phreeqc_rm.InitialPhreeqc2Module(ic1)
+            utils.check_phreeqcrm_status(phreeqc_rm, status, "InitialPhreeqc2Module")
             status = phreeqc_rm.SetTime(0.0)
             status = phreeqc_rm.SetTimeStep(0.0)
 
@@ -1587,6 +1619,10 @@ class Mup3d(object):
         """
         yamlfile = self.phreeqcyaml_file
         phreeqcrm_from_yaml = phreeqcrm.InitializeYAML(yamlfile)
+        if phreeqcrm_from_yaml is None:
+            raise RuntimeError(
+                f"PhreeqcRM InitializeYAML failed for '{yamlfile}'."
+            )
         if self.phreeqc_rm is None:
             self.phreeqc_rm = phreeqcrm_from_yaml
         return
@@ -1799,6 +1835,19 @@ class Mup3d(object):
             default to 0 (no diffusion) with a warning at write time.
         """
         self._diffusion_coeff = diffusion_coeff
+
+    def set_mst_override(self, overrides: dict) -> None:
+        """Override MST keyword arguments for specific components (from_mf6 builds).
+
+        Parameters
+        ----------
+        overrides : dict
+            Mapping of component name to ``ModflowGwtmst`` keyword arguments, e.g.
+            ``{'Tmp': {'sorption': 'Linear', 'bulk_density': 1850.0,
+            'distcoef': 2.1141e-4}}``. Keys given here replace values copied from the
+            template; components not listed are unaffected.
+        """
+        self._mst_overrides = overrides
 
     @classmethod
     def from_mf6(cls, sim, solutions, name=None, gwf_name=None, gwt_name=None):

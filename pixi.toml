@@ -50,6 +50,7 @@ sphinx = "*"
 myst-nb = "*"
 furo = "*"
 sphinx-autodoc-typehints = "*"
+sphinxext-opengraph = "*"
 pyshp = "*"
 
 [feature.release.dependencies]

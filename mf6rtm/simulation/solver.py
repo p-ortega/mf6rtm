@@ -349,6 +349,8 @@ class Mf6RTM(object):
 
         self.config = MF6RTMConfig.from_toml_file(self.wd/"mf6rtm.toml")
         self.reactive = self.config.reactive['enabled']
+        # diffmask threshold: cells changing less than this skip reactions
+        self.threshold = self.config.solver.get('threshold', self.threshold)
         self.min_concentration = self.config.solver.get('min_concentration', None)
         nr = self.config.solver.get('no_react_cells', None)
         if nr is not None:
@@ -506,9 +508,8 @@ class Mf6RTM(object):
                 for model_name in gwt_model_names:
                     if model_name.replace(gwt_name_prefix, "").lower() == 'ch':
                         component_model_dict[component] = model_name
-            assert (component_model_dict[component] != None,
+            assert component_model_dict[component] != None, \
                 f"Component {component} is not matched with a transport model"
-            )
 
         conservative_transport_models = list(
             set(gwt_model_names) - set(component_model_dict.values())
