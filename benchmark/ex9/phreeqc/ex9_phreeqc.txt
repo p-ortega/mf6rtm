@@ -1,0 +1,84 @@
+TITLE Dual-Domain Mass Transfer (DDMT) Column (124.5 cm) Sampling Port 1 (~21 cm) NaCl tracer with stagnant zones.
+                    Implicit definition of first-order exchange model.
+KNOBS
+	-iterations 1000
+SOLUTION 0    # 8e-3 mol/L NaCl 0.45 g/L NaCl
+   units   mmol/l
+   pH      5.5
+   pe      13.0    O2(g)   -0.69
+   Na      8.0     # Na undergoes sorption and stagnant exchange
+   Cl      8.0   # Cl undergoes stagnant exchange 
+END
+SOLUTION 1-201  # Column with 0.001266 mol/L NaCl 0.074 g/L NaCl
+   units   mmol/l
+   pH      5.5
+   pe      13.0   O2(g)    -0.69
+   Na      1.19
+   Cl      1.19
+END
+RATES
+Na_sorption
+-start
+10 km = 0.0001327        # 1/s
+20 kd = 0.01       # L/kg
+30 solids = 2000.0    # kg solids
+40 C = MOL("Na+")     # mobile conc (mol/kgw = mol/L)
+50 rate = -km*(C - (M/solids)/kd)
+60 moles = rate * TIME
+70 if (M - moles) < 0 then moles = M
+80 SAVE moles
+-end
+KINETICS 1-200
+Na_sorption
+    -formula Na+
+    -m      0.0195
+    -tol    1e-12
+END
+SELECTED_OUTPUT
+   -file   ex9_phreeqc.sel
+   -high_precision true
+   -reset  false
+   -solution
+   -distance       true
+   -totals Na Cl
+   -molalities Na+ Cl-
+   -step true
+   -ionic_strength true
+   -time true
+   -user_punch true
+
+USER_PUNCH
+-headings EC_uScm_calc
+
+10 EC_uScm_calc = 1000 * (50.1*TOT("Na") + 76.3*TOT("Cl"))
+
+20 PUNCH EC_uScm_calc
+
+TRANSPORT # Tracer Pulse
+   -cells  100
+   -shifts 5
+   -flow_direction  forward
+   -time_step       158 # seconds per shift (5 shifts at 158 seconds: 790 seconds for tracer pulse)
+   -boundary_conditions   flux  flux
+   -lengths         0.012166
+   -dispersivities  0.003 # 2/3rds mean grain size diameter (0.31 cm or 0.0031 m)
+   -diffusion_coefficient 3.8E-09 # m^2/sec
+   -stagnant   1  5.9E-05    0.5   0.209
+#   1 stagnant layer^, ^alpha, ^epsil(m), ^epsil(im)
+   -punch_cells 1 17 #18 34 35 85 86
+   -punch_frequency 1
+END
+
+SOLUTION 0  # Original solution with NaCl reenters
+   units   mmol/l
+   pH       5.5
+   pe      13.0    O2(g)   -0.69
+   Na      1.19
+   Cl      1.19
+END
+
+TRANSPORT
+   -shifts 225
+   -punch_cells        1 17 #18 34 35 85 86
+   -punch_frequency    1
+END
