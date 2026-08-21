@@ -997,7 +997,52 @@ class Mup3d(object):
         self._write_phreeqc_files()
         print('Phreeqc initialized')
         return
+    ### ddmt
+    def set_ddmt(
+        self,
+        theta_mobile,
+        theta_immobile,
+        alpham,
+        mode="storage",
+        immobile_initial="mobile",
+        output=True,
+        output_format="hdf5",
+        immobile_yaml=None,
+    ):
+        """Configure first-order single-rate dual-domain mass transfer."""
 
+        def _toml_scalar_or_list(value, name):
+            if value is None:
+                return None
+
+            arr = np.asarray(value, dtype=float)
+
+            if arr.ndim == 0:
+                return float(arr)
+
+            arr = arr.reshape(-1)
+            if arr.size == 0:
+                raise ValueError(f"{name} cannot be empty")
+
+            return arr.tolist()
+
+        if mode not in ("storage", "reactive"):
+            raise ValueError("mode must be either 'storage' or 'reactive'")
+
+        self.config.ddmt = {
+            "enabled": True,
+            "mode": mode,
+            "theta_mobile": _toml_scalar_or_list(theta_mobile, "theta_mobile"),
+            "theta_immobile": _toml_scalar_or_list(theta_immobile, "theta_immobile"),
+            "alpham": _toml_scalar_or_list(alpham, "alpham"),
+            "immobile_initial": immobile_initial,
+            "immobile_yaml": str(immobile_yaml) if immobile_yaml is not None else None,
+            "output": bool(output),
+            "output_format": output_format,
+        }
+
+        return self.config.ddmt
+          
     def set_config(self, **kwargs) -> MF6RTMConfig:
         """Create and store a config object.
 

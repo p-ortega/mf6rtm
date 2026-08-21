@@ -16,6 +16,8 @@ from mf6rtm.simulation.discretization import total_cells_in_grid
 from mf6rtm.config.config import MF6RTMConfig
 from mf6rtm.io.externalio import SelectedOutput
 from mf6rtm.utils import utils
+from mf6rtm.simulation.ddmt import validate_ddmt_arrays, exchange_first_order_single_rate
+from mf6rtm.io.ddmt_output import DDMTOutputWriter                                                                                         
 
 # warnings.filterwarnings("ignore")
 # warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -348,6 +350,25 @@ class Mf6RTM(object):
         self.set_time_conversion()
 
         self.config = MF6RTMConfig.from_toml_file(self.wd/"mf6rtm.toml")
+
+        ### ddmt
+        ddmt_cfg = getattr(self.config, "ddmt", {})
+
+        self.ddmt_enabled = ddmt_cfg.get("enabled", False)
+        self.ddmt_mode = ddmt_cfg.get("mode", "storage")
+        self.theta_mobile = ddmt_cfg.get("theta_mobile", None)
+        self.theta_immobile = ddmt_cfg.get("theta_immobile", None)
+        self.alpham = ddmt_cfg.get("alpham", None)
+
+        self.immobile_initial = ddmt_cfg.get("immobile_initial", "mobile")
+        self.immobile_conc_m3 = None
+
+        self.immobile_yaml = ddmt_cfg.get("immobile_yaml", None)
+        self.phreeqcbmi_immobile = None
+
+        self.ddmt_output_enabled = ddmt_cfg.get("output", True)
+        self.ddmt_output_format = ddmt_cfg.get("output_format", "hdf5")
+        self.ddmt_output = None
         self.reactive = self.config.reactive['enabled']
         # diffmask threshold: cells changing less than this skip reactions
         self.threshold = self.config.solver.get('threshold', self.threshold)
@@ -525,6 +546,80 @@ class Mf6RTM(object):
         """Set the model to run only transport or transport and reactions"""
         self.reactive = reactive
 
+
+    ### ddmt
+    def _prepare_ddmt(self):
+        """Validate DDMT settings and prepare optional immobile chemistry/output."""
+        if not self.ddmt_enabled:
+            return
+
+        self.theta_mobile, self.theta_immobile, self.alpham = validate_ddmt_arrays(
+            self.theta_mobile,
+            self.theta_immobile,
+            self.alpham,
+            self.nxyz,
+        )
+
+        if self.ddmt_mode not in ("storage", "reactive"):
+            raise ValueError("ddmt_mode must be either 'storage' or 'reactive'")
+
+        if self.ddmt_mode == "reactive":
+            self._prepare_immobile_phreeqcrm()
+
+        if self.ddmt_output_enabled:
+            self.ddmt_output = DDMTOutputWriter(
+                self,
+                output_format=self.ddmt_output_format,
+            )
+
+
+    def _prepare_immobile_phreeqcrm(self):
+        """Prepare the second PhreeqcBMI instance for immobile-domain reactions."""
+        if self.phreeqcbmi_immobile is None:
+            if self.immobile_yaml is None:
+                raise ValueError(
+                    "ddmt_mode='reactive' requires immobile_yaml or phreeqcbmi_immobile"
+                )
+            self.phreeqcbmi_immobile = PhreeqcBMI(self.immobile_yaml)
+
+        self.phreeqcbmi_immobile._prepare_phreeqcrm_bmi()
+        self.phreeqcbmi_immobile.SetTimeConversion(self.time_conversion)
+        
+        mobile_components = list(self.phreeqcbmi.components)
+        immobile_components = list(self.phreeqcbmi_immobile.components)
+
+        if mobile_components != immobile_components:
+            raise ValueError(
+                "Mobile and immobile PhreeqcBMI component lists do not match: "
+                f"{mobile_components} != {immobile_components}"
+            )
+
+
+    def _initialize_immobile_concentrations(self, mobile_conc_m3=None):
+        """Initialize immobile-domain concentrations as mol/m3 with shape (ncomps, nxyz)."""
+        if self.immobile_conc_m3 is not None:
+            self.immobile_conc_m3 = np.asarray(self.immobile_conc_m3, dtype=float).reshape(
+                self.phreeqcbmi.ncomps,
+                self.nxyz,
+            )
+            return self.immobile_conc_m3
+
+        if isinstance(self.immobile_initial, str):
+            if self.immobile_initial.lower() == "mobile":
+                if mobile_conc_m3 is None:
+                    raise ValueError("immobile_initial='mobile' requires mobile_conc_m3")
+                self.immobile_conc_m3 = np.asarray(mobile_conc_m3, dtype=float).copy()
+            elif self.immobile_initial.lower() == "zero":
+                self.immobile_conc_m3 = np.zeros((self.phreeqcbmi.ncomps, self.nxyz), dtype=float)
+            else:
+                raise ValueError("immobile_initial must be 'mobile', 'zero', or an array")
+        else:
+            self.immobile_conc_m3 = np.asarray(self.immobile_initial, dtype=float).reshape(
+                self.phreeqcbmi.ncomps,
+                self.nxyz,
+            )
+
+        return self.immobile_conc_m3
     def _prepare_to_solve(self) -> None:
         """Prepare the model to solve"""
         # check if sout fname exists
@@ -534,6 +629,8 @@ class Mf6RTM(object):
 
         self.mf6api._prepare_mf6()
         self.phreeqcbmi._prepare_phreeqcrm_bmi()
+        ### ddmt
+        self._prepare_ddmt()
 
         # get and write sout headers
         self.selected_output._write_sout_headers()
@@ -555,6 +652,7 @@ class Mf6RTM(object):
 
     def _finalize(self) -> None:
         """Finalize the APIs"""
+        self._finalize_ddmt()                             
         self._finalize_mf6api()
         self._finalize_phreeqcrm()
 
@@ -566,6 +664,9 @@ class Mf6RTM(object):
         """Finalize the phreeqcrm api"""
         self.phreeqcbmi.finalize()
 
+        ### ddmt
+        if self.phreeqcbmi_immobile is not None:
+            self.phreeqcbmi_immobile.finalize()                
 
     def _get_cdlbl_vect(self) -> np.ndarray[np.float64]:
         """Get the 1D phreeqc concentration array with a length of ncomps*nxyz.
@@ -610,6 +711,40 @@ class Mf6RTM(object):
             self.mf6api.set_value(f"{gwt_model_name}/X", concs)
 
         return mf6_conc_m3_array
+        
+    ### ddmt
+    def _set_phreeqcbmi_concentrations_m3(self, phreeqcbmi, conc_m3):
+        """Set PhreeqcBMI concentrations from mol/m3 array."""
+        conc_m3 = np.asarray(conc_m3, dtype=float).reshape(phreeqcbmi.ncomps, self.nxyz)
+        conc_l = utils.concentration_m3_to_l(conc_m3.ravel())
+        phreeqcbmi.SetConcentrations(conc_l)
+        return conc_m3
+
+
+    def _get_phreeqcbmi_concentrations_m3(self, phreeqcbmi):
+        """Get PhreeqcBMI concentrations as mol/m3 array."""
+        conc_l = phreeqcbmi.GetConcentrations()
+        conc_m3 = utils.concentration_l_to_m3(conc_l)
+        return np.asarray(conc_m3, dtype=float).reshape(phreeqcbmi.ncomps, self.nxyz)
+
+
+    def _write_mobile_concentrations_to_mf6(self, mobile_conc_m3):
+        """Write mobile-domain concentrations directly to MF6."""
+        mobile_conc_m3 = np.asarray(mobile_conc_m3, dtype=float).reshape(
+            self.phreeqcbmi.ncomps,
+            self.nxyz,
+        )
+
+        for i, component in enumerate(self.phreeqcbmi.components):
+            gwt_model_name = self.component_model_dict[component].upper()
+            concs = mobile_conc_m3[i].copy()
+
+            if component.lower() == "charge":
+                concs += self.charge_offset
+
+            self.mf6api.set_value(f"{gwt_model_name}/X", concs)
+
+        return mobile_conc_m3
 
     def _check_previous_conc_exists(self) -> bool:
         """Function to replace inactive cells in the concentration array"""
@@ -709,6 +844,70 @@ class Mf6RTM(object):
             self.kiter = 0
         return self.kiter
 
+    ### ddmt
+    def _apply_ddmt_exchange(self, mobile_conc_m3, dt):
+        """Exchange mass between mobile and immobile domains."""
+        self._initialize_immobile_concentrations(mobile_conc_m3)
+
+        mobile_new, immobile_new = exchange_first_order_single_rate(
+            mobile_conc_m3=mobile_conc_m3,
+            immobile_conc_m3=self.immobile_conc_m3,
+            theta_mobile=self.theta_mobile,
+            theta_immobile=self.theta_immobile,
+            alpham=self.alpham,
+            dt=dt,
+        )
+
+        self.immobile_conc_m3 = immobile_new
+        self._set_phreeqcbmi_concentrations_m3(self.phreeqcbmi, mobile_new)
+
+        return mobile_new
+
+
+    def _solve_immobile_phreeqcrm(self, dt, diffmask=None):
+        """Run immobile-domain reactions and update the immobile concentration state."""
+        if self.phreeqcbmi_immobile is None:
+            raise RuntimeError("Reactive DDMT requires phreeqcbmi_immobile")
+
+        self._set_phreeqcbmi_concentrations_m3(
+            self.phreeqcbmi_immobile,
+            self.immobile_conc_m3,
+        )
+
+        self.phreeqcbmi_immobile._set_ctime(self.ctime)
+        self.phreeqcbmi_immobile._get_kper_kstp_from_mf6api(self.mf6api)
+
+        immobile_sat = np.where(self.theta_immobile > 0.0, 1.0, 0.0)
+        self.phreeqcbmi_immobile.sat_now = immobile_sat
+
+        self.phreeqcbmi_immobile._solve_phreeqcrm(dt, diffmask=diffmask)
+
+        self.immobile_conc_m3 = self._get_phreeqcbmi_concentrations_m3(
+            self.phreeqcbmi_immobile
+        )
+
+        return self.immobile_conc_m3
+
+
+    def _record_ddmt_output(self, time_d, stage, mobile_conc_m3):
+        """Record DDMT mobile and immobile concentrations for all cells."""
+        if not self.ddmt_enabled or self.ddmt_output is None:
+            return
+
+        self.ddmt_output.record(
+            time_d=time_d,
+            kper=self.mf6api.kper,
+            kstp=self.mf6api.kstp,
+            stage=stage,
+            mobile_conc_m3=mobile_conc_m3,
+            immobile_conc_m3=self.immobile_conc_m3,
+        )
+
+
+    def _finalize_ddmt(self):
+        """Finalize DDMT output resources."""
+        if self.ddmt_output is not None:
+            self.ddmt_output.close()
     def solve(self) -> bool:
         """Run the coupled MODFLOW 6 / PhreeqcRM time-stepping loop.
 
@@ -718,78 +917,172 @@ class Mf6RTM(object):
             True if the run finished and both interfaces were finalized
             successfully.
         """
-        success = False  # initialize success flag
+        success = False
         sim_start = datetime.now()
         self._prepare_to_solve()
 
-        # HDF5 file is created on first append; CSV is created by _write_sout_headers
+        # HDF5 is created on first append; CSV is created by _write_sout_headers.
         if self.selected_output.output_format != "hdf5":
-            assert self.selected_output._check_sout_exist(), f"{self.selected_output.sout_fname} not found"
+            assert self.selected_output._check_sout_exist(), (
+                f"{self.selected_output.sout_fname} not found"
+            )
 
         if self.min_concentration is not None:
-            print(f"Truncating concentrations at {self.min_concentration:.2e} mol/L")
-        print("Starting Solution at {0}".format(sim_start.strftime(DT_FMT)))
+            print(
+                f"Truncating concentrations at "
+                f"{self.min_concentration:.2e} mol/L"
+            )
+
+        print(f"Starting Solution at {sim_start.strftime(DT_FMT)}")
+
         ctime = self._set_ctime()
         etime = self._set_etime()
+
         while ctime < etime:
-            # self iteration counter
+            # Increment the iteration counter.
             self.set_kiter()
-            # length of the current solve time
+
+            # Determine and prepare the current solve timestep.
             dt = self._set_time_step()
             self.mf6api.prepare_time_step(dt)
             self.mf6api._solve_gwt()
 
-            # get saturation
+            # Retrieve saturation from MODFLOW 6.
             self.get_saturation_from_mf6()
-            # check_reactive_kstp()
-            if self.is_reactive_tstep():
-                self.phreeqcbmi.SetSaturation(self.phreeqcbmi.sat_now)
-                c_dbl_vect, mf6_conc_m3_array = self._transfer_array_to_phreeqcrm()
-                self.phreeqcbmi._get_kper_kstp_from_mf6api(self.mf6api)
-                            # Moved from `_transfer_array_to_phreeqcrm()`
-                self._set_conc_at_current_kstep(mf6_conc_m3_array)
 
-                # Export ML feature arrays if option is on
+            reacted_this_step = False
+            mobile_conc_m3_array = None
+            reactive_tstep = self.is_reactive_tstep()
+
+            # Mobile concentrations are needed whenever reactions or DDMT
+            # exchange are enabled.
+            needs_mobile_transfer = self.ddmt_enabled or reactive_tstep
+
+            if needs_mobile_transfer:
+                self.phreeqcbmi.SetSaturation(
+                    self.phreeqcbmi.sat_now
+                )
+
+                _, mobile_conc_m3_array = (
+                    self._transfer_array_to_phreeqcrm()
+                )
+
+                self.phreeqcbmi._get_kper_kstp_from_mf6api(
+                    self.mf6api
+                )
+
+                self._set_conc_at_current_kstep(
+                    mobile_conc_m3_array
+                )
+
+            # DDMT exchange occurs after MF6 transport and before reactions.
+            if self.ddmt_enabled:
+                mobile_conc_m3_array = self._apply_ddmt_exchange(
+                    mobile_conc_m3_array,
+                    dt,
+                )
+
+                self._set_conc_at_current_kstep(
+                    mobile_conc_m3_array
+                )
+
+            if reactive_tstep:
+                # Export ML feature arrays when enabled.
                 if self.ml_output:
                     self.selected_output.write_ml_arrays(
                         self.current_iteration_conc,
                         self.kiter,
                         add_var_names=self.selected_output.feat_var,
-                        fname='_features.csv'
+                        fname="_features.csv",
                     )
 
                 if ctime == 0.0:
                     self.diffmask = np.ones(self.nxyz)
                 else:
-                    diffmask = get_conc_change_mask(
+                    self.diffmask = get_conc_change_mask(
                         self.current_iteration_conc,
                         self.previous_iteration_conc,
                         threshold=self.threshold,
                     )
-                    self.diffmask = diffmask
+
                 if self.no_react_idx is not None:
                     self.diffmask[self.no_react_idx] = 0
-                # solve reactions
-                self.phreeqcbmi._solve_phreeqcrm(dt, diffmask=self.diffmask)
-                mf6_conc_m3_array = self._transfer_array_to_mf6()
 
-                self._set_conc_at_previous_kstep(mf6_conc_m3_array)
+                # Solve reactions in the mobile domain.
+                self.phreeqcbmi._solve_phreeqcrm(
+                    dt,
+                    diffmask=self.diffmask,
+                )
+
+                mobile_conc_m3_array = (
+                    self._transfer_array_to_mf6()
+                )
+
+                # Optionally solve reactions in the immobile domain
+                # using the second PhreeqcBMI instance.
+                if (
+                    self.ddmt_enabled
+                    and self.ddmt_mode == "reactive"
+                ):
+                    self._solve_immobile_phreeqcrm(
+                        dt,
+                        diffmask=self.diffmask,
+                    )
+
+                self._set_conc_at_previous_kstep(
+                    mobile_conc_m3_array
+                )
+
+                reacted_this_step = True
+
+            elif self.ddmt_enabled:
+                # DDMT exchange changed the mobile concentrations even
+                # though no reaction occurred. Write those concentrations
+                # back to MODFLOW 6.
+                mobile_conc_m3_array = (
+                    self._write_mobile_concentrations_to_mf6(
+                        mobile_conc_m3_array
+                    )
+                )
+
+                self._set_conc_at_previous_kstep(
+                    mobile_conc_m3_array
+                )
 
             self.mf6api.finalize_time_step()
-            ctime = self._set_ctime()  # update the current time tracking
+
+            # Update time tracking.
+            ctime = self._set_ctime()
             etime = self._set_etime()
+
+            if (
+                self.ddmt_enabled
+                and mobile_conc_m3_array is not None
+            ):
+                self._record_ddmt_output(
+                    time_d=ctime,
+                    stage=(
+                        "post_reaction"
+                        if reacted_this_step
+                        else "post_exchange"
+                    ),
+                    mobile_conc_m3=mobile_conc_m3_array,
+                )
+
+            # Preserve Version 2 behavior: update selected output after
+            # every completed timestep when selected output is enabled.
             if self.selected_output.get_selected_output_on:
-                # get sout and update df
                 self.selected_output._update_selected_output()
-                # append current sout rows to file
                 self.selected_output._append_to_soutdf_file()
-                # Export ML target arrays if option is on
+
+                # Preserve Version 2 behavior by writing ML target arrays
+                # after every selected-output update.
                 if self.ml_output:
                     self.selected_output.write_ml_arrays(
                         self.previous_iteration_conc,
                         self.kiter,
                         add_var_names=self.selected_output.target_var,
-                        fname='_targets.csv',
+                        fname="_targets.csv",
                     )
 
         sim_end = datetime.now()
@@ -797,22 +1090,22 @@ class Mf6RTM(object):
 
         self.mf6api._check_num_fails()
 
-        # Clean up and close api objs
+        # Clean up and close API objects.
         try:
             self._finalize()
             success = True
-            # print(mrbeaker())
-            print(
-                "\nMODEL RUN FINISHED BUT CHECK THE RESULTS\n"
-            )
+            print("\nMODEL RUN FINISHED BUT CHECK THE RESULTS\n")
         except:
             print("SOMETHING WENT WRONG. BUMMER\n")
             pass
+
         print(
             "Solution finished at {0}. Running time: {1:10.5G} mins".format(
-                sim_end.strftime(DT_FMT), td
+                sim_end.strftime(DT_FMT),
+                td,
             )
         )
+
         return success
 
 
