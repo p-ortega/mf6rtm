@@ -2,19 +2,19 @@
 phreeqcrm, along with functions to run the coupled simulations.
 """
 import os
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
 # import warnings
 import numpy as np
-
-from datetime import datetime
-from typing import Any
-from pathlib import Path
-
 from PIL import Image
-from mf6rtm.simulation.mf6api import Mf6API
-from mf6rtm.simulation.phreeqcbmi import PhreeqcBMI
-from mf6rtm.simulation.discretization import total_cells_in_grid
+
 from mf6rtm.config.config import MF6RTMConfig
 from mf6rtm.io.externalio import SelectedOutput
+from mf6rtm.simulation.discretization import total_cells_in_grid
+from mf6rtm.simulation.mf6api import Mf6API
+from mf6rtm.simulation.phreeqcbmi import PhreeqcBMI
 from mf6rtm.utils import utils
 
 # warnings.filterwarnings("ignore")
@@ -416,7 +416,7 @@ class Mf6RTM(object):
     def print_warning_user_active(self):
         """Print a warning if reaction timing is set to 'user'."""
         if self.config.reactive['timing'] == 'user':
-            print(f"WARNING: Running reaction only in the following periods and time steps:")
+            print("WARNING: Running reaction only in the following periods and time steps:")
             for period, timestep in self.config.reactive['tsteps']:
                 print(f"  Period {period}, Time step {timestep}")
         else:

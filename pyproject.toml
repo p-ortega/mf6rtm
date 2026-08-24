@@ -1,19 +1,125 @@
 [build-system]
-requires = ["setuptools>=42.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mf6rtm"
+dynamic = ["version"]
+description = "Reactive transport model through MODFLOW 6 and PHREEQCRM"
+readme = "README.md"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+authors = [
+    {name = "Pablo Ortega", email = "portega@intera.com"},
+    {name = "Anthony Aufdenkampe", email = "aaufdenkampe@limno.com"},
+    {name = "Paul Tomasula", email = "ptomasula@limno.com"},
+    {name = "Lauren Mancewicz", email = "lauren.k.mancewicz@erdc.dren.mil"},
+    {name = "Allan Foster", email = "afoster@intera.com"},
+    {name = "Andres Prieto-Estrada", email = "aestrada@intera.com"},
+]
+maintainers = [
+    {name = "Pablo Ortega", email = "portega@intera.com"},
+]
+keywords = ["MODFLOW", "PHREEQCRM", "reactive transport", "groundwater", "hydrology"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Hydrology",
+]
+requires-python = ">=3.11, <3.14"
+
+# The single authoritative runtime contract, in PyPI names. This is what
+# `pip install mf6rtm` resolves and what a conda-forge recipe is generated
+# from. Re-derived from what mf6rtm/ actually imports (numpy, pandas, pillow,
+# and pyyaml were previously used but undeclared).
+#
+# `[tool.pixi.dependencies]` below is NOT a mirror of this list: it names the
+# same packages under their conda-forge names, plus dev/test-only tooling and
+# `sqlite`, which has no meaningful PyPI equivalent.
+dependencies = [
+    "flopy",
+    "modflowapi",
+    "numpy",
+    "pandas",
+    "phreeqcrm",
+    "pillow",
+    "pyyaml",
+    "toml",
+]
+
+[project.optional-dependencies]
+testing = [
+    "pytest>=7.0",
+    "pytest-cov>=2.0",
+    "mypy>=1.10",
+    "ruff",
+    "tox>=3.24",
+    "flaky>=3.8",
+    "jupytext>=1.16.0",
+    "nbconvert>=7.16",
+    "ipykernel>=6.29",
+]
+docs = [
+    "sphinx",
+    "furo",
+    "myst-nb",
+    "sphinx-autodoc-typehints",
+    "sphinxext-opengraph",
+]
+hdf5 = [
+    # Only needed for SelectedOutput's hdf5 output_format (mf6rtm/io/externalio.py);
+    # lazily imported there with its own ImportError if missing.
+    "tables",
+]
+
+[project.scripts]
+mf6rtm = "mf6rtm:run_cmd"
+
+[project.urls]
+Homepage = "https://github.com/p-ortega/mf6rtm"
+Documentation = "https://mf6rtm.readthedocs.io"
+"Bug Tracker" = "https://github.com/p-ortega/mf6rtm/issues"
+"Source Code" = "https://github.com/p-ortega/mf6rtm"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "mf6rtm/_version.py"
+
+[tool.hatch.build.targets.sdist]
+only-include = ["README.md", "LICENSE", "docs", "mf6rtm"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["mf6rtm"]
+
+[tool.hatch.build.targets.wheel.force-include]
+# hatchling's default wheel include only picks up *.py + py.typed under
+# `packages` -- mf6rtm/assets/*.png is loaded at runtime via
+# importlib.resources (mf6rtm/assets/__init__.py's mrbeaker_path()), so it
+# needs to be force-included or it silently goes missing from the wheel.
+"mf6rtm/assets/mf6rtm.png" = "mf6rtm/assets/mf6rtm.png"
+"mf6rtm/assets/mrbeaker.png" = "mf6rtm/assets/mrbeaker.png"
 
 [tool.pytest.ini_options]
-# addopts = [
-#     "--cov=mf6rtm",
-#     "-rs",
-#     "-vvv "
-#     ]
-testpaths = [
-    "autotest",
+testpaths = ["autotest"]
+addopts = ["-ra", "--color=yes"]
+log_cli = true
+log_cli_level = "INFO"
+markers = [
+    "example: exercise scripts, tutorials, notebooks",
+    "generation: tests for code generation utilities",
+    "meta: tests run by other tests",
+    "mf6: tests for MODFLOW 6 support",
+    "regression: tests comparing multiple versions",
+    "slow: tests not completing in a few seconds",
 ]
 
 [tool.mypy]
-mypy_path = "src"
 check_untyped_defs = true
 disallow_any_generics = true
 ignore_missing_imports = true
@@ -26,5 +132,120 @@ warn_unreachable = true
 warn_unused_configs = true
 no_implicit_reexport = true
 
-[tool.scripts]
-mf6rtm = "mf6rtm:run_cmd"
+[tool.ruff]
+line-length = 160
+# Matches the old `flake8 mf6rtm` task's scope exactly: the package only, not
+# autotest/benchmark/docs. autotest/docs/tutorials contain jupytext-paired
+# .py files, and linting/fixing those can trigger the VS Code Jupytext Sync
+# extension to silently rewrite the paired .ipynb on save -- keep them out.
+include = ["pyproject.toml", "mf6rtm/**/*.py"]
+
+[tool.ruff.lint]
+select = ["F", "E", "I001"]
+ignore = [
+    "E402", # module level import not at top of file
+    "E711", # none-comparison
+    "E722", # bare except
+    "F403", # star imports
+    "F405", # undefined-local-with-import-star-usage
+    "F841", # local variable assigned but never used
+]
+
+[tool.pixi.workspace]
+name = "mf6rtm"
+description = "MODFLOW 6 reactive transport module"
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
+
+# Conda-forge names for [project.dependencies], plus `sqlite` (no usable PyPI
+# distribution for the version phreeqcrm needs; pixi's dependency-parity test
+# exempts it explicitly rather than treating it as drift).
+[tool.pixi.dependencies]
+flopy = "*"
+modflowapi = "*"
+numpy = "*"
+pandas = "*"
+phreeqcrm = "*"
+pillow = "*"
+pyyaml = "*"
+toml = "*"
+sqlite = ">=3.39"
+
+# Dev/test tooling — mirrors the `testing` extra plus packages with no PyPI
+# equivalent value here (modflow-devtools, coveralls) or only used by
+# autotest/benchmark, not by mf6rtm/ itself (geopandas, matplotlib, pytables).
+[tool.pixi.feature.dev.dependencies]
+pytest = "*"
+pytest-cov = "*"
+mypy = "*"
+ruff = "*"
+tox = "*"
+flaky = "*"
+jupytext = "*"
+nbconvert = "*"
+nbformat = "*"
+ipykernel = "*"
+modflow-devtools = "*"
+coverage = "*"
+coveralls = "*"
+pytables = "*"
+geopandas = "*"
+matplotlib = "*"
+pip = "*"
+
+[tool.pixi.feature.docs.dependencies]
+sphinx = "*"
+myst-nb = "*"
+furo = "*"
+sphinx-autodoc-typehints = "*"
+sphinxext-opengraph = "*"
+pyshp = "*"
+
+# MODFLOW feature placeholder
+[tool.pixi.feature.modflow.dependencies]
+# MODFLOW binaries installed via tasks
+
+[tool.pixi.feature.py311.dependencies]
+python = "3.11.*"
+
+[tool.pixi.feature.py312.dependencies]
+python = "3.12.*"
+
+[tool.pixi.feature.py313.dependencies]
+python = "3.13.*"
+
+# Editable self-install: gives every environment a working `import mf6rtm`
+# right after `pixi install`, no separate task needed (fixes #81).
+[tool.pixi.feature.editable.pypi-dependencies]
+mf6rtm = { path = ".", editable = true }
+
+[tool.pixi.environments]
+default = { features = ["dev", "editable"] }
+py311 = { features = ["py311", "modflow", "dev", "editable"], solve-group = "py311" }
+py312 = { features = ["py312", "modflow", "dev", "editable"], solve-group = "py312" }
+py313 = { features = ["py313", "modflow", "dev", "editable"], solve-group = "py313" }
+docs = { features = ["docs", "py313", "modflow", "editable"], solve-group = "py313" }
+
+[tool.pixi.tasks]
+install-modflow = { cmd = "get-modflow --repo modflow6-nightly-build :python" }
+install-gridgen = { cmd = "get-modflow --repo executables --subset gridgen :python" }
+test = { cmd = "pytest -v", depends-on = ["install-modflow", "install-benchmark-bins"] }
+test-cov = { cmd = "pytest -v --cov=mf6rtm --cov-report=term-missing", depends-on = ["install-modflow", "install-benchmark-bins"] }
+coveralls = { cmd = "coveralls --service=github", depends-on = ["test-cov"] }
+lint = { cmd = "ruff check ." }
+format = { cmd = "ruff format ." }
+clean = { cmd = "rm -rf .pixi/tmp .pytest_cache .coverage htmlcov" }
+exec-tutorials = { cmd = "jupytext --to notebook --execute docs/tutorials/*.py", depends-on = ["install-modflow", "install-gridgen", "install-benchmark-bins"] }
+build-docs = { cmd = "sphinx-build -b html docs docs/_build/html", depends-on = ["exec-tutorials"] }
+
+[tool.pixi.target.linux-64.tasks]
+install-benchmark-bins = { cmd = "get-modflow benchmark/bin/linux --subset mf6,libmf6" }
+
+[tool.pixi.target.osx-arm64.tasks]
+install-benchmark-bins = { cmd = "get-modflow benchmark/bin/mac --subset mf6,libmf6" }
+
+[tool.pixi.target.osx-64.tasks]
+install-benchmark-bins = { cmd = "get-modflow benchmark/bin/mac --subset mf6,libmf6" }
+
+[tool.pixi.target.win-64.tasks]
+install-benchmark-bins = { cmd = "get-modflow benchmark/bin/win --subset mf6,libmf6" }

@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest]
-        python-version: ['310', '311', '312', '313']
+        python-version: ['311', '312', '313']
       fail-fast: false
     steps:
     - uses: actions/checkout@v4
@@ -56,15 +56,15 @@ jobs:
       with:
         pixi-version: v0.41.4
         cache: true
-        environments: py310
+        environments: py311
 
     - name: Run tests with coverage
-      run: pixi run -e py310 test-cov
+      run: pixi run -e py311 test-cov
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload to Coveralls
-      run: pixi run -e py310 coveralls
+      run: pixi run -e py311 coveralls
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}

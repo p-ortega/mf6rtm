@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest]
-        python-version: ['310', '311', '312', '313']
+        python-version: ['311', '312', '313']
       fail-fast: false
     steps:
     - uses: actions/checkout@v4

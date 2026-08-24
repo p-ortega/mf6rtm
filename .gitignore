@@ -2,6 +2,9 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 ### Python ###
+# hatch-vcs generated version file
+mf6rtm/_version.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
