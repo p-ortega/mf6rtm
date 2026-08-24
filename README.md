@@ -43,6 +43,10 @@ The package can be installed via pip:
 pip install mf6rtm
 ```
 
+### From conda-forge (coming soon)
+
+A conda-forge recipe is being prepared but not yet submitted -- `conda install -c conda-forge mf6rtm` isn't available yet. Use the pip install above in the meantime.
+
 ### Installing MODFLOW 6 executables
 
 After installing mf6rtm, install the MODFLOW 6 executables:
@@ -77,10 +81,15 @@ For development, we use pixi for fast, reproducible environments:
 git clone https://github.com/YOUR-USERNAME/mf6rtm.git
 cd mf6rtm
 
-# Install development environment with all dependencies
+# Install development environment with all dependencies, including an
+# editable install of mf6rtm itself -- `import mf6rtm` works right away,
+# no separate `pip install -e .` step needed
 pixi install
 
-# Run tests
+# Run tests -- this fetches the MODFLOW 6 executables it needs
+# automatically (via the install-modflow/install-benchmark-bins task
+# dependencies); run those two tasks directly if you just want the
+# executables on disk for interactive use, without running the suite
 pixi run test
 
 # Run tests with coverage
@@ -89,7 +98,7 @@ pixi run test-cov
 # Run linting
 pixi run lint
 
-# Test with specific Python version
+# Test with a specific Python version (py311, py312, or py313)
 pixi run -e py311 test
 ```
 ## Documentation
