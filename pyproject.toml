@@ -32,14 +32,8 @@ classifiers = [
 ]
 requires-python = ">=3.11, <3.14"
 
-# The single authoritative runtime contract, in PyPI names. This is what
-# `pip install mf6rtm` resolves and what a conda-forge recipe is generated
-# from. Re-derived from what mf6rtm/ actually imports (numpy, pandas, pillow,
-# and pyyaml were previously used but undeclared).
-#
-# `[tool.pixi.dependencies]` below is NOT a mirror of this list: it names the
-# same packages under their conda-forge names, plus dev/test-only tooling and
-# `sqlite`, which has no meaningful PyPI equivalent.
+# The authoritative runtime contract (PyPI names) -- must match what mf6rtm/
+# actually imports. See AGENTS.md "Dependencies are declared twice".
 dependencies = [
     "flopy",
     "modflowapi",
@@ -72,9 +66,7 @@ docs = [
     "sphinxext-opengraph",
 ]
 hdf5 = [
-    # Only needed for SelectedOutput's hdf5 output_format (mf6rtm/io/externalio.py);
-    # lazily imported there with its own ImportError if missing.
-    "tables",
+    "tables",  # SelectedOutput's hdf5 output_format only; lazily imported
 ]
 
 [project.scripts]
@@ -99,12 +91,13 @@ only-include = ["README.md", "LICENSE", "docs", "mf6rtm"]
 packages = ["mf6rtm"]
 
 [tool.hatch.build.targets.wheel.force-include]
-# hatchling's default wheel include only picks up *.py + py.typed under
-# `packages` -- mf6rtm/assets/*.png is loaded at runtime via
-# importlib.resources (mf6rtm/assets/__init__.py's mrbeaker_path()), so it
-# needs to be force-included or it silently goes missing from the wheel.
+# Non-.py runtime assets (see AGENTS.md "Wheel packaging needs force-include").
 "mf6rtm/assets/mf6rtm.png" = "mf6rtm/assets/mf6rtm.png"
 "mf6rtm/assets/mrbeaker.png" = "mf6rtm/assets/mrbeaker.png"
+
+[tool.jupytext]
+# Scoped to docs/tutorials/ only -- see AGENTS.md "Jupytext pairing is scoped".
+formats = "docs/tutorials//py:percent,docs/tutorials//ipynb"
 
 [tool.pytest.ini_options]
 testpaths = ["autotest"]
@@ -135,10 +128,8 @@ no_implicit_reexport = true
 
 [tool.ruff]
 line-length = 160
-# Matches the old `flake8 mf6rtm` task's scope exactly: the package only, not
-# autotest/benchmark/docs. autotest/docs/tutorials contain jupytext-paired
-# .py files, and linting/fixing those can trigger the VS Code Jupytext Sync
-# extension to silently rewrite the paired .ipynb on save -- keep them out.
+# mf6rtm/ only, matching the old `flake8 mf6rtm` task -- see AGENTS.md
+# "Lint is scoped to mf6rtm/ only".
 include = ["pyproject.toml", "mf6rtm/**/*.py"]
 
 [tool.ruff.lint]
@@ -158,9 +149,8 @@ description = "MODFLOW 6 reactive transport module"
 channels = ["conda-forge"]
 platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
 
-# Conda-forge names for [project.dependencies], plus `sqlite` (no usable PyPI
-# distribution for the version phreeqcrm needs; pixi's dependency-parity test
-# exempts it explicitly rather than treating it as drift).
+# Conda-forge mirror of [project.dependencies], plus `sqlite` (no PyPI
+# equivalent -- see AGENTS.md "Dependencies are declared twice").
 [tool.pixi.dependencies]
 flopy = "*"
 modflowapi = "*"
@@ -173,9 +163,7 @@ pyyaml = "*"
 toml = "*"
 sqlite = ">=3.39"
 
-# Dev/test tooling — mirrors the `testing` extra plus packages with no PyPI
-# equivalent value here (modflow-devtools, coveralls) or only used by
-# autotest/benchmark, not by mf6rtm/ itself (geopandas, matplotlib, pytables).
+# Dev/test tooling -- see AGENTS.md "Pixi features don't compose".
 [tool.pixi.feature.dev.dependencies]
 pytest = "*"
 pytest-cov = "*"
@@ -204,15 +192,10 @@ furo = "*"
 sphinx-autodoc-typehints = "*"
 sphinxext-opengraph = "*"
 pyshp = "*"
-# flopy's grid-plotting code lazily imports shapely (an optional flopy dep,
-# not a hard requirement); the tutorials exercise that path.
+# Below: needed to execute docs/tutorials/*.py, not just build Sphinx --
+# see AGENTS.md "Pixi features don't compose".
 shapely = "*"
-# one tutorial exercises the hdf5 output_format (mf6rtm's `hdf5` extra).
 pytables = "*"
-# exec-tutorials (a build-docs dependency) re-executes docs/tutorials/*.py via
-# jupytext --execute (which itself needs nbconvert + ipykernel to run the
-# notebook kernel) -- needed here explicitly since the docs environment
-# doesn't include the dev feature.
 jupytext = "*"
 nbconvert = "*"
 ipykernel = "*"
@@ -230,8 +213,7 @@ python = "3.12.*"
 [tool.pixi.feature.py313.dependencies]
 python = "3.13.*"
 
-# Editable self-install: gives every environment a working `import mf6rtm`
-# right after `pixi install`, no separate task needed (fixes #81).
+# Editable self-install in every environment -- see AGENTS.md "Pixi features don't compose".
 [tool.pixi.feature.editable.pypi-dependencies]
 mf6rtm = { path = ".", editable = true }
 
