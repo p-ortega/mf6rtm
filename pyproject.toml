@@ -194,6 +194,8 @@ pytables = "*"
 geopandas = "*"
 matplotlib = "*"
 pip = "*"
+python-build = "*"
+grayskull = "*"
 
 [tool.pixi.feature.docs.dependencies]
 sphinx = "*"
@@ -251,6 +253,7 @@ format = { cmd = "ruff format ." }
 clean = { cmd = "rm -rf .pixi/tmp .pytest_cache .coverage htmlcov" }
 exec-tutorials = { cmd = "jupytext --to notebook --execute docs/tutorials/*.py", depends-on = ["install-modflow", "install-gridgen", "install-benchmark-bins"] }
 build-docs = { cmd = "sphinx-build -b html docs docs/_build/html", depends-on = ["exec-tutorials"] }
+build-conda-recipe = { cmd = "rm -rf dist conda-recipe-tmp && mkdir conda-recipe-tmp && python -m build --sdist --outdir dist && grayskull pypi dist/mf6rtm-*.tar.gz -o conda-recipe-tmp --maintainers p-ortega && cp conda-recipe-tmp/mf6rtm/meta.yaml conda-recipe/meta.yaml && rm -rf dist conda-recipe-tmp", description = "Regenerate conda-recipe/meta.yaml from the current source; re-pin `source.url`/`sha256` to a real release and re-check the `test.commands` by hand afterward." }
 
 [tool.pixi.target.linux-64.tasks]
 install-benchmark-bins = { cmd = "get-modflow benchmark/bin/linux --subset mf6,libmf6" }

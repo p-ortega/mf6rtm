@@ -1,0 +1,67 @@
+# Unsubmitted starting point for a future conda-forge/staged-recipes PR --
+# not an active feedstock. Regenerate via `pixi run build-conda-recipe`
+# (grayskull against a local sdist), which correctly seeds `requirements.run`
+# from pyproject.toml's [project.dependencies] and `recipe-maintainers` --
+# but always rewrites `source` to a local file:// path (no PyPI release with
+# the corrected dependency list exists yet) and re-adds a `mf6rtm --help`
+# test command that does NOT work (mf6rtm's console-script entry point,
+# `mf6rtm:run_cmd`, ignores CLI arguments entirely and unconditionally runs a
+# full solve() in the cwd -- a separate bug worth fixing in the CLI itself,
+# out of scope here). After each regeneration, by hand: point `source` back
+# at a real release's sdist (below: the latest actual release, 0.5.2, whose
+# published sdist predates this dependency correction) and drop the `mf6rtm
+# --help` test command.
+{% set version = "0.5.2" %}
+{% set name = "mf6rtm" %}
+
+package:
+  name: mf6rtm
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 8202e80280e3ce8963b469846020daecc0dbb69eb3c61c89574056e0bdbfc461
+
+build:
+  entry_points:
+    - mf6rtm = mf6rtm:run_cmd
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+
+requirements:
+  host:
+    - python >=3.11,<3.14
+    - hatchling
+    - hatch-vcs
+    - pip
+  run:
+    - python >=3.11,<3.14
+    - flopy
+    - modflowapi
+    - numpy
+    - pandas
+    - phreeqcrm
+    - pillow
+    - pyarrow
+    - pyyaml
+    - toml
+
+test:
+  imports:
+    - mf6rtm
+  commands:
+    - pip check
+  requires:
+    - pip
+    - python
+
+about:
+  home: https://github.com/p-ortega/mf6rtm
+  summary: Reactive transport model through MODFLOW 6 and PHREEQCRM
+  license: BSD-3-Clause
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - p-ortega
