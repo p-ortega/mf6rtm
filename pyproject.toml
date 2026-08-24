@@ -47,6 +47,7 @@ dependencies = [
     "pandas",
     "phreeqcrm",
     "pillow",
+    "pyarrow",
     "pyyaml",
     "toml",
 ]
@@ -167,6 +168,7 @@ numpy = "*"
 pandas = "*"
 phreeqcrm = "*"
 pillow = "*"
+pyarrow = "*"
 pyyaml = "*"
 toml = "*"
 sqlite = ">=3.39"
@@ -200,6 +202,18 @@ furo = "*"
 sphinx-autodoc-typehints = "*"
 sphinxext-opengraph = "*"
 pyshp = "*"
+# flopy's grid-plotting code lazily imports shapely (an optional flopy dep,
+# not a hard requirement); the tutorials exercise that path.
+shapely = "*"
+# one tutorial exercises the hdf5 output_format (mf6rtm's `hdf5` extra).
+pytables = "*"
+# exec-tutorials (a build-docs dependency) re-executes docs/tutorials/*.py via
+# jupytext --execute (which itself needs nbconvert + ipykernel to run the
+# notebook kernel) -- needed here explicitly since the docs environment
+# doesn't include the dev feature.
+jupytext = "*"
+nbconvert = "*"
+ipykernel = "*"
 
 # MODFLOW feature placeholder
 [tool.pixi.feature.modflow.dependencies]
