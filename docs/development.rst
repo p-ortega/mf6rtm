@@ -31,8 +31,7 @@ Building the docs
 
 .. code-block:: bash
 
-   pip install -e ".[docs]"
-   sphinx-build -b html docs docs/_build/html
+   pixi run -e docs build-docs
 
 Contributing
 ------------

@@ -3,11 +3,12 @@
 Unit conversions, PHREEQC input/script parsing and assembly, dataframe-to-dict
 helpers, and file/executable staging used across the package.
 """
-import platform
 import os
+import platform
 import shutil
-import pandas as pd
+
 import numpy as np
+import pandas as pd
 
 # global variables
 endmainblock = """\nPRINT

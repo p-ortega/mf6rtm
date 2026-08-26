@@ -5,7 +5,7 @@ transport loop
 
 from .mf6api import Mf6API
 from .phreeqcbmi import PhreeqcBMI
-from .solver import Mf6RTM, solve, run_cmd
+from .solver import Mf6RTM, run_cmd, solve
 
 __all__ = [
     "Mf6API",

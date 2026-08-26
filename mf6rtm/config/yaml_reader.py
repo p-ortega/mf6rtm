@@ -1,7 +1,8 @@
 """Helpers to reconstruct a YAMLPhreeqcRM instance from a YAML file."""
-import yaml
-import numpy as np
 import warnings
+
+import numpy as np
+import yaml
 
 try:
     from phreeqcrm import yamlphreeqcrm
