@@ -28,9 +28,10 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Scientific/Engineering :: Hydrology",
 ]
-requires-python = ">=3.11, <3.14"
+requires-python = ">=3.11, <3.15"
 
 # The authoritative runtime contract (PyPI names) -- must match what mf6rtm/
 # actually imports. See AGENTS.md "Dependencies are declared twice".
@@ -213,6 +214,9 @@ python = "3.12.*"
 [tool.pixi.feature.py313.dependencies]
 python = "3.13.*"
 
+[tool.pixi.feature.py314.dependencies]
+python = "3.14.*"
+
 # Editable self-install in every environment -- see AGENTS.md "Pixi features don't compose".
 [tool.pixi.feature.editable.pypi-dependencies]
 mf6rtm = { path = ".", editable = true }
@@ -222,6 +226,7 @@ default = { features = ["dev", "editable"] }
 py311 = { features = ["py311", "modflow", "dev", "editable"], solve-group = "py311" }
 py312 = { features = ["py312", "modflow", "dev", "editable"], solve-group = "py312" }
 py313 = { features = ["py313", "modflow", "dev", "editable"], solve-group = "py313" }
+py314 = { features = ["py314", "modflow", "dev", "editable"], solve-group = "py314" }
 docs = { features = ["docs", "py313", "modflow", "editable"], solve-group = "py313" }
 
 [tool.pixi.tasks]

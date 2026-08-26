@@ -7,6 +7,21 @@ scope, science, and installation for end users -- see [README.md](README.md) and
 README wins on scope. Keep this file updated as conventions change -- it's a shared resource, not
 a one-time snapshot.
 
+## ⚠️ Critical guardrails -- read before any work
+
+- **Only the user commits and merges -- never the agent.** Do **not** run `git commit`,
+  `git merge`, or `git push`. Make and verify changes, leave them **staged / on-disk**, and let
+  the user review and commit. Creating a branch (`git checkout -b`) is fine -- never commit
+  directly to `main` or `develop`. *This written rule is the only enforcement: there is no hook
+  stopping you. Treat it as absolute.*
+- **Never dispatch the release workflow.** `.github/workflows/python-publish.yml` creates a real
+  git tag and publishes to PyPI the moment it runs -- see [Releasing](#releasing). Only a human
+  triggers it, from the GitHub Actions UI, never from a local shell or agent session.
+- **Multi-step work pauses for review before each commit.** Implement one coherent change, verify
+  it (tests/lint -- see [Commands](#commands)), then stop and leave it staged for the user to
+  review and commit -- don't batch multiple unrelated changes into one uncommitted pile, and don't
+  commit on your own initiative even when verification passes.
+
 ## Packaging: pyproject.toml is the single source of truth
 
 There is no `setup.cfg`, `setup.py`, `pixi.toml`, `.bumpversion.toml`, or `MANIFEST.in` -- all of

@@ -98,7 +98,7 @@ pixi run test-cov
 # Run linting
 pixi run lint
 
-# Test with a specific Python version (py311, py312, or py313)
+# Test with a specific Python version (py311, py312, py313, or py314)
 pixi run -e py311 test
 ```
 ## Documentation

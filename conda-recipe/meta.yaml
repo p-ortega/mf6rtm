@@ -31,12 +31,12 @@ build:
 
 requirements:
   host:
-    - python >=3.11,<3.14
+    - python >=3.11,<3.15
     - hatchling
     - hatch-vcs
     - pip
   run:
-    - python >=3.11,<3.14
+    - python >=3.11,<3.15
     - flopy
     - modflowapi
     - numpy
