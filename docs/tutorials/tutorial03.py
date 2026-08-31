@@ -1,12 +1,14 @@
 # ---
 # jupyter:
 #   jupytext:
+#     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
+#       jupytext_version: 1.19.5
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: default
 #     language: python
 #     name: python3
 # ---
@@ -196,11 +198,12 @@ model.set_chem_stress(wellchem)
 # %%
 model.write_simulation()
 
+# %%
 # Stage the platform's MODFLOW 6 binaries into the run directory (pixi fetches
 # them into ``benchmark/bin``) so the solver finds libmf6 locally.
 utils.prep_bins(model.wd, src_path=os.path.join(BASE, "..", "..", "benchmark", "bin"))
 
-model.run()
+model.run(min_concentration=0.0)
 
 # %% [markdown]
 # ## 6. Results: effluent breakthrough curves
