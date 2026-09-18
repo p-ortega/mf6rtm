@@ -1042,7 +1042,7 @@ class Mup3d(object):
         }
 
         return self.config.ddmt
-          
+
     def set_config(self, **kwargs) -> MF6RTMConfig:
         """Create and store a config object.
 

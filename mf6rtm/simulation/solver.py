@@ -17,7 +17,7 @@ from mf6rtm.config.config import MF6RTMConfig
 from mf6rtm.io.externalio import SelectedOutput
 from mf6rtm.utils import utils
 from mf6rtm.simulation.ddmt import validate_ddmt_arrays, exchange_first_order_single_rate
-from mf6rtm.io.ddmt_output import DDMTOutputWriter                                                                                         
+from mf6rtm.io.ddmt_output import DDMTOutputWriter
 
 # warnings.filterwarnings("ignore")
 # warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -584,7 +584,7 @@ class Mf6RTM(object):
 
         self.phreeqcbmi_immobile._prepare_phreeqcrm_bmi()
         self.phreeqcbmi_immobile.SetTimeConversion(self.time_conversion)
-        
+
         mobile_components = list(self.phreeqcbmi.components)
         immobile_components = list(self.phreeqcbmi_immobile.components)
 
@@ -652,7 +652,7 @@ class Mf6RTM(object):
 
     def _finalize(self) -> None:
         """Finalize the APIs"""
-        self._finalize_ddmt()                             
+        self._finalize_ddmt()
         self._finalize_mf6api()
         self._finalize_phreeqcrm()
 
@@ -666,7 +666,7 @@ class Mf6RTM(object):
 
         ### ddmt
         if self.phreeqcbmi_immobile is not None:
-            self.phreeqcbmi_immobile.finalize()                
+            self.phreeqcbmi_immobile.finalize()
 
     def _get_cdlbl_vect(self) -> np.ndarray[np.float64]:
         """Get the 1D phreeqc concentration array with a length of ncomps*nxyz.
@@ -711,7 +711,7 @@ class Mf6RTM(object):
             self.mf6api.set_value(f"{gwt_model_name}/X", concs)
 
         return mf6_conc_m3_array
-        
+
     ### ddmt
     def _set_phreeqcbmi_concentrations_m3(self, phreeqcbmi, conc_m3):
         """Set PhreeqcBMI concentrations from mol/m3 array."""
