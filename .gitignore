@@ -80,7 +80,7 @@ docs/tutorials/*.ipynb
 !docs/tutorials/tutorial02.ipynb
 !docs/tutorials/tutorial03.ipynb
 !docs/tutorials/tutorial04.ipynb
-docs/tutorials/_*_run/
+docs/tutorials/_tutorial*/
 
 # PyBuilder
 .pybuilder/
@@ -195,6 +195,7 @@ pyrightconfig.json
 /benchmark/ex4/mf6rtm
 /benchmark/ex5/mf6rtm
 *.png
+/benchmark/bin
 
 #Python pixi environments 
 .pixi/
