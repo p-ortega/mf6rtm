@@ -5,6 +5,7 @@ the coupled flow/transport simulation and drives its solve loop inside the
 mf6rtm coupling.
 """
 from datetime import datetime
+
 import flopy
 import modflowapi
 
@@ -99,7 +100,8 @@ class Mf6API(modflowapi.ModflowApi):
                 pass
         td = (datetime.now() - sol_start).total_seconds() / 60.0
         print(
-            f"{'Transport':<15} | {'Stress period:':<15} {stress_period:<5} | {'Time step:':<15} {time_step:<10} | {'Completed in :':<10}  {td//60:.0f} min {td%60:10.2e} sec"
+            f"{'Transport':<15} | {'Stress period:':<15} {stress_period:<5} | "
+            f"{'Time step:':<15} {time_step:<10} | {'Completed in :':<10}  {td//60:.0f} min {td%60:10.2e} sec"
         )
 
     def _check_num_fails(self):

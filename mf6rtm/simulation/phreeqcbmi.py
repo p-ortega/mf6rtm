@@ -5,13 +5,13 @@ that adapts the PhreeqcRM Basic Model Interface for use inside the mf6rtm
 coupling loop.
 """
 from datetime import datetime
-import warnings
 
 import numpy as np
 import pandas as pd
 import phreeqcrm
-from mf6rtm.utils import utils
+
 from mf6rtm.simulation.mf6api import Mf6API
+from mf6rtm.utils import utils
 
 
 class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
@@ -134,7 +134,10 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         self.update()  # pragma: no cover
         self.SetScreenOn(True)  # pragma: no cover
         td = (datetime.now() - sol_start).total_seconds() / 60.0
-        message = f"{'Reactions':<15} | {'Stress period:':<15} {self.kper:<5} | {'Time step:':<15} {self.kstp:<10} | {'Completed in :':<10}  {td // 60:.0f} min {td % 60:10.2e} sec"
+        message = (
+            f"{'Reactions':<15} | {'Stress period:':<15} {self.kper:<5} | "
+            f"{'Time step:':<15} {self.kstp:<10} | {'Completed in :':<10}  {td // 60:.0f} min {td % 60:10.2e} sec"
+        )
         self.LogMessage(message)
         print(message)
         # self.ScreenMessage(message)

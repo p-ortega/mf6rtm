@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest]
-        python-version: ['310', '311', '312', '313']
+        python-version: ['311', '312', '313', '314']
       fail-fast: false
     steps:
     - uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
       uses: prefix-dev/setup-pixi@v0.9.3
       with:
         log-level: vvv
-        pixi-version: v0.41.4
+        pixi-version: v0.76.0
         cache: true
         environments: py${{ matrix.python-version }}
 

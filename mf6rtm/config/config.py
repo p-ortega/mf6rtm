@@ -3,11 +3,12 @@
 Defines :class:`MF6RTMConfig`, the container for reactive-transport run
 settings, with helpers to load from and save to TOML and dictionary form.
 """
-import toml
 import os
-import numpy as np
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
+
+import toml
+
 
 @dataclass
 class ConfigSchema:
@@ -469,7 +470,7 @@ class MF6RTMConfig:
 
     def __str__(self):
         """Detailed string representation."""
-        lines = [f"MF6RTM will run with the following configuration:"]
+        lines = ["MF6RTM will run with the following configuration:"]
         lines.append(f"  Reactive: {self.reactive['enabled']}")
         lines.append(f"  Reaction timing: {self.reactive['timing']}")
         lines.append(f"  External files flag: {self.reactive['externalio']}")

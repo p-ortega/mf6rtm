@@ -2,6 +2,9 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 ### Python ###
+# hatch-vcs generated version file
+mf6rtm/_version.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -194,17 +197,20 @@ pyrightconfig.json
 /benchmark/ex3/mf6rtm
 /benchmark/ex4/mf6rtm
 /benchmark/ex5/mf6rtm
+/benchmark/ex7/mf6rtm
+/benchmark/ex8/mf6rtm
+# jupytext --to py --execute output, written by autotest/test_notebooks.py
+/benchmark/ex*.py
+# get-modflow-fetched executables; keep the placeholder that marks the dir
+/benchmark/bin/*/*
+!/benchmark/bin/*/.gitkeep
 *.png
 
-#Python pixi environments 
+#Python pixi environments
 .pixi/
 
 #Test output files
-/autotest/test01/*
-/autotest/test02/*
-/autotest/test03/*
-/autotest/test04/*
-/autotest/test05/*
+/autotest/test[0-9][0-9]*/
 .vscode/settings.json
 /benchmark/ex6
 
