@@ -206,6 +206,12 @@ utils.prep_bins(model.wd, src_path=os.path.join(BASE, "..", "..", "benchmark", "
 model.run(min_concentration=0.0)
 
 # %% [markdown]
+# PHREEQC sometimes prints "Negative moles... Recovering..." 
+# when its solver takes a step that overshoots.
+# It then retries on its own, so if the run finishes without an error, 
+# you can ignore the warning.
+
+# %% [markdown]
 # ## 6. Results: effluent breakthrough curves
 #
 # Outlet-cell concentrations versus cumulative effluent volume, compared with the
