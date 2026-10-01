@@ -28,7 +28,7 @@ abstract = {An open-source, scalable and model-independent (non-intrusive) imple
 
 @article{Parkhurst2015,
    abstract = {PhreeqcRM is a geochemical reaction module designed specifically to perform equilibrium and kinetic reaction calculations for reactive transport simulators that use an operator-splitting approach. The basic function of the reaction module is to take component concentrations from the model cells of the transport simulator, run geochemical reactions, and return updated component concentrations to the transport simulator. If multicomponent diffusion is modeled (e.g., Nernst–Planck equation), then aqueous species concentrations can be used instead of component concentrations. The reaction capabilities are a complete implementation of the reaction capabilities of PHREEQC. In each cell, the reaction module maintains the composition of all of the reactants, which may include minerals, exchangers, surface complexers, gas phases, solid solutions, and user-defined kinetic reactants. PhreeqcRM assigns initial and boundary conditions for model cells based on standard PHREEQC input definitions (files or strings) of chemical compositions of solutions and reactants. Additional PhreeqcRM capabilities include methods to eliminate reaction calculations for inactive parts of a model domain, transfer concentrations and other model properties, and retrieve selected results. The module demonstrates good scalability for parallel processing by using multiprocessing with MPI (message passing interface) on distributed memory systems, and limited scalability using multithreading with OpenMP on shared memory systems. PhreeqcRM is written in C++, but interfaces allow methods to be called from C or Fortran. By using the PhreeqcRM reaction module, an existing multicomponent transport simulator can be extended to simulate a wide range of geochemical reactions. Results of the implementation of PhreeqcRM as the reaction engine for transport simulators PHAST and FEFLOW are shown by using an analytical solution and the reactive transport benchmark of MoMaS.},
-   author = {David L Parkhurst and Laurin Wissmeier},
+   author = {David L. Parkhurst and Laurin Wissmeier},
    doi = {10.1016/j.advwatres.2015.06.001},
    issn = {0309-1708},
    journal = {Advances in Water Resources},
@@ -40,7 +40,7 @@ abstract = {An open-source, scalable and model-independent (non-intrusive) imple
 
 @article{Prommer2003,
    abstract = {This paper presents a three-dimensional, MODFLOW/MT3DMS-based reactive multicomponent transport model for saturated porous media. Based on a split-operator technique, the model, referred to as PHT3D, couples the transport simulator MT3DMS and the geochemical modeling code PHREEQC-2. Through the flexible, generic nature of PHREEQC-2, PHT3D can handle a broad range of equilibrium and kinetically controlled reactive processes, including aqueous complexation, mineral precipitation/dissolution, and ion exchange. The diversity of potential applications is demonstrated through simulation of five existing literature benchmarks and a new three-dimensional sample problem. The model might be applied to simulate the geochemical evolution of pristine and contaminated aquifers as well as their cleanup. The latter problem class includes the natural and enhanced attenuation/remediation schemes of a wide range of organic and inorganic contaminants. Processes/reactions not included in the standard PHREEQC-2 database but typical for this type of application (e.g., NAPL dissolution, microbial growth/decay) can be defined and included via the extensible PHREEQC-2 database file.},
-   author = {H. Prommer and D.A. Barry and C. Zheng},
+   author = {Henning Prommer and D. Andrew Barry and Chunmiao Zheng},
    doi = {10.1111/j.1745-6584.2003.tb02588.x},
    issn = {0017-467X},
    issue = {2},
@@ -52,8 +52,8 @@ abstract = {An open-source, scalable and model-independent (non-intrusive) imple
    url = {https://onlinelibrary.wiley.com/doi/10.1111/j.1745-6584.2003.tb02588.x},
    year = {2003}
 }
-@misc{Appelo2010,
-   author = {C. Anthony J Appelo and Massimo Rolle},
+@article{Appelo2010,
+   author = {C. A. J. Appelo and Massimo Rolle},
    doi = {10.1111/j.1745-6584.2010.00732.x},
    issn = {0017467X},
    issue = {5},
@@ -66,7 +66,7 @@ abstract = {An open-source, scalable and model-independent (non-intrusive) imple
    year = {2010}
 }
 @techReport{Parkhurst2013,
-   author = {David L Parkhurst and C. Anthony J Appelo},
+   author = {David L. Parkhurst and C. A. J. Appelo},
    city = {Reston, VA},
    doi = {10.3133/tm6A43},
    isbn = {6-A43},
@@ -140,14 +140,14 @@ abstract = {An open-source, scalable and model-independent (non-intrusive) imple
 }
 @article{Parkhurst2010,
    abstract = {The computer program PHAST (PHREEQC And HST3D) simulates multicomponent, reactive solute transport in three-dimensional saturated groundwater flow systems. PHAST is a versatile groundwater flow and solute-transport simulator with capabilities to model a wide range of equilibrium and kinetic geochem- ical reactions. The flow and transport calculations are based on a modified version of HST3D that is restricted to constant fluid density and constant temperature. The geochemical reactions are simulated with the geochemical model PHREEQC, which is embedded in PHAST. Major enhancements in PHAST Version 2 allow spatial data to be defined in a combination of map and grid coordinate systems, independent of a specific model grid (without node-by-node input). At run time, aquifer properties are interpolated from the spatial data to the model grid; regridding requires only redefinition of the grid without modification of the spatial data. PHAST is applicable to the study of natural and contaminated groundwater systems at a variety of scales ranging from laboratory experiments to local and regional field scales. PHAST can be used in studies of migration of nutrients, inorganic and organic contaminants, and radionuclides; in projects such as aquifer storage and recovery or engineered remediation; and in investigations of the natural rock/water interactions in aquifers. PHAST is not appropriate for unsaturated-zone flow, multiphase flow, or density-dependent flow. A variety of boundary conditions are available in PHAST to simulate flow and transport, including spec- ified-head, flux (specified-flux), and leaky (head-dependent) conditions, as well as the special cases of rivers, drains, and wells. Chemical reactions in PHAST include (1) homogeneous equilibria using an ion-associa- tion or Pitzer specific interaction thermodynamic model; (2) heterogeneous equilibria between the aqueous solution and minerals, ion exchange sites, surface complexation sites, solid solutions, and gases; and (3) kinetic reactions with rates that are a function of solution composition. The aqueous model (elements, chem- ical reactions, and equilibrium constants), minerals, exchangers, surfaces, gases, kinetic reactants, and rate expressions may be defined or modified by the user. A number of options are available to save results of simulations to output files. The data may be saved in three formats: a format suitable for viewing with a text editor; a format suitable for exporting to spread- sheets and postprocessing programs; and in Hierarchical Data Format (HDF), which is a compressed binary format. Data in the HDF file can be visualized on Windows computers with the program Model Viewer and extracted with the utility program PHASTHDF; both programs are distributed with PHAST. Operator},
-   author = {Dl Parkhurst and Kl Kipp and Sr Charlton},
+   author = {David L. Parkhurst and Kenneth L. Kipp and Scott R. Charlton},
    journal = {Modeling Techniques, Book 6},
    title = {PHAST Version 2 - A program for simulating groundwater flow, solute transport, and multicomponent geochemical reactions},
    year = {2010}
 }
 @article{Steefel2015,
    abstract = {A general description of the mathematical and numerical formulations used in modern numerical reactive transport codes relevant for subsurface environmental simulations is presented. The formulations are followed by short descriptions of commonly used and available subsurface simulators that consider continuum representations of flow, transport, and reactions in porous media. These formulations are applicable to most of the subsurface environmental benchmark problems included in this special issue. The list of codes described briefly here includes PHREEQC, HPx, PHT3D, OpenGeoSys (OGS), HYTEC, ORCHESTRA, TOUGHREACT, eSTOMP, HYDROGEOCHEM, CrunchFlow, MIN3P, and PFLOTRAN. The descriptions include a high-level list of capabilities for each of the codes, along with a selective list of applications that highlight their capabilities and historical development.},
-   author = {C. I. Steefel and C. A. J. Appelo and B. Arora and D. Jacques and T. Kalbacher and O. Kolditz and V. Lagneau and P. C. Lichtner and K. U. Mayer and J. C. L. Meeussen and S. Molins and D. Moulton and H. Shao and J. Šimůnek and N. Spycher and S. B. Yabusaki and G. T. Yeh},
+   author = {Carl I. Steefel and C. A. J. Appelo and B. Arora and D. Jacques and T. Kalbacher and O. Kolditz and V. Lagneau and P. C. Lichtner and K. U. Mayer and J. C. L. Meeussen and S. Molins and D. Moulton and H. Shao and J. Šimůnek and N. Spycher and S. B. Yabusaki and G. T. Yeh},
    doi = {10.1007/s10596-014-9443-x},
    issn = {1420-0597},
    issue = {3},
@@ -183,7 +183,7 @@ abstract = {An open-source, scalable and model-independent (non-intrusive) imple
 }
 @article{Appelo1998,
    abstract = {We report the hydrogeochemical modeling of a complicated suite of reactions that take place during the oxidation of pyrite in a marine sediment. The sediment was equilibrated in a column with MgCl2 solution and subsequently oxidized with H2O2. The oxidation of pyrite triggers dissolution of calcite, cation and proton exchange, and CO2 sorption. The composition of the column effluent was modeled with PHREEQC, a hydrogeochemical transport model. The model was extended with a formal 1D transport module which includes dispersion and diffusion. The algorithm solves the advection-reaction-dispersion equation with explicit finite differences in a split-operator scheme. Also, kinetic reactions for pyrite oxidation, calcite dissolution and precipitation, and organic C oxidation were included. Kinetic relations for pyrite oxidation and calcite dissolution were taken from the literature, and a coefficient equivalent to the ratio A/V (surface over volume), was adjusted to fit the experimental data. The comparison of model and experiment shows that ion exchange and sorption are dominant chemical processes in regulating and buffering water quality changes upon the oxidation of pyrite. Cation exchange was assigned to the colloidal fraction (<2 μm) and deprotonated organic matter, proton buffering to organic matter, and CO2 sorption to amorphous Fe-oxyhydroxide. These processes have been neglected in earlier modeling studies of pyrite oxidation in natural sediments.},
-   author = {C.A.J. Appelo and E. Verweij and H. Schäfer},
+   author = {C. A. J. Appelo and E. Verweij and H. Schäfer},
    doi = {10.1016/S0883-2927(97)00070-X},
    issn = {08832927},
    issue = {2},
@@ -198,7 +198,7 @@ abstract = {An open-source, scalable and model-independent (non-intrusive) imple
 }
 @article{Hutton2020,
     title = {The Basic Model Interface 2.0: A standard interface for coupling numerical models in the geosciences},
-    author = {Eric W.h. Hutton and Mark D. Piper and Gregory E. Tucker},
+    author = {Eric W. H. Hutton and Mark D. Piper and Gregory E. Tucker},
     journal = {Journal of Open Source Software},
     volume = {5},
     issue = {51},
@@ -206,15 +206,15 @@ abstract = {An open-source, scalable and model-independent (non-intrusive) imple
     doi = {10.21105/joss.02317},
     year = {2020}
 }
-@article{Bakker2023,
+@article{Bakker2016,
     title = {Scripting MODFLOW Model Development Using Python and FloPy},
-    author = {M. Bakker and V. Post and C.D. Langevin and J.D. Hughes and J.T. White and J.J. Starn and M.N. Fienen},
+    author = {Mark Bakker and Vincent Post and Christian D. Langevin and Joseph D. Hughes and Jeremy T. White and Jeffrey J. Starn and Michael N. Fienen},
     journal = {Groundwater},
     volume = {54},
     issue = {5},
     pages = {733-739},
     doi = {10.1111/gwat.12413},
-    year = {2023}
+    year = {2016}
 }
 @article{Langevin2012,
    author = {Christian D. Langevin and Sorab Panday},
@@ -242,4 +242,28 @@ abstract = {An open-source, scalable and model-independent (non-intrusive) imple
    volume = {55},
    url = {https://ngwa.onlinelibrary.wiley.com/doi/10.1111/gwat.12558},
    year = {2017}
+}
+@article{Hughes2024,
+    title = {FloPy Workflows for Creating Structured and Unstructured MODFLOW Models},
+    author = {Joseph D. Hughes and Christian D. Langevin and Scott R. Paulinski and Joshua D. Larsen and David Brakenhoff},
+    journal = {Groundwater},
+    volume = {62},
+    issue = {1},
+    pages = {124-139},
+    doi = {10.1111/gwat.13327},
+    year = {2024}
+}
+@techreport{Panday2020,
+    title = {PHT-USG module of BTN Package, Release 2, for MODFLOW-USG Transport Version 1.4.0},
+    author = {Sorab Panday and Hiroko Mori and Chin Man Mok and Jungho Park and Henning Prommer and Vincent Post},
+    institution = {GSI Environmental},
+    url = {https://www.gsienv.com/software/modflow-usg/modflow-usg/},
+    year = {2020}
+}
+@software{Dizon36,
+    title = {dizon36: a 3D reactive transport model of the Dizon deep-well injection trial with MF6RTM and PEST++},
+    author = {Pablo Ortega-Tong},
+    url = {https://github.com/p-ortega/dizon36},
+    note = {TODO: replace with tagged release and Zenodo DOI},
+    year = {2026}
 }
