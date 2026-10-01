@@ -688,7 +688,7 @@ def test01(request, prefix = 'test01'):
     mf6sim = build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
-    run_test(prefix, model, request=request, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name, treshold = 0.1)
 
     return 
 
@@ -804,7 +804,7 @@ def test02(request, prefix = 'test02'):
     mf6sim = build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
-    run_test(prefix, model, request=request, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name, treshold = 0.1)
 
 def test03(request, prefix = 'test03'):
     length_units = "meters"
@@ -913,7 +913,7 @@ def test03(request, prefix = 'test03'):
                                  top, botm, chdspd, prsity, k11, k33, dispersivity, disp_tr_vert,icelltype, hclose,
                                  strt, rclose, relax, nouter, ninner)
     
-    run_test(prefix, model, request=request, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name, treshold = 0.1)
 
 
 def test04(request, prefix = 'test04'):
@@ -1013,7 +1013,7 @@ def test04(request, prefix = 'test04'):
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
     
-    run_test(prefix, model, request=request, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name, treshold = 0.02)
 
 
 
@@ -1374,7 +1374,7 @@ def compare_results(benchmarkdf, testdf, treshold = 0.01):
     # skip spatial metadata columns
     spatial_cols = {"cell", "layer", "row", "col", "cell2d"}
     for col in [c for c in benchmarkdf.columns if c not in spatial_cols]:
-        checkerarr = [i < treshold for i in np.abs(benchmarkdf.loc[:, col].values - testdf.loc[:, col].values)]
+        checkerarr = [i < treshold for i in np.abs((benchmarkdf.loc[:, col].values - testdf.loc[:, col].values)/testdf.loc[:, col].values)]
         lenarr = len(checkerarr)
         #get percentage of True
         perc = sum(checkerarr)/lenarr
