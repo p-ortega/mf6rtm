@@ -1,5 +1,5 @@
 [tool.bumpversion]
-current_version = "0.5.2"
+current_version = "0.6.0.dev0"
 commit = true
 tag = false                      # GitHub Release creates the tag at publish; only tag final versions
 allow_dirty = false
