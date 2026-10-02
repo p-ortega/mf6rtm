@@ -1,5 +1,5 @@
 ---
-title: 'MF6RTM: a python package for predictive reactive transport modeling via the MODFLOW 6 and PHREEQC APIs'
+title: 'MF6RTM: a Python package for predictive reactive transport modeling via the MODFLOW 6 and PHREEQC APIs'
 tags:
   - Python
   - Reactive Transport Modeling
@@ -18,11 +18,11 @@ authors:
     email: aaufdenkampe@limno.com
   - name: Andres Prieto-Estrada
     orcid: 0000-0002-8984-1177
-    affiliation: "5"
+    affiliation: "4"
     email: aestrada@intera.com
   - name: Allan Foster
     orcid: 0000-0002-3746-4226
-    affiliation: "4"
+    affiliation: "3"
     email: afoster@intera.com
   - name: Paul Tomasula
     orcid: 0009-0004-8120-5936
@@ -30,19 +30,19 @@ authors:
     email: ptomasula@limno.com
   - name: Lauren Mancewicz
     orcid: 0009-0002-9622-5636 
-    affiliation: "6"
+    affiliation: "5"
     email: lauren.k.mancewicz@usace.army.mil
 affiliations:
- - name: Intera Geosciences, Perth, WA, Australia
+ - name: INTERA Geosciences, Perth, WA, Australia
    index: 1
- - name: Limnotech, Oakdale, MN, USA
+ - name: LimnoTech, Oakdale, MN, USA
    index: 2
- - name: Intera Incorporated, Denver, CO, USA
+ - name: INTERA INC., Denver, CO, USA
+   index: 3
+ - name: INTERA INC., Houston, TX, USA
    index: 4
- - name: Intera Incorporated, Houston, TX, USA
+ - name: Coastal and Hydraulics Lab, Engineer Research and Development Center, Vicksburg, MS, USA
    index: 5
- - name: Coastal and Hydraulics Lab, Engineer Research and Developement Center, Vicksburg, MS, USA
-   index: 6
 date: 28 January 2026
 bibliography: paper.bib
 ---
@@ -65,7 +65,7 @@ Previous PHREEQC couplings within the MODFLOW ecosystem include PHT3D for MODFLO
 
 # Statement of Need
 
-Despite the comprehensive ecosystem for reactive transport simulators, to our knowledge, no open-source software couples the current major versions of MODFLOW (v6 released in 2017) and PHREEQC (v3 released 2013). This gap is significant because the MODFLOW family remains the dominant platform for groundwater flow and transport modeling in regulatory, consulting, and applied research contexts. Existing integrated RTM codes generally require users to rebuild models in alternative frameworks, limiting their adoption for MODFLOW-based workflows. Moreover, as MODFLOW 6 and PHREEQC continue to expand in capability and adoption, keeping a coupled code current requires an approach that does not depend on changes to either source code, and that preserves transparency, extensibility, and computational efficiency. MF6RTM addresses this need by providing a fully open, API-based integration between MODFLOW 6 and PHREEQC. 
+Despite the comprehensive ecosystem for reactive transport simulators, to our knowledge, no open-source software couples the current major versions of MODFLOW (v6 released in 2017) and PHREEQC (v3 released in 2013). This gap is significant because the MODFLOW family remains the dominant platform for groundwater flow and transport modeling in regulatory, consulting, and applied research contexts. Existing integrated RTM codes generally require users to rebuild models in alternative frameworks, limiting their adoption for MODFLOW-based workflows. Moreover, as MODFLOW 6 and PHREEQC continue to expand in capability and adoption, keeping a coupled code current requires an approach that does not depend on changes to either source code, and that preserves transparency, extensibility, and computational efficiency. MF6RTM addresses this need by providing a fully open, API-based integration between MODFLOW 6 and PHREEQC. 
 
 In addition, there is a growing expectation that groundwater models, both reactive and non-reactive, explicitly represent uncertainty and support automated history-matching and optimization [@Langevin2012; @White2017]. Historically, most reactive transport workflows have relied on manual or ad hoc modification of input files to perform sensitivity analyses or history-matching, creating a substantial burden for modelers and limiting reproducibility. Because MF6RTM exposes the geochemical inputs as array files that can be modified in the same way as MODFLOW 6 inputs, reactive parameters such as initial mineral amounts and exchange capacities can be included directly in uncertainty analysis and multi-objective optimization. MF6RTM therefore fills an important gap in the hydrogeologic modeling ecosystem, bringing reactive processes into the history-matching and uncertainty quantification workflows already applied to groundwater flow models.
 
@@ -156,7 +156,7 @@ MF6RTM has demonstrated relevance for both academic and applied hydrogeologic mo
 MF6RTM has been applied to a field-scale 3D model of a deep-well injection trial, including a PEST++ setup for history matching and uncertainty analysis [@Dizon36], and to a synthetic aquifer storage and recovery (ASR) case on a 3D unstructured grid (https://github.com/LimnoTech/mf6rtm-asr-example).
 
 # AI Usage Disclosure
-AI tools were used in a limited and supportive capacity during the development of MF6RTM and the preparation of this manuscript.  No AI was used for the design of the code. Specifically, AI assistance was used to draft and refine docstrings, explore potential causes of software bugs, and suggest optimizations for selected sections of the code. AI tools were use to improve grammar, clarity, and writing quality of the manuscript.
+AI tools were used in a limited and supportive capacity during the development of MF6RTM and the preparation of this manuscript. No AI was used for the design of the code. Specifically, AI assistance was used to draft and refine docstrings, explore potential causes of software bugs, and suggest optimizations for selected sections of the code. AI tools were used to improve grammar, clarity, and writing quality of the manuscript.
 
 # Acknowledgements
 
