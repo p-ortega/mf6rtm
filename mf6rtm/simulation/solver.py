@@ -10,12 +10,12 @@ from typing import Any
 import numpy as np
 from PIL import Image
 
-from mf6rtm.config.config import MF6RTMConfig
+from mf6rtm.config import MF6RTMConfig
 from mf6rtm.io.externalio import SelectedOutput
 from mf6rtm.simulation.discretization import total_cells_in_grid
 from mf6rtm.simulation.mf6api import Mf6API
 from mf6rtm.simulation.phreeqcbmi import PhreeqcBMI
-from mf6rtm.utils import utils
+from mf6rtm import utils
 
 # warnings.filterwarnings("ignore")
 # warnings.filterwarnings("ignore", category=DeprecationWarning)
