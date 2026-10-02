@@ -24,10 +24,12 @@ These Jupyter Notebooks run classic, well-know reference models using this MF6RT
 
 1. **Example 1: Engesgaard and Kipp 1992. 1D Precipitation and Dissolution Fronts.** A one-dimensional model domain in which an aqueous water composition that is in equilibrium with two minerals, calcite and dolomite, is successively replaced, i.e., flushed by water of a different chemical composition, leading to multiple precipitation-dissolution fronts. 
 2. **Example 2: Walter 1994. 1D migration of AMD precipitation & dissolution fronts.** A one-dimensional, purely inorganic redox problem that  demonstrates the evolution of some important geochemical processes that occur when acidic mine drainage (AMD) leaches into an anaerobic carbonate aquifer.
-3. **Example 2: Walter 1994. 2D migration of AMD precipitation & dissolution fronts.** A two-dimensional version of Example 2.
+3. **Example 3: Walter 1994. 2D migration of AMD precipitation & dissolution fronts.** A two-dimensional version of Example 2.
 4. **Example 4: Parkhurst and Appelo 2013 (PHREEQC-3 Example 11) 1D Cation Exchange.** Cation exchange column flushing of a sodium-potassium nitrate solution with calcium chloride.
 5. **Example 5: Appelo 1998. Pyrite Oxidation**  Modelling of an oxidation experiment with marine pyrite-containing sediments.
 6. **Example 6: Parkhurst and Appelo 2013 (PHREEQC-3 Example 11) Cation Exchange.** 3D variant of Cation Exchange with DISV grid
+7. **Example 7: Prommer and Post 2013 (PHT3D Example 9) Kinetic BTEX degradation with multiple electron acceptors.** A dissolved BTEX plume from an injection well in a homogeneous confined aquifer, degraded by Monod-type kinetics with the electron acceptors consumed in sequence.
+8. **Example 8: Prommer and Post 2013 (PHT3D Example 10) NAPL dissolution, degradation and geochemical response.** A BTEX NAPL source dissolves into a heterogeneous unconfined aquifer by first-order mass transfer; the dissolved plume degrades through kinetic oxidation coupled to near-equilibrium electron-accepting reactions.
 
 ## Install Development Environment
 

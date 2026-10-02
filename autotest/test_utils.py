@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 import pandas as pd
 from unittest.mock import MagicMock
-from mf6rtm.utils import utils
+from mf6rtm import utils
 
 
 class TestConversionFunctions:

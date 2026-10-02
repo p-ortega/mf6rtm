@@ -5,22 +5,17 @@ Base module of the mup3d package
 import os
 import shutil
 import warnings
-
-import numpy as np
-import phreeqcrm
-
-warnings.filterwarnings("ignore")
-warnings.filterwarnings("ignore", category=DeprecationWarning)
-
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Union
 
 import flopy
+import numpy as np
+import phreeqcrm
 
+from mf6rtm import utils
 from mf6rtm.config import MF6RTMConfig
 from mf6rtm.simulation.solver import solve
-from mf6rtm.utils import utils
 
 
 class Block:
@@ -189,8 +184,8 @@ class KineticPhases(Block):
         """
         self.parameters = parameters
 
-class Surfaces(Block):
-    """The Surfaces Block.
+class SurfacePhases(Block):
+    """The SurfacePhases Block.
 
     Attributes
     ----------
@@ -268,11 +263,12 @@ class ChemStress():
         self.cells = cells
 
 
+# Phase class -> Mup3d attribute that holds it
 phase_types = {
-    'KineticPhases': KineticPhases,
-    'ExchangePhases': ExchangePhases, # TODO: Exchange has to be abstracted to be used with this methods
-    'EquilibriumPhases': EquilibriumPhases,
-    'Surfaces': Surfaces,
+    KineticPhases: 'kinetic_phases',
+    ExchangePhases: 'exchange_phases', # TODO: Exchange has to be abstracted to be used with this methods
+    EquilibriumPhases: 'equilibrium_phases',
+    SurfacePhases: 'surfaces_phases',
 }
 
 
@@ -302,7 +298,7 @@ class Mup3d(object):
         Kinetic phases in the model.
     exchange_phases : ExchangePhases
         Exchange phases in the model.
-    surfaces_phases : Surfaces
+    surfaces_phases : SurfacePhases
         Surface phases in the model.
     postfix : str
         Postfix for the output files.
@@ -514,7 +510,7 @@ class Mup3d(object):
 
         Parameters
         ----------
-        phase : KineticPhases, ExchangePhases, EquilibriumPhases, or Surfaces
+        phase : KineticPhases, ExchangePhases, EquilibriumPhases, or SurfacePhases
             Instance of one of the phase classes containing geochemical data.
         Returns
         -------
@@ -524,7 +520,7 @@ class Mup3d(object):
         phase_class = phase.__class__
 
         # Check if the phase object's class is in the dictionary of phase types
-        if phase_class not in phase_types.values():
+        if phase_class not in phase_types:
             raise AssertionError(f'{phase_class.__name__} is not a recognized phase type')
 
         # Proceed with the common logic
@@ -533,8 +529,7 @@ class Mup3d(object):
         phase.data = {i: phase.data[key] for i, key in enumerate(phase.data.keys())}
         assert phase.ic.shape == self.grid_shape, f'Initial conditions array must be an array of the shape {self.grid_shape} not {phase.ic.shape}'
 
-        # Dynamically set the phase attribute based on the class name
-        setattr(self, f"{phase_class.__name__.lower().split('phases')[0]}_phases", phase)
+        setattr(self, phase_types[phase_class], phase)
 
     def set_exchange_phases(self, exchanger):
         """Sets the exchange phases for the MF6RTM model.
@@ -968,7 +963,7 @@ class Mup3d(object):
             ic1[:, 1] = np.reshape(self.equilibrium_phases.ic, self.nxyz)
         if isinstance(self.exchange_phases, ExchangePhases):
             ic1[:, 2] = np.reshape(self.exchange_phases.ic, self.nxyz)  # Exchange
-        if isinstance(self.surfaces_phases, Surfaces):
+        if isinstance(self.surfaces_phases, SurfacePhases):
             ic1[:, 3] = np.reshape(self.surfaces_phases.ic, self.nxyz)  # Surface
         ic1[:, 4] = -1  # Gas phase
         ic1[:, 5] = -1  # Solid solutions
@@ -2111,3 +2106,15 @@ def working_dir(path):
         yield
     finally:
         os.chdir(old_dir)
+
+
+def __getattr__(name):
+    # Old pickles store mf6rtm.mup3d.base.Surfaces, so the old name must still resolve
+    if name == "Surfaces":
+        warnings.warn(
+            "Surfaces is deprecated, use SurfacePhases instead",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return SurfacePhases
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

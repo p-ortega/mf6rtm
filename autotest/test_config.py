@@ -1,5 +1,5 @@
 import pytest
-from mf6rtm.config.config import MF6RTMConfig
+from mf6rtm.config import MF6RTMConfig
 
 
 class TestMF6RTMConfigSolverSection:

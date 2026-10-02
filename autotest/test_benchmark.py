@@ -1124,7 +1124,7 @@ def test05(request, prefix = 'test05'):
 
     #surfaces
     surfdic = utils.surfaces_csv_to_dict(os.path.join(dataws,f"{prefix}_surfaces.csv"))
-    surfaces = mup3d.Surfaces(surfdic)
+    surfaces = mup3d.SurfacePhases(surfdic)
     surfaces.set_ic(1)
     # surfaces.set_options(['no_edl'])
 
@@ -1253,7 +1253,7 @@ def test05_from_mf6(request, prefix = 'test05'):
     equilibriums.set_ic(1)
 
     surfdic = utils.surfaces_csv_to_dict(os.path.join(dataws, f"{prefix}_surfaces.csv"))
-    surfaces = mup3d.Surfaces(surfdic)
+    surfaces = mup3d.SurfacePhases(surfdic)
     surfaces.set_ic(1)
 
     # transport-first flopy sim: GWF + single conservative tracer GWT
