@@ -7,6 +7,6 @@ as a successor to PHT3D.
 """
 
 from .base import *
-from .base import __getattr__
+from .base import __getattr__ as __getattr__
 
 __all__ = ["Mup3d"]

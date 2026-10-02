@@ -10,16 +10,15 @@ import warnings
 warnings.filterwarnings("ignore", message="builtin type.*has no __module__", category=DeprecationWarning)
 
 __author__ = "Pablo Ortega"
-from . import mup3d, simulation
+from . import config, mup3d, simulation, utils
 from ._version import __version__
+from .io import yaml_reader
 
 # Optionally, expose base from mup3d
 from .mup3d import base
 from .simulation.mf6api import Mf6API
 from .simulation.phreeqcbmi import PhreeqcBMI
 from .simulation.solver import DT_FMT, Mf6RTM, run_cmd, solve, time_units_dict
-from . import config, utils
-from .io import yaml_reader
 
 
 def _deprecated_module(old_name, new_module):

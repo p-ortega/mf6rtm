@@ -5,19 +5,17 @@ Base module of the mup3d package
 import os
 import shutil
 import warnings
-
-import numpy as np
-import phreeqcrm
-
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Union
 
 import flopy
+import numpy as np
+import phreeqcrm
 
+from mf6rtm import utils
 from mf6rtm.config import MF6RTMConfig
 from mf6rtm.simulation.solver import solve
-from mf6rtm import utils
 
 
 class Block:
