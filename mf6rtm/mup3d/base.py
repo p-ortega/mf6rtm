@@ -9,9 +9,6 @@ import warnings
 import numpy as np
 import phreeqcrm
 
-warnings.filterwarnings("ignore")
-warnings.filterwarnings("ignore", category=DeprecationWarning)
-
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Union
