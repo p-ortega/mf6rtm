@@ -1439,7 +1439,7 @@ def get_test_results(model):
     testdf = pd.read_csv(os.path.join(model.wd,f"sout.csv"), index_col = 0)
     return testdf
 
-def compare_results(benchmarkdf, testdf, treshold = 0.01):
+def compare_results(benchmarkdf, testdf, treshold = 0.01, atol=None):
     '''Compare benchmark and test results'''
 
     # Align testdf to benchmark columns — testdf may have extra spatial columns
@@ -1458,7 +1458,8 @@ def compare_results(benchmarkdf, testdf, treshold = 0.01):
     # skip spatial metadata columns
     spatial_cols = {"cell", "layer", "row", "col", "cell2d"}
     for col in [c for c in benchmarkdf.columns if c not in spatial_cols]:
-        checkerarr = np.isclose(testdf.loc[:, col].values, benchmarkdf.loc[:, col].values, rtol=treshold, atol=0)
+        col_atol = (atol or {}).get(col, 0)
+        checkerarr = np.isclose(testdf.loc[:, col].values, benchmarkdf.loc[:, col].values, rtol=treshold, atol=col_atol)
         lenarr = len(checkerarr)
         #get percentage of True
         perc = sum(checkerarr)/lenarr
