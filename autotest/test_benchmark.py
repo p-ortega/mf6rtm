@@ -1458,7 +1458,7 @@ def compare_results(benchmarkdf, testdf, treshold = 0.01):
     # skip spatial metadata columns
     spatial_cols = {"cell", "layer", "row", "col", "cell2d"}
     for col in [c for c in benchmarkdf.columns if c not in spatial_cols]:
-        checkerarr = [i < treshold for i in np.abs((benchmarkdf.loc[:, col].values - testdf.loc[:, col].values)/testdf.loc[:, col].values)]
+        checkerarr = np.isclose(testdf.loc[:, col].values, benchmarkdf.loc[:, col].values, rtol=treshold, atol=0)
         lenarr = len(checkerarr)
         #get percentage of True
         perc = sum(checkerarr)/lenarr
