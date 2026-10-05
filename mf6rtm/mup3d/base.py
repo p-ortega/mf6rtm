@@ -3,23 +3,24 @@ Base module of the mup3d package
 """
 
 import os
-import warnings
-import phreeqcrm
 import shutil
+import warnings
+
 import numpy as np
+import phreeqcrm
 
 warnings.filterwarnings("ignore")
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-from typing import Union
-from pathlib import Path
 from contextlib import contextmanager
+from pathlib import Path
+from typing import Union
 
 import flopy
 
+from mf6rtm.config import MF6RTMConfig
 from mf6rtm.simulation.solver import solve
 from mf6rtm.utils import utils
-from mf6rtm.config import MF6RTMConfig
 
 
 class Block:
@@ -570,7 +571,10 @@ class Mup3d(object):
         self.equilibrium_phases = eq_phases
         if isinstance(self.equilibrium_phases.ic, (int, float)):
             self.equilibrium_phases.ic = np.reshape([self.equilibrium_phases.ic]*self.nxyz, self.grid_shape)
-        assert self.equilibrium_phases.ic.shape == self.grid_shape, f'Initial conditions array must be an array of the shape ({self.grid_shape}) not {self.equilibrium_phases.ic.shape}'
+        assert self.equilibrium_phases.ic.shape == self.grid_shape, (
+            f'Initial conditions array must be an array of the shape ({self.grid_shape}) '
+            f'not {self.equilibrium_phases.ic.shape}'
+        )
 
     def set_charge_offset(self, charge_offset):
         """
@@ -745,7 +749,9 @@ class Mup3d(object):
 
         # Check if all compounds are in the database
         names = utils.get_compound_names(self.database)
-        assert all([key in names for key in self.solutions.data.keys() if key not in ["pH", "pe"]]), f'Not all compounds are in the database - check: {", ".join([key for key in self.solutions.data.keys() if key not in names and key not in ["pH", "pe"]])}'
+        solution_keys = [key for key in self.solutions.data.keys() if key not in ["pH", "pe"]]
+        missing = ", ".join(key for key in solution_keys if key not in names)
+        assert all(key in names for key in solution_keys), f'Not all compounds are in the database - check: {missing}'
 
         script = ""
 
@@ -775,7 +781,8 @@ class Mup3d(object):
                 phases = self.equilibrium_phases.data[i]
                 # check if all equilibrium phases are in the database
                 names = utils.get_compound_names(self.database, 'PHASES')
-                assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
+                missing = ', '.join(key for key in phases.keys() if key not in names)
+                assert all(key in names for key in phases.keys()), f'Following phases are not in database: {missing}'
 
                 # Handle the  EQUILIBRIUM_PHASES blocks
                 script += utils.handle_block(phases, utils.generate_equ_phases_block, i)
@@ -787,7 +794,8 @@ class Mup3d(object):
                 phases = self.exchange_phases.data[i]
                 # check if all equilibrium phases are in the database
                 names = utils.get_compound_names(self.database, 'EXCHANGE')
-                assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
+                missing = ', '.join(key for key in phases.keys() if key not in names)
+                assert all(key in names for key in phases.keys()), f'Following phases are not in database: {missing}'
                 assert self.exchange_phases.eq_solutions is not None, 'No equilibrate solutions defined'
                 assert isinstance(self.exchange_phases.eq_solutions, (list, np.ndarray)), "exchange_phases.eq_solutions must be a list or numpy array"
                 assert len(self.exchange_phases.data.keys()) == len(self.exchange_phases.eq_solutions), "Mismatch between number of exchangers and eq_solutions"
@@ -804,7 +812,8 @@ class Mup3d(object):
                 for blocknme in ['PHASES', 'SOLUTION_MASTER_SPECIES']:
                     names += utils.get_compound_names(self.database, blocknme)
 
-                assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
+                missing = ', '.join(key for key in phases.keys() if key not in names)
+                assert all(key in names for key in phases.keys()), f'Following phases are not in database: {missing}'
 
                 script += utils.handle_block(phases, utils.generate_kinetics_block, i)
 
@@ -814,7 +823,8 @@ class Mup3d(object):
                 phases = self.surfaces_phases.data[i]
                 # check if all surfaces are in the database
                 names = utils.get_compound_names(self.database, 'SURFACE_MASTER_SPECIES')
-                assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
+                missing = ', '.join(key for key in phases.keys() if key not in names)
+                assert all(key in names for key in phases.keys()), f'Following phases are not in database: {missing}'
                 # Equilibrate each surface with its zone's solution (mirrors the
                 # exchange path); fall back to solution 1 if no targets were set.
                 eq_sol = 1 if self.surfaces_phases.eq_solutions is None else self.surfaces_phases.eq_solutions[i]

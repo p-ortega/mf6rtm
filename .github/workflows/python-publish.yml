@@ -1,32 +1,26 @@
 name: Release
 
-# Manual release: pick a bump level, this bumps the version, pushes it,
-# builds, publishes to PyPI (Trusted Publishing / OIDC), and cuts a GitHub Release.
-# Dispatch this on the branch you are releasing (e.g. main after develop -> main).
+# Manual release: pass the exact version to release (e.g. 0.6.0, no leading
+# 'v'). This creates and pushes that tag, builds (hatch-vcs derives the
+# version purely from the tag), publishes to PyPI (Trusted Publishing / OIDC),
+# and cuts a GitHub Release. Dispatch this on the branch you are releasing
+# (e.g. main after develop -> main).
 #
 # NOTE: filename kept as python-publish.yml so the existing PyPI trusted-publisher
 # registration keeps working. PyPI matches the workflow *filename*, not its name.
 on:
   workflow_dispatch:
     inputs:
-      level:
-        description: "Version bump level"
+      version:
+        description: "Version to release, e.g. 0.6.0 (no leading 'v')"
         required: true
-        default: pre_l
-        type: choice
-        options:
-          - pre_l    # finalize a dev release: 0.5.0.dev0 -> 0.5.0  (publishes)
-          - pre_n    # iterate dev:           0.5.0.dev0 -> 0.5.0.dev1
-          - patch    #                        0.5.0      -> 0.5.1.dev0
-          - minor    #                        0.5.0      -> 0.6.0.dev0
-          - major    #                        0.5.0      -> 1.0.0.dev0
 
 concurrency:
   group: release
   cancel-in-progress: false
 
 permissions:
-  contents: write   # push the version-bump commit + create the tag/release
+  contents: write   # create + push the release tag
   id-token: write   # PyPI Trusted Publishing (OIDC)
 
 jobs:
@@ -35,7 +29,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0        # full history so bump-my-version + tagging work
+          fetch-depth: 0        # full history + tags so hatch-vcs can compute the version
+          fetch-tags: true
+
+      - name: Validate version format
+        run: |
+          if ! [[ "${{ inputs.version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "version must be a bare X.Y.Z (no leading 'v', no pre-release suffix): got '${{ inputs.version }}'" >&2
+            exit 1
+          fi
+
+      - name: Validate tag does not already exist
+        run: |
+          if git rev-parse "refs/tags/${{ inputs.version }}" >/dev/null 2>&1; then
+            echo "Tag ${{ inputs.version }} already exists" >&2
+            exit 1
+          fi
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -43,39 +52,38 @@ jobs:
           python-version: "3.x"
 
       - name: Install tooling
-        run: python -m pip install --upgrade pip build bump-my-version
+        run: python -m pip install --upgrade pip build
 
       - name: Configure git identity
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Bump version
-        run: bump-my-version bump "${{ inputs.level }}"
+      - name: Create and push release tag
+        run: |
+          git tag -a "${{ inputs.version }}" -m "Release ${{ inputs.version }}"
+          git push origin "${{ inputs.version }}"
 
-      - name: Read new version
-        id: ver
-        run: echo "version=$(bump-my-version show current_version)" >> "$GITHUB_OUTPUT"
-
-      - name: Push version bump
-        run: git push origin HEAD:${{ github.ref_name }}
-
-      # Publish + release only when finalizing (pre_l -> a real X.Y.Z).
-      # Other levels (minor/patch/major/pre_n) just bump+push for the next cycle.
       - name: Build distributions
-        if: inputs.level == 'pre_l'
         run: python -m build
 
+      - name: Verify built version matches the tag
+        run: |
+          version="${{ inputs.version }}"
+          wheel=$(ls dist/*.whl)
+          case "$wheel" in
+            *"-${version}-"*) echo "OK: $wheel" ;;
+            *) echo "Built version does not match tag ${version}: $wheel" >&2; exit 1 ;;
+          esac
+
       - name: Publish to PyPI (Trusted Publishing)
-        if: inputs.level == 'pre_l'
         uses: pypa/gh-action-pypi-publish@release/v1
 
       - name: Create GitHub Release
-        if: inputs.level == 'pre_l'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${{ steps.ver.outputs.version }}" \
+          gh release create "${{ inputs.version }}" \
             --target "$(git rev-parse HEAD)" \
-            --title "${{ steps.ver.outputs.version }}" \
+            --title "${{ inputs.version }}" \
             --generate-notes
