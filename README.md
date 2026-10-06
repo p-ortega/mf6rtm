@@ -101,6 +101,9 @@ pixi run lint
 # Test with a specific Python version (py311, py312, py313, or py314)
 pixi run -e py311 test
 ```
+
+Contributions, bug reports, and questions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to get involved.
+
 ## Documentation
 
 The documentation is available in [mf6rtm - read the docs](https://mf6rtm.readthedocs.io)
