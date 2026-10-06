@@ -1,0 +1,36 @@
+# PHREEQC TRANSPORT reference for decay1d.ipynb (1D ADE + first-order kinetic decay of Tr).
+# Run: phreeqc decay1d.pqi decay1d.out decay1d_datab.dat   -> writes decay1d.sel
+# 100 cells x 0.1 m, v = 0.1 m/d (shift 1 d), alpha = 0.05 m, k = 0.03 1/d, 60 shifts.
+SOLUTION 0
+  units mol/kgw; pH 7; Na 1e-3; Cl 1e-3; Tr 0.001
+SOLUTION 1-100
+  units mol/kgw; pH 7; Na 1e-3; Cl 1e-3; Tr 0.0005
+KINETICS 1-100
+  Decay
+    -formula Tr 1
+    -m0 1
+
+    -parms 3.4722222222e-07
+END
+PRINT; -reset false
+SELECTED_OUTPUT
+-reset false
+-file decay1d.sel
+-high_precision true
+USER_PUNCH
+-headings time_d cell Tr Cl
+10 PUNCH SIM_TIME/86400, CELL_NO, TOT("Tr"), TOT("Cl")
+
+TRANSPORT
+  -cells 100
+  -lengths 100*0.1
+  -shifts 60
+  -time_step 86400.0
+  -flow_direction forward
+  -boundary_conditions flux flux
+  -dispersivities 100*0.05
+  -correct_disp true
+  -diffusion_coefficient 0
+  -punch_cells 1-100
+  -punch_frequency 1
+END

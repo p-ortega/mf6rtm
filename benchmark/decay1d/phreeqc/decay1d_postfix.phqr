@@ -1,0 +1,6 @@
+SELECTED_OUTPUT
+-reset false
+-file out.dat
+USER_PUNCH
+-headings time_d cell Tr Cl
+10 PUNCH SIM_TIME/86400, CELL_NO, TOT("Tr"), TOT("Cl")
