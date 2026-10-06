@@ -688,7 +688,7 @@ def test01(request, prefix = 'test01'):
     mf6sim = build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
-    run_test(prefix, model, request=request, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name, treshold = 0.1)
 
     return 
 
@@ -804,7 +804,7 @@ def test02(request, prefix = 'test02'):
     mf6sim = build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
-    run_test(prefix, model, request=request, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name, treshold = 0.1)
 
 def test03(request, prefix = 'test03'):
     length_units = "meters"
@@ -913,7 +913,7 @@ def test03(request, prefix = 'test03'):
                                  top, botm, chdspd, prsity, k11, k33, dispersivity, disp_tr_vert,icelltype, hclose,
                                  strt, rclose, relax, nouter, ninner)
     
-    run_test(prefix, model, request=request, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name, treshold = 0.1)
 
 
 def test04(request, prefix = 'test04'):
@@ -1013,7 +1013,7 @@ def test04(request, prefix = 'test04'):
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
     
-    run_test(prefix, model, request=request, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name, treshold = 0.02)
 
 
 
@@ -1285,6 +1285,90 @@ def test05_from_mf6(request, prefix = 'test05'):
     # compare against the SAME benchmark as test05
     run_test(prefix, model, request=request, test_cli=True, libname=lib_name, treshold=0.02)
 
+
+def decay_analytical(x, t, v, D, k, C0, Ci):
+    '''van Genuchten & Alves (1982): semi-infinite column, flux inlet at C0, initial Ci,
+    first-order decay k.'''
+    from scipy.special import erfc, erfcx
+
+    def e_erfc(a, z):  # exp(a) * erfc(z) without overflow
+        z = np.asarray(z, float)
+        return np.where(z > 0, np.exp(a - z**2) * erfcx(np.abs(z)), np.exp(a) * erfc(z))
+
+    s = 2 * np.sqrt(D * t)
+    u = v * np.sqrt(1 + 4 * k * D / v**2)
+    A = (v / (v + u) * e_erfc((v - u) * x / (2 * D), (x - u * t) / s)
+         + v / (v - u) * e_erfc((v + u) * x / (2 * D), (x + u * t) / s)
+         + v**2 / (2 * k * D) * e_erfc(v * x / D - k * t, (x + v * t) / s))
+    B = (1 - 0.5 * erfc((x - v * t) / s)
+         - np.sqrt(v**2 * t / (np.pi * D)) * np.exp(-(x - v * t)**2 / (4 * D * t))
+         + 0.5 * (1 + v * x / D + v**2 * t / D) * e_erfc(v * x / D, (x + v * t) / s))
+    return C0 * A + Ci * np.exp(-k * t) * B
+
+
+@pytest.mark.parametrize("nstp, tsmult", [(60, 1.0), (20, 1.1)], ids=["const_dt", "tsmult"])
+def test06_decay(nstp, tsmult, prefix='test06'):
+    '''Test 6: 1D transport with first-order KINETICS decay vs. analytical solution.
+
+    Checks the reaction time step handed to PhreeqcRM: ahead of the front the column stays
+    uniform, transport does nothing, and the exact answer is Ci*exp(-k*t). This catches a
+    lagged dt (previous step's dt) and skipping of kinetic cells by the reaction mask.
+    Same setup as benchmark/decay1d.
+    '''
+    length_units, time_units = "meters", "days"
+    nper, nlay, nrow, ncol = 1, 1, 1, 100
+    delr, delc, top, botm = 0.1, 1.0, 1.0, 0.0
+    prsity = 0.3
+    v = 0.1                          # pore velocity (m/d)
+    dispersivity = 0.05              # m
+    k = 0.03                         # first-order decay (1/d)
+    C0, Ci = 1e-3, 5e-4              # inflow / initial Tr (mol/kgw)
+    T = 60.0                         # d
+    tdis_rc = [(T, nstp, tsmult)]
+
+    solution = mup3d.Solutions({'pH': [7.0, 7.0], 'Na': [1e-3, 1e-3], 'Cl': [1e-3, 1e-3], 'Tr': [Ci, C0]})
+    solution.set_ic(1)
+    kinetics = mup3d.KineticPhases({1: {'Decay': {'m0': 1.0, 'parms': [k / 86400], 'formula': 'Tr 1'}}})
+    kinetics.set_ic(1)
+
+    model = mup3d.Mup3d(prefix, solution, nlay, nrow, ncol)
+    model.set_wd(os.path.join(cwd, f'{prefix}_{"const" if tsmult == 1.0 else "tsmult"}'))
+    model.set_postfix(os.path.join(dataws, f'{prefix}_postfix.phqr'))
+    model.set_database(os.path.join(databasews, 'decay1d_datab.dat'))
+    model.set_phases(kinetics)
+    model.initialize()
+
+    wellchem = mup3d.ChemStress('wel')
+    wellchem.set_spd([2])
+    model.set_chem_stress(wellchem)
+    wel_spd = [[(0, 0, 0), v * prsity] + list(model.wel.data[0])]
+    chdspd = [[(0, 0, ncol - 1), 1.0]]
+    strt = np.ones((nlay, nrow, ncol))
+
+    build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
+                                 top, botm, wel_spd, chdspd, prsity, 1.0, 1.0, dispersivity, 0, 1e-10,
+                                 strt, 1e-10, 1.0, 100, 300)
+    assert model.run(libname=lib_name)
+
+    out = pd.read_csv(os.path.join(model.wd, 'sout.csv'))
+    dts = np.full(nstp, T / nstp) if tsmult == 1.0 else T * (tsmult - 1) / (tsmult**nstp - 1) * tsmult**np.arange(nstp)
+    out['t'] = np.repeat(np.cumsum(dts), ncol)       # end of each MF6 step
+    x = (out.cell.values[:ncol] - 0.5) * delr
+
+    # uniform zone (x = 9.05 m, front still >= 5 m away for t <= 40 d): exact Ci*exp(-k*t)
+    s = out[(out.cell == 91) & (out.t <= 40.0)]
+    err = np.abs(s.Tr / (Ci * np.exp(-k * s.t)) - 1)
+    assert err.max() < 1e-3, f"uniform-zone decay off by {err.max():.2%}"
+
+    # behind the front at T: operator-splitting error ~ k*dt/2 (PHREEQC TRANSPORT: 1.5 %)
+    if tsmult == 1.0:
+        end = out[np.isclose(out.t, T)].sort_values('cell')
+        behind = x < 4.0
+        exact = decay_analytical(x[behind], T, v, dispersivity * v, k, C0, Ci)
+        err = np.abs(end.Tr.values[behind] / exact - 1)
+        assert err.max() < 0.05, f"profile behind front off by {err.max():.2%}"
+
+
 def test_mf6_bin():
     '''Test that mf6 binary is available'''
     import subprocess as sp
@@ -1355,7 +1439,7 @@ def get_test_results(model):
     testdf = pd.read_csv(os.path.join(model.wd,f"sout.csv"), index_col = 0)
     return testdf
 
-def compare_results(benchmarkdf, testdf, treshold = 0.01):
+def compare_results(benchmarkdf, testdf, treshold = 0.01, atol=None):
     '''Compare benchmark and test results'''
 
     # Align testdf to benchmark columns — testdf may have extra spatial columns
@@ -1374,7 +1458,8 @@ def compare_results(benchmarkdf, testdf, treshold = 0.01):
     # skip spatial metadata columns
     spatial_cols = {"cell", "layer", "row", "col", "cell2d"}
     for col in [c for c in benchmarkdf.columns if c not in spatial_cols]:
-        checkerarr = [i < treshold for i in np.abs(benchmarkdf.loc[:, col].values - testdf.loc[:, col].values)]
+        col_atol = (atol or {}).get(col, 0)
+        checkerarr = np.isclose(testdf.loc[:, col].values, benchmarkdf.loc[:, col].values, rtol=treshold, atol=col_atol)
         lenarr = len(checkerarr)
         #get percentage of True
         perc = sum(checkerarr)/lenarr

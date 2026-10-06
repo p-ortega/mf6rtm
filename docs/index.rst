@@ -25,6 +25,8 @@ single Python interface for simulating reactive transport in the subsurface.
    :hidden:
 
    introduction
+   theory
+   supported_features
    tutorials/index
    api/modules
    development
@@ -33,6 +35,8 @@ Getting started
 ---------------
 
 * :doc:`introduction` — what mf6rtm is and how it is organized.
+* :doc:`theory` — background on reactive transport and operator splitting.
+* :doc:`supported_features` — list of implemented features in both MODFLOW and PhreeqcRM
 * :doc:`tutorials/index` — worked reactive-transport examples.
 * :doc:`api/modules` — full API reference.
 * :doc:`development` — set up a dev environment and contribute.

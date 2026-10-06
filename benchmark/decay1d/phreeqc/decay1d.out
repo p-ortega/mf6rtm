@@ -1,0 +1,248 @@
+   Input file: decay1d.pqi
+  Output file: decay1d.out
+Database file: decay1d_datab.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	SOLUTION 0
+	  units mol/kgw
+	 pH 7
+	 Na 1e-3
+	 Cl 1e-3
+	 Tr 0.001
+	SOLUTION 1-100
+	  units mol/kgw
+	 pH 7
+	 Na 1e-3
+	 Cl 1e-3
+	 Tr 0.0005
+	KINETICS 1-100
+	  Decay
+	    formula Tr 1
+	    m0 1
+	    parms 3.4722222222e-07
+	END
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-03   1.000e-03
+	Na                1.000e-03   1.000e-03
+	Tr                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.000e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.007e-10
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -3.007e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   3
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.038e-07   1.001e-07    -6.984    -7.000    -0.016     (0)  
+   H+              1.035e-07   1.000e-07    -6.985    -7.000    -0.015      0.00
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+Cl            1.000e-03
+   Cl-             1.000e-03   9.648e-04    -3.000    -3.016    -0.016     (0)  
+H(0)          1.416e-25
+   H2              7.078e-26   7.079e-26   -25.150   -25.150     0.000     (0)  
+Na            1.000e-03
+   Na+             1.000e-03   9.651e-04    -3.000    -3.015    -0.015     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     (0)  
+Tr            1.000e-03
+   Tr              1.000e-03   1.000e-03    -3.000    -3.000     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Decay            17.00     -3.00  -20.00  Tr
+  H2(g)           -22.00    -25.15   -3.15  H2
+  Halite           -7.61     -6.03    1.58  NaCl
+  O2(g)           -39.19    -42.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Initial solution 1.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-03   1.000e-03
+	Na                1.000e-03   1.000e-03
+	Tr                5.000e-04   5.000e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.000e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.015e-10
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -3.015e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =   3 (6 overall)
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.038e-07   1.001e-07    -6.984    -7.000    -0.016     (0)  
+   H+              1.035e-07   1.000e-07    -6.985    -7.000    -0.015      0.00
+   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07
+Cl            1.000e-03
+   Cl-             1.000e-03   9.648e-04    -3.000    -3.016    -0.016     (0)  
+H(0)          1.416e-25
+   H2              7.078e-26   7.079e-26   -25.150   -25.150     0.000     (0)  
+Na            1.000e-03
+   Na+             1.000e-03   9.651e-04    -3.000    -3.015    -0.015     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     (0)  
+Tr            5.000e-04
+   Tr              5.000e-04   5.001e-04    -3.301    -3.301     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Decay            16.70     -3.30  -20.00  Tr
+  H2(g)           -22.00    -25.15   -3.15  H2
+  Halite           -7.61     -6.03    1.58  NaCl
+  O2(g)           -39.19    -42.08   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 1 seconds
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Decay             3.472e-10   1.000e+00   Tr                        1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Cl                1.000e-03   1.000e-03
+	Na                1.000e-03   1.000e-03
+	Tr                1.000e-03   1.000e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =  -1.132      Adjusted to redox equilibrium
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   1.000e-03
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   3.007e-10
+                         Temperature (°C)  =  25.00
+                  Electrical balance (eq)  =  -3.007e-10
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.00
+                               Iterations  =  18
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma    cm³/mol
+
+   OH-             1.038e-07   1.001e-07    -6.984    -7.000    -0.016     (0)  
+   H+              1.035e-07   1.000e-07    -6.985    -7.000    -0.015      0.00
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.07
+Cl            1.000e-03
+   Cl-             1.000e-03   9.648e-04    -3.000    -3.016    -0.016     (0)  
+H(0)          2.597e-15
+   H2              1.298e-15   1.299e-15   -14.887   -14.886     0.000     (0)  
+Na            1.000e-03
+   Na+             1.000e-03   9.651e-04    -3.000    -3.015    -0.015     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -62.607   -62.607     0.000     (0)  
+Tr            1.000e-03
+   Tr              1.000e-03   1.000e-03    -3.000    -3.000     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(298 K,   1 atm)
+
+  Decay            17.00     -3.00  -20.00  Tr
+  H2(g)           -11.74    -14.89   -3.15  H2
+  Halite           -7.61     -6.03    1.58  NaCl
+  O2(g)           -59.71    -62.61   -2.89  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+------------------
+End of simulation.
+------------------
+
+------------------------------------
+Reading input data for simulation 2.
+------------------------------------
+
+	PRINT
+	 reset false
+WARNING: 
+Calculating transport: 100 (mobile) cells, 60 shifts, 2 mixruns...
+
+
+---------------------------------
+End of Run after 1.82005 Seconds.
+---------------------------------
+

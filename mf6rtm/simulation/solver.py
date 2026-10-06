@@ -735,8 +735,13 @@ class Mf6RTM(object):
             # self iteration counter
             self.set_kiter()
             # length of the current solve time
+            # JOSS - Review: prepare time step ignores the argument.
+            # JOSS - Review: _set_time_step was incorrectly fetching the previous times step (and 0 as the first time step)
+            # this generated a bug in the reaction step when we have a kinetic reaction.
+            # checked with new benchmark decay1d that compares the model with the 1D analytical solution.
+            # the simple fix is to call prepare time step with any argument and _set_time_step() later (bad name by the way (maybe get time step?)
+            self.mf6api.prepare_time_step(0.0)
             dt = self._set_time_step()
-            self.mf6api.prepare_time_step(dt)
             self.mf6api._solve_gwt()
 
             # get saturation
@@ -757,8 +762,11 @@ class Mf6RTM(object):
                         add_var_names=self.selected_output.feat_var,
                         fname='_features.csv'
                     )
-
-                if ctime == 0.0:
+                # JOSS Review: there was a bug when transport did not change concentrations.
+                # The kinetic block may still be relevant and needs to be computed.
+                # Adding a check if there is a KINETIC block defined fixes the error.
+                if ctime == 0.0 or self.phreeqcbmi.GetKineticReactionsCount() > 0:
+                    # kinetics react with time even where transport changed nothing
                     self.diffmask = np.ones(self.nxyz)
                 else:
                     diffmask = get_conc_change_mask(
@@ -803,7 +811,7 @@ class Mf6RTM(object):
             success = True
             # print(mrbeaker())
             print(
-                "\nMODEL RUN FINISHED BUT CHECK THE RESULTS\n"
+                "\nMODEL RUN FINISHED\n" #TODO: JOSS reviewer: removed "CHECK THE RESULTS".
             )
         except:
             print("SOMETHING WENT WRONG. BUMMER\n")

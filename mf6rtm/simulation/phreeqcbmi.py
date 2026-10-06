@@ -100,8 +100,6 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         else:
             sat = [1] * self.GetGridCellCount()
 
-        # self.SetSaturation(sat)
-
         # update which cells to run depending on conc change between tsteps
         if diffmask is not None:
             # get idx where diffmask is 0
@@ -112,7 +110,7 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
             # print(
             #     f"{'Cells sent to reactions':<25} | {self.GetGridCellCount()-len(inact):<0}/{self.GetGridCellCount():<15}"
             # )
-            self.SetSaturation(sat)
+        self.SetSaturation(sat) # TODO: JOSS reviewer: I think there was an extra tab to this line. please verify
 
         print_selected_output_on = True
         # print_chemistry_on = False
