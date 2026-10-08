@@ -10,8 +10,8 @@ import numpy as np
 import pandas as pd
 import phreeqcrm
 
+from mf6rtm import utils
 from mf6rtm.simulation.mf6api import Mf6API
-from mf6rtm.utils import utils
 
 
 class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):

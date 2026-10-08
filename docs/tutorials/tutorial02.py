@@ -136,7 +136,7 @@ kinetics.set_ic(1)
 # %% [markdown]
 # **Equilibrium phases & surfaces** — ``EquilibriumPhases`` are minerals kept at
 # equilibrium each step (PHREEQC ``EQUILIBRIUM_PHASES``, here calcite);
-# ``Surfaces`` are surface-complexation sites (PHREEQC ``SURFACE``). Both are
+# ``SurfacePhases`` are surface-complexation sites (PHREEQC ``SURFACE``). Both are
 # uniform, so ``set_ic(1)``.
 
 # %%
@@ -144,7 +144,7 @@ eqp_df = pd.read_csv(os.path.join(DATA, "tut02_equilibrium_phases.csv"))
 equilibriums = mup3d.EquilibriumPhases(utils.parse_equilibriums_dataframe(eqp_df))
 equilibriums.set_ic(1)
 
-surfaces = mup3d.Surfaces(utils.surfaces_csv_to_dict(
+surfaces = mup3d.SurfacePhases(utils.surfaces_csv_to_dict(
     os.path.join(DATA, "tut02_surfaces.csv")))
 surfaces.set_ic(1)
 

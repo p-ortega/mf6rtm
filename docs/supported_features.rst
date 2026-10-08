@@ -1,4 +1,4 @@
-Supported features (Please review)
+Supported features
 ==================
 
 MODFLOW 6
@@ -43,23 +43,23 @@ Use with caution
 - Temperature is fixed per solution.
 - Not all PHREEQC block options have been tested.
 
-Not supported
-~~~~~~~~~~~~~
+Not supported yet
+~~~~~~~~~~~~~~~~~
 
 - GAS_PHASE and SOLID_SOLUTIONS.
 - Varying temperature or pressure during a run.
 
 mf6rtm
----------------
+------
 
 Limitations
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
 
 - Use ``threshold`` cell skipping only for equilibrium chemistry (not kinetic reactions!).
 - Reaction timing ``user``: kinetics only advance on the listed steps.
 
-TODOs
-~~~~~~~~~~~~~
+Planned
+~~~~~~~
 
-- Reaction timing ``adaptive`` (planned).
+- Reaction timing ``adaptive``.
 - Restart / checkpointing.

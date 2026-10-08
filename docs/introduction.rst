@@ -34,14 +34,28 @@ and chemical reactions within a single computational environment.
 Uncertainty Analysis
 ~~~~~~~~~~~~~~~~~~~~
 
-The code is designed to seamlessly integrate with PEST++ and PyEMU for:
+mf6rtm model files are stored in a folder, and the ``mf6rtm`` command
+runs it from that folder. PEST++ can therefore drive it the same way as a
+MODFLOW 6 model, for parameter estimation and uncertainty analysis, for
+example with pyEMU's ``PstFrom``. To expose the initial amounts of minerals and
+exchangers as files PEST++ can change, turn on external input before writing
+the model:
 
-* Uncertainty quantification
-* Sensitivity analysis
-* Parameter estimation
-* Model calibration
+.. code-block:: python
 
-This integration enables users to perform rigorous assessment of the impact of parameter and model uncertainties on reactive transport simulations.
+   model.set_config(reactive_externalio=True)
+   model.write_simulation()
+
+mf6rtm then writes one file per phase, species, and layer, named
+``{phase}.{species}.m0.layer{n}.txt`` (for example
+``kinetic_phases.Pyrite.m0.layer1.txt``), and rebuilds the PHREEQC input from
+them at the start of every run. The files hold one value per line; pyEMU
+expects nrow x ncol arrays, so reshape them before adding parameters.
+
+`Dizon36 <https://doi.org/10.5281/zenodo.23095990>`_ is a worked example: a
+3D field model history-matched with PEST++ IES, with pilot points on hydraulic
+conductivity, specific storage, and the initial amount of pyrite (see
+``setup_pest`` in its ``workflow.py``).
 
 Code Structure
 ------------
