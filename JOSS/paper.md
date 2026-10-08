@@ -49,7 +49,7 @@ bibliography: paper.bib
 
 # Summary
 
-Reactive transport modeling (RTM) plays a central role in characterizing and predicting the coupled behavior of groundwater flow, solute transport, and geochemical reactions in subsurface systems [@Prommer2019]. This paper presents MF6RTM (MODFLOW 6 Reactive Transport Module), a Python package that tightly couples MODFLOW 6 [@Langevin2024], the current generation of the MODFLOW groundwater flow and transport code family, with PHREEQC [@Parkhurst2013], a widely used geochemical modeling engine. The coupling is achieved through the MODFLOW API [@Hughes2022] and PhreeqcRM [@Parkhurst2015], which use the Basic Model Interface (BMI) version 2.0 [@Hutton2020] to enable efficient and consistent data exchange between hydraulic, transport, and geochemical components during simulation, without modifying the source code of either program.
+Reactive transport modeling (RTM) plays a central role in characterizing and predicting the coupled behavior of groundwater flow, solute transport, and geochemical reactions in subsurface systems [@Prommer2019]. This paper presents MF6RTM (MODFLOW 6 Reactive Transport Module), a Python package that couples MODFLOW 6 [@Langevin2024], the current generation of the MODFLOW groundwater flow and transport code family, with PHREEQC [@Parkhurst2013], a widely used geochemical modeling engine. The coupling is achieved through the MODFLOW API [@Hughes2022] and PhreeqcRM [@Parkhurst2015], which implement the Basic Model Interface (BMI) version 2.0 [@Hutton2020], extended in MODFLOW 6 by the eXtended Model Interface (XMI), to enable efficient and consistent data exchange between hydraulic, transport, and geochemical components during simulation, without modifying the source code of either program.
 
 The software provides a unified computational environment, accessible entirely from Python, for simulating a wide range of reactive transport processes, including contaminant migration, mineral dissolution and precipitation, and redox reactions. It supports the core features of both MODFLOW 6 and PHREEQC, two reference codes in groundwater and geochemical modeling, allowing users to represent complex hydrogeological conditions and geochemical systems and to add geochemical reactions to existing MODFLOW 6 models built with FloPy.
 
@@ -65,7 +65,7 @@ Previous PHREEQC couplings within the MODFLOW ecosystem include PHT3D for MODFLO
 
 # Statement of Need
 
-Despite the comprehensive ecosystem for reactive transport simulators, to our knowledge, no open-source software couples the current major versions of MODFLOW (v6 released in 2017) and PHREEQC (v3 released in 2013). This gap is significant because the MODFLOW family remains the dominant platform for groundwater flow and transport modeling in regulatory, consulting, and applied research contexts. Existing integrated RTM codes generally require users to rebuild models in alternative frameworks, limiting their adoption for MODFLOW-based workflows. Moreover, as MODFLOW 6 and PHREEQC continue to expand in capability and adoption, keeping a coupled code current requires an approach that does not depend on changes to either source code, and that preserves transparency, extensibility, and computational efficiency. MF6RTM addresses this need by providing a fully open, API-based integration between MODFLOW 6 and PHREEQC. 
+Despite the comprehensive ecosystem for reactive transport simulators, to our knowledge, no open-source software comprehensively couples the current major versions of MODFLOW (v6 released in 2017) and PHREEQC (v3 released in 2013). This gap is significant because the MODFLOW family remains the dominant platform for groundwater flow and transport modeling in regulatory, consulting, and applied research contexts. Existing integrated RTM codes generally require users to rebuild models in alternative frameworks, limiting their adoption for MODFLOW-based workflows. Moreover, as MODFLOW 6 and PHREEQC continue to expand in capability and adoption, keeping a coupled code current requires an approach that does not depend on changes to either source code, and that preserves transparency, extensibility, and computational efficiency. MF6RTM addresses this need by providing a fully open, API-based integration between MODFLOW 6 and PHREEQC. 
 
 In addition, there is a growing expectation that groundwater models, both reactive and non-reactive, explicitly represent uncertainty and support automated history-matching and optimization [@Langevin2012; @White2017]. Historically, most reactive transport workflows have relied on manual modification of input files to perform sensitivity analyses or history-matching, creating a substantial burden for modelers and limiting reproducibility. Because MF6RTM exposes the geochemical inputs as array files that can be modified in the same way as MODFLOW 6 inputs, reactive parameters such as mineral amounts in solid phase can be included directly in uncertainty analysis and multi-objective optimization. MF6RTM therefore brings reactive processes into the history-matching and uncertainty quantification workflows already applied to groundwater flow models.
 
@@ -94,7 +94,7 @@ mf6rtm
 
 ## Geochemical inputs
 
-In `mup3d`, a geochemical system is defined with one class per PHREEQC input block: `Solutions`, `EquilibriumPhases`, `ExchangePhases`, `KineticPhases` (including rate parameters), and `SurfacePhases`. Each class holds a dictionary of numbered PHREEQC definitions and an integer array, matching the model grid, that assigns a definition to each cell. `ChemStress` stores the solutions that are later assigned to MODFLOW 6 boundary conditions, such as wells (WEL) and constant-head boundaries (CHD). The `Mup3d` class assembles these blocks into a PHREEQC initialization file and runs the initial equilibration in PhreeqcRM. This determines the transported components, namely total H, O, charge, and elements defined in the solutions, and returns their initial concentrations as grid arrays in mol m$^{-3}$. These arrays, and the boundary concentrations of `ChemStress`, are then passed to FloPy to build one MODFLOW 6 groundwater transport (GWT) model per component. Alternatively, `Mup3d.from_mf6` takes an existing FloPy simulation with a single conservative tracer and replicates its transport model for each component. `Mup3d` finally writes the PHREEQC input, the PhreeqcRM YAML file, and the run configuration read by `simulation`.
+In `mup3d`, a geochemical system is defined with one class per PHREEQC input block: `Solutions`, `EquilibriumPhases`, `ExchangePhases`, `KineticPhases` (including rate parameters), and `SurfacePhases`. Each class holds a dictionary of numbered PHREEQC definitions and an integer array, matching the model grid, that assigns a definition to each cell. `ChemStress` stores the solutions that are later assigned to MODFLOW 6 boundary conditions, such as wells (WEL) and constant-head boundaries (CHD). The `Mup3d` class assembles these blocks into a PHREEQC initialization file and runs the initial equilibration in PhreeqcRM. This determines the transported components, namely total H, O, charge, and elements defined in the solutions, and returns their initial concentrations as grid arrays in mol m$^{-3}$. These arrays, and the boundary concentrations of `ChemStress`, are then passed to FloPy to build one MODFLOW 6 groundwater transport (GWT) model per component. Alternatively, `Mup3d.from_mf6` takes an existing FloPy simulation with a single conservative tracer and replicates its transport model for each component. `Mup3d` finally writes the PHREEQC input, the PhreeqcRM settings, and the run configuration read by `simulation`.
 
 ## Coupling and data exchange
 
@@ -116,29 +116,27 @@ from mf6rtm import mup3d
 solution = mup3d.Solutions(solutions)             # PHREEQC SOLUTION definitions
 solution.set_ic(1)                                # solution number per cell
 exchanger = mup3d.ExchangePhases(exchanger_dict)
-exchanger.set_ic(exchanger_ic)                    # four exchanger zones
+exchanger_ic = np.repeat([1, 2, 3, 4], 4)         # four zones of four cells
+exchanger.set_ic(exchanger_ic.reshape(nlay, nrow, ncol))
 
 # KINETICS block 1; rate laws are read from the RATES block of the database
 kin_phases = {1: {"Pyrite":   {"m0": 4e-2, "parms": [3.42, 0.0, 0.5, 0.0]},
-                  "Calcite":  {"m0": 4.0,  "parms": [1e2, 0.6]},
                   "Orgc_sed": {"m0": 10.0, "parms": [9.5e-10],
                                "formula": "Orgc_sed -1.0 C 1.0"}}}
 kinetics = mup3d.KineticPhases(kin_phases)
-kinetics.set_ic(1)
+kinetics.set_ic(1) # all cells use KINETIC block 1
 
 model = mup3d.Mup3d("ex5", solution, nlay, nrow, ncol)
 model.set_database("ex5.dat")
 model.set_exchange_phases(exchanger)
 model.set_phases(kinetics)
-model.set_phases(equilibriums)                    # goethite
-model.set_phases(surfaces)                        # CO2 sorption on goethite
 model.initialize()                                # initial equilibration in PhreeqcRM
 
 wellchem = mup3d.ChemStress("wel")
 wellchem.set_spd([2, 3])                          # injected solution per stress period
 model.set_chem_stress(wellchem)
 
-# FloPy then builds one GWT model per component c in model.components,
+# FloPy then builds one mf6 GWT model per component c in model.components,
 # with strt=model.sconc[c] and the well concentrations in model.wel.data
 model.run()
 ```
