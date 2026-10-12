@@ -1368,6 +1368,52 @@ def test06_decay(nstp, tsmult, prefix='test06'):
         err = np.abs(end.Tr.values[behind] / exact - 1)
         assert err.max() < 0.05, f"profile behind front off by {err.max():.2%}"
 
+def test07_no_react_cells(prefix='test07'):
+    '''Test 7: cells listed in no_react_cells are excluded from reactions but still transported.
+
+    A simple 1D simulation of a NaCl front in a column, performed in two runs: one with reactions 
+    enabled in all cells and one with the second half of the column cells set as no_react_cells. 
+    Since no reactions occur, the Cl- concentration profiles produced by MODFLOW should 
+    be identical in both runs. The results are read from Cl.ucn rather than sout.csv, 
+    because PhreeqcRM returns no selected-output value (1e30) for excluded cells.
+    '''
+    length_units, time_units = "meters", "days"
+    nper, nlay, nrow, ncol = 1, 1, 1, 20
+    delr, delc, top, botm = 1.0, 1.0, 1.0, 0.0
+    porosity = 0.25
+    q = 0.5                          # inflow (m3/d): pore velocity 2 m/d, front at 20 m after 10 d
+    dispersivity = 0.1               # m
+    tdis_rc = [(10.0, 20, 1.0)]
+
+    cl = {}
+    for label, no_react in [('all', None), ('half', list(range(ncol // 2, ncol)))]:
+        solution = mup3d.Solutions({'pH': [7.0, 7.0], 'Na': [1e-6, 1e-3], 'Cl': [1e-6, 1e-3]})
+        solution.set_ic(1)
+
+        model = mup3d.Mup3d(prefix, solution, nlay, nrow, ncol)
+        model.set_wd(os.path.join(cwd, f'{prefix}_{label}'))
+        model.set_database(os.path.join(databasews, 'phreeqc.dat'))
+        if no_react is not None:
+            model.config.solver['no_react_cells'] = no_react
+        model.initialize()
+
+        wellchem = mup3d.ChemStress('wel')
+        wellchem.set_spd([2])
+        model.set_chem_stress(wellchem)
+        wel_spd = [[(0, 0, 0), q] + list(model.wel.data[0])]
+        chdspd = [[(0, 0, ncol - 1), 1.0]]
+        strt = np.ones((nlay, nrow, ncol))
+
+        build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
+                                     top, botm, wel_spd, chdspd, porosity, 10.0, 10.0, dispersivity, 0, 1e-10,
+                                     strt, 1e-10, 1.0, 100, 300)
+        assert model.run(libname=lib_name)
+        ucn = flopy.utils.HeadFile(os.path.join(model.wd, 'Cl.ucn'), text='concentration')
+        cl[label] = ucn.get_data()[0, 0]
+
+    # Checks that the front has reached the no_react cells
+    assert cl['all'][ncol // 2] > 0.5 * cl['all'][0], "front did not reach the no_react cells"
+    np.testing.assert_allclose(cl['half'], cl['all'], rtol=1e-6)
 
 def test_mf6_bin():
     '''Test that mf6 binary is available'''
