@@ -47,6 +47,25 @@ class TestIsReactiveTstep:
         assert 'Unknown strategy' in capsys.readouterr().out
 
 
+class TestReplaceInactiveCells:
+    """Test suite for _replace_inactive_cells (cells skipped by PhreeqcRM)."""
+
+    def test_inactive_cells_replaced_with_current_conc(self):
+        """Check that inactive (skipped) cells are assigned the concentrations 
+        computed at the end of the current transport time step, 
+        rather than those from the previous time step.
+        """
+        mock = MagicMock()
+        mock.phreeqcbmi.ncomps = 2
+        mock.previous_iteration_conc = np.array([[1.0, 1.0, 1.0], [2.0, 2.0, 2.0]])
+        mock.current_iteration_conc = np.array([[1.5, 1.6, 1.7], [2.5, 2.6, 2.7]])
+        from_phreeqc = np.full((2, 3), 9.0)
+        diffmask = np.array([1, 0, 0])  # cell 0 active, cells 1 and 2 skipped
+        result = Mf6RTM._replace_inactive_cells(mock, from_phreeqc, diffmask)
+        np.testing.assert_allclose(result[:, 0], [9.0, 9.0])
+        np.testing.assert_allclose(result[:, 1:], mock.current_iteration_conc[:, 1:])
+
+
 class TestGetConcChangeMask:
     """Test suite for get_conc_change_mask (active/inactive cell mask)."""
 
