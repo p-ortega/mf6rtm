@@ -626,12 +626,18 @@ class Mf6RTM(object):
         mf6_conc_array: np.ndarray[tuple[int, int], np.float64],
         diffmask: np.ndarray[np.float64],
     ) -> np.ndarray[tuple[int, int], np.float64]:
-        """Function to replace inactive cells in the 2D concentration array"""
+        """Assign the transported concentrations to the cells skipped by PhreeqcRM
+
+        Cells where diffmask is 0 are not computed in PhreeqcRM during the current
+        time step, so their concentrations are set to the values at the end the current
+        MODFLOW transport step (current_iteration_conc). This applies both to cells
+        skipped because their concentrations remained unchanged during transport
+        and to no_react_cells, which are excluded from the reactions only, but still
+        need to be transported.
+        """
         # get inactive cells
-        inactive_idx = [
-            utils.get_indices(0, diffmask) for k in range(self.phreeqcbmi.ncomps)
-        ]
-        mf6_conc_array[:, inactive_idx] = self.previous_iteration_conc[:, inactive_idx]
+        inactive_idx = [utils.get_indices(0, diffmask) for k in range(self.phreeqcbmi.ncomps)]
+        mf6_conc_array[:, inactive_idx] = self.current_iteration_conc[:, inactive_idx]
         return mf6_conc_array
 
     def _transfer_array_to_phreeqcrm(self) -> np.ndarray[tuple[Any], np.float64]:
