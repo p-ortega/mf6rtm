@@ -1340,10 +1340,11 @@ def test06_decay(nstp, tsmult, react_every, prefix='test06'):
     model.set_postfix(os.path.join(dataws, f'{prefix}_postfix.phqr'))
     model.set_database(os.path.join(databasews, 'decay1d_datab.dat'))
     model.set_phases(kinetics)
-    # react on step 1 and every Nth step; step 1 is listed because user timing crashes without it
-    react_steps = [kstp for kstp in range(1, nstp + 1) if kstp == 1 or kstp % react_every == 0]
     if react_every > 1:
-        model.set_config(reactive={"timing": "user", "tsteps": [[1, kstp] for kstp in react_steps]})
+        model.set_config(reactive={"timing": "user",
+                                   "tsteps": [[1, kstp] for kstp in range(react_every, nstp + 1, react_every)]})
+    # config always adds step (1, 1) to the user list
+    react_steps = [kstp for kstp in range(1, nstp + 1) if kstp == 1 or kstp % react_every == 0]
     model.initialize()
 
     wellchem = mup3d.ChemStress('wel')

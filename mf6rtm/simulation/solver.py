@@ -348,6 +348,7 @@ class Mf6RTM(object):
         self.set_time_conversion()
 
         self.config = MF6RTMConfig.from_toml_file(self.wd/"mf6rtm.toml")
+        self.config._validate_config()
         self.reactive = self.config.reactive['enabled']
         # diffmask threshold: cells changing less than this skip reactions
         self.threshold = self.config.solver.get('threshold', self.threshold)
