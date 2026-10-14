@@ -788,7 +788,8 @@ class Mf6RTM(object):
                 if self.no_react_idx is not None:
                     self.diffmask[self.no_react_idx] = 0
                 # solve reactions
-                self.phreeqcbmi._solve_phreeqcrm(dt_react, diffmask=self.diffmask)
+                # ctime is still the start of this MF6 step, so ctime + dt is its end
+                self.phreeqcbmi._solve_phreeqcrm(dt_react, diffmask=self.diffmask, time=ctime + dt)
                 dt_react = 0.0
                 mf6_conc_m3_array = self._transfer_array_to_mf6()
 

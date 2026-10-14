@@ -4498,10 +4498,18 @@ PHASES
 Decay   # placeholder: mf6rtm only accepts kinetic names listed under PHASES
     Tr = Tr
     log_k -20
+TimeDecay   # placeholder, as above
+    Tr = Tr
+    log_k -20
 RATES
 Decay
 -start
 10 rate = -PARM(1) * TOT("Tr")
 20 SAVE rate * TIME * TOT("water")   # mol/kgw/s -> mol: PhreeqcRM cells hold ~0.997 kgw per L
+-end
+TimeDecay
+-start
+10 rate = -PARM(1) * TOTAL_TIME * TOT("Tr")
+20 SAVE rate * TIME * TOT("water")
 -end
 END
