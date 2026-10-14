@@ -1306,13 +1306,16 @@ def decay_analytical(x, t, v, D, k, C0, Ci):
     return C0 * A + Ci * np.exp(-k * t) * B
 
 
-@pytest.mark.parametrize("nstp, tsmult", [(60, 1.0), (20, 1.1)], ids=["const_dt", "tsmult"])
-def test06_decay(nstp, tsmult, prefix='test06'):
+@pytest.mark.parametrize("nstp, tsmult, react_every", [(60, 1.0, 1), (20, 1.1, 1), (60, 1.0, 5)],
+                         ids=["const_dt", "tsmult", "user_timing"])
+def test06_decay(nstp, tsmult, react_every, prefix='test06'):
     '''Test 6: 1D transport with first-order KINETICS decay vs. analytical solution.
 
     Checks the reaction time step handed to PhreeqcRM: ahead of the front the column stays
     uniform, transport does nothing, and the exact answer is Ci*exp(-k*t). This catches a
     lagged dt (previous step's dt) and skipping of kinetic cells by the reaction mask.
+    With react_every > 1 reactions run only every Nth step (timing='user'), which catches
+    kinetics integrating one step instead of the time since the last reaction.
     Same setup as benchmark/decay1d.
     '''
     length_units, time_units = "meters", "days"
@@ -1332,10 +1335,15 @@ def test06_decay(nstp, tsmult, prefix='test06'):
     kinetics.set_ic(1)
 
     model = mup3d.Mup3d(prefix, solution, nlay, nrow, ncol)
-    model.set_wd(os.path.join(cwd, f'{prefix}_{"const" if tsmult == 1.0 else "tsmult"}'))
+    model.set_wd(os.path.join(cwd, f'{prefix}_{"const" if tsmult == 1.0 else "tsmult"}'
+                                   f'{"" if react_every == 1 else "_user"}'))
     model.set_postfix(os.path.join(dataws, f'{prefix}_postfix.phqr'))
     model.set_database(os.path.join(databasews, 'decay1d_datab.dat'))
     model.set_phases(kinetics)
+    # react on step 1 and every Nth step; step 1 is listed because user timing crashes without it
+    react_steps = [kstp for kstp in range(1, nstp + 1) if kstp == 1 or kstp % react_every == 0]
+    if react_every > 1:
+        model.set_config(reactive={"timing": "user", "tsteps": [[1, kstp] for kstp in react_steps]})
     model.initialize()
 
     wellchem = mup3d.ChemStress('wel')
@@ -1353,6 +1361,8 @@ def test06_decay(nstp, tsmult, prefix='test06'):
     out = pd.read_csv(os.path.join(model.wd, 'sout.csv'))
     dts = np.full(nstp, T / nstp) if tsmult == 1.0 else T * (tsmult - 1) / (tsmult**nstp - 1) * tsmult**np.arange(nstp)
     out['t'] = np.repeat(np.cumsum(dts), ncol)       # end of each MF6 step
+    # sout holds stale values between reactions, so check reaction steps only
+    out = out[np.repeat(np.isin(np.arange(1, nstp + 1), react_steps), ncol)]
     x = (out.cell.values[:ncol] - 0.5) * delr
 
     # uniform zone (x = 9.05 m, front still >= 5 m away for t <= 40 d): exact Ci*exp(-k*t)
@@ -1366,7 +1376,8 @@ def test06_decay(nstp, tsmult, prefix='test06'):
         behind = x < 4.0
         exact = decay_analytical(x[behind], T, v, dispersivity * v, k, C0, Ci)
         err = np.abs(end.Tr.values[behind] / exact - 1)
-        assert err.max() < 0.05, f"profile behind front off by {err.max():.2%}"
+        tol = 0.05 if react_every == 1 else 0.15  # splitting error grows with the reaction interval (3.9 % -> 12.3 %)
+        assert err.max() < tol, f"profile behind front off by {err.max():.2%}"
 
 def test07_no_react_cells(prefix='test07'):
     '''Test 7: cells listed in no_react_cells are excluded from reactions but still transported.
