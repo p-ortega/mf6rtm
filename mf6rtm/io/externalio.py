@@ -8,10 +8,10 @@ import numpy as np
 import pandas as pd
 
 from mf6rtm.config import MF6RTMConfig
-from mf6rtm.io.yaml_reader import load_yaml_to_phreeqcrm
+from mf6rtm.io.yaml_reader import load_yaml_to_phreeqcrm, read_output_vars
 from mf6rtm.simulation.discretization import grid_dimensions, total_cells_in_grid
 from mf6rtm.simulation.mf6api import Mf6API
-from mf6rtm.utils import get_indices
+from mf6rtm.utils import get_indices, output_vars
 
 ic_position = {
     'equilibrium_phases': 1,
@@ -236,7 +236,10 @@ class Regenerator:
         # Clear contents of workers and utility
         input = "DELETE; -all"
         status = yamlphreeqcrm.YAMLRunString(True, False, True, input)
-        yamlphreeqcrm.YAMLAddOutputVars("AddOutputVars", "true")
+        with open(self.regenerated_phinp, 'r') as f:
+            script = f.read()
+        for option, definition in output_vars(script, read_output_vars(self.yamlfile)):
+            yamlphreeqcrm.YAMLAddOutputVars(option, definition)
 
         status = yamlphreeqcrm.YAMLFindComponents()
         status = yamlphreeqcrm.YAMLInitialPhreeqc2Module(ic1_flatten)

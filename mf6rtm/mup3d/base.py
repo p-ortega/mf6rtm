@@ -2031,14 +2031,18 @@ class Mup3d(object):
         input = "DELETE; -all"
         status = phreeqcrm_yaml.YAMLRunString(True, False, True, input)
         if self.postfix is None:
-            phreeqcrm_yaml.YAMLAddOutputVars("SolutionProperties", "true")
-            phreeqcrm_yaml.YAMLAddOutputVars("SolutionTotalMolalities", "true")
+            postfix_script = ""
+            fallback = [("SolutionProperties", "true"), ("SolutionTotalMolalities", "true")]
             if self.equilibrium_phases is not None:
-                phreeqcrm_yaml.YAMLAddOutputVars("EquilibriumPhases", "true")
+                fallback.append(("EquilibriumPhases", "true"))
             if self.kinetic_phases is not None:
-                phreeqcrm_yaml.YAMLAddOutputVars("KineticReactants", "true")
+                fallback.append(("KineticReactants", "true"))
         else:
-            phreeqcrm_yaml.YAMLAddOutputVars("AddOutputVars", "true")
+            with open(self.postfix, 'r') as f:
+                postfix_script = f.read()
+            fallback = []
+        for option, definition in utils.output_vars(postfix_script, fallback):
+            phreeqcrm_yaml.YAMLAddOutputVars(option, definition)
 
         status = phreeqcrm_yaml.YAMLFindComponents()
         # convert ic1 to a list

@@ -557,3 +557,32 @@ class TestRegeneratorFileIO:
         data = reg.read_external_files()
         assert data["equilibrium_phases"]["Calcite"] is None
         assert "Warning" in capsys.readouterr().out
+
+
+class TestReadOutputVars:
+    def test_reads_entries_in_order(self, tmp_path):
+        import phreeqcrm
+        from mf6rtm.io.yaml_reader import read_output_vars
+
+        yrm = phreeqcrm.YAMLPhreeqcRM()
+        yrm.YAMLSetGridCellCount(2)
+        yrm.YAMLAddOutputVars("SolutionProperties", "true")
+        yrm.YAMLAddOutputVars("KineticReactants", "false")
+        fname = str(tmp_path / "rm.yaml")
+        yrm.WriteYAMLDoc(fname)
+
+        assert read_output_vars(fname) == [
+            ("SolutionProperties", "true"),
+            ("KineticReactants", "false"),
+        ]
+
+    def test_empty_when_yaml_has_no_entries(self, tmp_path):
+        import phreeqcrm
+        from mf6rtm.io.yaml_reader import read_output_vars
+
+        yrm = phreeqcrm.YAMLPhreeqcRM()
+        yrm.YAMLSetGridCellCount(2)
+        fname = str(tmp_path / "rm.yaml")
+        yrm.WriteYAMLDoc(fname)
+
+        assert read_output_vars(fname) == []
