@@ -146,6 +146,12 @@ class TestMF6RTMConfigValidateTsteps:
         with pytest.raises(ValueError):
             cfg._validate_tsteps()
 
+    def test_first_tstep_added_and_saved(self):
+        """(1, 1) is prepended and the list is stored as [kper, kstp] lists, as the solver compares."""
+        cfg = MF6RTMConfig(reactive={'timing': 'user', 'tsteps': [(1, 5), [1, 10]]})
+        cfg._validate_tsteps()
+        assert cfg.reactive['tsteps'] == [[1, 1], [1, 5], [1, 10]]
+
 
 class TestMF6RTMConfigOutputSection:
     """Tests for the [output] section round-trip."""

@@ -89,10 +89,12 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         dest[0] = value
         x = self.set_value(var_name, dest)
 
-    def _solve_phreeqcrm(self, dt, diffmask):
+    def _solve_phreeqcrm(self, dt, diffmask, time):
         """Function to solve phreeqc bmi"""
         # status = phreeqc_rm.SetTemperature([self.init_temp[0]] * self.ncpl)
         # status = phreeqc_rm.SetPressure([2.0] * nxyz)
+        # PhreeqcRM takes time as the end of the interval: TOTAL_TIME runs over [time - dt, time]
+        self.SetTime(time * 1.0 / self.GetTimeConversion())
         self.SetTimeStep(dt * 1.0 / self.GetTimeConversion())
 
         if self.sat_now is not None:

@@ -167,10 +167,11 @@ class MF6RTMConfig:
                 raise ValueError(f"tsteps[{i}] must contain integers")
             if kper < 1 or kstp < 1:
                 raise ValueError(f"tsteps[{i}]: kper and kstp must be 1-indexed")
-            normalized.append((kper, kstp))  # force into tuple
+            normalized.append([kper, kstp])  # lists, since the solver checks [kper, kstp] in tsteps
         # Ensure (1, 1) is included
-        if (1, 1) not in normalized:
-            normalized.insert(0, (1, 1))
+        if self.reactive['timing'] == 'user' and [1, 1] not in normalized:
+            normalized.insert(0, [1, 1])
+        self.reactive['tsteps'] = normalized
 
 
     def get_tsteps_for_period(self, kper: int) -> List[int]:

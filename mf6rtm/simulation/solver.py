@@ -348,6 +348,7 @@ class Mf6RTM(object):
         self.set_time_conversion()
 
         self.config = MF6RTMConfig.from_toml_file(self.wd/"mf6rtm.toml")
+        self.config._validate_config()
         self.reactive = self.config.reactive['enabled']
         # diffmask threshold: cells changing less than this skip reactions
         self.threshold = self.config.solver.get('threshold', self.threshold)
@@ -737,6 +738,8 @@ class Mf6RTM(object):
         print("Starting Solution at {0}".format(sim_start.strftime(DT_FMT)))
         ctime = self._set_ctime()
         etime = self._set_etime()
+        # time since the last reaction step, so kinetics cover skipped steps when timing is 'user'
+        dt_react = 0.0
         while ctime < etime:
             # self iteration counter
             self.set_kiter()
@@ -748,6 +751,7 @@ class Mf6RTM(object):
             # the simple fix is to call prepare time step with any argument and _set_time_step() later (bad name by the way (maybe get time step?)
             self.mf6api.prepare_time_step(0.0)
             dt = self._set_time_step()
+            dt_react += dt
             self.mf6api._solve_gwt()
 
             # get saturation
@@ -784,7 +788,9 @@ class Mf6RTM(object):
                 if self.no_react_idx is not None:
                     self.diffmask[self.no_react_idx] = 0
                 # solve reactions
-                self.phreeqcbmi._solve_phreeqcrm(dt, diffmask=self.diffmask)
+                # ctime is still the start of this MF6 step, so ctime + dt is its end
+                self.phreeqcbmi._solve_phreeqcrm(dt_react, diffmask=self.diffmask, time=ctime + dt)
+                dt_react = 0.0
                 mf6_conc_m3_array = self._transfer_array_to_mf6()
 
                 self._set_conc_at_previous_kstep(mf6_conc_m3_array)
