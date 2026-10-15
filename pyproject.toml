@@ -236,6 +236,7 @@ test = { cmd = "pytest -v", depends-on = ["install-modflow", "install-benchmark-
 test-cov = { cmd = "pytest -v --cov=mf6rtm --cov-report=term-missing", depends-on = ["install-modflow", "install-benchmark-bins"] }
 coveralls = { cmd = "coveralls --service=github", depends-on = ["test-cov"] }
 lint = { cmd = "ruff check ." }
+speedtest = { cmd = "python benchmark/speed/run.py", depends-on = ["install-benchmark-bins"], description = "Time ex7, ex8 and a scaled-up ex5 under the previous release and the current code. Pass --previous X.Y.Z." }
 format = { cmd = "ruff format ." }
 clean = { cmd = "rm -rf .pixi/tmp .pytest_cache .coverage htmlcov" }
 exec-tutorials = { cmd = "jupytext --to notebook --execute docs/tutorials/*.py", depends-on = ["install-modflow", "install-gridgen", "install-benchmark-bins"] }
