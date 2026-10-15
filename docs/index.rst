@@ -27,6 +27,7 @@ single Python interface for simulating reactive transport in the subsurface.
    introduction
    theory
    supported_features
+   performance
    tutorials/index
    api/modules
    development
