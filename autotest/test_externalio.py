@@ -6,10 +6,12 @@ import tempfile
 
 import numpy as np
 import pandas as pd
+import phreeqcrm
 import pytest
 from unittest.mock import MagicMock, patch
 
 from mf6rtm.io.externalio import SelectedOutput, Regenerator
+from mf6rtm.io.yaml_reader import read_output_vars
 
 
 # Shared fixtures
@@ -560,10 +562,10 @@ class TestRegeneratorFileIO:
 
 
 class TestReadOutputVars:
-    def test_reads_entries_in_order(self, tmp_path):
-        import phreeqcrm
-        from mf6rtm.io.yaml_reader import read_output_vars
+    """read_output_vars must return the YAML's AddOutputVars entries unchanged."""
 
+    def test_reads_entries_in_order(self, tmp_path):
+        """Entries come back in file order with their own true/false values."""
         yrm = phreeqcrm.YAMLPhreeqcRM()
         yrm.YAMLSetGridCellCount(2)
         yrm.YAMLAddOutputVars("SolutionProperties", "true")
@@ -577,9 +579,7 @@ class TestReadOutputVars:
         ]
 
     def test_empty_when_yaml_has_no_entries(self, tmp_path):
-        import phreeqcrm
-        from mf6rtm.io.yaml_reader import read_output_vars
-
+        """A YAML without AddOutputVars gives an empty list, not an error."""
         yrm = phreeqcrm.YAMLPhreeqcRM()
         yrm.YAMLSetGridCellCount(2)
         fname = str(tmp_path / "rm.yaml")

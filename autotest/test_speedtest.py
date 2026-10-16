@@ -1,10 +1,14 @@
 import os
+import shutil
+import subprocess
 import sys
 
 import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "benchmark", "speed"))
 
+import run as speed_run  # noqa: E402
+import timed_run  # noqa: E402
 import timing  # noqa: E402
 
 OLD = {"total": 100.0, "chemistry": 70.0, "transport": 20.0, "cells": 400, "steps": 164}
@@ -66,9 +70,6 @@ class TestFormatTable:
         assert "Linux x86_64, Python 3.13" in md
 
 
-import timed_run  # noqa: E402
-
-
 def _nb(*cells):
     return {"cells": [{"cell_type": "code", "source": c} for c in cells]}
 
@@ -127,10 +128,6 @@ class TestStopwatch:
         assert sw.times["chemistry"] is None
 
 
-import shutil  # noqa: E402
-import subprocess  # noqa: E402
-
-
 def test_timed_run_on_ex5(tmp_path):
     bench = os.path.join(os.path.dirname(__file__), "..", "benchmark")
     work = tmp_path / "benchmark"
@@ -142,9 +139,6 @@ def test_timed_run_on_ex5(tmp_path):
     assert r is not None, out.stderr[-2000:]
     assert r["cells"] == 16 and r["steps"] == 164
     assert 0 < r["chemistry"] + r["transport"] <= r["total"]
-
-
-import run as speed_run  # noqa: E402
 
 
 def test_run_once_returns_none_on_crash(tmp_path):
