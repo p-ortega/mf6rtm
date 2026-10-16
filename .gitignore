@@ -225,3 +225,8 @@ docs/_build/
 /autotest/test06_const/
 /autotest/test06_tsmult/
 benchmark/sandbox/
+
+# release speed test
+.speedtest/
+speedtest.md
+speedtest.log
