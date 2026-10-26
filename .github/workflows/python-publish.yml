@@ -20,8 +20,9 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write   # create + push the release tag
-  id-token: write   # PyPI Trusted Publishing (OIDC)
+  contents: write       # create + push the release tag
+  id-token: write       # PyPI Trusted Publishing (OIDC)
+  pull-requests: write  # open the main -> develop merge-back PR
 
 jobs:
   release:
@@ -87,3 +88,30 @@ jobs:
             --target "$(git rev-parse HEAD)" \
             --title "${{ inputs.version }}" \
             --generate-notes
+
+  # Keeps develop holding everything on main, so the next develop -> main has no conflicts.
+  merge-back:
+    needs: release
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Open a main -> develop PR if develop is missing commits from main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git fetch origin develop
+          if [ "$(git rev-list --count origin/develop..origin/main)" -eq 0 ]; then
+            echo "develop already has everything on main"
+            exit 0
+          fi
+          if [ -n "$(gh pr list --base develop --head main --state open --json number --jq '.[].number')" ]; then
+            echo "a main -> develop PR is already open"
+            exit 0
+          fi
+          gh pr create --base develop --head main \
+            --title "Merge main back into develop after ${{ inputs.version }}" \
+            --body "Brings the ${{ inputs.version }} release and any hotfixes on main back into develop."
