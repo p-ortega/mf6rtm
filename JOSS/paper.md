@@ -18,11 +18,11 @@ authors:
     email: aaufdenkampe@limno.com
   - name: Andres Prieto-Estrada
     orcid: 0000-0002-8984-1177
-    affiliation: "4"
+    affiliation: "3"
     email: aestrada@intera.com
   - name: Allan Foster
     orcid: 0000-0002-3746-4226
-    affiliation: "3"
+    affiliation: "4"
     email: afoster@intera.com
   - name: Paul Tomasula
     orcid: 0009-0004-8120-5936
@@ -37,9 +37,9 @@ affiliations:
    index: 1
  - name: LimnoTech, Oakdale, MN, USA
    index: 2
- - name: INTERA INC., Denver, CO, USA
-   index: 3
  - name: INTERA INC., Houston, TX, USA
+   index: 3
+ - name: INTERA INC., Denver, CO, USA
    index: 4
  - name: Coastal and Hydraulics Lab, Engineer Research and Development Center, Vicksburg, MS, USA
    index: 5
@@ -69,7 +69,7 @@ Groundwater models are also increasingly expected to represent uncertainty expli
 
 Four design requirements guided the architecture: (i) reproducing established reactive transport benchmarks and agreeing with PHT3D and PHREEQC; (ii) supporting programmatic model construction, as MODFLOW workflows increasingly rely on FloPy [@Bakker2016; @Hughes2024]; (iii) integrating with uncertainty analysis frameworks; and (iv) separating model construction from execution, so that simulation partners like PEST++ can run a model without the Python objects used to build it.
 
-MF6RTM is therefore organized into two main modules. `mup3d` (Model Utility Preprocessor 3D) plays for MF6RTM a role similar to that of FloPy for MODFLOW 6: it constructs the geochemical inputs and the arrays needed to build the MODFLOW 6 files, and is used once, when the model is built. `simulation` reads the files written by `mup3d` and MODFLOW 6 and coordinates initialization, time stepping, and data exchange through the APIs, from Python or from the `mf6rtm` command line. Supporting modules handle array input/output (`io`), run configuration (`config`), and shared utilities (`utils`):
+MF6RTM is therefore organized into two main modules. `mup3d` (Model Utility Preprocessor 3D) plays for MF6RTM a role similar to that of `FloPy` for MODFLOW 6: it constructs the geochemical inputs and the arrays needed to build the MODFLOW 6 files, and is used once, when the model is built. `simulation` reads the files written by `mup3d` and MODFLOW 6 and coordinates initialization, time stepping, and data exchange through the APIs, from Python or from the `mf6rtm` command line. Supporting modules handle array input/output (`io`), run configuration (`config`), and shared utilities (`utils`):
 
 ```
 mf6rtm
