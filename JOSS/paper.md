@@ -51,7 +51,7 @@ bibliography: paper.bib
 
 Reactive transport modeling (RTM) plays a central role in predicting the coupled behavior of groundwater flow, solute transport, and geochemical reactions in subsurface systems [@Prommer2019]. This papers present MF6RTM (MODFLOW 6 Reactive Transport Module), a Python package that couples MODFLOW 6 [@Langevin2024] with the geochemical code PHREEQC-3[@Parkhurst2013]. The coupling is achieved through the MODFLOW API [@Hughes2022] and PhreeqcRM [@Parkhurst2015], which implement the Basic Model Interface (BMI) version 2.0 [@Hutton2020], extended in MODFLOW 6 by the eXtended Model Interface (XMI), without modifying the source code of either program.
 
-MF6RTM supports the core features of both codes, from contaminant migration to mineral dissolution and precipitation and redox reactions, and can add geochemical reactions to existing MODFLOW 6 models built with FloPy. Chemistry-related inputs are written as external array files, so that reactive transport models can be built, run, and history-matched within a single Python workflow, with the tools already used for flow models such as PEST++ [@White2018] and pyEMU [@White2016].
+MF6RTM supports the core features of both codes, from contaminant migration to mineral dissolution and precipitation and redox reactions, and can add geochemical reactions to existing MODFLOW 6 models built with FloPy. Chemistry-related inputs are written as external array files, so that reactive transport models can be built, run, and history-matched within a single Python workflow, with the tools already used for flow models such as `PEST++` [@White2018] and `pyEMU` [@White2016].
 
 # State of the Field
 
@@ -141,7 +141,7 @@ MF6RTM closely reproduces the PHT3D simulation for all major ions, pH, alkalinit
 
 # Research Impact Statement
 
-The main contribution of MF6RTM is to make reactive transport modeling with MODFLOW 6 and PHREEQC accessible from Python through their APIs. MF6RTM has been applied to a field-scale 3D model of a deep-well injection trial, including a PEST++ setup for history matching and uncertainty analysis [@Dizon36], and to a synthetic aquifer storage and recovery case on a 3D unstructured grid (https://github.com/LimnoTech/mf6rtm-asr-example).
+The main contribution of MF6RTM is to make reactive transport modeling with MODFLOW 6 and PHREEQC accessible from Python through their APIs. MF6RTM has been applied to a field-scale 3D model of a deep-well injection trial, including a PEST++ setup for history matching and uncertainty analysis [@Dizon36], and to a synthetic aquifer storage and recovery case on a 3D unstructured grid ([MF6RTM Example](https://github.com/LimnoTech/mf6rtm-asr-example)).
 
 # AI Usage Disclosure
 
