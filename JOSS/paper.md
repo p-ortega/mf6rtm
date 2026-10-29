@@ -31,7 +31,7 @@ authors:
   - name: Lauren Mancewicz
     orcid: 0009-0002-9622-5636
     affiliation: "5"
-    email: lauren.k.mancewicz@usace.army.mil
+    email: lauren.k.mancewicz@erdc.dren.mil
 affiliations:
  - name: INTERA Geosciences, Perth, WA, Australia
    index: 1
