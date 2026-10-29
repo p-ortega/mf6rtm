@@ -2,20 +2,20 @@
 phreeqcrm, along with functions to run the coupled simulations.
 """
 import os
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
 # import warnings
 import numpy as np
-
-from datetime import datetime
-from typing import Any
-from pathlib import Path
-
 from PIL import Image
+
+from mf6rtm import utils
+from mf6rtm.config import MF6RTMConfig
+from mf6rtm.io.externalio import SelectedOutput
+from mf6rtm.simulation.discretization import total_cells_in_grid
 from mf6rtm.simulation.mf6api import Mf6API
 from mf6rtm.simulation.phreeqcbmi import PhreeqcBMI
-from mf6rtm.simulation.discretization import total_cells_in_grid
-from mf6rtm.config.config import MF6RTMConfig
-from mf6rtm.io.externalio import SelectedOutput
-from mf6rtm.utils import utils
 
 # warnings.filterwarnings("ignore")
 # warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -348,6 +348,7 @@ class Mf6RTM(object):
         self.set_time_conversion()
 
         self.config = MF6RTMConfig.from_toml_file(self.wd/"mf6rtm.toml")
+        self.config._validate_config()
         self.reactive = self.config.reactive['enabled']
         # diffmask threshold: cells changing less than this skip reactions
         self.threshold = self.config.solver.get('threshold', self.threshold)
@@ -416,7 +417,7 @@ class Mf6RTM(object):
     def print_warning_user_active(self):
         """Print a warning if reaction timing is set to 'user'."""
         if self.config.reactive['timing'] == 'user':
-            print(f"WARNING: Running reaction only in the following periods and time steps:")
+            print("WARNING: Running reaction only in the following periods and time steps:")
             for period, timestep in self.config.reactive['tsteps']:
                 print(f"  Period {period}, Time step {timestep}")
         else:
@@ -626,12 +627,18 @@ class Mf6RTM(object):
         mf6_conc_array: np.ndarray[tuple[int, int], np.float64],
         diffmask: np.ndarray[np.float64],
     ) -> np.ndarray[tuple[int, int], np.float64]:
-        """Function to replace inactive cells in the 2D concentration array"""
+        """Assign the transported concentrations to the cells skipped by PhreeqcRM
+
+        Cells where diffmask is 0 are not computed in PhreeqcRM during the current
+        time step, so their concentrations are set to the values at the end the current
+        MODFLOW transport step (current_iteration_conc). This applies both to cells
+        skipped because their concentrations remained unchanged during transport
+        and to no_react_cells, which are excluded from the reactions only, but still
+        need to be transported.
+        """
         # get inactive cells
-        inactive_idx = [
-            utils.get_indices(0, diffmask) for k in range(self.phreeqcbmi.ncomps)
-        ]
-        mf6_conc_array[:, inactive_idx] = self.previous_iteration_conc[:, inactive_idx]
+        inactive_idx = [utils.get_indices(0, diffmask) for k in range(self.phreeqcbmi.ncomps)]
+        mf6_conc_array[:, inactive_idx] = self.current_iteration_conc[:, inactive_idx]
         return mf6_conc_array
 
     def _transfer_array_to_phreeqcrm(self) -> np.ndarray[tuple[Any], np.float64]:
@@ -731,12 +738,20 @@ class Mf6RTM(object):
         print("Starting Solution at {0}".format(sim_start.strftime(DT_FMT)))
         ctime = self._set_ctime()
         etime = self._set_etime()
+        # time since the last reaction step, so kinetics cover skipped steps when timing is 'user'
+        dt_react = 0.0
         while ctime < etime:
             # self iteration counter
             self.set_kiter()
             # length of the current solve time
+            # JOSS - Review: prepare time step ignores the argument.
+            # JOSS - Review: _set_time_step was incorrectly fetching the previous times step (and 0 as the first time step)
+            # this generated a bug in the reaction step when we have a kinetic reaction.
+            # checked with new benchmark decay1d that compares the model with the 1D analytical solution.
+            # the simple fix is to call prepare time step with any argument and _set_time_step() later (bad name by the way (maybe get time step?)
+            self.mf6api.prepare_time_step(0.0)
             dt = self._set_time_step()
-            self.mf6api.prepare_time_step(dt)
+            dt_react += dt
             self.mf6api._solve_gwt()
 
             # get saturation
@@ -757,8 +772,11 @@ class Mf6RTM(object):
                         add_var_names=self.selected_output.feat_var,
                         fname='_features.csv'
                     )
-
-                if ctime == 0.0:
+                # JOSS Review: there was a bug when transport did not change concentrations.
+                # The kinetic block may still be relevant and needs to be computed.
+                # Adding a check if there is a KINETIC block defined fixes the error.
+                if ctime == 0.0 or self.phreeqcbmi.GetKineticReactionsCount() > 0:
+                    # kinetics react with time even where transport changed nothing
                     self.diffmask = np.ones(self.nxyz)
                 else:
                     diffmask = get_conc_change_mask(
@@ -770,7 +788,9 @@ class Mf6RTM(object):
                 if self.no_react_idx is not None:
                     self.diffmask[self.no_react_idx] = 0
                 # solve reactions
-                self.phreeqcbmi._solve_phreeqcrm(dt, diffmask=self.diffmask)
+                # ctime is still the start of this MF6 step, so ctime + dt is its end
+                self.phreeqcbmi._solve_phreeqcrm(dt_react, diffmask=self.diffmask, time=ctime + dt)
+                dt_react = 0.0
                 mf6_conc_m3_array = self._transfer_array_to_mf6()
 
                 self._set_conc_at_previous_kstep(mf6_conc_m3_array)
@@ -803,7 +823,7 @@ class Mf6RTM(object):
             success = True
             # print(mrbeaker())
             print(
-                "\nMODEL RUN FINISHED BUT CHECK THE RESULTS\n"
+                "\nMODEL RUN FINISHED\n" #TODO: JOSS reviewer: removed "CHECK THE RESULTS".
             )
         except:
             print("SOMETHING WENT WRONG. BUMMER\n")

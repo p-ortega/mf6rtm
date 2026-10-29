@@ -12,6 +12,14 @@ mf6rtm.io.externalio module
    :undoc-members:
    :show-inheritance:
 
+mf6rtm.io.yaml\_reader module
+-----------------------------
+
+.. automodule:: mf6rtm.io.yaml_reader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

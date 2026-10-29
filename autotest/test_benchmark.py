@@ -688,7 +688,7 @@ def test01(request, prefix = 'test01'):
     mf6sim = build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
-    run_test(prefix, model, request=request, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name, treshold = 0.1)
 
     return 
 
@@ -804,7 +804,7 @@ def test02(request, prefix = 'test02'):
     mf6sim = build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
-    run_test(prefix, model, request=request, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name, treshold = 0.1)
 
 def test03(request, prefix = 'test03'):
     length_units = "meters"
@@ -913,7 +913,7 @@ def test03(request, prefix = 'test03'):
                                  top, botm, chdspd, prsity, k11, k33, dispersivity, disp_tr_vert,icelltype, hclose,
                                  strt, rclose, relax, nouter, ninner)
     
-    run_test(prefix, model, request=request, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name, treshold = 0.1)
 
 
 def test04(request, prefix = 'test04'):
@@ -1013,7 +1013,7 @@ def test04(request, prefix = 'test04'):
                                     top, botm, wel_spd, chdspd, prsity, k11, k33, dispersivity, icelltype, hclose, 
                                     strt, rclose, relax, nouter, ninner)
     
-    run_test(prefix, model, request=request, libname=lib_name)
+    run_test(prefix, model, request=request, libname=lib_name, treshold = 0.02)
 
 
 
@@ -1124,7 +1124,7 @@ def test05(request, prefix = 'test05'):
 
     #surfaces
     surfdic = utils.surfaces_csv_to_dict(os.path.join(dataws,f"{prefix}_surfaces.csv"))
-    surfaces = mup3d.Surfaces(surfdic)
+    surfaces = mup3d.SurfacePhases(surfdic)
     surfaces.set_ic(1)
     # surfaces.set_options(['no_edl'])
 
@@ -1253,7 +1253,7 @@ def test05_from_mf6(request, prefix = 'test05'):
     equilibriums.set_ic(1)
 
     surfdic = utils.surfaces_csv_to_dict(os.path.join(dataws, f"{prefix}_surfaces.csv"))
-    surfaces = mup3d.Surfaces(surfdic)
+    surfaces = mup3d.SurfacePhases(surfdic)
     surfaces.set_ic(1)
 
     # transport-first flopy sim: GWF + single conservative tracer GWT
@@ -1284,6 +1284,196 @@ def test05_from_mf6(request, prefix = 'test05'):
 
     # compare against the SAME benchmark as test05
     run_test(prefix, model, request=request, test_cli=True, libname=lib_name, treshold=0.02)
+
+
+def decay_analytical(x, t, v, D, k, C0, Ci):
+    '''van Genuchten & Alves (1982): semi-infinite column, flux inlet at C0, initial Ci,
+    first-order decay k.'''
+    from scipy.special import erfc, erfcx
+
+    def e_erfc(a, z):  # exp(a) * erfc(z) without overflow
+        z = np.asarray(z, float)
+        return np.where(z > 0, np.exp(a - z**2) * erfcx(np.abs(z)), np.exp(a) * erfc(z))
+
+    s = 2 * np.sqrt(D * t)
+    u = v * np.sqrt(1 + 4 * k * D / v**2)
+    A = (v / (v + u) * e_erfc((v - u) * x / (2 * D), (x - u * t) / s)
+         + v / (v - u) * e_erfc((v + u) * x / (2 * D), (x + u * t) / s)
+         + v**2 / (2 * k * D) * e_erfc(v * x / D - k * t, (x + v * t) / s))
+    B = (1 - 0.5 * erfc((x - v * t) / s)
+         - np.sqrt(v**2 * t / (np.pi * D)) * np.exp(-(x - v * t)**2 / (4 * D * t))
+         + 0.5 * (1 + v * x / D + v**2 * t / D) * e_erfc(v * x / D, (x + v * t) / s))
+    return C0 * A + Ci * np.exp(-k * t) * B
+
+
+@pytest.mark.parametrize("nstp, tsmult, react_every", [(60, 1.0, 1), (20, 1.1, 1), (60, 1.0, 5)],
+                         ids=["const_dt", "tsmult", "user_timing"])
+def test06_decay(nstp, tsmult, react_every, prefix='test06'):
+    '''Test 6: 1D transport with first-order KINETICS decay vs. analytical solution.
+
+    Checks the reaction time step handed to PhreeqcRM: ahead of the front the column stays
+    uniform, transport does nothing, and the exact answer is Ci*exp(-k*t). This catches a
+    lagged dt (previous step's dt) and skipping of kinetic cells by the reaction mask.
+    With react_every > 1 reactions run only every Nth step (timing='user'), which catches
+    kinetics integrating one step instead of the time since the last reaction.
+    Same setup as benchmark/decay1d.
+    '''
+    length_units, time_units = "meters", "days"
+    nper, nlay, nrow, ncol = 1, 1, 1, 100
+    delr, delc, top, botm = 0.1, 1.0, 1.0, 0.0
+    prsity = 0.3
+    v = 0.1                          # pore velocity (m/d)
+    dispersivity = 0.05              # m
+    k = 0.03                         # first-order decay (1/d)
+    C0, Ci = 1e-3, 5e-4              # inflow / initial Tr (mol/kgw)
+    T = 60.0                         # d
+    tdis_rc = [(T, nstp, tsmult)]
+
+    solution = mup3d.Solutions({'pH': [7.0, 7.0], 'Na': [1e-3, 1e-3], 'Cl': [1e-3, 1e-3], 'Tr': [Ci, C0]})
+    solution.set_ic(1)
+    kinetics = mup3d.KineticPhases({1: {'Decay': {'m0': 1.0, 'parms': [k / 86400], 'formula': 'Tr 1'}}})
+    kinetics.set_ic(1)
+
+    model = mup3d.Mup3d(prefix, solution, nlay, nrow, ncol)
+    model.set_wd(os.path.join(cwd, f'{prefix}_{"const" if tsmult == 1.0 else "tsmult"}'
+                                   f'{"" if react_every == 1 else "_user"}'))
+    model.set_postfix(os.path.join(dataws, f'{prefix}_postfix.phqr'))
+    model.set_database(os.path.join(databasews, 'decay1d_datab.dat'))
+    model.set_phases(kinetics)
+    if react_every > 1:
+        model.set_config(reactive={"timing": "user",
+                                   "tsteps": [[1, kstp] for kstp in range(react_every, nstp + 1, react_every)]})
+    # config always adds step (1, 1) to the user list
+    react_steps = [kstp for kstp in range(1, nstp + 1) if kstp == 1 or kstp % react_every == 0]
+    model.initialize()
+
+    wellchem = mup3d.ChemStress('wel')
+    wellchem.set_spd([2])
+    model.set_chem_stress(wellchem)
+    wel_spd = [[(0, 0, 0), v * prsity] + list(model.wel.data[0])]
+    chdspd = [[(0, 0, ncol - 1), 1.0]]
+    strt = np.ones((nlay, nrow, ncol))
+
+    build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
+                                 top, botm, wel_spd, chdspd, prsity, 1.0, 1.0, dispersivity, 0, 1e-10,
+                                 strt, 1e-10, 1.0, 100, 300)
+    assert model.run(libname=lib_name)
+
+    out = pd.read_csv(os.path.join(model.wd, 'sout.csv'))
+    dts = np.full(nstp, T / nstp) if tsmult == 1.0 else T * (tsmult - 1) / (tsmult**nstp - 1) * tsmult**np.arange(nstp)
+    out['t'] = np.repeat(np.cumsum(dts), ncol)       # end of each MF6 step
+    # sout holds stale values between reactions, so check reaction steps only
+    out = out[np.repeat(np.isin(np.arange(1, nstp + 1), react_steps), ncol)]
+    x = (out.cell.values[:ncol] - 0.5) * delr
+
+    # uniform zone (x = 9.05 m, front still >= 5 m away for t <= 40 d): exact Ci*exp(-k*t)
+    s = out[(out.cell == 91) & (out.t <= 40.0)]
+    err = np.abs(s.Tr / (Ci * np.exp(-k * s.t)) - 1)
+    assert err.max() < 1e-3, f"uniform-zone decay off by {err.max():.2%}"
+
+    # behind the front at T: operator-splitting error ~ k*dt/2 (PHREEQC TRANSPORT: 1.5 %)
+    if tsmult == 1.0:
+        end = out[np.isclose(out.t, T)].sort_values('cell')
+        behind = x < 4.0
+        exact = decay_analytical(x[behind], T, v, dispersivity * v, k, C0, Ci)
+        err = np.abs(end.Tr.values[behind] / exact - 1)
+        tol = 0.05 if react_every == 1 else 0.15  # splitting error grows with the reaction interval (3.9 % -> 12.3 %)
+        assert err.max() < tol, f"profile behind front off by {err.max():.2%}"
+
+@pytest.mark.parametrize("react_every", [1, 5], ids=["all", "user_timing"])
+def test06_total_time(react_every, prefix='test06'):
+    '''Test 6b: a rate that depends on TOTAL_TIME, dC/dt = -a*t*C.
+
+    Ahead of the inflow front transport does nothing, so the exact answer is Ci*exp(-a*t**2/2).
+    This checks that PhreeqcRM's clock follows MF6 time, also when reactions skip steps.
+    '''
+    nper, nlay, nrow, ncol = 1, 1, 1, 100
+    prsity, v = 0.3, 0.1
+    a = 1e-3                         # 1/d2
+    Ci = 5e-4
+    T, nstp = 60.0, 60
+
+    solution = mup3d.Solutions({'pH': [7.0, 7.0], 'Na': [1e-3, 1e-3], 'Cl': [1e-3, 1e-3], 'Tr': [Ci, Ci]})
+    solution.set_ic(1)
+    kinetics = mup3d.KineticPhases({1: {'TimeDecay': {'m0': 1.0, 'parms': [a / 86400**2], 'formula': 'Tr 1'}}})
+    kinetics.set_ic(1)
+
+    model = mup3d.Mup3d(prefix, solution, nlay, nrow, ncol)
+    model.set_wd(os.path.join(cwd, f'{prefix}_total_time{"" if react_every == 1 else "_user"}'))
+    model.set_postfix(os.path.join(dataws, f'{prefix}_postfix.phqr'))
+    model.set_database(os.path.join(databasews, 'decay1d_datab.dat'))
+    model.set_phases(kinetics)
+    if react_every > 1:
+        model.set_config(reactive={"timing": "user",
+                                   "tsteps": [[1, kstp] for kstp in range(react_every, nstp + 1, react_every)]})
+    model.initialize()
+
+    wellchem = mup3d.ChemStress('wel')
+    wellchem.set_spd([2])
+    model.set_chem_stress(wellchem)
+    wel_spd = [[(0, 0, 0), v * prsity] + list(model.wel.data[0])]
+    chdspd = [[(0, 0, ncol - 1), 1.0]]
+    strt = np.ones((nlay, nrow, ncol))
+
+    build_mf6_1d_injection_model(model, nper, [(T, nstp, 1.0)], "meters", "days", nlay, nrow, ncol, 0.1, 1.0,
+                                 1.0, 0.0, wel_spd, chdspd, prsity, 1.0, 1.0, 0.05, 0, 1e-10,
+                                 strt, 1e-10, 1.0, 100, 300)
+    assert model.run(libname=lib_name)
+
+    out = pd.read_csv(os.path.join(model.wd, 'sout.csv'))
+    out['t'] = np.repeat(np.arange(1, nstp + 1) * T / nstp, ncol)
+    react_steps = [kstp for kstp in range(1, nstp + 1) if kstp == 1 or kstp % react_every == 0]
+    out = out[np.repeat(np.isin(np.arange(1, nstp + 1), react_steps), ncol)]
+    s = out[out.cell == 91]  # x = 9.05 m, inflow front (undecayed water) is still >= 3 m away at T
+    err = np.abs(s.Tr / (Ci * np.exp(-a * s.t**2 / 2)) - 1)
+    assert err.max() < 1e-3, f"TOTAL_TIME decay off by {err.max():.2%}"
+
+def test07_no_react_cells(prefix='test07'):
+    '''Test 7: cells listed in no_react_cells are excluded from reactions but still transported.
+
+    A simple 1D simulation of a NaCl front in a column, performed in two runs: one with reactions 
+    enabled in all cells and one with the second half of the column cells set as no_react_cells. 
+    Since no reactions occur, the Cl- concentration profiles produced by MODFLOW should 
+    be identical in both runs. The results are read from Cl.ucn rather than sout.csv, 
+    because PhreeqcRM returns no selected-output value (1e30) for excluded cells.
+    '''
+    length_units, time_units = "meters", "days"
+    nper, nlay, nrow, ncol = 1, 1, 1, 20
+    delr, delc, top, botm = 1.0, 1.0, 1.0, 0.0
+    porosity = 0.25
+    q = 0.5                          # inflow (m3/d): pore velocity 2 m/d, front at 20 m after 10 d
+    dispersivity = 0.1               # m
+    tdis_rc = [(10.0, 20, 1.0)]
+
+    cl = {}
+    for label, no_react in [('all', None), ('half', list(range(ncol // 2, ncol)))]:
+        solution = mup3d.Solutions({'pH': [7.0, 7.0], 'Na': [1e-6, 1e-3], 'Cl': [1e-6, 1e-3]})
+        solution.set_ic(1)
+
+        model = mup3d.Mup3d(prefix, solution, nlay, nrow, ncol)
+        model.set_wd(os.path.join(cwd, f'{prefix}_{label}'))
+        model.set_database(os.path.join(databasews, 'phreeqc.dat'))
+        if no_react is not None:
+            model.config.solver['no_react_cells'] = no_react
+        model.initialize()
+
+        wellchem = mup3d.ChemStress('wel')
+        wellchem.set_spd([2])
+        model.set_chem_stress(wellchem)
+        wel_spd = [[(0, 0, 0), q] + list(model.wel.data[0])]
+        chdspd = [[(0, 0, ncol - 1), 1.0]]
+        strt = np.ones((nlay, nrow, ncol))
+
+        build_mf6_1d_injection_model(model, nper, tdis_rc, length_units, time_units, nlay, nrow, ncol, delr, delc,
+                                     top, botm, wel_spd, chdspd, porosity, 10.0, 10.0, dispersivity, 0, 1e-10,
+                                     strt, 1e-10, 1.0, 100, 300)
+        assert model.run(libname=lib_name)
+        ucn = flopy.utils.HeadFile(os.path.join(model.wd, 'Cl.ucn'), text='concentration')
+        cl[label] = ucn.get_data()[0, 0]
+
+    # Checks that the front has reached the no_react cells
+    assert cl['all'][ncol // 2] > 0.5 * cl['all'][0], "front did not reach the no_react cells"
+    np.testing.assert_allclose(cl['half'], cl['all'], rtol=1e-6)
 
 def test_mf6_bin():
     '''Test that mf6 binary is available'''
@@ -1355,7 +1545,7 @@ def get_test_results(model):
     testdf = pd.read_csv(os.path.join(model.wd,f"sout.csv"), index_col = 0)
     return testdf
 
-def compare_results(benchmarkdf, testdf, treshold = 0.01):
+def compare_results(benchmarkdf, testdf, treshold = 0.01, atol=None):
     '''Compare benchmark and test results'''
 
     # Align testdf to benchmark columns — testdf may have extra spatial columns
@@ -1374,7 +1564,8 @@ def compare_results(benchmarkdf, testdf, treshold = 0.01):
     # skip spatial metadata columns
     spatial_cols = {"cell", "layer", "row", "col", "cell2d"}
     for col in [c for c in benchmarkdf.columns if c not in spatial_cols]:
-        checkerarr = [i < treshold for i in np.abs(benchmarkdf.loc[:, col].values - testdf.loc[:, col].values)]
+        col_atol = (atol or {}).get(col, 0)
+        checkerarr = np.isclose(testdf.loc[:, col].values, benchmarkdf.loc[:, col].values, rtol=treshold, atol=col_atol)
         lenarr = len(checkerarr)
         #get percentage of True
         perc = sum(checkerarr)/lenarr

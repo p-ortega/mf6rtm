@@ -3,23 +3,19 @@ Base module of the mup3d package
 """
 
 import os
-import warnings
-import phreeqcrm
 import shutil
-import numpy as np
-
-warnings.filterwarnings("ignore")
-warnings.filterwarnings("ignore", category=DeprecationWarning)
-
-from typing import Union
-from pathlib import Path
+import warnings
 from contextlib import contextmanager
+from pathlib import Path
+from typing import Union
 
 import flopy
+import numpy as np
+import phreeqcrm
 
-from mf6rtm.simulation.solver import solve
-from mf6rtm.utils import utils
+from mf6rtm import utils
 from mf6rtm.config import MF6RTMConfig
+from mf6rtm.simulation.solver import solve
 
 
 class Block:
@@ -188,8 +184,8 @@ class KineticPhases(Block):
         """
         self.parameters = parameters
 
-class Surfaces(Block):
-    """The Surfaces Block.
+class SurfacePhases(Block):
+    """The SurfacePhases Block.
 
     Attributes
     ----------
@@ -267,11 +263,12 @@ class ChemStress():
         self.cells = cells
 
 
+# Phase class -> Mup3d attribute that holds it
 phase_types = {
-    'KineticPhases': KineticPhases,
-    'ExchangePhases': ExchangePhases, # TODO: Exchange has to be abstracted to be used with this methods
-    'EquilibriumPhases': EquilibriumPhases,
-    'Surfaces': Surfaces,
+    KineticPhases: 'kinetic_phases',
+    ExchangePhases: 'exchange_phases', # TODO: Exchange has to be abstracted to be used with this methods
+    EquilibriumPhases: 'equilibrium_phases',
+    SurfacePhases: 'surfaces_phases',
 }
 
 
@@ -301,7 +298,7 @@ class Mup3d(object):
         Kinetic phases in the model.
     exchange_phases : ExchangePhases
         Exchange phases in the model.
-    surfaces_phases : Surfaces
+    surfaces_phases : SurfacePhases
         Surface phases in the model.
     postfix : str
         Postfix for the output files.
@@ -513,7 +510,7 @@ class Mup3d(object):
 
         Parameters
         ----------
-        phase : KineticPhases, ExchangePhases, EquilibriumPhases, or Surfaces
+        phase : KineticPhases, ExchangePhases, EquilibriumPhases, or SurfacePhases
             Instance of one of the phase classes containing geochemical data.
         Returns
         -------
@@ -523,7 +520,7 @@ class Mup3d(object):
         phase_class = phase.__class__
 
         # Check if the phase object's class is in the dictionary of phase types
-        if phase_class not in phase_types.values():
+        if phase_class not in phase_types:
             raise AssertionError(f'{phase_class.__name__} is not a recognized phase type')
 
         # Proceed with the common logic
@@ -532,8 +529,7 @@ class Mup3d(object):
         phase.data = {i: phase.data[key] for i, key in enumerate(phase.data.keys())}
         assert phase.ic.shape == self.grid_shape, f'Initial conditions array must be an array of the shape {self.grid_shape} not {phase.ic.shape}'
 
-        # Dynamically set the phase attribute based on the class name
-        setattr(self, f"{phase_class.__name__.lower().split('phases')[0]}_phases", phase)
+        setattr(self, phase_types[phase_class], phase)
 
     def set_exchange_phases(self, exchanger):
         """Sets the exchange phases for the MF6RTM model.
@@ -570,7 +566,10 @@ class Mup3d(object):
         self.equilibrium_phases = eq_phases
         if isinstance(self.equilibrium_phases.ic, (int, float)):
             self.equilibrium_phases.ic = np.reshape([self.equilibrium_phases.ic]*self.nxyz, self.grid_shape)
-        assert self.equilibrium_phases.ic.shape == self.grid_shape, f'Initial conditions array must be an array of the shape ({self.grid_shape}) not {self.equilibrium_phases.ic.shape}'
+        assert self.equilibrium_phases.ic.shape == self.grid_shape, (
+            f'Initial conditions array must be an array of the shape ({self.grid_shape}) '
+            f'not {self.equilibrium_phases.ic.shape}'
+        )
 
     def set_charge_offset(self, charge_offset):
         """
@@ -745,7 +744,9 @@ class Mup3d(object):
 
         # Check if all compounds are in the database
         names = utils.get_compound_names(self.database)
-        assert all([key in names for key in self.solutions.data.keys() if key not in ["pH", "pe"]]), f'Not all compounds are in the database - check: {", ".join([key for key in self.solutions.data.keys() if key not in names and key not in ["pH", "pe"]])}'
+        solution_keys = [key for key in self.solutions.data.keys() if key not in ["pH", "pe"]]
+        missing = ", ".join(key for key in solution_keys if key not in names)
+        assert all(key in names for key in solution_keys), f'Not all compounds are in the database - check: {missing}'
 
         script = ""
 
@@ -775,7 +776,8 @@ class Mup3d(object):
                 phases = self.equilibrium_phases.data[i]
                 # check if all equilibrium phases are in the database
                 names = utils.get_compound_names(self.database, 'PHASES')
-                assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
+                missing = ', '.join(key for key in phases.keys() if key not in names)
+                assert all(key in names for key in phases.keys()), f'Following phases are not in database: {missing}'
 
                 # Handle the  EQUILIBRIUM_PHASES blocks
                 script += utils.handle_block(phases, utils.generate_equ_phases_block, i)
@@ -787,7 +789,8 @@ class Mup3d(object):
                 phases = self.exchange_phases.data[i]
                 # check if all equilibrium phases are in the database
                 names = utils.get_compound_names(self.database, 'EXCHANGE')
-                assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
+                missing = ', '.join(key for key in phases.keys() if key not in names)
+                assert all(key in names for key in phases.keys()), f'Following phases are not in database: {missing}'
                 assert self.exchange_phases.eq_solutions is not None, 'No equilibrate solutions defined'
                 assert isinstance(self.exchange_phases.eq_solutions, (list, np.ndarray)), "exchange_phases.eq_solutions must be a list or numpy array"
                 assert len(self.exchange_phases.data.keys()) == len(self.exchange_phases.eq_solutions), "Mismatch between number of exchangers and eq_solutions"
@@ -804,7 +807,8 @@ class Mup3d(object):
                 for blocknme in ['PHASES', 'SOLUTION_MASTER_SPECIES']:
                     names += utils.get_compound_names(self.database, blocknme)
 
-                assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
+                missing = ', '.join(key for key in phases.keys() if key not in names)
+                assert all(key in names for key in phases.keys()), f'Following phases are not in database: {missing}'
 
                 script += utils.handle_block(phases, utils.generate_kinetics_block, i)
 
@@ -814,7 +818,8 @@ class Mup3d(object):
                 phases = self.surfaces_phases.data[i]
                 # check if all surfaces are in the database
                 names = utils.get_compound_names(self.database, 'SURFACE_MASTER_SPECIES')
-                assert all([key in names for key in phases.keys()]), 'Following phases are not in database: '+', '.join(f'{key}' for key in phases.keys() if key not in names)
+                missing = ', '.join(key for key in phases.keys() if key not in names)
+                assert all(key in names for key in phases.keys()), f'Following phases are not in database: {missing}'
                 # Equilibrate each surface with its zone's solution (mirrors the
                 # exchange path); fall back to solution 1 if no targets were set.
                 eq_sol = 1 if self.surfaces_phases.eq_solutions is None else self.surfaces_phases.eq_solutions[i]
@@ -958,7 +963,7 @@ class Mup3d(object):
             ic1[:, 1] = np.reshape(self.equilibrium_phases.ic, self.nxyz)
         if isinstance(self.exchange_phases, ExchangePhases):
             ic1[:, 2] = np.reshape(self.exchange_phases.ic, self.nxyz)  # Exchange
-        if isinstance(self.surfaces_phases, Surfaces):
+        if isinstance(self.surfaces_phases, SurfacePhases):
             ic1[:, 3] = np.reshape(self.surfaces_phases.ic, self.nxyz)  # Surface
         ic1[:, 4] = -1  # Gas phase
         ic1[:, 5] = -1  # Solid solutions
@@ -2026,14 +2031,18 @@ class Mup3d(object):
         input = "DELETE; -all"
         status = phreeqcrm_yaml.YAMLRunString(True, False, True, input)
         if self.postfix is None:
-            phreeqcrm_yaml.YAMLAddOutputVars("SolutionProperties", "true")
-            phreeqcrm_yaml.YAMLAddOutputVars("SolutionTotalMolalities", "true")
+            postfix_script = ""
+            fallback = [("SolutionProperties", "true"), ("SolutionTotalMolalities", "true")]
             if self.equilibrium_phases is not None:
-                phreeqcrm_yaml.YAMLAddOutputVars("EquilibriumPhases", "true")
+                fallback.append(("EquilibriumPhases", "true"))
             if self.kinetic_phases is not None:
-                phreeqcrm_yaml.YAMLAddOutputVars("KineticReactants", "true")
+                fallback.append(("KineticReactants", "true"))
         else:
-            phreeqcrm_yaml.YAMLAddOutputVars("AddOutputVars", "true")
+            with open(self.postfix, 'r') as f:
+                postfix_script = f.read()
+            fallback = []
+        for option, definition in utils.output_vars(postfix_script, fallback):
+            phreeqcrm_yaml.YAMLAddOutputVars(option, definition)
 
         status = phreeqcrm_yaml.YAMLFindComponents()
         # convert ic1 to a list
@@ -2101,3 +2110,15 @@ def working_dir(path):
         yield
     finally:
         os.chdir(old_dir)
+
+
+def __getattr__(name):
+    # Old pickles store mf6rtm.mup3d.base.Surfaces, so the old name must still resolve
+    if name == "Surfaces":
+        warnings.warn(
+            "Surfaces is deprecated, use SurfacePhases instead",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return SurfacePhases
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

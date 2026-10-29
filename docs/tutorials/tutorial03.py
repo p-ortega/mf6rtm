@@ -127,7 +127,7 @@ flopy.mf6.ModflowGwfgwt(sim, exgtype="GWF6-GWT6", exgmnamea="gwf", exgmnameb="tr
 # The chemistry is identical to the classic tutorial (the ``mup3d`` classes are
 # workflow-agnostic): initial pore water (**Solutions**), four-zone cation
 # **ExchangePhases**, kinetic pyrite + organic matter (**KineticPhases**),
-# calcite (**EquilibriumPhases**) and surface complexation (**Surfaces**).
+# calcite (**EquilibriumPhases**) and surface complexation (**SurfacePhases**).
 
 # %%
 solutionsdf = pd.read_csv(os.path.join(DATA, "tut02_solutions.csv"),
@@ -163,7 +163,7 @@ eqp_df = pd.read_csv(os.path.join(DATA, "tut02_equilibrium_phases.csv"))
 equilibriums = mup3d.EquilibriumPhases(utils.parse_equilibriums_dataframe(eqp_df))
 equilibriums.set_ic(1)
 
-surfaces = mup3d.Surfaces(utils.surfaces_csv_to_dict(
+surfaces = mup3d.SurfacePhases(utils.surfaces_csv_to_dict(
     os.path.join(DATA, "tut02_surfaces.csv")))
 surfaces.set_ic(1)
 

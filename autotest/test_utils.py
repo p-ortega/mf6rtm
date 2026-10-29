@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 import pandas as pd
 from unittest.mock import MagicMock
-from mf6rtm.utils import utils
+from mf6rtm import utils
 
 
 class TestConversionFunctions:
@@ -358,3 +358,26 @@ def sample_kinetics_dict():
             'steps': [100, 200]
         }
     }
+
+class TestOutputVars:
+    """AddOutputVars entries: no hidden PhreeqcRM block when the script has its own."""
+
+    def test_selected_output_turns_hidden_block_off(self):
+        script = "SOLUTION 1\nEND\nSELECTED_OUTPUT 1\n    -reset false\nUSER_PUNCH 1\n"
+        assert utils.output_vars(script, [("SolutionProperties", "true")]) == [
+            ("AddOutputVars", "false")
+        ]
+
+    def test_keyword_is_case_insensitive(self):
+        assert utils.output_vars("selected_output 1\n", []) == [("AddOutputVars", "false")]
+
+    def test_no_selected_output_keeps_fallback(self):
+        fallback = [("SolutionProperties", "true"), ("KineticReactants", "true")]
+        assert utils.output_vars("SOLUTION 1\nEND\n", fallback) == fallback
+
+    def test_no_selected_output_and_no_fallback_turns_master_on(self):
+        assert utils.output_vars("SOLUTION 1\nEND\n", []) == [("AddOutputVars", "true")]
+
+    def test_option_line_is_not_a_block(self):
+        script = "PRINT\n    -selected_output false\nEND\n"
+        assert utils.output_vars(script, []) == [("AddOutputVars", "true")]

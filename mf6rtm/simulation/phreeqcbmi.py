@@ -5,12 +5,12 @@ that adapts the PhreeqcRM Basic Model Interface for use inside the mf6rtm
 coupling loop.
 """
 from datetime import datetime
-import warnings
 
 import numpy as np
 import pandas as pd
 import phreeqcrm
-from mf6rtm.utils import utils
+
+from mf6rtm import utils
 from mf6rtm.simulation.mf6api import Mf6API
 
 
@@ -89,18 +89,18 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         dest[0] = value
         x = self.set_value(var_name, dest)
 
-    def _solve_phreeqcrm(self, dt, diffmask):
+    def _solve_phreeqcrm(self, dt, diffmask, time):
         """Function to solve phreeqc bmi"""
         # status = phreeqc_rm.SetTemperature([self.init_temp[0]] * self.ncpl)
         # status = phreeqc_rm.SetPressure([2.0] * nxyz)
+        # PhreeqcRM takes time as the end of the interval: TOTAL_TIME runs over [time - dt, time]
+        self.SetTime(time * 1.0 / self.GetTimeConversion())
         self.SetTimeStep(dt * 1.0 / self.GetTimeConversion())
 
         if self.sat_now is not None:
             sat = self.sat_now
         else:
             sat = [1] * self.GetGridCellCount()
-
-        # self.SetSaturation(sat)
 
         # update which cells to run depending on conc change between tsteps
         if diffmask is not None:
@@ -112,7 +112,7 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
             # print(
             #     f"{'Cells sent to reactions':<25} | {self.GetGridCellCount()-len(inact):<0}/{self.GetGridCellCount():<15}"
             # )
-            self.SetSaturation(sat)
+        self.SetSaturation(sat) # TODO: JOSS reviewer: I think there was an extra tab to this line. please verify
 
         print_selected_output_on = True
         # print_chemistry_on = False
@@ -134,7 +134,10 @@ class PhreeqcBMI(phreeqcrm.BMIPhreeqcRM):
         self.update()  # pragma: no cover
         self.SetScreenOn(True)  # pragma: no cover
         td = (datetime.now() - sol_start).total_seconds() / 60.0
-        message = f"{'Reactions':<15} | {'Stress period:':<15} {self.kper:<5} | {'Time step:':<15} {self.kstp:<10} | {'Completed in :':<10}  {td // 60:.0f} min {td % 60:10.2e} sec"
+        message = (
+            f"{'Reactions':<15} | {'Stress period:':<15} {self.kper:<5} | "
+            f"{'Time step:':<15} {self.kstp:<10} | {'Completed in :':<10}  {td // 60:.0f} min {td % 60:10.2e} sec"
+        )
         self.LogMessage(message)
         print(message)
         # self.ScreenMessage(message)

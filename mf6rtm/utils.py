@@ -3,16 +3,47 @@
 Unit conversions, PHREEQC input/script parsing and assembly, dataframe-to-dict
 helpers, and file/executable staging used across the package.
 """
-import platform
 import os
+import platform
+import re
 import shutil
-import pandas as pd
+
 import numpy as np
+import pandas as pd
 
 # global variables
 endmainblock = """\nPRINT
     -reset false
 END\n"""
+
+
+_SELECTED_OUTPUT_RE = re.compile(r"^\s*SELECTED_OUTPUT\b", re.IGNORECASE | re.MULTILINE)
+
+
+def output_vars(script, fallback):
+    """AddOutputVars entries to write into the PhreeqcRM YAML.
+
+    PhreeqcRM's AddOutputVars builds a hidden SELECTED_OUTPUT 333 block that
+    RunCells evaluates for every cell. mf6rtm reads only the lowest-numbered
+    block, so when ``script`` has its own SELECTED_OUTPUT the hidden one is
+    turned off. Otherwise the hidden block is the selected output.
+
+    Parameters
+    ----------
+    script : str
+        PHREEQC input text that PhreeqcRM will run.
+    fallback : list of tuple
+        ``(option, definition)`` pairs to use when ``script`` has no
+        SELECTED_OUTPUT block. When empty, the master switch is turned on.
+
+    Returns
+    -------
+    list of tuple
+        ``(option, definition)`` pairs for ``YAMLAddOutputVars``.
+    """
+    if _SELECTED_OUTPUT_RE.search(script):
+        return [("AddOutputVars", "false")]
+    return list(fallback) or [("AddOutputVars", "true")]
 
 
 def check_phreeqcrm_status(rm, status, op):

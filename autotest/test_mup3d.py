@@ -13,7 +13,7 @@ from mf6rtm.mup3d.base import (
     EquilibriumPhases,
     ExchangePhases,
     KineticPhases,
-    Surfaces,
+    SurfacePhases,
     GasPhase,
     ChemStress,
     Mup3d,
@@ -182,13 +182,13 @@ class TestExchangePhases:
         assert 'X' in exchange.names
 
 
-class TestSurfaces:
-    """Test suite for Surfaces class."""
+class TestSurfacePhases:
+    """Test suite for SurfacePhases class."""
     
     def test_surfaces_initialization(self):
-        """Test Surfaces initialization."""
+        """Test SurfacePhases initialization."""
         surface_data = {0: {'Hfo': [0.1, 600]}}
-        surfaces = Surfaces(surface_data)
+        surfaces = SurfacePhases(surface_data)
         assert 'Hfo' in surfaces.names
 
 
@@ -464,7 +464,19 @@ class TestMup3dPhases:
         model.set_phases(kinetic)
         
         assert model.kinetic_phases is not None
-    
+
+    def test_set_phases_surface(self, sample_solutions_data):
+        """SurfacePhases lands on surfaces_phases, which initialization reads."""
+        solutions = Solutions(sample_solutions_data)
+        solutions.set_ic(1)
+        model = Mup3d(solutions=solutions, nlay=1, nrow=2, ncol=5)
+
+        surfaces = SurfacePhases({0: {'Hfo': [0.1, 600]}})
+        surfaces.set_ic(np.ones((1, 2, 5), dtype=int))
+        model.set_phases(surfaces)
+
+        assert model.surfaces_phases is surfaces
+
     def test_set_phases_invalid_ic_shape(self, sample_solutions_data, sample_equilibrium_data):
         """Test set_phases with invalid IC shape."""
         solutions = Solutions(sample_solutions_data)

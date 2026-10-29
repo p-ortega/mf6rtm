@@ -1,12 +1,12 @@
 mf6rtm package
 ==============
 
-Subpackages
------------
+Subpackages and modules
+-----------------------
 
 .. toctree::
    :maxdepth: 4
-   :caption: Subpackages:
+   :caption: Subpackages and modules:
 
    mf6rtm.config
    mf6rtm.io

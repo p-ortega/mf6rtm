@@ -3,11 +3,12 @@
 Defines :class:`MF6RTMConfig`, the container for reactive-transport run
 settings, with helpers to load from and save to TOML and dictionary form.
 """
-import toml
 import os
-import numpy as np
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
+
+import toml
+
 
 @dataclass
 class ConfigSchema:
@@ -166,10 +167,11 @@ class MF6RTMConfig:
                 raise ValueError(f"tsteps[{i}] must contain integers")
             if kper < 1 or kstp < 1:
                 raise ValueError(f"tsteps[{i}]: kper and kstp must be 1-indexed")
-            normalized.append((kper, kstp))  # force into tuple
+            normalized.append([kper, kstp])  # lists, since the solver checks [kper, kstp] in tsteps
         # Ensure (1, 1) is included
-        if (1, 1) not in normalized:
-            normalized.insert(0, (1, 1))
+        if self.reactive['timing'] == 'user' and [1, 1] not in normalized:
+            normalized.insert(0, [1, 1])
+        self.reactive['tsteps'] = normalized
 
 
     def get_tsteps_for_period(self, kper: int) -> List[int]:
@@ -469,7 +471,7 @@ class MF6RTMConfig:
 
     def __str__(self):
         """Detailed string representation."""
-        lines = [f"MF6RTM will run with the following configuration:"]
+        lines = ["MF6RTM will run with the following configuration:"]
         lines.append(f"  Reactive: {self.reactive['enabled']}")
         lines.append(f"  Reaction timing: {self.reactive['timing']}")
         lines.append(f"  External files flag: {self.reactive['externalio']}")

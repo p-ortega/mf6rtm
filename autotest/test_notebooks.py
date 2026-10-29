@@ -83,7 +83,7 @@ def test_get_notebooks():
 @pytest.mark.example
 @pytest.mark.parametrize(
     "notebook",
-    get_notebooks(pattern="ex", exclude=["mf6_lgr"])
+    get_notebooks(exclude=["mf6_lgr"])
 )
 def test_notebooks(notebook):
     # Comment out conda develop lines and get original content

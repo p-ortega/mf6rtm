@@ -1,7 +1,8 @@
 """Helpers to reconstruct a YAMLPhreeqcRM instance from a YAML file."""
-import yaml
-import numpy as np
 import warnings
+
+import numpy as np
+import yaml
 
 try:
     from phreeqcrm import yamlphreeqcrm
@@ -87,3 +88,25 @@ def load_yaml_to_phreeqcrm(yaml_file_path):
             print(f"Unknown key: {key}")
 
     return yrm, ic1
+
+
+def read_output_vars(yaml_file_path):
+    """Read the AddOutputVars entries of a PhreeqcRM YAML file, in order.
+
+    Parameters
+    ----------
+    yaml_file_path : str
+        Path to the YAML file.
+
+    Returns
+    -------
+    list of tuple
+        ``(option, definition)`` pairs; empty when the file has none.
+    """
+    with open(yaml_file_path, 'r') as file:
+        yaml_data = yaml.safe_load(file)
+    return [
+        (item['option'], item['definition'])
+        for item in yaml_data
+        if item.get('key') == 'AddOutputVars'
+    ]
