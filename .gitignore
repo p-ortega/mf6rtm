@@ -230,3 +230,6 @@ benchmark/sandbox/
 .speedtest/
 speedtest.md
 speedtest.log
+
+# assets
+!mf6rtm/assets/*.png
