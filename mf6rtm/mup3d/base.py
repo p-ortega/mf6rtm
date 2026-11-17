@@ -248,7 +248,9 @@ class EquilibriumPhases(Block):
             One row per block: ``block`` and ``note``. ``note`` is written
             after the block number, as the PHREEQC description.
         ic : int or ndarray, optional
-            Block number(s) of the initial condition.
+            Block number(s) of the initial condition. It has no default,
+            because not every cell needs equilibrium phases: give it here or
+            with ``set_ic()`` before ``Mup3d.set_equilibrium_phases()``.
 
         Raises
         ------
@@ -256,6 +258,14 @@ class EquilibriumPhases(Block):
             If a table defines no blocks, has unknown or missing columns, a
             non-numeric ``si`` or ``m0``, a duplicate phase or an unknown
             ``constraint``.
+
+        Notes
+        -----
+        A phase left out of a block is not absent from it. As with dict
+        input, every phase listed in any block is added to the other blocks
+        with ``si`` 0 and ``m0`` 0 and without the optional columns, so it
+        can precipitate there if the solution becomes supersaturated. The
+        padding is kept for the ``externalio`` layer files (see #38).
         """
         if isinstance(components, dict):
             if settings is not None:
@@ -332,7 +342,8 @@ class ChemStress():
         ``'cnc'`` (GWT constant-concentration), or ``'src'`` (GWT mass-loading).
         Default is ``'aux'``.
     sol_spd : list, optional
-        List of solution indices (one per boundary cell). Default is None.
+        List of solution numbers (one per boundary cell), as in
+        ``SOLUTION 10``. Default is None.
     cells : list, optional
         List of cellids — required for cnc/src; for aux the cells come from
         the GWF package SPD. Default is None.
@@ -355,8 +366,8 @@ class ChemStress():
         Parameters
         ----------
         sol_spd : list of int
-            Solution indices, one per boundary cell, mapping each cell to a
-            PHREEQC solution number.
+            Solution numbers, one per boundary cell, as in ``SOLUTION 10``.
+            With table input they must be solutions defined in the tables.
         """
         self.sol_spd = sol_spd
 
@@ -686,6 +697,12 @@ class Mup3d(object):
         None
         """
         assert isinstance(eq_phases, EquilibriumPhases), 'eq_phases must be an instance of the EquilibriumPhases class'
+        # no default: not every cell needs equilibrium phases, so a missing ic is likely a mistake
+        if eq_phases.ic is None:
+            raise ValueError(
+                "EquilibriumPhases has no ic: pass ic= (a block number, or an array of block "
+                "numbers per cell) or call set_ic() before set_equilibrium_phases()"
+            )
         # change all keys from eq_phases so they start from 0
         eq_phases.data = {i: eq_phases.data[key] for i, key in enumerate(eq_phases.data.keys())}
         self.equilibrium_phases = eq_phases
@@ -854,7 +871,11 @@ class Mup3d(object):
             SOLUTION block. ``False`` (default) disables it. ``True`` applies it
             to ``"pH"`` (legacy behavior). Pass a single component name (e.g.
             ``"Cl"``) to balance on that component instead. Only one component
-            may carry the flag.
+            may carry the flag. With table input the name must match an
+            ``element`` exactly (``"C(+4)"``, not ``"C"``), and the flag goes
+            through the same checks as the ``charge`` column; a name that no
+            solution has only prints a warning. With dict input the flag is
+            added to every SOLUTION line that starts with the name.
         Returns
         -------
         str
@@ -899,6 +920,8 @@ class Mup3d(object):
                 concentrations = {species: values[i] for species, values in self.solutions.data.items()}
                 script += utils.handle_block(concentrations, utils.generate_solution_block, i, temp=self.init_temp, water=1)
         else:
+            charge_species = self._resolve_charge_species(add_charge_flag) if add_charge_flag else None
+            charge_applied = False
             for i, number in enumerate(sol_numbers):
                 entries = self.solutions.entries.get(number, {})
                 temp = self.init_temp[i] if isinstance(self.init_temp, (list, np.ndarray)) else self.init_temp
@@ -909,7 +932,17 @@ class Mup3d(object):
                 for key in ('pH', 'pe'):
                     if key in entries:
                         settings.pop(key, None)
+                # table input: the flag goes on a row, with the table's charge checks
+                if charge_species is not None:
+                    entries, settings, applied = tables.apply_charge_flag(
+                        number, entries, settings, charge_species)
+                    charge_applied = charge_applied or applied
                 script += tables.solution_block(number, entries, settings)
+            if charge_species is not None and not charge_applied:
+                print(
+                    f"WARNING: charge flag component '{charge_species}' not found in "
+                    "any solution; no 'charge' keyword will be added."
+                )
 
         # check if self.equilibrium_phases is not None
         if self.equilibrium_phases is not None:
@@ -983,7 +1016,8 @@ class Mup3d(object):
                 script += '\n'
                 script += source.read()
 
-        if add_charge_flag:
+        # dict input: add the flag to the finished SOLUTION lines
+        if add_charge_flag and sol_numbers is None:
             charge_species = self._resolve_charge_species(add_charge_flag)
             if charge_species not in self.solutions.data:
                 print(
@@ -1013,6 +1047,7 @@ class Mup3d(object):
             Add the PHREEQC ``charge`` balancing flag to one component. ``False``
             (default) disables it, ``True`` applies it to ``"pH"``, and a single
             component name (e.g. ``"Cl"``) balances on that component instead.
+            See ``generate_phreeqc_script`` for how the name is matched.
 
         Attributes Added
         ---------------
@@ -1671,6 +1706,15 @@ class Mup3d(object):
         assert len(chem_stress) > 0, 'No ChemStress attribute found in self'
 
         sol_spd = getattr(self, attr).sol_spd
+
+        # table input: every solution number must be a defined block, as for ic
+        block_numbers = getattr(self.solutions, 'block_numbers', None)
+        if block_numbers is not None:
+            used = [sol for sols in sol_spd.values() for sol in sols] if isinstance(sol_spd, dict) else list(sol_spd)
+            unknown = sorted(set(used) - set(block_numbers))
+            if unknown:
+                raise ValueError(f"ChemStress '{attr}' refers to undefined solution(s) {unknown}; "
+                                 f"defined solutions are {block_numbers}")
 
         if isinstance(sol_spd, dict):
             # Per-stress-period chemistry: {sp: [sol_per_cell]}

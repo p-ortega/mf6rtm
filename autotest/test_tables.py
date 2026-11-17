@@ -7,7 +7,7 @@ import pandas as pd
 import pytest
 
 from mf6rtm import utils
-from mf6rtm.mup3d import EquilibriumPhases, Mup3d, Solutions, tables
+from mf6rtm.mup3d import ChemStress, EquilibriumPhases, Mup3d, Solutions, tables
 
 DATA = Path(__file__).resolve().parent.parent / "docs" / "tutorials" / "data"
 DATABASE = str(DATA / "tut01_datab.dat")
@@ -133,6 +133,30 @@ class TestSolutionsTable:
         with pytest.raises(ValueError, match=r"undefined block\(s\) \[3\]"):
             model.initialize()
 
+    @pytest.mark.parametrize("spd", [[3], {1: [2], 2: [3]}])
+    def test_chem_stress_undefined_solution_raises(self, tmp_path, spd):
+        components, settings = tut01_solution_tables()
+        components["block"] = components["block"] * 10        # solutions 10 and 20
+        model = build_model(tmp_path, Solutions(components, settings.assign(block=[10, 20]), ic=10))
+        model.initialize()
+        wel = ChemStress("wel")
+        wel.set_spd(spd)
+        with pytest.raises(ValueError, match=r"ChemStress 'wel' refers to undefined solution\(s\) \[(2, )?3\]; "
+                                             r"defined solutions are \[10, 20\]"):
+            model.set_chem_stress(wel)
+
+        wel.set_spd([20])
+        model.set_chem_stress(wel)
+        assert model.wel.data
+
+    def test_add_charge_flag_name_must_match(self, tmp_path, capsys):
+        """A name matches an element exactly: "C" is not "C(+4)"."""
+        components, settings = tut01_solution_tables()
+        model = build_model(tmp_path, Solutions(components, settings, ic=1))
+        script = model.generate_phreeqc_script(add_charge_flag="C")
+        assert "charge flag component 'C' not found" in capsys.readouterr().out
+        assert " charge" not in script
+
     def test_line_options(self, tmp_path):
         components = pd.DataFrame({
             "block": [1, 1, 1, 1],
@@ -152,6 +176,49 @@ class TestSolutionsTable:
         assert "C(+4) 2.00000e+00 as HCO3 CO2(g) -3.50000e+00" in lines
         assert "Cl 1.00000e+00" in lines
         assert "pH 7.00000e+00 charge" in lines
+
+    def test_add_charge_flag_on_rows(self, tmp_path):
+        """add_charge_flag marks one row per solution, also a keyword pH."""
+        components, settings = tut01_solution_tables(with_ph=False)
+        model = build_model(tmp_path, Solutions(components, settings, ic=1, pH=7.0))
+        blocks = script_blocks(model.generate_phreeqc_script(add_charge_flag=True), "SOLUTION")
+        for lines in blocks.values():
+            assert [line for line in lines if line.startswith("pH")] == ["pH 7.00000e+00 charge"]
+            assert sum(line.endswith(" charge") for line in lines) == 1
+
+        model = build_model(tmp_path, Solutions(components, settings, ic=1))
+        blocks = script_blocks(model.generate_phreeqc_script(add_charge_flag="Cl"), "SOLUTION")
+        assert "Cl 2.00000e-03 charge" in blocks["SOLUTION 2 inflow"]
+        assert not any(line.endswith(" charge") for line in blocks["SOLUTION 1 background"])
+        # the stored table entries are not changed
+        assert not model.solutions.entries[2]["Cl"]["charge"]
+
+    def test_add_charge_flag_same_row_as_charge_column(self, tmp_path):
+        components, settings = tut01_solution_tables()
+        components["charge"] = components["element"] == "Cl"
+        model = build_model(tmp_path, Solutions(components, settings, ic=1))
+        blocks = script_blocks(model.generate_phreeqc_script(add_charge_flag="Cl"), "SOLUTION")
+        assert sum(line.endswith(" charge") for line in blocks["SOLUTION 2 inflow"]) == 1
+
+    @pytest.mark.parametrize("change, options, match", [
+        ({"charge": [False, False, True, False]}, {"pH": 7.0}, "more than one charge balance"),
+        ({"charge": [False, False, True, False, False, False, False, False]}, {}, "more than one charge balance"),
+        ({"phase": [np.nan] * 6 + ["Calcite", np.nan], "phase_si": [np.nan] * 6 + [0.0, np.nan]}, {},
+         "add_charge_flag cannot go on a row with 'phase'"),
+    ])
+    def test_add_charge_flag_conflicts_raise(self, tmp_path, change, options, match):
+        """The flag goes through the table's charge checks instead of editing the script text."""
+        components, settings = tut01_solution_tables(with_ph="pH" not in options)
+        model = build_model(tmp_path, Solutions(components.assign(**change), settings, ic=1, **options))
+        with pytest.raises(ValueError, match=match):
+            model.generate_phreeqc_script(add_charge_flag=True)
+
+    def test_add_charge_flag_missing_species_warns(self, tmp_path, capsys):
+        components, settings = tut01_solution_tables(with_ph=False)
+        model = build_model(tmp_path, Solutions(components, settings, ic=1))
+        script = model.generate_phreeqc_script(add_charge_flag=True)
+        assert "charge flag component 'pH' not found" in capsys.readouterr().out
+        assert " charge" not in script
 
     def test_gfw_and_line_redox(self, tmp_path):
         components = pd.DataFrame({
@@ -438,6 +505,18 @@ class TestEquilibriumPhasesTable:
         with pytest.warns(DeprecationWarning, match="EquilibriumPhases: dict input is deprecated"):
             eq_phases = EquilibriumPhases({1: {"Calcite": {"si": 0.0, "m0": 1.0}}})
         assert eq_phases.block_numbers is None
+
+    def test_missing_ic_raises(self, tmp_path):
+        components, settings = tut01_solution_tables()
+        model = build_model(tmp_path, Solutions(components, settings, ic=1))
+        with pytest.raises(ValueError, match="EquilibriumPhases has no ic"):
+            model.set_equilibrium_phases(EquilibriumPhases(tut01_eq_table()))
+        assert model.equilibrium_phases is None
+
+        eq_phases = EquilibriumPhases(tut01_eq_table())
+        eq_phases.set_ic(1)
+        model.set_equilibrium_phases(eq_phases)
+        assert model.equilibrium_phases.ic.shape == model.grid_shape
 
     def test_dict_input_rejects_settings(self):
         with pytest.raises(TypeError, match="settings requires a components DataFrame"):

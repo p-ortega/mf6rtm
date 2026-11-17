@@ -244,6 +244,55 @@ def read_solution_tables(components, settings=None):
     return block_numbers, entries, block_settings
 
 
+def apply_charge_flag(number, entries, settings, species):
+    """Put the ``add_charge_flag`` charge balance on one row of a solution.
+
+    The flag goes through the same checks as the table's ``charge`` column:
+    one charge balance per solution, and not on a row with ``phase``. A
+    ``pH`` or ``pe`` given as a keyword option becomes a row, so that it can
+    carry the flag.
+
+    Parameters
+    ----------
+    number : int
+        Solution number, for error messages.
+    entries : dict
+        ``{element: {column: value}}`` for this solution. Not modified.
+    settings : dict
+        Merged settings for this solution. Not modified.
+    species : str
+        The row that gets the charge balance, e.g. ``"pH"`` or ``"Cl"``.
+
+    Returns
+    -------
+    entries, settings : dict
+        Copies with the flag applied.
+    applied : bool
+        False if the solution has no ``species``, so nothing was changed.
+
+    Raises
+    ------
+    ValueError
+        If the solution would have more than one charge balance, or the
+        ``species`` row has ``phase``.
+    """
+    entries = {element: dict(entry) for element, entry in entries.items()}
+    settings = dict(settings)
+    if species not in entries and species in _SOLUTION_SPECIAL and species in settings:
+        entries = {species: {"conc": settings.pop(species), "charge": False}, **entries}
+    if species not in entries:
+        return entries, settings, False
+    if "phase" in entries[species]:
+        raise ValueError(f"{species} in solution {number}: add_charge_flag cannot go on a row "
+                         "with 'phase'; give either 'charge' or 'phase', not both")
+    entries[species]["charge"] = True
+    charged = [element for element, entry in entries.items() if entry["charge"]]
+    if len(charged) > 1:
+        raise ValueError(f"Solution {number} has more than one charge balance: {charged} "
+                         f"(add_charge_flag={species!r} and the 'charge' column)")
+    return entries, settings, True
+
+
 def solution_block(number, entries, settings):
     """Write a SOLUTION block from table input.
 
