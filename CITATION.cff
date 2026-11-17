@@ -1,0 +1,45 @@
+cff-version: 1.2.0
+message: "If you use mf6rtm, please cite the JOSS paper below."
+title: "mf6rtm: MODFLOW 6 and PHREEQC Reactive Transport Modeling"
+type: software
+license: BSD-3-Clause
+repository-code: "https://github.com/p-ortega/mf6rtm"
+url: "https://mf6rtm.readthedocs.io"
+authors: &authors
+  - family-names: Ortega-Tong
+    given-names: Pablo
+    orcid: "https://orcid.org/0000-0003-4091-4221"
+  - family-names: Aufdenkampe
+    given-names: Anthony
+    orcid: "https://orcid.org/0000-0002-5811-6458"
+  - family-names: Prieto-Estrada
+    given-names: Andres
+    orcid: "https://orcid.org/0000-0002-8984-1177"
+  - family-names: Foster
+    given-names: Allan
+    orcid: "https://orcid.org/0000-0002-3746-4226"
+  - family-names: Tomasula
+    given-names: Paul
+    orcid: "https://orcid.org/0009-0004-8120-5936"
+  - family-names: Mancewicz
+    given-names: Lauren
+    orcid: "https://orcid.org/0009-0002-9622-5636"
+identifiers:
+  - type: doi
+    value: 10.21105/joss.11173
+    description: JOSS paper
+  - type: doi
+    value: 10.5281/zenodo.17118951
+    description: Zenodo software archive
+preferred-citation:
+  type: article
+  title: "MF6RTM: a Python package for predictive reactive transport modeling via the MODFLOW 6 and PHREEQC APIs"
+  authors: *authors
+  journal: "Journal of Open Source Software"
+  year: 2026
+  month: 11
+  volume: 11
+  issue: 127
+  start: 11173
+  doi: 10.21105/joss.11173
+  url: "https://doi.org/10.21105/joss.11173"
