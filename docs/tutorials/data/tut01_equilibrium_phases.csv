@@ -1,3 +1,3 @@
-phase,sat_index,conc_mol_lb,num
-Calcite,0.,1.220625e-004,1
-Dolomite,0.,0.,1
+block,phase,si,m0
+1,Calcite,0.0,1.220625e-4
+1,Dolomite,0.0,0.0

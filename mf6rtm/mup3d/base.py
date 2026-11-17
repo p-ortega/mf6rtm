@@ -15,6 +15,7 @@ import phreeqcrm
 
 from mf6rtm import utils
 from mf6rtm.config import MF6RTMConfig
+from mf6rtm.mup3d import tables
 from mf6rtm.simulation.solver import solve
 
 
@@ -128,27 +129,150 @@ class GasPhase(Block):
         super().__init__(data)
 
 class Solutions(Block):
-    """The Solutions Block.
+    """The Solutions Block (PHREEQC ``SOLUTION``).
 
     Attributes
     ----------
-    parameters : dict, optional
-        Dictionary of parameters for the solutions. Default is None.
+    block_numbers : list of int or None
+        Solution numbers as written in the PHREEQC script (``SOLUTION 10``),
+        or None for dict input (solutions ``1..n`` in order).
+    entries : dict
+        ``{number: {element: {column: value}}}`` from the components table.
+    settings : dict
+        ``{number: {setting: value}}`` from the settings table, including
+        ``note``.
+    keyword_options : dict
+        Settings shared by all solutions, from keyword arguments.
     """
-    def __init__(self, data) -> None:
-        super().__init__(data)
+    def __init__(self, components, settings=None, ic=None, **options) -> None:
+        """Initialize a Solutions instance.
+
+        Parameters
+        ----------
+        components : pandas.DataFrame
+            One row per element per solution. Required columns are ``block``
+            (the solution number), ``element`` and ``conc``. Optional columns
+            are ``units``, ``as``, ``gfw``, ``redox``, ``charge`` (bool),
+            ``phase`` and ``phase_si``. ``pH`` and ``pe`` are rows here too,
+            with the value in ``conc``, so that they can carry ``charge`` or
+            ``phase``. If a solution has no ``pH`` or ``pe`` row and no
+            keyword option gives one, the line is left out and PHREEQC uses
+            its default (pH 7, pe 4). Read a CSV file with
+            ``pd.read_csv``. A dict ``{species: [value per solution]}`` is
+            still accepted but deprecated.
+        settings : pandas.DataFrame, optional
+            One row per solution: ``block`` and any of ``note``, ``temp``,
+            ``pressure``, ``redox``, ``units``, ``density`` and
+            ``density_calculate`` (bool). ``note`` is written after the
+            solution number, as the PHREEQC description.
+            ``density_calculate`` writes ``density value calculate``, so that
+            PHREEQC uses the value only as a first guess; it matters only for
+            concentrations per volume, such as mol/L.
+        ic : int or ndarray, optional
+            Solution number(s) of the initial condition. Defaults to the
+            first solution number.
+        **options
+            Settings shared by all solutions, e.g. ``temp=25.0``,
+            ``pH=7.0`` or ``units="mmol/kgw"``. A solution's own value in
+            ``settings`` (or its ``pH``/``pe`` row) takes precedence.
+            ``units`` defaults to ``mol/kgw`` and ``temp`` to the model's
+            initial temperature.
+
+        Raises
+        ------
+        ValueError
+            If a table defines no solutions, has unknown or missing columns,
+            a non-numeric value in a numeric column, a duplicate element,
+            conflicting options or more than one charge balance per solution.
+        """
+        if isinstance(components, dict):
+            if settings is not None or options:
+                raise TypeError("settings and options require a components DataFrame")
+            tables.warn_dict_input("Solutions")
+            super().__init__(components, ic)
+            self.block_numbers = None
+            self.entries = {}
+            self.settings = {}
+            self.keyword_options = {}
+            return
+
+        options = tables.check_options(options, tables.SOLUTION_OPTIONS,
+                                       tables.SOLUTION_NUMERIC, "Solutions", tables.SOLUTION_FLAGS)
+        block_numbers, entries, block_settings = tables.read_solution_tables(components, settings)
+        tables.check_density(block_numbers, options, block_settings)
+        data = {}
+        for pos, number in enumerate(block_numbers):
+            for element, entry in entries.get(number, {}).items():
+                data.setdefault(element, [None] * len(block_numbers))[pos] = entry["conc"]
+        super().__init__(data, ic)
+        self.block_numbers = block_numbers
+        self.entries = entries
+        self.settings = block_settings
+        self.keyword_options = options
 
 class EquilibriumPhases(Block):
-    """The EquilibriumPhases Block.
+    """The EquilibriumPhases Block (PHREEQC ``EQUILIBRIUM_PHASES``).
 
     Attributes
     ----------
-    parameters : dict, optional
-        Dictionary of parameters for the equilibrium phases. Default is None.
+    block_numbers : list of int or None
+        Block numbers as written in the PHREEQC script
+        (``EQUILIBRIUM_PHASES 3``), or None for dict input (blocks ``1..n``
+        in order).
+    extras : dict
+        ``{number: {phase: {column: value}}}`` with ``alternative``,
+        ``constraint`` and ``force_equality`` from the components table.
+    settings : dict
+        ``{number: {setting: value}}`` from the settings table, i.e.
+        ``note``.
     """
-    def __init__(self, data) -> None:
-        super().__init__(data)
-        self.data = utils.fill_missing_minerals(data)
+    def __init__(self, components, settings=None, ic=None) -> None:
+        """Initialize an EquilibriumPhases instance.
+
+        Parameters
+        ----------
+        components : pandas.DataFrame
+            One row per phase per block. Required columns are ``block`` and
+            ``phase``. Optional columns are ``si`` (default 0), ``m0``
+            (default 10, as in PHREEQC), ``alternative``, ``constraint``
+            (``dissolve_only`` or ``precipitate_only``) and
+            ``force_equality`` (bool). ``alternative`` is the PHREEQC
+            alternative formula or alternative phase: the formula added or
+            removed, or the phase dissolved or precipitated, to reach the
+            target ``si`` of ``phase``. PHREEQC treats it as a phase if the
+            database defines one with that name, otherwise as a formula.
+            Read a CSV file with ``pd.read_csv``.
+            A dict ``{block: {phase: {"si": .., "m0": ..}}}`` is still
+            accepted but deprecated.
+        settings : pandas.DataFrame, optional
+            One row per block: ``block`` and ``note``. ``note`` is written
+            after the block number, as the PHREEQC description.
+        ic : int or ndarray, optional
+            Block number(s) of the initial condition.
+
+        Raises
+        ------
+        ValueError
+            If a table defines no blocks, has unknown or missing columns, a
+            non-numeric ``si`` or ``m0``, a duplicate phase or an unknown
+            ``constraint``.
+        """
+        if isinstance(components, dict):
+            if settings is not None:
+                raise TypeError("settings requires a components DataFrame")
+            tables.warn_dict_input("EquilibriumPhases")
+            super().__init__(components, ic)
+            self.block_numbers = None
+            self.extras = {}
+            self.settings = {}
+        else:
+            block_numbers, data, extras, block_settings = tables.read_equilibrium_phase_tables(
+                components, settings)
+            super().__init__(data, ic)
+            self.block_numbers = block_numbers
+            self.extras = extras
+            self.settings = block_settings
+        self.data = utils.fill_missing_minerals(self.data)
 
 class ExchangePhases(Block):
     """The ExchangePhases Block.
@@ -432,7 +556,8 @@ class Mup3d(object):
             self.grid_shape = (self.nxyz,)
 
         if self.solutions.ic is None:
-            self.solutions.ic = [1]*self.nxyz
+            block_numbers = getattr(self.solutions, 'block_numbers', None)
+            self.solutions.ic = 1 if not block_numbers else block_numbers[0]
         if isinstance(self.solutions.ic, (int, float)):
             self.solutions.ic = np.reshape([self.solutions.ic]*self.nxyz, self.grid_shape)
             # print(self.solutions.ic.shape, self.nxyz, self.grid_shape)
@@ -747,6 +872,12 @@ class Mup3d(object):
         solution_keys = [key for key in self.solutions.data.keys() if key not in ["pH", "pe"]]
         missing = ", ".join(key for key in solution_keys if key not in names)
         assert all(key in names for key in solution_keys), f'Not all compounds are in the database - check: {missing}'
+        # phases named in the table's phase column, e.g. "C(4) 1 CO2(g) -3.5"
+        if getattr(self.solutions, 'entries', {}):
+            sol_phases = {entry['phase'] for block in self.solutions.entries.values()
+                          for entry in block.values() if 'phase' in entry}
+            missing = ', '.join(sorted(sol_phases - set(utils.get_compound_names(self.database, 'PHASES'))))
+            assert not missing, f'Following phases are not in database: {missing}'
 
         script = ""
 
@@ -759,18 +890,30 @@ class Mup3d(object):
             # self.solutions.data[key] = [1e-30 if val == 0.0 else val for val in value]
             self.solutions.data[key] = [val for val in value]
 
-        # Get the number of solutions
-        num_solutions = len(next(iter(self.solutions.data.values())))
-
-        # Initialize the list of previous concentrations and phases
-
-        for i in range(num_solutions):
-            # Get the current concentrations and phases
-            concentrations = {species: values[i] for species, values in self.solutions.data.items()}
-            script += utils.handle_block(concentrations, utils.generate_solution_block, i, temp=self.init_temp, water=1)
+        sol_numbers = getattr(self.solutions, 'block_numbers', None)
+        if sol_numbers is None:
+            # Get the number of solutions
+            num_solutions = len(next(iter(self.solutions.data.values())))
+            for i in range(num_solutions):
+                # Get the current concentrations and phases
+                concentrations = {species: values[i] for species, values in self.solutions.data.items()}
+                script += utils.handle_block(concentrations, utils.generate_solution_block, i, temp=self.init_temp, water=1)
+        else:
+            for i, number in enumerate(sol_numbers):
+                entries = self.solutions.entries.get(number, {})
+                temp = self.init_temp[i] if isinstance(self.init_temp, (list, np.ndarray)) else self.init_temp
+                # per-solution settings over keyword options over model defaults
+                settings = {'units': 'mol/kgw', 'temp': temp,
+                            **self.solutions.keyword_options,
+                            **self.solutions.settings.get(number, {})}
+                for key in ('pH', 'pe'):
+                    if key in entries:
+                        settings.pop(key, None)
+                script += tables.solution_block(number, entries, settings)
 
         # check if self.equilibrium_phases is not None
         if self.equilibrium_phases is not None:
+            eq_numbers = getattr(self.equilibrium_phases, 'block_numbers', None)
             for i in self.equilibrium_phases.data.keys():
                 # Get the current   phases
                 phases = self.equilibrium_phases.data[i]
@@ -780,7 +923,13 @@ class Mup3d(object):
                 assert all(key in names for key in phases.keys()), f'Following phases are not in database: {missing}'
 
                 # Handle the  EQUILIBRIUM_PHASES blocks
-                script += utils.handle_block(phases, utils.generate_equ_phases_block, i)
+                if eq_numbers is None:
+                    script += utils.handle_block(phases, utils.generate_equ_phases_block, i)
+                else:
+                    number = eq_numbers[i]
+                    script += tables.equilibrium_phases_block(
+                        number, phases, self.equilibrium_phases.extras.get(number),
+                        self.equilibrium_phases.settings.get(number, {}).get('note'))
 
         # check if self.exchange_phases is not None
         if self.exchange_phases is not None:
@@ -969,6 +1118,15 @@ class Mup3d(object):
         ic1[:, 5] = -1  # Solid solutions
         if isinstance(self.kinetic_phases, KineticPhases):
             ic1[:, 6] = np.reshape(self.kinetic_phases.ic, self.nxyz)  # Kinetics
+
+        # table input: every number in ic must be a defined block
+        for block, col in [(self.solutions, 0), (self.equilibrium_phases, 1)]:
+            block_numbers = getattr(block, 'block_numbers', None)
+            if block_numbers is not None:
+                unknown = sorted(set(np.unique(ic1[:, col]).tolist()) - set(block_numbers) - {-1})
+                if unknown:
+                    raise ValueError(f'{type(block).__name__} ic refers to undefined block(s) '
+                                     f'{unknown}; defined blocks are {block_numbers}')
 
         ic1_flatten = ic1.flatten('F')
 
@@ -1467,6 +1625,12 @@ class Mup3d(object):
         """
         self._write_phreeqc_init_file()
         if self.config.reactive['externalio']:
+            if self.equilibrium_phases is not None and getattr(self.equilibrium_phases, 'extras', None):
+                warnings.warn(
+                    "externalio rewrites EQUILIBRIUM_PHASES with si and m0 only; "
+                    "alternative, constraint and force_equality are not carried over",
+                    stacklevel=2,
+                )
             self.write_internal_parameters()
             self.write_external_files_layered()
         self.save_config()
@@ -1966,7 +2130,7 @@ class Mup3d(object):
                 print(f"Writing external files for {attr:<20}: {name}")
                 for prop in property_to_write:
                     arr = utils.map_species_property_to_grid(
-                        data, ic, name, prop
+                        data, ic, name, prop, block_numbers=getattr(phase_obj, 'block_numbers', None)
                     )
                     for ly in range(arr.shape[0]):
                         filepath = os.path.join(self.wd, f"{attr}.{name}.{prop}.layer{ly+1}.txt")
