@@ -123,5 +123,24 @@ Contributions, bug reports, and questions are welcome. See [CONTRIBUTING.md](CON
 
 The documentation is available in [mf6rtm - read the docs](https://mf6rtm.readthedocs.io)
 
+## Citation
+
+If you use mf6rtm, please cite the JOSS paper:
+
+Ortega-Tong, P., Aufdenkampe, A., Prieto-Estrada, A., Foster, A., Tomasula, P., & Mancewicz, L. (2026). MF6RTM: a Python package for predictive reactive transport modeling via the MODFLOW 6 and PHREEQC APIs. *Journal of Open Source Software*, 11(127), 11173. https://doi.org/10.21105/joss.11173
+
+```bibtex
+@article{OrtegaTong2026,
+  title   = {MF6RTM: a Python package for predictive reactive transport modeling via the MODFLOW 6 and PHREEQC APIs},
+  author  = {Ortega-Tong, Pablo and Aufdenkampe, Anthony and Prieto-Estrada, Andres and Foster, Allan and Tomasula, Paul and Mancewicz, Lauren},
+  journal = {Journal of Open Source Software},
+  year    = {2026},
+  volume  = {11},
+  number  = {127},
+  pages   = {11173},
+  doi     = {10.21105/joss.11173}
+}
+```
+
 ## Funding
 The developing of mf6rtm was kindly supported by [INTERA, Inc](https://www.intera.com).
