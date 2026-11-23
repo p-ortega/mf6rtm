@@ -28,6 +28,7 @@ These Jupyter Notebooks run classic, well-know reference models using this MF6RT
 4. **Example 4: Parkhurst and Appelo 2013 (PHREEQC-3 Example 11) 1D Cation Exchange.** Cation exchange column flushing of a sodium-potassium nitrate solution with calcium chloride.
 5. **Example 5: Appelo 1998. Pyrite Oxidation**  Modelling of an oxidation experiment with marine pyrite-containing sediments.
 6. **Example 6: Parkhurst and Appelo 2013 (PHREEQC-3 Example 11) Cation Exchange.** 3D variant of Cation Exchange with DISV grid
+10. **Example 10: Reactions in the immobile water (dual-domain mass transfer).** 1D column with constant mobile/immobile water contents and exchange coefficient; the immobile water has its own PHREEQC chemistry (reactive DDMT mode, second PhreeqcRM instance). Case 1: first-order Cl decay only in the immobile water vs. MODFLOW 6 IST with immobile decay. Case 2: kinetic calcite dissolution only in the immobile water vs. PHREEQC TRANSPORT with stagnant cells (run through PhreeqcRM, no PHREEQC executable needed). Requires the `feature-ddmt` DDMT functionality.
 
 ## Install Development Environment
 
