@@ -563,6 +563,8 @@ class Mf6RTM(object):
         if self.ddmt_mode not in ("storage", "reactive"):
             raise ValueError("ddmt_mode must be either 'storage' or 'reactive'")
 
+        self._check_mst_porosity()
+
         if self.ddmt_mode == "reactive":
             self._prepare_immobile_phreeqcrm()
 
@@ -573,6 +575,25 @@ class Mf6RTM(object):
             )
 
 
+    def _check_mst_porosity(self, rtol=1e-6):
+        """Check that theta_mobile equals the MF6 MST porosity of every transport model.
+
+        The exchange uses theta_mobile, while MODFLOW 6 moves solute with its own MST porosity.
+        A common mistake is to give MF6 the total porosity (theta_mobile + theta_immobile).
+        """
+        for model_name in sorted(set(self.component_model_dict.values())):
+            por = np.asarray(self.mf6api.get_value_ptr(
+                self.mf6api.get_var_address("POROSITY", model_name.upper(), "MST")), dtype=float)
+            if por.shape != np.shape(self.theta_mobile):
+                continue        # reduced grid (inactive cells): sizes differ, no cell-by-cell check
+            if not np.allclose(por, self.theta_mobile, rtol=rtol, atol=1e-12):
+                i = int(np.argmax(np.abs(por - self.theta_mobile)))
+                raise ValueError(
+                    f"DDMT: theta_mobile ({self.theta_mobile[i]:.6g} in cell {i}) differs from the MST "
+                    f"porosity of {model_name} ({por[i]:.6g}). The MST porosity must be the mobile porosity, "
+                    "not the total porosity theta_mobile + theta_immobile."
+                )
+
     def _prepare_immobile_phreeqcrm(self):
         """Prepare the second PhreeqcBMI instance for immobile-domain reactions."""
         if self.phreeqcbmi_immobile is None:
@@ -580,7 +601,18 @@ class Mf6RTM(object):
                 raise ValueError(
                     "ddmt_mode='reactive' requires immobile_yaml or phreeqcbmi_immobile"
                 )
-            self.phreeqcbmi_immobile = PhreeqcBMI(self.immobile_yaml)
+            # PhreeqcRM resolves the file names in the YAML (database, chemistry input, log prefix)
+            # relative to the current working directory. An immobile YAML written in another folder
+            # (own immobile chemistry) would otherwise load the mobile model's files.
+            yaml_path = Path(self.immobile_yaml)
+            if not yaml_path.is_absolute():
+                yaml_path = Path(self.wd) / yaml_path
+            cwd_before = os.getcwd()
+            try:
+                os.chdir(yaml_path.parent)
+                self.phreeqcbmi_immobile = PhreeqcBMI(str(yaml_path))
+            finally:
+                os.chdir(cwd_before)
 
         self.phreeqcbmi_immobile._prepare_phreeqcrm_bmi()
         self.phreeqcbmi_immobile.SetTimeConversion(self.time_conversion)
@@ -880,7 +912,15 @@ class Mf6RTM(object):
         immobile_sat = np.where(self.theta_immobile > 0.0, 1.0, 0.0)
         self.phreeqcbmi_immobile.sat_now = immobile_sat
 
-        self.phreeqcbmi_immobile._solve_phreeqcrm(dt, diffmask=diffmask)
+        # React all cells with immobile water. The mobile diffmask (change of the mobile
+        # concentrations) does not tell whether the immobile water changed, and cells it switches
+        # off would keep their immobile chemistry frozen. Cells excluded by the user
+        # (no_react_cells) stay excluded.
+        immobile_mask = immobile_sat.copy()
+        if self.no_react_idx is not None:
+            immobile_mask[self.no_react_idx] = 0.0
+
+        self.phreeqcbmi_immobile._solve_phreeqcrm(dt, diffmask=immobile_mask)
 
         self.immobile_conc_m3 = self._get_phreeqcbmi_concentrations_m3(
             self.phreeqcbmi_immobile
