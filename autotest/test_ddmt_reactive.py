@@ -103,6 +103,15 @@ def test_immobile_reactions_use_immobile_mask():
     np.testing.assert_array_equal(s.phreeqcbmi_immobile.mask, [1.0, 0.0, 1.0, 0.0])
 
 
+def test_mst_porosity_check():
+    s = _bare_solver()                                  # fake MF6: MST porosity 0.5 in every cell
+    s.theta_mobile = np.full(4, 0.5)
+    s._check_mst_porosity()                             # consistent: no error
+    s.theta_mobile = np.array([0.5, 0.5, 0.6, 0.5])     # e.g. total porosity given to MF6 or a typo
+    with pytest.raises(ValueError, match="MST porosity"):
+        s._check_mst_porosity()
+
+
 # ---------------------------------------------------------------------------- integration tests
 def _libmf6():
     ext = ".dylib" if "darwin" in platform.platform().lower() or "macos" in platform.platform().lower() else \

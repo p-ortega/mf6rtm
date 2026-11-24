@@ -563,6 +563,8 @@ class Mf6RTM(object):
         if self.ddmt_mode not in ("storage", "reactive"):
             raise ValueError("ddmt_mode must be either 'storage' or 'reactive'")
 
+        self._check_mst_porosity()
+
         if self.ddmt_mode == "reactive":
             self._prepare_immobile_phreeqcrm()
 
@@ -572,6 +574,25 @@ class Mf6RTM(object):
                 output_format=self.ddmt_output_format,
             )
 
+
+    def _check_mst_porosity(self, rtol=1e-6):
+        """Check that theta_mobile equals the MF6 MST porosity of every transport model.
+
+        The exchange uses theta_mobile, while MODFLOW 6 moves solute with its own MST porosity.
+        A common mistake is to give MF6 the total porosity (theta_mobile + theta_immobile).
+        """
+        for model_name in sorted(set(self.component_model_dict.values())):
+            por = np.asarray(self.mf6api.get_value_ptr(
+                self.mf6api.get_var_address("POROSITY", model_name.upper(), "MST")), dtype=float)
+            if por.shape != np.shape(self.theta_mobile):
+                continue        # reduced grid (inactive cells): sizes differ, no cell-by-cell check
+            if not np.allclose(por, self.theta_mobile, rtol=rtol, atol=1e-12):
+                i = int(np.argmax(np.abs(por - self.theta_mobile)))
+                raise ValueError(
+                    f"DDMT: theta_mobile ({self.theta_mobile[i]:.6g} in cell {i}) differs from the MST "
+                    f"porosity of {model_name} ({por[i]:.6g}). The MST porosity must be the mobile porosity, "
+                    "not the total porosity theta_mobile + theta_immobile."
+                )
 
     def _prepare_immobile_phreeqcrm(self):
         """Prepare the second PhreeqcBMI instance for immobile-domain reactions."""
