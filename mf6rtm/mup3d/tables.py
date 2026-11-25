@@ -184,6 +184,21 @@ def header(keyword, number, note=None):
     return line + "\n"
 
 
+def warn_settings_only(block_settings, components, label, keyword, written_with):
+    """Warn about blocks that are in the settings table but not in the components table.
+
+    Such a block is still written, because it may be intended (PHREEQC accepts
+    an empty block), but it is more often a typo in a block number.
+    """
+    only = sorted(set(block_settings) - set(components))
+    if only:
+        warnings.warn(
+            f"{label}(s) {only} are in the settings table but not in the components "
+            f"table; {keyword} {', '.join(map(str, only))} will be written with {written_with}",
+            UserWarning, stacklevel=4,
+        )
+
+
 def read_solution_tables(components, settings=None):
     """Read the Solutions components and settings tables.
 
@@ -241,6 +256,8 @@ def read_solution_tables(components, settings=None):
     block_numbers = sorted(set(entries) | set(block_settings))
     if not block_numbers:
         raise ValueError("Solutions tables define no solutions")
+    warn_settings_only(block_settings, entries, "Solution", "SOLUTION",
+                       "settings only (pure water, PHREEQC defaults)")
     return block_numbers, entries, block_settings
 
 
@@ -317,7 +334,7 @@ def solution_block(number, entries, settings):
         if key in settings:
             value = settings[key]
             if key == "temp":
-                value = f"{float(value):.1f}"
+                value = str(float(value))
             elif key in ("pressure", "density"):
                 value = fmt(value)
             if key == "density" and settings.get("density_calculate"):
@@ -400,6 +417,8 @@ def read_equilibrium_phase_tables(components, settings=None):
     block_numbers = sorted(set(blocks) | set(block_settings))
     if not block_numbers:
         raise ValueError("EquilibriumPhases tables define no blocks")
+    warn_settings_only(block_settings, blocks, "EquilibriumPhases block", "EQUILIBRIUM_PHASES",
+                       "every phase at m0 = 0 (fill_missing_minerals)")
     data = {pos: blocks.get(number, {}) for pos, number in enumerate(block_numbers)}
     return block_numbers, data, extras, block_settings
 

@@ -156,8 +156,9 @@ class Solutions(Block):
             ``phase`` and ``phase_si``. ``pH`` and ``pe`` are rows here too,
             with the value in ``conc``, so that they can carry ``charge`` or
             ``phase``. If a solution has no ``pH`` or ``pe`` row and no
-            keyword option gives one, the line is left out and PHREEQC uses
-            its default (pH 7, pe 4). Read a CSV file with
+            keyword option gives one, the PHREEQC default (pH 7, pe 4) is
+            written, so that every solution has a line that
+            ``add_charge_flag`` can use. Read a CSV file with
             ``pd.read_csv``. A dict ``{species: [value per solution]}`` is
             still accepted but deprecated.
         settings : pandas.DataFrame, optional
@@ -873,8 +874,10 @@ class Mup3d(object):
             ``"Cl"``) to balance on that component instead. Only one component
             may carry the flag. With table input the name must match an
             ``element`` exactly (``"C(+4)"``, not ``"C"``), and the flag goes
-            through the same checks as the ``charge`` column; a name that no
-            solution has only prints a warning. With dict input the flag is
+            through the same checks as the ``charge`` column. pH and pe are
+            always written, so they can carry the flag in every solution; a
+            warning lists the solutions that have no row for any other name.
+            With dict input the flag is
             added to every SOLUTION line that starts with the name.
         Returns
         -------
@@ -921,12 +924,14 @@ class Mup3d(object):
                 script += utils.handle_block(concentrations, utils.generate_solution_block, i, temp=self.init_temp, water=1)
         else:
             charge_species = self._resolve_charge_species(add_charge_flag) if add_charge_flag else None
-            charge_applied = False
+            not_charged = []
             for i, number in enumerate(sol_numbers):
                 entries = self.solutions.entries.get(number, {})
                 temp = self.init_temp[i] if isinstance(self.init_temp, (list, np.ndarray)) else self.init_temp
-                # per-solution settings over keyword options over model defaults
-                settings = {'units': 'mol/kgw', 'temp': temp,
+                # per-solution settings over keyword options over model defaults;
+                # pH and pe are always written (PHREEQC defaults 7 and 4), so
+                # every solution has a pH/pe line that add_charge_flag can use
+                settings = {'units': 'mol/kgw', 'temp': temp, 'pH': 7.0, 'pe': 4.0,
                             **self.solutions.keyword_options,
                             **self.solutions.settings.get(number, {})}
                 for key in ('pH', 'pe'):
@@ -936,12 +941,13 @@ class Mup3d(object):
                 if charge_species is not None:
                     entries, settings, applied = tables.apply_charge_flag(
                         number, entries, settings, charge_species)
-                    charge_applied = charge_applied or applied
+                    if not applied:
+                        not_charged.append(number)
                 script += tables.solution_block(number, entries, settings)
-            if charge_species is not None and not charge_applied:
+            if not_charged:
                 print(
                     f"WARNING: charge flag component '{charge_species}' not found in "
-                    "any solution; no 'charge' keyword will be added."
+                    f"solution(s) {not_charged}; they are not charge balanced."
                 )
 
         # check if self.equilibrium_phases is not None
@@ -976,6 +982,11 @@ class Mup3d(object):
                 assert self.exchange_phases.eq_solutions is not None, 'No equilibrate solutions defined'
                 assert isinstance(self.exchange_phases.eq_solutions, (list, np.ndarray)), "exchange_phases.eq_solutions must be a list or numpy array"
                 assert len(self.exchange_phases.data.keys()) == len(self.exchange_phases.eq_solutions), "Mismatch between number of exchangers and eq_solutions"
+                eq_sol = self.exchange_phases.eq_solutions[i]
+                if sol_numbers is not None and eq_sol not in sol_numbers:
+                    raise ValueError(
+                        f"ExchangePhases block {i + 1} equilibrates with undefined solution "
+                        f"{eq_sol}; defined solutions are {sol_numbers}")
                 # Handle the  EQUILIBRIUM_PHASES blocks
                 script += utils.handle_block(phases, utils.generate_exchange_block, i, equilibrate_solutions=self.exchange_phases.eq_solutions[i])
 
@@ -1003,8 +1014,17 @@ class Mup3d(object):
                 missing = ', '.join(key for key in phases.keys() if key not in names)
                 assert all(key in names for key in phases.keys()), f'Following phases are not in database: {missing}'
                 # Equilibrate each surface with its zone's solution (mirrors the
-                # exchange path); fall back to solution 1 if no targets were set.
-                eq_sol = 1 if self.surfaces_phases.eq_solutions is None else self.surfaces_phases.eq_solutions[i]
+                # exchange path); fall back to the first solution if no targets
+                # were set (solution 1 for dict input, the first block number
+                # for table input).
+                if self.surfaces_phases.eq_solutions is None:
+                    eq_sol = 1 if sol_numbers is None else sol_numbers[0]
+                else:
+                    eq_sol = self.surfaces_phases.eq_solutions[i]
+                    if sol_numbers is not None and eq_sol not in sol_numbers:
+                        raise ValueError(
+                            f"Surfaces block {i + 1} equilibrates with undefined solution "
+                            f"{eq_sol}; defined solutions are {sol_numbers}")
                 script += utils.handle_block(phases, utils.generate_surface_block, i, equilibrate_solutions=eq_sol, options=self.surfaces_phases.options)
 
         # add end of line before postfix
@@ -1666,10 +1686,33 @@ class Mup3d(object):
                     "alternative, constraint and force_equality are not carried over",
                     stacklevel=2,
                 )
+            self._warn_si_differs_between_blocks()
             self.write_internal_parameters()
             self.write_external_files_layered()
         self.save_config()
         return
+
+    def _warn_si_differs_between_blocks(self):
+        """Warn when a phase has different si values in different blocks.
+
+        With externalio, write_internal_parameters takes si from the first
+        EQUILIBRIUM_PHASES block only, so every cell gets that value.
+        """
+        if self.equilibrium_phases is None:
+            return
+        data = self.equilibrium_phases.data
+        first = data[next(iter(data))]
+        differ = sorted(
+            name for name in first
+            if any(name in phases and phases[name].get('si') != first[name].get('si')
+                   for phases in data.values())
+        )
+        if differ:
+            warnings.warn(
+                "externalio uses the si of the first EQUILIBRIUM_PHASES block in every cell; "
+                f"si differs between blocks for {', '.join(differ)}",
+                stacklevel=3,
+            )
 
     def initialize_chem_stress(
         self,

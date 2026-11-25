@@ -1,5 +1,6 @@
 """Tests for table input to Solutions and EquilibriumPhases (#38, #90)."""
 import os
+import warnings
 from pathlib import Path
 
 import numpy as np
@@ -7,7 +8,7 @@ import pandas as pd
 import pytest
 
 from mf6rtm import utils
-from mf6rtm.mup3d import ChemStress, EquilibriumPhases, Mup3d, Solutions, tables
+from mf6rtm.mup3d import ChemStress, EquilibriumPhases, ExchangePhases, Mup3d, Solutions, SurfacePhases, tables
 
 DATA = Path(__file__).resolve().parent.parent / "docs" / "tutorials" / "data"
 DATABASE = str(DATA / "tut01_datab.dat")
@@ -213,12 +214,16 @@ class TestSolutionsTable:
         with pytest.raises(ValueError, match=match):
             model.generate_phreeqc_script(add_charge_flag=True)
 
-    def test_add_charge_flag_missing_species_warns(self, tmp_path, capsys):
+    def test_add_charge_flag_default_ph_and_missing_species(self, tmp_path, capsys):
         components, settings = tut01_solution_tables(with_ph=False)
         model = build_model(tmp_path, Solutions(components, settings, ic=1))
         script = model.generate_phreeqc_script(add_charge_flag=True)
-        assert "charge flag component 'pH' not found" in capsys.readouterr().out
-        assert " charge" not in script
+        assert "charge flag component 'pH' not found" not in capsys.readouterr().out
+        assert script.count("pH 7.00000e+00 charge") == 2
+
+        model.generate_phreeqc_script(add_charge_flag="Cl")
+        assert ("charge flag component 'Cl' not found in solution(s) [1]; "
+                "they are not charge balanced") in capsys.readouterr().out
 
     def test_gfw_and_line_redox(self, tmp_path):
         components = pd.DataFrame({
@@ -233,6 +238,13 @@ class TestSolutionsTable:
         lines = script_blocks(model.generate_phreeqc_script(), "SOLUTION")["SOLUTION 1"]
         assert "S(6) 9.60000e+01 mg/l gfw 9.60600e+01" in lines
         assert "Fe 1.00000e-01 O(-2)/O(0)" in lines
+
+    def test_temperature_full_precision(self, tmp_path):
+        components, settings = tut01_solution_tables()
+        model = build_model(tmp_path, Solutions(components, settings, ic=1, temp=12.345))
+        model.initialize()
+        blocks = script_blocks(open(model.phinp).read(), "SOLUTION")
+        assert "temp 12.345" in blocks["SOLUTION 1 background"]
 
     def test_temperature_priority(self, tmp_path):
         components, settings = tut01_solution_tables()
@@ -303,12 +315,14 @@ class TestSolutionsTable:
         assert [line for line in blocks["SOLUTION 1 background"] if line.startswith("pH")] == ["pH 9.91000e+00"]
         assert "pH 7.50000e+00" in blocks["SOLUTION 2 inflow"]
 
-    def test_no_ph_writes_no_line(self, tmp_path):
-        """Without a pH row or option PHREEQC uses its default."""
+    def test_no_ph_writes_default(self, tmp_path):
+        """Without a pH/pe row or option, the PHREEQC defaults 7 and 4 are written."""
         components, settings = tut01_solution_tables(with_ph=False)
         model = build_model(tmp_path, Solutions(components, settings, ic=1))
         blocks = script_blocks(model.generate_phreeqc_script(), "SOLUTION")
-        assert not any(line.startswith(("pH", "pe")) for lines in blocks.values() for line in lines)
+        for lines in blocks.values():
+            assert [line for line in lines if line.startswith(("pH", "pe"))] == [
+                "pH 7.00000e+00", "pe 4.00000e+00"]
 
     @pytest.mark.parametrize("change, match", [
         ({"foo": [1, 1, 2, 2]}, "Unknown column"),
@@ -378,13 +392,16 @@ class TestSolutionsTable:
             Solutions(components.iloc[0:0])
 
     def test_settings_only_solution(self, tmp_path):
-        """A solution may have settings but no components (pure water)."""
+        """A solution may have settings but no components (pure water), with a warning."""
         components, settings = tut01_solution_tables()
         settings.loc[len(settings)] = [3, "water"]
-        solutions = Solutions(components, settings, ic=1)
+        with pytest.warns(UserWarning, match=r"Solution\(s\) \[3\] are in the settings table but not "
+                                             r"in the components table; SOLUTION 3 will be written"):
+            solutions = Solutions(components, settings, ic=1)
         assert solutions.block_numbers == [1, 2, 3]
         blocks = script_blocks(build_model(tmp_path, solutions).generate_phreeqc_script(), "SOLUTION")
-        assert blocks["SOLUTION 3 water"] == ["units mol/kgw", "temp 25.0"]
+        assert blocks["SOLUTION 3 water"] == [
+            "units mol/kgw", "temp 25.0", "pH 7.00000e+00", "pe 4.00000e+00"]
 
     def test_phase_not_in_database_raises(self, tmp_path):
         components, settings = tut01_solution_tables(with_ph=False)
@@ -487,6 +504,17 @@ class TestEquilibriumPhasesTable:
         with pytest.raises(ValueError, match="define no blocks"):
             EquilibriumPhases(tut01_eq_table().iloc[0:0])
 
+    def test_settings_only_block_warns(self, tmp_path):
+        eq_settings = pd.DataFrame({"block": [1, 4], "note": ["sand", "clay"]})
+        with pytest.warns(UserWarning, match=r"EquilibriumPhases block\(s\) \[4\] .* with every phase at m0 = 0"):
+            eq_phases = EquilibriumPhases(tut01_eq_table(), eq_settings, ic=1)
+        assert eq_phases.block_numbers == [1, 4]
+        components, settings = tut01_solution_tables()
+        model = build_model(tmp_path, Solutions(components, settings, ic=1), eq_phases)
+        blocks = script_blocks(model.generate_phreeqc_script(), "EQUILIBRIUM_PHASES")
+        assert sorted(blocks["EQUILIBRIUM_PHASES 4 clay"]) == [
+            "Calcite 0.00000e+00 0.00000e+00", "Dolomite 0.00000e+00 0.00000e+00"]
+
     def test_note_stored_in_settings(self):
         eq_phases = EquilibriumPhases(tut01_eq_table(), pd.DataFrame({"block": [1], "note": ["two\nlines"]}))
         assert eq_phases.settings == {1: {"note": "two lines"}}
@@ -500,6 +528,27 @@ class TestEquilibriumPhasesTable:
         with pytest.warns(UserWarning, match="externalio rewrites EQUILIBRIUM_PHASES"):
             model.initialize()
         assert os.path.exists(os.path.join(model.wd, "equilibrium_phases.Calcite.m0.layer1.txt"))
+
+    def test_externalio_warns_when_si_differs(self, tmp_path):
+        components, settings = tut01_solution_tables()
+        eq = tut01_eq_table()
+        eq = pd.concat([eq, eq.assign(block=2, si=[-0.5, 0.0])], ignore_index=True)
+        model = build_model(tmp_path, Solutions(components, settings, ic=1),
+                            EquilibriumPhases(eq, ic=np.array([[[1, 1, 2, 2]]])))
+        model.config.reactive["externalio"] = True
+        with pytest.warns(UserWarning, match="si differs between blocks for Calcite$"):
+            model.initialize()
+
+    def test_externalio_no_si_warning_when_equal(self, tmp_path):
+        components, settings = tut01_solution_tables()
+        eq = tut01_eq_table()
+        eq = pd.concat([eq, eq.assign(block=2)], ignore_index=True)
+        model = build_model(tmp_path, Solutions(components, settings, ic=1),
+                            EquilibriumPhases(eq, ic=np.array([[[1, 1, 2, 2]]])))
+        model.config.reactive["externalio"] = True
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", UserWarning)
+            model.initialize()
 
     def test_dict_input_warns(self):
         with pytest.warns(DeprecationWarning, match="EquilibriumPhases: dict input is deprecated"):
@@ -522,3 +571,41 @@ class TestEquilibriumPhasesTable:
         with pytest.raises(TypeError, match="settings requires a components DataFrame"):
             EquilibriumPhases({1: {"Calcite": {"si": 0.0, "m0": 1.0}}},
                               pd.DataFrame({"block": [1], "note": ["sand"]}))
+
+
+# ==================== Other blocks with table solutions ====================
+
+class TestEquilibrateWithTableSolutions:
+
+    def numbered_solutions(self):
+        components, settings = tut01_solution_tables()
+        components["block"] = components["block"].replace({1: 10, 2: 20})
+        settings["block"] = settings["block"].replace({1: 10, 2: 20})
+        return Solutions(components, settings)
+
+    def test_surface_defaults_to_first_block(self, tmp_path):
+        surfaces = SurfacePhases({0: {"Hfo_w": [0.001, 600, 1]}})
+        surfaces.set_ic(1)
+        model = build_model(tmp_path, self.numbered_solutions())
+        model.set_phases(surfaces)
+        model.initialize()
+        block = script_blocks(open(model.phinp).read(), "SURFACE")["SURFACE 1"]
+        assert "-equilibrate 10" in block
+
+    def test_surface_undefined_solution_raises(self, tmp_path):
+        surfaces = SurfacePhases({0: {"Hfo_w": [0.001, 600, 1]}})
+        surfaces.set_ic(1)
+        surfaces.set_equilibrate_solutions([1])
+        model = build_model(tmp_path, self.numbered_solutions())
+        model.set_phases(surfaces)
+        with pytest.raises(ValueError, match=r"undefined solution 1; defined solutions are \[10, 20\]"):
+            model.initialize()
+
+    def test_exchange_undefined_solution_raises(self, tmp_path):
+        exchanger = ExchangePhases({0: {"X": {"m0": 0.001}}})
+        exchanger.set_ic(1)
+        exchanger.set_equilibrate_solutions([1])
+        model = build_model(tmp_path, self.numbered_solutions())
+        model.set_exchange_phases(exchanger)
+        with pytest.raises(ValueError, match=r"undefined solution 1; defined solutions are \[10, 20\]"):
+            model.initialize()
