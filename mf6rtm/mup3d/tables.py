@@ -387,7 +387,7 @@ def read_equilibrium_phase_tables(components, settings=None):
     block_settings = read_settings(settings, EQUILIBRIUM_PHASE_SETTING_COLUMNS, (),
                                    "EquilibriumPhases settings")
 
-    blocks, extras = {}, {}
+    blocks, extras, defaulted = {}, {}, []
     for _, row in components.iterrows():
         number = as_block_number(row["block"])
         phase = row["phase"]
@@ -402,6 +402,9 @@ def read_equilibrium_phase_tables(components, settings=None):
         for key in EQUILIBRIUM_PHASE_NUMERIC:
             if key in given:
                 given[key] = as_number(given[key], f"'{key}' for {phase} in EQUILIBRIUM_PHASES {number}")
+        for key, default in (("si", DEFAULT_SI), ("m0", DEFAULT_M0)):
+            if key not in given:
+                defaulted.append(f"{key} = {default} for {phase} in EQUILIBRIUM_PHASES {number}")
         block[phase] = {
             "si": given.pop("si", DEFAULT_SI),
             "m0": given.pop("m0", DEFAULT_M0),
@@ -414,6 +417,11 @@ def read_equilibrium_phase_tables(components, settings=None):
         if given:
             extras.setdefault(number, {})[phase] = given
 
+    if defaulted:
+        warnings.warn(
+            "EquilibriumPhases: empty cells use the PHREEQC defaults: " + "; ".join(defaulted),
+            UserWarning, stacklevel=3,
+        )
     block_numbers = sorted(set(blocks) | set(block_settings))
     if not block_numbers:
         raise ValueError("EquilibriumPhases tables define no blocks")

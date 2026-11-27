@@ -829,7 +829,7 @@ def generate_solution_block(species_dict, i, temp=25.0, water=1.0):
         The SOLUTION block as a string.
     """
     if isinstance(temp, (int, float)):
-        t = f"{temp:.1f}"
+        t = str(float(temp))
     elif isinstance(temp, list):
         t = f"{temp[i]}"
     script = f"SOLUTION {i+1}\n"

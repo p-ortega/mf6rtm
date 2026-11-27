@@ -51,6 +51,7 @@ class Block:
         ic, optional
             Initial condition concentrations. Default is None.
         """
+        assert ic is None or isinstance(ic, (int, float, np.ndarray)), 'ic must be an int, float or ndarray'
         self.data = data
         self.ic = ic  #: None means no initial condition (-1)
         self.eq_solutions = None
@@ -945,9 +946,10 @@ class Mup3d(object):
                         not_charged.append(number)
                 script += tables.solution_block(number, entries, settings)
             if not_charged:
-                print(
-                    f"WARNING: charge flag component '{charge_species}' not found in "
-                    f"solution(s) {not_charged}; they are not charge balanced."
+                warnings.warn(
+                    f"charge flag component '{charge_species}' not found in "
+                    f"solution(s) {not_charged}; they are not charge balanced",
+                    stacklevel=2,
                 )
 
         # check if self.equilibrium_phases is not None

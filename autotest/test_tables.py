@@ -150,12 +150,12 @@ class TestSolutionsTable:
         model.set_chem_stress(wel)
         assert model.wel.data
 
-    def test_add_charge_flag_name_must_match(self, tmp_path, capsys):
+    def test_add_charge_flag_name_must_match(self, tmp_path):
         """A name matches an element exactly: "C" is not "C(+4)"."""
         components, settings = tut01_solution_tables()
         model = build_model(tmp_path, Solutions(components, settings, ic=1))
-        script = model.generate_phreeqc_script(add_charge_flag="C")
-        assert "charge flag component 'C' not found" in capsys.readouterr().out
+        with pytest.warns(UserWarning, match=r"charge flag component 'C' not found in solution\(s\) \[1, 2\]"):
+            script = model.generate_phreeqc_script(add_charge_flag="C")
         assert " charge" not in script
 
     def test_line_options(self, tmp_path):
@@ -214,16 +214,17 @@ class TestSolutionsTable:
         with pytest.raises(ValueError, match=match):
             model.generate_phreeqc_script(add_charge_flag=True)
 
-    def test_add_charge_flag_default_ph_and_missing_species(self, tmp_path, capsys):
+    def test_add_charge_flag_default_ph_and_missing_species(self, tmp_path):
         components, settings = tut01_solution_tables(with_ph=False)
         model = build_model(tmp_path, Solutions(components, settings, ic=1))
-        script = model.generate_phreeqc_script(add_charge_flag=True)
-        assert "charge flag component 'pH' not found" not in capsys.readouterr().out
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", UserWarning)
+            script = model.generate_phreeqc_script(add_charge_flag=True)
         assert script.count("pH 7.00000e+00 charge") == 2
 
-        model.generate_phreeqc_script(add_charge_flag="Cl")
-        assert ("charge flag component 'Cl' not found in solution(s) [1]; "
-                "they are not charge balanced") in capsys.readouterr().out
+        with pytest.warns(UserWarning, match=r"charge flag component 'Cl' not found in solution\(s\) \[1\]; "
+                                             "they are not charge balanced"):
+            model.generate_phreeqc_script(add_charge_flag="Cl")
 
     def test_gfw_and_line_redox(self, tmp_path):
         components = pd.DataFrame({
@@ -514,6 +515,23 @@ class TestEquilibriumPhasesTable:
         blocks = script_blocks(model.generate_phreeqc_script(), "EQUILIBRIUM_PHASES")
         assert sorted(blocks["EQUILIBRIUM_PHASES 4 clay"]) == [
             "Calcite 0.00000e+00 0.00000e+00", "Dolomite 0.00000e+00 0.00000e+00"]
+
+    def test_empty_si_and_m0_warn(self):
+        eq = tut01_eq_table().assign(si=[np.nan, 0.0], m0=[1.0, np.nan])
+        with pytest.warns(UserWarning, match=r"empty cells use the PHREEQC defaults: "
+                                             r"si = 0.0 for Calcite in EQUILIBRIUM_PHASES 1; "
+                                             r"m0 = 10.0 for Dolomite in EQUILIBRIUM_PHASES 1$"):
+            eq_phases = EquilibriumPhases(eq)
+        assert eq_phases.data[0]["Calcite"] == {"si": 0.0, "m0": 1.0}
+        assert eq_phases.data[0]["Dolomite"] == {"si": 0.0, "m0": 10.0}
+
+    @pytest.mark.parametrize("cls, table", [
+        (Solutions, lambda: tut01_solution_tables()[0]),
+        (EquilibriumPhases, tut01_eq_table),
+    ])
+    def test_ic_type_checked(self, cls, table):
+        with pytest.raises(AssertionError, match="ic must be an int, float or ndarray"):
+            cls(table(), ic=[1, 1, 2])
 
     def test_note_stored_in_settings(self):
         eq_phases = EquilibriumPhases(tut01_eq_table(), pd.DataFrame({"block": [1], "note": ["two\nlines"]}))
