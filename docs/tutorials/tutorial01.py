@@ -131,36 +131,41 @@ flopy.mf6.ModflowGwfgwt(sim, exgtype="GWF6-GWT6", exgmnamea="gwf",
 # %% [markdown]
 # ## 3. Define the geochemistry
 #
-# mf6rtm expresses PHREEQC chemistry as ``mup3d`` classes. For each input you
-# (1) load the data (here from CSV via a ``utils`` helper), (2) wrap it in the
-# matching class, and (3) call ``.set_ic(...)`` to place it — an integer *zone
-# number* for uniform chemistry, or a ``(nlay, nrow, ncol)`` array to vary it in
-# space. The object is then given to the model: ``Solutions`` goes into
-# ``from_mf6``; the phases are attached with ``set_*`` methods.
+# mf6rtm expresses PHREEQC chemistry as ``mup3d`` classes. Each class takes a
+# ``components`` table with one row per component per block, and optionally a
+# ``settings`` table with one row per block. Both are pandas DataFrames, read
+# here from CSV with ``pd.read_csv``. The ``block`` column gives the block
+# number written to the PHREEQC script. ``ic`` places the blocks on the grid:
+# an integer block number for uniform chemistry, or a ``(nlay, nrow, ncol)``
+# array to vary it in space. ``Solutions`` goes into ``from_mf6``; the phases
+# are attached with ``set_*`` methods.
 #
-# **Solutions** — the aqueous waters. Column ``1`` is the background pore water
-# (placed everywhere with ``set_ic(1)``); column ``2`` is the inflow water the
-# boundary ``ChemStress`` injects.
+# **Solutions** — the aqueous waters. Solution ``1`` is the background pore
+# water (placed everywhere with ``ic=1``); solution ``2`` is the inflow water
+# the boundary ``ChemStress`` injects. ``pH`` and ``pe`` are rows of the
+# components table, like the elements. The settings table gives each solution
+# an optional ``note``. Concentrations are in mol/kgw unless a ``units`` option
+# or column says otherwise.
 
 # %%
-solutionsdf = pd.read_csv(os.path.join(DATA, "tut01_solutions.csv"),
-                          comment="#", index_col=0)
-solutions = utils.solution_df_to_dict(solutionsdf)
-solution = mup3d.Solutions(solutions)
-solution.set_ic(1)  # background solution everywhere
-solutionsdf
+sol_components = pd.read_csv(os.path.join(DATA, "tut01_solutions.csv"))
+sol_settings = pd.read_csv(os.path.join(DATA, "tut01_solution_settings.csv"))
+solution = mup3d.Solutions(sol_components, sol_settings, ic=1)
+sol_components
+
+# %%
+sol_settings
 
 # %% [markdown]
 # **Equilibrium phases** — minerals held at equilibrium each step (PHREEQC
-# ``EQUILIBRIUM_PHASES``): calcite and dolomite. ``set_ic(1)`` applies the same
-# assemblage to every cell.
+# ``EQUILIBRIUM_PHASES``): calcite and dolomite, with saturation index ``si``
+# and initial moles ``m0``. Dolomite starts at ``m0 = 0`` so it can only
+# precipitate. ``ic=1`` applies the same assemblage to every cell.
 
 # %%
-eqp_df = pd.read_csv(os.path.join(DATA, "tut01_equilibrium_phases.csv"))
-eqp_dict = utils.parse_equilibriums_dataframe(eqp_df)
-equilibrium_phases = mup3d.EquilibriumPhases(eqp_dict)
-equilibrium_phases.set_ic(1)
-eqp_df
+eqp_components = pd.read_csv(os.path.join(DATA, "tut01_equilibrium_phases.csv"))
+equilibrium_phases = mup3d.EquilibriumPhases(eqp_components, ic=1)
+eqp_components
 
 # %% [markdown]
 # ## 4. Couple chemistry to the MF6 model with `from_mf6`

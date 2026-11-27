@@ -69,6 +69,10 @@ class TestPhreeqcScriptGeneration:
         assert 'Cl' in script and '2.00000e+00' in script
         assert 'pH' in script and '7.00000e+00' in script
         assert 'END' in script
+
+    def test_generate_solution_block_temp_full_precision(self):
+        script = utils.generate_solution_block({'Ca': 1.0}, 0, temp=12.345)
+        assert 'temp 12.345\n' in script
     
     def test_generate_exchange_block(self):
         """Test generation of EXCHANGE block."""

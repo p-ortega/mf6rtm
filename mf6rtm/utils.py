@@ -7,6 +7,7 @@ import os
 import platform
 import re
 import shutil
+import warnings
 
 import numpy as np
 import pandas as pd
@@ -212,6 +213,12 @@ def solution_csv_to_dict(csv_file, header=True):
     data : dict
         A dictionary with the first column as keys and the remaining columns as values.
     """
+    warnings.warn(
+        "solution_csv_to_dict is deprecated and will be removed in v1.0.0; "
+        "pass the DataFrame to mup3d.Solutions (read the CSV with pd.read_csv) directly",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     # Read the CSV file and convert it to a dictionary using first row as keys and columns as value (array of shape ncol)
     import csv
 
@@ -273,6 +280,12 @@ def solution_df_to_dict(data, header=True):
     data : dict
         A dictionary with the first column as keys and the remaining columns as values.
     """
+    warnings.warn(
+        "solution_df_to_dict is deprecated and will be removed in v1.0.0; "
+        "pass the DataFrame to mup3d.Solutions directly",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     data = data.T.to_dict("list")
     for key, value in data.items():
         data[key] = [float(i) for i in value]
@@ -362,6 +375,12 @@ def parse_equilibriums_dataframe(df, columns=None):
     dict
         Dictionary structured as {zone: {phase: {'si': val, 'm0': val}}}
     """
+    warnings.warn(
+        "parse_equilibriums_dataframe is deprecated and will be removed in v1.0.0; "
+        "pass the DataFrame to mup3d.EquilibriumPhases directly",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     if columns is None:
         columns = ['phase', 'sat_index', 'conc_mol_lb', 'num']
 
@@ -564,7 +583,7 @@ def get_compound_names(database_file, block="SOLUTION_MASTER_SPECIES"):
                     species_names.append(species)
     return species_names
 
-def map_species_property_to_grid(data_dict, ic_array, species, property_key):
+def map_species_property_to_grid(data_dict, ic_array, species, property_key, block_numbers=None):
     """
     Create an array matching ic_array shape with a selected property
     (e.g., 'moles', 'si') of a given species from a zone-indexed dictionary.
@@ -579,6 +598,9 @@ def map_species_property_to_grid(data_dict, ic_array, species, property_key):
         Species name to extract (e.g., 'Goethite').
     property_key : str
         Property to extract for the species (e.g., 'moles', 'si').
+    block_numbers : list of int, optional
+        Block number of each zone index, as used in ``ic_array``. Default is
+        ``zone_idx + 1``.
 
     Returns
     -------
@@ -599,7 +621,8 @@ def map_species_property_to_grid(data_dict, ic_array, species, property_key):
             raise KeyError(f"Property '{property_key}' not found for species '{species}' in block id {zone_idx}")
 
         value = species_dict[species][property_key]
-        output[ic_array == (zone_idx + 1)] = value
+        number = zone_idx + 1 if block_numbers is None else block_numbers[zone_idx]
+        output[ic_array == number] = value
 
     return output
 
@@ -806,7 +829,7 @@ def generate_solution_block(species_dict, i, temp=25.0, water=1.0):
         The SOLUTION block as a string.
     """
     if isinstance(temp, (int, float)):
-        t = f"{temp:.1f}"
+        t = str(float(temp))
     elif isinstance(temp, list):
         t = f"{temp[i]}"
     script = f"SOLUTION {i+1}\n"

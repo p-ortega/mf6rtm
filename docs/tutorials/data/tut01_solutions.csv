@@ -1,7 +1,9 @@
-comp,sol_bck,sol_in
-pH,9.91,7.0
-pe,4.0,4.0
-C(+4),1.23e-4,0.
-Ca,1.23e-4,0.
-Cl,0.,2e-3
-Mg,0.,1e-3
+block,element,conc
+1,pH,9.91
+1,pe,4.0
+1,C(+4),1.23e-4
+1,Ca,1.23e-4
+2,pH,7.0
+2,pe,4.0
+2,Cl,2e-3
+2,Mg,1e-3
